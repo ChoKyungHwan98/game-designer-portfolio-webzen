@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from './supabaseClient';
+import { ALL_GAMES } from './data/games';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -67,16 +68,20 @@ interface Skill {
   caption?: string;
 }
 
-interface GamePlay {
-  id: string;
-  name: string;
-  hours: number;
+export interface GamePlay {
+  id: string | number;
+  genre?: string;
+  name?: string;
+  title?: string;
+  platform?: string;
+  playTime?: string;
+  hours?: number;
 }
 
-interface GameHistory {
-  online: GamePlay[];
+export interface GameHistory {
+  pc: GamePlay[];
   mobile: GamePlay[];
-  package: GamePlay[];
+  console: GamePlay[];
 }
 
 interface ResumeData {
@@ -111,23 +116,20 @@ interface ResumeData {
 
 // --- Mock Data ---
 const GAME_HISTORY: GameHistory = {
-  online: [
-    { id: 'o1', name: "Jira / Confluence", hours: 1500 },
-    { id: 'o2', name: "Notion", hours: 1200 },
-    { id: 'o3', name: "Figma (UI/UX 프로토타이핑)", hours: 800 },
-    { id: 'o4', name: "Miro (마인드맵/플로우)", hours: 400 }
+  pc: [
+    ALL_GAMES.find(g => g.title === '메이플스토리') || ALL_GAMES[0],
+    ALL_GAMES.find(g => g.title.includes('리그 오브 레전드')) || ALL_GAMES[25],
+    ALL_GAMES.find(g => g.title === '던전앤파이터') || ALL_GAMES[5],
   ],
   mobile: [
-    { id: 'm1', name: "Excel / Spreadsheets", hours: 2500 },
-    { id: 'm2', name: "SQL (기초 데이터 추출)", hours: 300 },
-    { id: 'm3', name: "Tableau (데이터 시각화)", hours: 150 },
-    { id: 'm4', name: "Google Analytics", hours: 200 }
+    { id: 1001, genre: "수집형 RPG", title: "원신", platform: "호요버스", playTime: "" },
+    { id: 1002, genre: "방치형 RPG", title: "버섯커 키우기", platform: "조이 나이스 게임즈", playTime: "" },
+    { id: 1003, genre: "전략", title: "명일방주", platform: "하이퍼그리프", playTime: "" },
   ],
-  package: [
-    { id: 'p1', name: "Unreal Engine 5 (Blueprint)", hours: 1200 },
-    { id: 'p2', name: "Unity 3D", hours: 800 },
-    { id: 'p3', name: "C# (스크립팅)", hours: 400 },
-    { id: 'p4', name: "Git / SVN", hours: 600 }
+  console: [
+    { id: 2001, genre: "액션 어드벤처", title: "젤다의 전설: 야생의 숨결", platform: "닌텐도 스위치", playTime: "" },
+    { id: 2002, genre: "액션 RPG", title: "엘든 링", platform: "PS5", playTime: "" },
+    { id: 2003, genre: "액션 어드벤처", title: "갓 오브 워: 라그나로크", platform: "PS5", playTime: "" },
   ]
 };
 
@@ -487,7 +489,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
               { id: 'about', label: '소개', num: '01' },
               { id: 'projects', label: '프로젝트', num: '02' },
               { id: 'skills', label: '핵심역량', num: '03' },
-              { id: 'play-history', label: '사용 툴', num: '04' }
+              { id: 'play-history', label: '플레이 이력', num: '04' }
             ].map(({ id, label, num }, idx) => (
               <React.Fragment key={id}>
                 <a 
@@ -504,7 +506,11 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                 {idx < 3 && <span className="w-px h-3 bg-[#2a2a2a]"></span>}
               </React.Fragment>
             ))}
-            <div className="w-px h-4 mx-2 bg-[#2a2a2a]"></div>
+            <div className="flex items-center gap-4 mx-4 pl-4 border-l border-[#2a2a2a]">
+              <button onClick={() => { setView('resume'); window.scrollTo(0,0); }} className={`text-xs font-bold transition-colors ${currentView === 'resume' ? 'text-[#800020]' : 'text-[#888] hover:text-[#e8e4dc]'}`}>이력서</button>
+              <button onClick={() => { setView('portfolio'); window.scrollTo(0,0); }} className={`text-xs font-bold transition-colors ${currentView === 'portfolio' ? 'text-[#800020]' : 'text-[#888] hover:text-[#e8e4dc]'}`}>포트폴리오</button>
+              <button onClick={() => { setView('game-history'); window.scrollTo(0,0); }} className={`text-xs font-bold transition-colors ${currentView === 'game-history' ? 'text-[#800020]' : 'text-[#888] hover:text-[#e8e4dc]'}`}>게임 리스트</button>
+            </div>
             <button 
               onClick={handleAdminClick}
               className="p-2 rounded-full transition-colors flex items-center justify-center hover:bg-[#1a1a1a]"
@@ -539,7 +545,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                 { id: 'about', label: '소개', num: '01' },
                 { id: 'projects', label: '프로젝트', num: '02' },
                 { id: 'skills', label: '핵심역량', num: '03' },
-                { id: 'play-history', label: '사용 툴', num: '04' }
+                { id: 'play-history', label: '플레이 이력', num: '04' }
               ].map(({ id, label, num }) => (
                 <a key={id} href={`#${id}`} onClick={(e) => handleLinkClick(e, id)}
                   className="font-medium flex items-center gap-3 pb-4 border-b border-[#1e1e1e] text-[#e8e4dc]">
@@ -548,11 +554,14 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                 </a>
               ))}
               <div className="pt-4 flex flex-col gap-4">
-                <button onClick={() => { setView('resume'); setIsMenuOpen(false); }} className="text-left font-medium flex items-center gap-2 text-[#888]">
+                <button onClick={() => { setView('resume'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-left font-medium flex items-center gap-2 ${currentView === 'resume' ? 'text-[#800020]' : 'text-[#888]'}`}>
                   <FileText className="w-4 h-4" /> 이력서 보기
                 </button>
-                <button onClick={() => { setView('portfolio'); setIsMenuOpen(false); }} className="text-left font-medium flex items-center gap-2 text-[#888]">
+                <button onClick={() => { setView('portfolio'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-left font-medium flex items-center gap-2 ${currentView === 'portfolio' ? 'text-[#800020]' : 'text-[#888]'}`}>
                   <FolderOpen className="w-4 h-4" /> 포트폴리오 갤러리
+                </button>
+                <button onClick={() => { setView('game-history'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-left font-medium flex items-center gap-2 ${currentView === 'game-history' ? 'text-[#800020]' : 'text-[#888]'}`}>
+                  <Gamepad2 className="w-4 h-4" /> 게임 리스트 보기
                 </button>
               </div>
             </div>
@@ -933,13 +942,11 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
 };
 
 // --- PlayHistory ---
-const PlayHistory = ({ isEditing, history, setHistory }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
+const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void, onViewAll: () => void }) => {
   const renderCategory = (title: string, icon: React.ReactNode, dataKey: keyof GameHistory) => {
-    const items = history[dataKey];
-    const displayItems = isExpanded || isEditing ? items : items.slice(0, 2);
-    const hiddenCount = items.length - 2;
+    const items = history[dataKey] || [];
+    const displayItems = items.slice(0, 3);
+    const hiddenCount = items.length - 3;
 
     return (
       <div className="group flex flex-col bg-[#111] border border-[#1e1e1e] rounded-3xl p-8 hover:border-[#800020]/40 hover:-translate-y-1 transition-all duration-500 h-full">
@@ -959,27 +966,30 @@ const PlayHistory = ({ isEditing, history, setHistory }: { isEditing: boolean, h
         </div>
         <div className="space-y-6 flex-1">
           {displayItems.map((game, idx) => (
-            <div key={game.id} className="group/item flex flex-col gap-1 p-3 -mx-3 rounded-2xl hover:bg-[#1a1a1a] transition-colors">
-              <div className="flex items-center gap-2">
+            <div key={game.id} className="group/item flex flex-col gap-1 p-3 -mx-3 rounded-2xl hover:bg-[#1a1a1a] transition-colors relative">
+              <div className="flex items-center gap-2 mb-1">
                 {isEditing && (
-                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="text-[#555] hover:text-red-500 transition-colors">
+                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="absolute -left-4 text-[#555] hover:text-red-500 transition-colors">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 )}
+                <span className="px-2 py-0.5 bg-[#800020]/20 text-[#800020] rounded-sm text-[10px] font-bold tracking-widest">{game.genre}</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <span className="text-[#e8e4dc] font-bold text-lg truncate">
-                  <EditableText value={game.name} onSave={(v) => { const h = {...history}; h[dataKey][idx].name = v; setHistory(h); }} isEditing={isEditing} />
+                  <EditableText value={game.title || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].title = v; setHistory(h); }} isEditing={isEditing} />
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 text-[#888] font-mono text-sm ml-5">
-                <Clock className="w-3.5 h-3.5" /> 
+              <div className="flex items-center gap-1.5 text-[#888] font-mono text-xs mt-0.5">
+                <Gamepad2 className="w-3.5 h-3.5" /> 
                 <span className="flex items-center">
-                  <EditableText value={game.hours.toString()} onSave={(v) => { const h = {...history}; h[dataKey][idx].hours = parseInt(v) || 0; setHistory(h); }} isEditing={isEditing} />
-                  <span className="ml-1">HOURS PLAYED</span>
+                  <EditableText value={game.platform || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].platform = v; setHistory(h); }} isEditing={isEditing} />
+                  {game.playTime && <span className="ml-2 pl-2 border-l border-[#2a2a2a] text-[#555]">{game.playTime}</span>}
                 </span>
               </div>
             </div>
           ))}
-          {!isExpanded && hiddenCount > 0 && !isEditing && (
+          {hiddenCount > 0 && !isEditing && (
             <div className="pt-4 mt-4 border-t border-dashed border-[#2a2a2a] text-center">
               <span className="text-xs font-bold text-[#555] tracking-widest uppercase">+ {hiddenCount} More Entries</span>
             </div>
@@ -996,26 +1006,26 @@ const PlayHistory = ({ isEditing, history, setHistory }: { isEditing: boolean, h
       <div className="max-w-6xl mx-auto w-full relative z-10">
         <div className="text-center mb-16">
           <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-6 block">04. Play History</span>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">툴 사용 이력.</h2>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">게임 플레이 이력.</h2>
           <div className="flex flex-col items-center gap-6">
             <p className="text-[#888] text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
-              기획 및 개발 과정에서 활용한 다양한 툴과 환경에 대한 <br className="hidden md:block" />
-              경험을 수치화하여 보여줍니다.
+              다양한 장르와 플랫폼을 아우르는 게임 플레이 경험이 <br className="hidden md:block" />
+              폭넓은 시야와 차별화된 레벨 디자인의 밑거름이 됩니다.
             </p>
             {!isEditing && (
-              <button onClick={() => setIsExpanded(!isExpanded)}
-                className="px-6 py-3 bg-[#1a1a1a] text-[#888] rounded-full text-sm font-bold hover:bg-[#2a2a2a] transition-all flex items-center gap-2 shadow-sm tracking-widest uppercase border border-[#2a2a2a]">
-                {isExpanded ? '접기' : '자세히 보기'} 
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+              <button onClick={onViewAll}
+                className="px-6 py-3 bg-[#111] text-[#e8e4dc] rounded-full text-sm font-bold hover:bg-[#800020] hover:text-white transition-all flex items-center gap-2 shadow-xl tracking-widest uppercase border border-[#2a2a2a] hover:border-[#800020]">
+                전체 플레이 이력 보기
+                <ArrowRight className="w-4 h-4" />
               </button>
             )}
           </div>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
-          {renderCategory("협업 도구", <Monitor className="w-6 h-6" />, "online")}
-          {renderCategory("데이터 분석", <Smartphone className="w-6 h-6" />, "mobile")}
-          {renderCategory("엔진 / 개발", <Gamepad2 className="w-6 h-6" />, "package")}
+          {renderCategory("PC / 메인라인", <Monitor className="w-6 h-6" />, "pc")}
+          {renderCategory("모바일 / 휴대용", <Smartphone className="w-6 h-6" />, "mobile")}
+          {renderCategory("콘솔 / 패키지", <Gamepad2 className="w-6 h-6" />, "console")}
         </div>
       </div>
     </section>
@@ -1437,12 +1447,60 @@ const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: { project:
   );
 };
 
+// --- Game History View ---
+const GameHistoryView = ({ setView }: { setView: (v: any) => void }) => {
+  return (
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+      className="py-[120px] px-6 md:px-12 max-w-5xl mx-auto flex flex-col min-h-screen">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+        <button onClick={() => setView('home')} className="flex items-center gap-2 text-[#888] hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm">
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
+        </button>
+      </div>
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-display font-bold tracking-tighter text-[#e8e4dc] mb-4">전체 플레이 이력.</h2>
+        <p className="text-[#888] text-lg max-w-2xl mx-auto font-medium leading-relaxed">
+          다양한 게임을 깊게 파고들며 쌓아온 인사이트입니다.<br className="hidden md:block" />
+          장르와 플랫폼을 가리지 않는 폭넓은 레퍼런스를 갖추고 있습니다.
+        </p>
+      </div>
+
+      <div className="bg-[#111] border border-[#1e1e1e] rounded-3xl overflow-hidden flex-1 shadow-2xl">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[700px]">
+            <thead>
+              <tr className="bg-[#1a1a1a] border-b border-[#2a2a2a] text-[#555] text-xs font-bold uppercase tracking-widest text-center">
+                <th className="p-5 font-bold w-16">#</th>
+                <th className="p-5 text-left">타이틀</th>
+                <th className="p-5 w-32">장르</th>
+                <th className="p-5 w-40">플랫폼</th>
+                <th className="p-5 w-32">플레이 타임</th>
+              </tr>
+            </thead>
+            <tbody className="text-[#888] font-medium text-sm align-middle text-center">
+              {ALL_GAMES.map((game, idx) => (
+                <tr key={idx} className="border-b border-[#1e1e1e] hover:bg-[#1a1a1a] transition-colors group">
+                  <td className="p-5 font-mono text-[#555]">{idx + 1}</td>
+                  <td className="p-5 font-bold text-[#e8e4dc] text-left text-base">{game.title}</td>
+                  <td className="p-5"><span className="px-3 py-1 bg-[#800020]/10 text-[#800020] rounded-md text-[11px] font-bold tracking-widest whitespace-nowrap">{game.genre}</span></td>
+                  <td className="p-5 font-mono text-xs">{game.platform}</td>
+                  <td className="p-5 text-[#555] whitespace-nowrap">{game.playTime || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </motion.section>
+  );
+};
+
 // --- Main App ---
 export default function App() {
-  const [view, setView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects'>('home');
-  const [prevView, setPrevView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects'>('home');
+  const [view, setView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
+  const [prevView, setPrevView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
   
-  const changeView = (newView: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects') => {
+  const changeView = (newView: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history') => {
     setPrevView(view);
     setView(newView);
   };
@@ -1482,9 +1540,9 @@ export default function App() {
 
   // --- Persistent Content ---
   const [heroContent, setHeroContent] = useEditableContent({
-    titleLine1: "기획의도를 알고",
-    titleLine2: "목차를 쓸줄 아는 기획자",
-    description: "사용자의 경험을 논리적으로 설계하고, 명확한 문서화를 통해 팀의 비전을 구체화합니다. 데이터와 심리학을 기반으로 한 깊이 있는 기획을 지향합니다."
+    titleLine1: "기획 의도를 알고",
+    titleLine2: "목차로 증명하는 기획자",
+    description: "법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다. 플레이어의 경험을 치밀하게 설계하고, 흔들림 없는 시스템으로 구현하여 최고의 재미를 만들어냅니다."
   }, 'hero_content');
 
   const [aboutContent, setAboutContent] = useEditableContent({
@@ -1611,6 +1669,10 @@ export default function App() {
                   if (pIdx !== -1) { npp[pIdx].content = content; setPortfolioData(npp); setSelectedProject({...selectedProject, content}); }
                 }
               }} />
+          )}
+
+          {view === 'game-history' && (
+            <GameHistoryView key="game-history" setView={changeView} />
           )}
         </AnimatePresence>
         <Footer />
