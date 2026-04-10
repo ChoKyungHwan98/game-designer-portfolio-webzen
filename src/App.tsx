@@ -219,7 +219,7 @@ const PROJECTS: Project[] = [
     category: "밸런스 기획",
     description: "핵앤슬래시 방치형 RPG의 전체 게임 밸런스(전투/경제 수치)를 총괄했습니다. 디테일한 PDPS 기반 파워 구조를 정립하고 게임의 성장 곡선을 면밀히 설계했습니다.",
     tags: ["밸런싱", "전투 밸런스", "수치 설계"],
-    image: "https://picsum.photos/seed/dorothia/800/600",
+    image: "./images/dorothia.png",
     color: "from-zinc-500/20 to-zinc-400/20",
     status: "구글플레이스토어 출시",
     content: `# 도로시아 (Dorothia) 밸런스 기획서
@@ -247,7 +247,7 @@ const PROJECTS: Project[] = [
     category: "룰 기획",
     description: "잠입 액션 로그라이트 게임의 전체 룰 및 시스템을 설계했습니다. 무기 교체 시스템과 맵 프리팹 구조를 기획했습니다.",
     tags: ["로그라이트", "잠입 액션", "시스템 기획"],
-    image: "https://picsum.photos/seed/digreed/800/600",
+    image: "./images/digreed.png",
     color: "from-emerald-500/20 to-teal-500/20",
     status: "미출시",
     content: `# Digreed 시스템 기획서\n\n## 1. 코어 루프 설계\n로그라이트 특유의 반복되는 도전과 성장 요소를 체계화했습니다.\n\n## 2. 주요 시스템\n### 2.1 무기 교체 시스템\n- 상황에 따른 무기 교체가 생존에 필수적인 메카닉으로 작용하도록 설계\n\n### 2.2 맵 프리팹 구조\n- 절차적 생성의 한계를 보완하는 수동 프리팹 블록화 기획`
@@ -258,7 +258,7 @@ const PROJECTS: Project[] = [
     category: "레벨 디자인 & AI",
     description: "메이플월드 플랫폼을 기반으로 한 술래잡기형 생존 공포 게임입니다. 유령 AI 행동 패턴과 시야 축소 메카닉을 기획했습니다.",
     tags: ["공포 생존", "메이플월드", "시스템 설계"],
-    image: "https://picsum.photos/seed/silence/800/600",
+    image: "./images/silence.png",
     color: "from-orange-500/20 to-zinc-500/20",
     status: "메이플월드 출시",
     content: `# 침묵의 저택 기획서\n\n## 1. 기획 의도\n메이플월드 플랫폼 특성을 활용해 긴장감 넘치는 술래잡기 생존 공포를 구현합니다.\n\n## 2. 주요 메카닉\n### 2.1 유령 AI 설계\n- 플레이어의 행동을 분석하여 추적하는 패턴 정의\n\n### 2.2 시야 축소 시스템\n- 공포감을 극대화하기 위해 조건부로 시야가 좁아지는 메카닉 기획\n\n### 2.3 상호작용 규칙\n- 공간 내 숨기, 아이템 획득 및 탈출 로직 기획`
