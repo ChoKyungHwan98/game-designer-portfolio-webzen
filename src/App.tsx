@@ -688,7 +688,7 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
         )}
 
         <div className={`relative z-10 transition-all duration-500 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 lg:opacity-100 lg:translate-y-0'}`}>
-          <div className="flex flex-wrap items-center gap-2 mb-4">
+          <div className={`flex gap-2 mb-4 ${isActive ? 'flex-wrap items-center' : 'flex-col items-start'}`}>
             <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[11px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit">
               <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
             </div>
@@ -1589,7 +1589,8 @@ export default function App() {
     if (view === 'home' && scrollTargetRef.current) {
       const target = scrollTargetRef.current;
       scrollTargetRef.current = null;
-      const timer = setTimeout(() => {
+      let attempts = 0;
+      const tryScroll = () => {
         const el = document.getElementById(target);
         if (el) {
           const offset = 64;
@@ -1598,8 +1599,12 @@ export default function App() {
           const elementPosition = elementRect - bodyRect;
           const offsetPosition = elementPosition - offset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        } else if (attempts < 30) {
+          attempts++;
+          requestAnimationFrame(tryScroll);
         }
-      }, 300);
+      };
+      const timer = setTimeout(tryScroll, 600);
       return () => clearTimeout(timer);
     } else if (view !== 'home') {
       window.scrollTo(0, 0);
