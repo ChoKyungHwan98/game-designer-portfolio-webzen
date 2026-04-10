@@ -1545,7 +1545,7 @@ export default function App() {
   // --- Persistent Content ---
   const [heroContent, setHeroContent] = useEditableContent({
     titleLine1: "기획 의도를 알고",
-    titleLine2: "목차로 증명하는 기획자",
+    titleLine2: "목차를 작성할 줄 아는 기획자",
     description: "법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다. 플레이어의 경험을 치밀하게 설계하고, 흔들림 없는 시스템으로 구현하여 최고의 재미를 만들어냅니다."
   }, 'hero_content');
 
