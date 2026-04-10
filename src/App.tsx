@@ -510,7 +510,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
               {[
                 { key: 'resume', label: '이력서', icon: <FileText className="w-3.5 h-3.5" /> },
                 { key: 'portfolio', label: '포트폴리오', icon: <FolderOpen className="w-3.5 h-3.5" /> },
-                { key: 'game-history', label: '게임 리스트', icon: <Gamepad2 className="w-3.5 h-3.5" /> },
+                { key: 'game-history', label: '플레이 이력', icon: <Gamepad2 className="w-3.5 h-3.5" /> },
               ].map(item => (
                 <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0,0); }} 
                   className={`px-3 py-1.5 rounded-lg text-[11px] font-bold tracking-wide transition-all flex items-center gap-1.5 ${currentView === item.key ? 'bg-[#800020]/15 text-[#800020]' : 'text-[#555] hover:text-[#e8e4dc] hover:bg-[#1a1a1a]'}`}>
@@ -569,7 +569,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                   <FolderOpen className="w-4 h-4" /> 포트폴리오 갤러리
                 </button>
                 <button onClick={() => { setView('game-history'); setIsMenuOpen(false); window.scrollTo(0,0); }} className={`text-left font-medium flex items-center gap-2 ${currentView === 'game-history' ? 'text-[#800020]' : 'text-[#888]'}`}>
-                  <Gamepad2 className="w-4 h-4" /> 게임 리스트 보기
+                  <Gamepad2 className="w-4 h-4" /> 플레이 이력 보기
                 </button>
               </div>
             </div>
@@ -676,7 +676,7 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
     return (
       <div className="relative w-full h-full flex flex-col justify-end p-6 lg:p-8">
         <div className={`absolute inset-0 ${isActive ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'} transition-opacity duration-500`}>
-          <img src={project.image} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+          <img src={project.image} alt={project.title} className={`w-full h-full object-cover ${isInactive ? 'object-top' : ''}`} referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
         </div>
         
@@ -1510,7 +1510,7 @@ export default function App() {
   };
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [scrollTarget, setScrollTarget] = useState<string | null>(null);
+  const scrollTargetRef = useRef<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
@@ -1586,9 +1586,11 @@ export default function App() {
   }, [inputSequence, isEditing]);
 
   useEffect(() => {
-    if (view === 'home' && scrollTarget) {
+    if (view === 'home' && scrollTargetRef.current) {
+      const target = scrollTargetRef.current;
+      scrollTargetRef.current = null;
       const timer = setTimeout(() => {
-        const el = document.getElementById(scrollTarget);
+        const el = document.getElementById(target);
         if (el) {
           const offset = 64;
           const bodyRect = document.body.getBoundingClientRect().top;
@@ -1596,20 +1598,17 @@ export default function App() {
           const elementPosition = elementRect - bodyRect;
           const offsetPosition = elementPosition - offset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          setScrollTarget(null);
         }
       }, 300);
       return () => clearTimeout(timer);
-    } else if (view === 'home' && !scrollTarget) {
-      window.scrollTo(0, 0);
     } else if (view !== 'home') {
       window.scrollTo(0, 0);
     }
-  }, [view, scrollTarget]);
+  }, [view]);
 
   const handleNavClick = (id: string) => {
     if (view !== 'home') {
-      setScrollTarget(id);
+      scrollTargetRef.current = id;
       changeView('home');
     } else {
       const el = document.getElementById(id);
