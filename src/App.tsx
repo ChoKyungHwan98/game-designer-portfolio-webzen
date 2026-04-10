@@ -9,6 +9,7 @@ import { ALL_GAMES } from './data/games';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import html2pdf from 'html2pdf.js';
 import { 
   Gamepad2, 
   Layers, 
@@ -1073,19 +1074,48 @@ interface ResumeProps {
 
 const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
   const [activeTab, setActiveTab] = React.useState<'overview' | 'experience' | 'coverletter'>('overview');
-  const handleDownload = () => { window.print(); };
+  const [isGeneratingPdf, setIsGeneratingPdf] = React.useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = async () => {
+    if (!printRef.current || isGeneratingPdf) return;
+    setIsGeneratingPdf(true);
+    try {
+      const element = printRef.current;
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `${data.name || '이력서'}_이력서.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'], before: '.pdf-page-break' }
+      };
+      await html2pdf().set(opt).from(element).save();
+    } catch (err) {
+      console.error('PDF generation failed:', err);
+      alert('PDF 생성에 실패했습니다. 다시 시도해 주세요.');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   return (
     <>
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="py-12 md:py-20 px-6 md:px-12 max-w-5xl mx-auto print:hidden w-full">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 print:hidden">
+      className="py-12 md:py-20 px-6 md:px-12 max-w-5xl mx-auto w-full">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <button onClick={() => setView('home')} className="flex items-center gap-2 text-[#888] hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm">
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
         </button>
         <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={handleDownload}
-          className="px-8 py-4 bg-[#111] border border-[#1e1e1e] rounded-xl text-[#e8e4dc] font-bold flex items-center justify-center gap-3 hover:border-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto">
-          <ScrollText className="w-4 h-4 text-[#800020]" /> PDF 다운로드
+          disabled={isGeneratingPdf}
+          className="px-8 py-4 bg-[#111] border border-[#1e1e1e] rounded-xl text-[#e8e4dc] font-bold flex items-center justify-center gap-3 hover:border-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto disabled:opacity-50">
+          {isGeneratingPdf ? (
+            <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#800020] border-t-transparent rounded-full" /> PDF 생성 중...
+            </>
+          ) : (
+            <><ScrollText className="w-4 h-4 text-[#800020]" /> PDF 다운로드</>
+          )}
         </motion.button>
       </div>
 
@@ -1319,118 +1349,106 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
       </div> {/* Grid */}
     </motion.section>
 
-    {/* Dedicated Perfect Print View (A4 Optimized) */}
-    <div className="hidden print:block w-full max-w-[210mm] mx-auto bg-white text-black font-sans text-[12px] leading-relaxed">
+    {/* Off-screen PDF source (html2pdf.js captures this) */}
+    <div ref={printRef} style={{ position: 'absolute', left: '-9999px', top: 0, width: '210mm', background: '#fff', color: '#000', fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif", fontSize: '12px', lineHeight: '1.6' }}>
       
-      {/* Page 1 Content */}
-      <div className="p-8 pb-4">
+      {/* Page 1 */}
+      <div style={{ padding: '28px 32px 16px' }}>
         {/* Header */}
-        <div className="flex justify-between items-end border-b-2 border-black pb-4 mb-6">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '2px solid #000', paddingBottom: '14px', marginBottom: '20px' }}>
           <div>
-            <h1 className="text-3xl font-display font-black tracking-tight">{data.name}</h1>
-            <p className="text-sm font-bold text-[#666] tracking-widest uppercase mt-1">{data.role}</p>
+            <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.5px' }}>{data.name}</h1>
+            <p style={{ fontSize: '12px', fontWeight: 700, color: '#666', letterSpacing: '3px', textTransform: 'uppercase', margin: '4px 0 0' }}>{data.role}</p>
           </div>
-          <div className="text-right flex flex-col gap-1 text-[11px] text-[#555]">
-            <p><Mail className="inline w-3 h-3 mr-1" /> {data.email}</p>
-            {data.phone && <p><Phone className="inline w-3 h-3 mr-1" /> {data.phone}</p>}
+          <div style={{ textAlign: 'right', fontSize: '11px', color: '#555', lineHeight: '1.8' }}>
+            <p style={{ margin: 0 }}>✉ {data.email}</p>
+            {data.phone && <p style={{ margin: 0 }}>☎ {data.phone}</p>}
           </div>
         </div>
 
-        {/* Overview Row */}
-        <div className="mb-6 mb-8 flex gap-6">
-          {/* Left: Summary */}
-          <div className="flex-1 w-2/3">
-            <h3 className="font-bold text-[14px] uppercase border-b border-[#ddd] pb-1 mb-2 text-[#333]">자기소개</h3>
-            <div className="text-[12px] text-[#444] markdown-body-print">
+        {/* Summary + Skills Row */}
+        <div style={{ display: 'flex', gap: '24px', marginBottom: '22px' }}>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontSize: '13px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', marginBottom: '8px', color: '#222' }}>자기소개</h3>
+            <div style={{ fontSize: '11.5px', color: '#333', lineHeight: '1.7' }}>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.summary}</ReactMarkdown>
             </div>
           </div>
-          {/* Right: Skills */}
-          <div className="w-[180px] shrink-0 text-[11px] flex flex-col gap-4">
-            <div>
-              <h3 className="font-bold text-[13px] border-b border-[#ddd] pb-1 mb-2">핵심 역량</h3>
-              <ul className="list-disc list-inside space-y-1 text-[#555] leading-snug">
-                <li>기획 의도를 먼저 세우고 증명하는 전략 설계</li>
-                <li>법학적 사고 기반 시스템 정합성 디자인</li>
-                <li>생성 AI 응용 및 워크플로우 최적화</li>
-              </ul>
-            </div>
-            <div>
-               <h3 className="font-bold text-[13px] border-b border-[#ddd] pb-1 mb-2">활용 툴</h3>
-               <p className="text-[#555]">Word, PPT, Excel, Figma, Notion, Unity, Git</p>
-            </div>
+          <div style={{ width: '170px', flexShrink: 0, fontSize: '11px' }}>
+            <h3 style={{ fontSize: '12px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', marginBottom: '8px' }}>핵심 역량</h3>
+            <ul style={{ margin: 0, paddingLeft: '16px', color: '#555', lineHeight: '1.6' }}>
+              <li>기획 의도를 먼저 세우고 증명하는 전략 설계</li>
+              <li>법학적 사고 기반 시스템 정합성 디자인</li>
+              <li>생성 AI 응용 및 워크플로우 최적화</li>
+            </ul>
+            <h3 style={{ fontSize: '12px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', margin: '14px 0 8px' }}>활용 툴</h3>
+            <p style={{ color: '#555', margin: 0 }}>Word, PPT, Excel, Figma, Notion, Unity, Git</p>
           </div>
         </div>
 
         {/* Experience */}
-        <div className="mb-8">
-          <h3 className="font-bold text-[14px] uppercase border-b border-[#ddd] pb-1 mb-3 text-[#333]">경험 (핵심 프로젝트)</h3>
-          <div className="space-y-4">
-            {data.experience.map((exp, idx) => (
-              <div key={idx} className="print:break-inside-avoid">
-                <div className="flex justify-between items-end mb-1">
-                  <h4 className="font-bold text-[13.5px]">{exp.title}</h4>
-                  <span className="text-[11px] text-[#666] font-mono">{exp.period}</span>
+        <div style={{ marginBottom: '22px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', marginBottom: '10px', color: '#222' }}>프로젝트 경험</h3>
+          {data.experience.map((exp, idx) => (
+            <div key={idx} style={{ marginBottom: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3px' }}>
+                <h4 style={{ fontSize: '12.5px', fontWeight: 700, margin: 0 }}>{exp.title}</h4>
+                <span style={{ fontSize: '10px', color: '#666', fontFamily: 'monospace' }}>{exp.period}</span>
+              </div>
+              <div style={{ fontSize: '11px', color: '#333', marginBottom: '4px', lineHeight: '1.6' }}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{exp.description || ''}</ReactMarkdown>
+              </div>
+              <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '10.5px', color: '#555', lineHeight: '1.5' }}>
+                {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Education & Awards */}
+        <div style={{ display: 'flex', gap: '24px' }}>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontSize: '13px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', marginBottom: '10px', color: '#222' }}>학력</h3>
+            {data.education.map((edu, idx) => (
+              <div key={idx} style={{ marginBottom: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: '11.5px', marginBottom: '2px' }}>
+                  <span>{edu.title}</span><span style={{ color: '#666', fontSize: '10px' }}>{edu.period}</span>
                 </div>
-                <div className="text-[11.5px] text-[#222] mb-1.5 markdown-body-print">
-                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{exp.description || ''}</ReactMarkdown>
+                <div style={{ fontSize: '10.5px', color: '#555', lineHeight: '1.5' }}>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{edu.description || ''}</ReactMarkdown>
                 </div>
-                <ul className="list-square list-inside text-[11px] text-[#555] space-y-0.5 ml-1">
-                  {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+                <ul style={{ margin: '2px 0 0', paddingLeft: '14px', fontSize: '10px', color: '#666' }}>
+                  {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
                 </ul>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Education & Awards (2 Col) */}
-        <div className="flex gap-6 print:break-inside-avoid">
-          <div className="flex-1">
-            <h3 className="font-bold text-[14px] uppercase border-b border-[#ddd] pb-1 mb-3 text-[#333]">학력</h3>
-            <div className="space-y-3">
-              {data.education.map((edu, idx) => (
-                <div key={idx}>
-                  <div className="flex justify-between font-bold text-[12px] mb-0.5">
-                    <span>{edu.title}</span><span className="text-[#666] text-[10px]">{edu.period}</span>
-                  </div>
-                  <div className="text-[11px] text-[#555] mb-1 markdown-body-print"><ReactMarkdown remarkPlugins={[remarkGfm]}>{edu.description || ''}</ReactMarkdown></div>
-                  <ul className="list-square list-inside text-[10.5px] text-[#666]">
-                    {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex-1">
-            <h3 className="font-bold text-[14px] uppercase border-b border-[#ddd] pb-1 mb-3 text-[#333]">자격 및 수상</h3>
-            <div className="space-y-2">
-              {data.awards.map((award, idx) => (
-                <div key={idx} className="flex flex-col">
-                  <span className="font-bold text-[12px]">{award.title}</span>
-                  <span className="text-[11px] text-[#666]">{award.organization} - {award.year}</span>
-                </div>
-              ))}
-            </div>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontSize: '13px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '4px', marginBottom: '10px', color: '#222' }}>자격 및 수상</h3>
+            {data.awards.map((award, idx) => (
+              <div key={idx} style={{ marginBottom: '8px' }}>
+                <div style={{ fontWeight: 700, fontSize: '11.5px' }}>{award.title}</div>
+                <div style={{ fontSize: '10.5px', color: '#666' }}>{award.organization} — {award.year}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Page 2+: Cover Letter */}
-      <div className="print:break-before-page p-8 pt-4">
-        <h3 className="text-[18px] font-display font-bold border-b border-black pb-2 mb-6">자기소개서</h3>
-        <div className="space-y-6">
-          {data.selfIntroductions?.map((intro, idx) => (
-            <div key={idx} className="print:break-inside-avoid mb-6">
-               <div className="flex gap-2 items-start mb-2 border-l-2 border-[#800020] pl-2">
-                 <span className="font-mono text-[#800020] font-bold text-[14px] mt-0.5">{String(idx + 1).padStart(2, '0')}</span>
-                 <h4 className="font-bold text-[14px]">{intro.logline}</h4>
-               </div>
-               <div className="text-[12px] text-[#333] leading-[1.8] text-justify pl-6 markdown-body-print columns-1">
-                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{intro.content}</ReactMarkdown>
-               </div>
+      <div className="pdf-page-break" style={{ padding: '28px 32px 16px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: 900, borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '20px' }}>자기소개서</h3>
+        {data.selfIntroductions?.map((intro, idx) => (
+          <div key={idx} style={{ marginBottom: '22px' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', marginBottom: '8px', borderLeft: '3px solid #800020', paddingLeft: '10px' }}>
+              <span style={{ fontFamily: 'monospace', color: '#800020', fontWeight: 700, fontSize: '13px' }}>{String(idx + 1).padStart(2, '0')}</span>
+              <h4 style={{ fontWeight: 700, fontSize: '13px', margin: 0 }}>{intro.logline}</h4>
             </div>
-          ))}
-        </div>
+            <div style={{ fontSize: '11.5px', color: '#333', lineHeight: '1.9', textAlign: 'justify', paddingLeft: '24px' }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{intro.content}</ReactMarkdown>
+            </div>
+          </div>
+        ))}
       </div>
 
     </div>
