@@ -9,7 +9,12 @@
 
   --color-brand-primary: #c8c4bc;
   --color-brand-secondary: #e8e4dc;
+  --color-brand-accent: #800020;
   --color-bg-main: #0a0a0a;
+  --color-bg-card: #111111;
+  --color-bg-elevated: #161616;
+  --color-border: #1e1e1e;
+  --color-border-hover: #2e2e2e;
 }
 
 @layer base {
@@ -22,7 +27,7 @@
     overflow-wrap: break-word;
   }
   ::selection {
-    background-color: #2a2a2a;
+    background-color: rgba(128, 0, 32, 0.3);
     color: #e8e4dc;
   }
   h1, h2, h3, h4, h5, h6 {
@@ -56,14 +61,16 @@
   }
 
   .bento-card {
-    background-color: transparent;
+    background-color: #111111;
     border: 1px solid #1e1e1e;
-    border-radius: 0;
+    border-radius: 1.5rem;
     padding: 2rem;
-    transition: border-color 0.25s ease-out;
+    transition: all 0.3s ease-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
   .bento-card:hover {
     border-color: #2e2e2e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 
   .bg-grid {
@@ -72,7 +79,7 @@
                       linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
   }
 
-  /* Markdown Styles */
+  /* Markdown Styles — Dark Mode */
   .markdown-body {
     color: #b8b4ac;
     line-height: 1.85;
@@ -123,7 +130,7 @@
   .markdown-body code {
     background-color: #1a1a1a;
     padding: 0.2rem 0.4rem;
-    border-radius: 0;
+    border-radius: 0.25rem;
     font-family: var(--font-mono);
     font-size: 0.85em;
     color: #d8d4cc;
@@ -133,11 +140,11 @@
   .markdown-body pre {
     background-color: #111111;
     padding: 1.5rem;
-    border-radius: 0;
+    border-radius: 0.75rem;
     overflow-x: auto;
     margin-bottom: 1.25rem;
     border: 1px solid #1e1e1e;
-    border-left: 2px solid #444;
+    border-left: 2px solid #800020;
   }
 
   .markdown-body pre code {
@@ -148,12 +155,13 @@
   }
 
   .markdown-body blockquote {
-    border-left: 2px solid #555;
+    border-left: 2px solid #800020;
     padding: 1rem 1rem 1rem 1.5rem;
     font-style: italic;
     color: #888;
     margin-bottom: 1.25rem;
-    background-color: rgba(255, 255, 255, 0.015);
+    background-color: rgba(128, 0, 32, 0.04);
+    border-radius: 0 0.5rem 0.5rem 0;
   }
 
   .markdown-body hr {
@@ -171,7 +179,7 @@
     color: #c8c4bc;
     text-decoration: underline;
     text-underline-offset: 3px;
-    text-decoration-color: #444;
+    text-decoration-color: #800020;
     transition: color 0.2s;
   }
   .markdown-body a:hover { color: #e8e4dc; }

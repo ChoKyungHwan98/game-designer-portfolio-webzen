@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { supabase } from './supabaseClient';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -41,7 +42,10 @@ import {
   Edit3,
   Lock,
   Plus,
-  FileText
+  FileText,
+  ArrowRight,
+  FolderOpen,
+  ChevronDown
 } from 'lucide-react';
 
 // --- Types ---
@@ -82,7 +86,11 @@ interface ResumeData {
   linkedin: string;
   github: string;
   summary: string;
-  selfIntroduction: string;
+  selfIntroduction?: string;
+  selfIntroductions?: {
+    logline: string;
+    content: string;
+  }[];
   education: {
     title: string;
     period: string;
@@ -105,119 +113,102 @@ interface ResumeData {
 // --- Mock Data ---
 const GAME_HISTORY: GameHistory = {
   online: [
-    { id: 'o1', name: "League of Legends", hours: 3500 },
-    { id: 'o2', name: "Lost Ark", hours: 1200 },
-    { id: 'o3', name: "MapleStory", hours: 2000 },
-    { id: 'o4', name: "Overwatch 2", hours: 800 }
+    { id: 'o1', name: "Jira / Confluence", hours: 1500 },
+    { id: 'o2', name: "Notion", hours: 1200 },
+    { id: 'o3', name: "Figma (UI/UX 프로토타이핑)", hours: 800 },
+    { id: 'o4', name: "Miro (마인드맵/플로우)", hours: 400 }
   ],
   mobile: [
-    { id: 'm1', name: "Genshin Impact", hours: 900 },
-    { id: 'm2', name: "Blue Archive", hours: 500 },
-    { id: 'm3', name: "Fate/Grand Order", hours: 700 },
-    { id: 'm4', name: "Arknights", hours: 400 }
+    { id: 'm1', name: "Excel / Spreadsheets", hours: 2500 },
+    { id: 'm2', name: "SQL (기초 데이터 추출)", hours: 300 },
+    { id: 'm3', name: "Tableau (데이터 시각화)", hours: 150 },
+    { id: 'm4', name: "Google Analytics", hours: 200 }
   ],
   package: [
-    { id: 'p1', name: "Elden Ring", hours: 180 },
-    { id: 'p2', name: "The Legend of Zelda: BotW", hours: 300 },
-    { id: 'p3', name: "Monster Hunter: World", hours: 600 },
-    { id: 'p4', name: "Cyberpunk 2077", hours: 120 }
+    { id: 'p1', name: "Unreal Engine 5 (Blueprint)", hours: 1200 },
+    { id: 'p2', name: "Unity 3D", hours: 800 },
+    { id: 'p3', name: "C# (스크립팅)", hours: 400 },
+    { id: 'p4', name: "Git / SVN", hours: 600 }
   ]
 };
 
 const RESUME_DATA: ResumeData = {
-  name: "이민호",
-  role: "Game System Designer",
-  email: "minho.dev@email.com",
-  linkedin: "linkedin.com/in/minho-game",
-  github: "github.com/minho-dev",
-  summary: "\"재미\"를 수치와 논리로 증명하는 게임 기획자입니다. 단순한 아이디어 나열이 아닌, 유기적으로 연결된 시스템과 플레이어의 감정 곡선을 고려한 설계를 지향합니다. 데이터 기반의 의사결정과 끊임없는 프로토타이핑을 통해 최상의 사용자 경험을 만들어냅니다.",
-  selfIntroduction: `
-# 자기소개서
-
-## 1. 성장 과정 및 가치관
-어린 시절부터 게임은 저에게 단순한 오락 이상의 의미였습니다. 다양한 장르의 게임을 접하며 '왜 이 게임은 재미있을까?'라는 질문을 끊임없이 던졌고, 이는 자연스럽게 게임 기획이라는 꿈으로 이어졌습니다. 저는 "논리 없는 재미는 우연이지만, 설계된 재미는 필연이다"라는 가치관을 가지고 있습니다.
-
-## 2. 강점 및 핵심 역량
-저의 가장 큰 강점은 데이터와 논리에 기반한 사고력입니다. 밸런싱 작업 시 단순한 감에 의존하지 않고, 엑셀 시뮬레이션과 확률 통계를 활용하여 의도한 수치 결과가 나오도록 정밀하게 설계합니다. 또한, 개발팀과의 원활한 소통을 위해 기술적 이해도를 높이려 노력하며, 기획 의도를 명확하게 전달하는 문서를 작성하는 데 탁월합니다.
-
-## 3. 지원 동기 및 포부
-플레이어의 심리를 꿰뚫는 정교한 시스템 설계를 통해, 전 세계 게이머들에게 잊지 못할 경험을 선사하고 싶습니다. 귀사에서 저의 기획 역량을 발휘하여 시장을 선도하는 혁신적인 게임을 만드는 데 기여하겠습니다. 끊임없이 배우고 성장하는 기획자로서, 팀의 핵심 인재로 거듭나겠습니다.
-  `,
+  name: "조경환",
+  role: "Game Designer",
+  email: "kh980624@naver.com",
+  linkedin: "linkedin.com/in/kyunghwan-jo",
+  github: "github.com/kh980624",
+  summary: "플레이어의 경험을 설계하고 논리적인 시스템으로 구현하는 게임 기획자입니다. 데이터 기반의 밸런싱과 치밀한 레벨 디자인을 통해 게임의 재미를 극대화하며, 명확한 문서화로 개발팀과의 원활한 협업을 이끌어냅니다.",
+  selfIntroductions: [
+    {
+      logline: "14년간 달려온 꿈을 포기하게 만든 계기는 메이플스토리입니다.",
+      content: "사람을 돕고 싶어 법학과에 진학했습니다. 12시간 이상 공부하며 한계에 부딪힐 때마다 그 이유를 되뇌며 버텼습니다. 그러나 달리면 달릴수록 외면할 수 없는 사실과 마주했습니다. **하고 싶은 것, 좋아하는 것, 잘하는 것은 다르다는 것을.** 법학으로 사람을 돕고 싶었지만, 그것이 제가 좋아하는 일이 아니라는 사실을 마주한 순간 더 이상 법학을 공부할 수 없게 되었습니다.\n\n> 대학교 마지막 학기였습니다. 졸업을 앞두고도 방향을 찾지 못한 채, 반년을 \"나는 어떻게 살아가야 하는가?\"라는 질문 하나에 매달렸습니다. 제 인생에서 가장 깊게 몰입했던 순간이었습니다.\n\n그러던 중 홀린 듯이 찾아간 메이플 콘 오프라인 행사에서 답을 찾았습니다. 쇼케이스가 시작되자 동시에 터지는 환호, 가족들이 함께 웃는 표정. 그 장면은 제가 오래 잊고 지냈던 감정을 되살렸습니다. *'나는 게임을 진짜 좋아했구나.'*\n\n그 자리에서 확신했습니다. 법학이 '-에서 0으로 되돌리는 일'이라면, 게임은 누군가의 하루를 움직이는 **'0에서 +가 되는 경험'**을 만든다는 것. 저는 그 +를 설계하는 사람이 되고 싶었습니다.\n\n법학을 공부하며 배운 것이 있습니다. 모든 제도는 입법 '의도'를 바탕으로 '구조화'되고, 사회라는 하나의 '시스템'으로 작동한다는 것입니다. 저는 이 원리가 게임 기획과 맞닿아 있다고 생각합니다. 기획 의도를 먼저 세우고, 그것을 구조화하여 플레이어의 경험으로 완성하는 기획자가 되겠습니다."
+    },
+    {
+      logline: "저는 기획 의도를 알고, 그것을 관통하는 목차를 작성할 줄 아는 사람입니다.",
+      content: "저는 원래 논리적인 사람이 아니었습니다. 문학을 좋아하는 감성적인 학생이었고, 그것이 법학과에서 가장 큰 벽이 되었습니다. 대학교 2학년 형법 시험에서 C학점을 받았습니다. 교수님께 피드백을 받으러 찾아갔고, 교수님은 말없이 1등 학생의 답안을 보여주셨습니다.\n\n그 답안에서 목차가 정확히 눈에 들어왔습니다. 대전제에서 소전제로, 논리의 위계가 한눈에 보였고, 내용이 그 구조에 따라 자연스럽게 읽혔습니다. 부끄러웠습니다. 제 답안에는 목차가 없었습니다. 그날부터 저는 목차를 작성하는 훈련을 시작했습니다.\n\n21살부터 졸업하는 28살까지, 7년간 반복했습니다. 법학 답안은 다음과 같이 전개됩니다:\n1. 문제상황\n2. 학설\n3. 판례\n4. 검토\n\n저는 매 시험마다 먼저 핵심 주장을 한 문장으로 정한 뒤, 그 주장 아래 모든 항목이 그것을 관통하는지 반복해서 검증했습니다. 주장이 흔들리면 목차 전체가 무너졌고, 목차가 흔들리면 답안 전체가 설득력을 잃었습니다. 그 실패를 반복하며 구조를 다듬었습니다.\n\n그 훈련의 결과가 졸업 논문이었습니다. 동기들이 자료를 먼저 뒤지고 본문부터 채워나갈 때, 저는 목차를 먼저 완성하는 데 집중했습니다. 굳건한 논리에 기반한 목차가 완성된 뒤 본문 작성은 그 내용을 채우는 일에 불과했고, 동기들보다 훨씬 빠르게 논문을 마쳤습니다. 논문은 **96점**을 받았습니다.\n\n7년간의 훈련이 가르쳐준 것은 결국 하나였습니다. **설득력 있는 주장은 논리에서 나오는 것이 아니라, 그 논리를 담는 구조에서 나온다는 것입니다.** 기획도 같습니다. 기획자의 의도가 플레이어의 경험으로 이어지기 위해서는 그 사이를 잇는 논리적 구조가 완벽해야 합니다. 기획 의도를 알고, 그것을 관통하는 목차를 작성하는 능력은 게임 기획자를 지망하기 전, 7년간의 실패를 통해 단련한 역량입니다."
+    },
+    {
+      logline: "기획 의도를 알고 목차를 작성하는 능력은 AI 설계에서도 통합니다.",
+      content: "팀 프로젝트를 진행하며 회의록 작성이 매번 작업 시간을 빼앗는 문제가 발생했습니다. 저는 AI봇 설계 도구인 Eve를 활용해 **LLM 기반 회의록 자동화 봇**을 직접 설계했습니다. \n\n회의록에 필요한 양식을 지식팩으로 구성한 뒤, 봇이 무엇을 해야 하는지 의도를 먼저 정하고 다음 순서로 프롬프트 구조를 설계했습니다:\n- `Role` \n- `Goals` \n- `Behaviors` \n- `Output` \n\n정해진 양식을 채우는 것에 그치지 않고, 회의 내용을 설명하면 그 의도를 파악해 맥락에 맞는 문서를 스스로 구성하도록 했습니다. 두 개의 팀 프로젝트에 걸쳐 총 20건 이상의 회의록을 생성하며 회의록 작성 시간을 대폭 단축했습니다. 이 과정에서 프롬프트 엔지니어링이 목차 작성과 본질적으로 같은 원리임을 알게 되었습니다. 이 능력이 AI 설계에도 그대로 통한다는 것을 현장에서 검증했습니다."
+    }
+  ],
   education: [
     {
-      title: "게임 기획 전문가 부트캠프 (6개월)",
+      title: "게임 기획 전문가 과정 (6개월)",
       period: "2024.01 - 2024.06",
       description: "실무 중심의 게임 기획 프로세스 전반을 이수했습니다.",
       details: [
-        "시스템 기획: 캐릭터 성장 곡선 및 경제 밸런싱 설계",
-        "레벨 디자인: UE5를 활용한 수직적 구조의 3D 레벨 제작",
-        "GDD 작성: 50페이지 분량의 상세 기획서 3종 작성"
+        "시스템 기획: 코어 루프 설계, 경제 시스템 및 전투 밸런싱",
+        "레벨 디자인: 동선 설계 및 기믹 배치, 난이도 곡선 조정",
+        "문서화: 역기획서 및 GDD 작성, Figma를 활용한 UI/UX 기획"
       ]
     },
     {
       title: "한국대학교 게임공학과",
       period: "2019.03 - 2023.02",
-      description: "게임 엔진 기초 및 컴퓨터 그래픽스, 확률과 통계 등 게임 개발의 공학적 기초를 다졌습니다.",
+      description: "게임 엔진의 이해, 프로그래밍 기초, 게임 수학 등 기획을 뒷받침하는 기술적 기초를 다졌습니다.",
       details: []
     }
   ],
   experience: [
     {
-      title: "네온 프로토콜 (Neon Protocol)",
+      title: "사이버펑크 RPG '네온 프로토콜' 시스템 기획",
       period: "2024.03 - 2024.05",
-      description: "사이버펑크 RPG 시스템 기획 및 프로토타이핑",
+      description: "모듈형 스킬 트리 및 동적 경제 시스템 설계",
       details: [
-        "엑셀을 활용한 1~50레벨 구간의 경험치 및 스탯 성장 테이블 설계",
-        "모듈형 스킬 트리 시스템 설계 (20종 이상의 액티브/패시브 스킬)",
-        "Python 스크립트를 활용한 전투 밸런싱 시뮬레이션 1,000회 수행"
+        "100여 종의 스킬 모듈 조합 시스템 기획 및 밸런싱 시트 작성",
+        "인게임 재화 인플레이션 제어를 위한 경제 모델링",
+        "50페이지 분량의 상세 시스템 기획서(GDD) 작성"
       ]
     },
     {
-      title: "잊혀진 첨탑 (The Forgotten Spire)",
+      title: "3D 플랫포머 '잊혀진 첨탑' 레벨 디자인",
       period: "2024.02 - 2024.03",
-      description: "UE5 기반 3D 플랫포머 레벨 디자인",
+      description: "언리얼 엔진 5를 활용한 수직적 구조의 레벨 설계",
       details: [
-        "플레이어 동선을 고려한 랜드마크 배치 및 시각적 가이드 설계",
-        "환경 스토리텔링 요소를 활용한 내러티브 전달 방식 구현"
+        "플레이어의 시선 유도를 위한 조명 및 랜드마크 배치 기획",
+        "점프 및 등반 액션을 활용한 입체적인 동선 설계",
+        "환경 스토리텔링을 위한 오브젝트 배치 기획"
       ]
     }
   ],
   awards: [
-    { title: "게임기획전문가 자격증", organization: "한국콘텐츠진흥원", year: "2023" },
-    { title: "부트캠프 우수 수료생 선정", organization: "OO 교육기관", year: "2024" }
+    { title: "글로벌 인디 게임 제작 경진대회 기획 부문 우수상", organization: "한국콘텐츠진흥원", year: "2023" },
+    { title: "게임 기획 부트캠프 최우수 프로젝트 선정", organization: "OO 교육기관", year: "2024" }
   ]
 };
+
 const PROJECTS: Project[] = [
   {
     id: 1,
     title: "네온 프로토콜 (Neon Protocol)",
-    category: "시스템 디자인",
+    category: "시스템 기획",
     description: "모듈형 어빌리티 트리와 동적 경제 밸런싱에 중점을 둔 사이버펑크 테마의 RPG 시스템입니다. 핵심 루프와 진행 방식을 다루는 50페이지 분량의 기획서를 작성했습니다.",
     tags: ["시스템 기획", "GDD 작성", "밸런싱"],
     image: "https://picsum.photos/seed/cyberpunk/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: `
-# 네온 프로토콜 (Neon Protocol) 기획 상세
-
-## 1. 프로젝트 개요
-네온 프로토콜은 사이버펑크 세계관을 배경으로 한 하이퍼-캐주얼 RPG입니다. 플레이어는 해커가 되어 거대 기업의 메인프레임을 해킹하고, 그 과정에서 얻은 자원으로 자신의 '어빌리티 트리'를 커스터마이징합니다.
-
-## 2. 핵심 시스템 디자인
-### 2.1 모듈형 어빌리티 트리
-- **자유도**: 100개 이상의 모듈을 조합하여 자신만의 전투 스타일을 구축합니다.
-- **시너지**: 특정 모듈 조합 시 숨겨진 '오버클럭' 효과가 발동됩니다.
-
-### 2.2 동적 경제 시스템
-- **인플레이션 제어**: 게임 내 재화인 '크레딧'의 가치를 유지하기 위한 소모처(Sink)를 다각화했습니다.
-- **보상 루프**: 리스크가 클수록 보상이 기하급수적으로 늘어나는 '하이 리스크 하이 리턴' 구조입니다.
-
-## 3. 기획 의도
-플레이어에게 "성장의 즐거움"과 "선택의 중요성"을 동시에 전달하는 것을 목표로 했습니다. 복잡한 수치 계산은 시스템이 처리하되, 플레이어는 직관적인 UI를 통해 결과값을 체감할 수 있도록 설계했습니다.
-
-## 4. 기대 효과
-- 높은 리플레이 가치 (다양한 빌드 구성 가능)
-- 커뮤니티 활성화 (최적의 빌드 공유 및 토론)
-`
+    color: "from-zinc-500/20 to-zinc-400/20",
+    content: `# 네온 프로토콜 (Neon Protocol) 시스템 기획서\n\n## 1. 문제 제기 및 기획 배경\n기존 사이버펑크 RPG의 스킬 트리는 고정된 루트를 따라가는 선형적 구조가 많아 플레이어의 자유도가 제한되었습니다.\n\n## 2. 기획 의도 (Planning Intent)\n플레이어에게 "성장의 즐거움"과 "선택의 중요성"을 동시에 전달하는 것을 목표로 합니다.\n\n## 3. 코어 루프 및 시스템 구조\n1. **해킹 (전투)**: 거대 기업의 메인프레임에 침투하여 적을 물리치고 자원 획득.\n2. **업그레이드 (성장)**: 획득한 자원으로 어빌리티 트리를 커스터마이징.\n3. **도전 (심화)**: 더 높은 난이도의 메인프레임에 도전.\n\n## 4. 핵심 메커니즘\n### 4.1 모듈형 어빌리티 트리\n- 100개 이상의 모듈을 조합하여 자신만의 전투 스타일을 구축합니다.\n\n### 4.2 동적 경제 시스템\n- 인플레이션 제어: 재화 소모처(Sink)를 다각화했습니다.\n\n## 5. 기대 효과\n- 높은 리플레이 가치\n- 커뮤니티 활성화\n- 안정적인 경제`
   },
   {
     id: 2,
@@ -226,78 +217,37 @@ const PROJECTS: Project[] = [
     description: "언리얼 엔진 5로 제작된 3D 플랫포머 레벨입니다. 수직적 구조, 조명을 활용한 플레이어 가이드, 환경 스토리텔링에 집중했습니다.",
     tags: ["레벨 디자인", "UE5", "스토리텔링"],
     image: "https://picsum.photos/seed/castle/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: `
-# 잊혀진 첨탑 (The Forgotten Spire) 레벨 디자인
-
-## 1. 디자인 컨셉
-고대 문명의 유적을 탐험하는 수직적 구조의 레벨입니다. 플레이어는 첨탑의 하층부에서 시작하여 최상층의 '천공의 방'까지 도달해야 합니다.
-
-## 2. 레벨 디자인 핵심 요소
-### 2.1 수직적 동선 설계
-- **고저차 활용**: 점프와 등반을 통해 공간의 입체감을 극대화했습니다.
-- **숏컷(Shortcut)**: 특정 구간 돌파 시 이전 지역으로 빠르게 돌아갈 수 있는 문을 배치하여 편의성을 높였습니다.
-
-### 2.2 시각적 가이드 (Lighting)
-- **빛의 인도**: 플레이어가 가야 할 방향에 강렬한 빛이나 대조적인 색상을 배치하여 자연스러운 유도를 꾀했습니다.
-- **랜드마크**: 멀리서도 보이는 거대한 조각상을 배치하여 현재 위치를 파악하기 쉽게 했습니다.
-
-## 3. 환경 스토리텔링
-벽면의 벽화, 부서진 가구의 배치 등을 통해 과거 이곳에서 어떤 일이 일어났는지 플레이어가 추측할 수 있도록 디테일을 추가했습니다.
-
-## 4. 사용 툴
-- Unreal Engine 5 (Lumen, Nanite 활용)
-- Blender (커스텀 에셋 제작)
-`
+    color: "from-emerald-500/20 to-teal-500/20",
+    content: `# 잊혀진 첨탑 (The Forgotten Spire) 레벨 디자인 기획서\n\n## 1. 기획 배경\n일반적인 3D 플랫포머에서 플레이어는 종종 길을 잃거나 다음 목표를 찾지 못해 피로감을 느낍니다.\n\n## 2. 기획 의도\n고대 문명의 유적을 탐험하는 신비로움과, 거대한 구조물을 등반하는 성취감을 전달합니다.\n\n## 3. 핵심 메커니즘\n### 3.1 수직적 동선 설계\n- 첨탑의 하층부에서 시작하여 최상층까지 도달하는 수직적 구조.\n\n### 3.2 시각적 가이드\n- 빛의 인도: 플레이어가 가야 할 방향에 강렬한 빛을 배치.\n\n## 4. 기대 효과\n- 몰입감 극대화\n- 성취감 부여`
   },
   {
     id: 3,
     title: "택티컬 에코 (Tactical Echoes)",
-    category: "전투 디자인",
+    category: "전투 기획",
     description: "턴제 전략 프로토타입입니다. 유닛이 마지막 행동을 낮은 효율로 반복하는 독특한 '에코' 메커니즘을 설계했습니다.",
     tags: ["전투 기획", "프로토타이핑", "전략"],
     image: "https://picsum.photos/seed/strategy/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: `
-# 택티컬 에코 (Tactical Echoes) 전투 디자인
-
-## 1. 핵심 메커니즘: 에코(Echo)
-유닛이 턴을 종료할 때, 이전 턴에 수행한 행동(공격, 이동, 방어 등)을 50%의 위력으로 자동 반복합니다. 이 '잔상' 효과를 어떻게 배치하느냐가 승패의 핵심입니다.
-
-## 2. 전략적 깊이
-### 2.1 위치 선정의 중요성
-- 에코는 유닛의 현재 위치가 아닌, '행동이 수행되었던 위치'에서 발생합니다.
-- 이를 이용해 적을 유인하거나, 아군을 보호하는 겹겹의 방어선을 구축할 수 있습니다.
-
-### 2.2 콤보 시스템
-- 특정 유닛의 에코가 다른 유닛의 행동과 연쇄 반응을 일으켜 강력한 광역 공격을 퍼부을 수 있습니다.
-
-## 3. 밸런싱 전략
-에코 시스템이 너무 강력해지지 않도록 '에코 게이지'를 도입했습니다. 게이지가 가득 차야만 에코가 발동되며, 발동 후에는 유닛이 일시적으로 약화됩니다.
-
-## 4. 개발 현황
-- Unity 엔진을 활용한 핵심 루프 프로토타이핑 완료
-- 10종의 유닛 클래스 설계 및 밸런스 시뮬레이션 진행 중
-`
+    color: "from-orange-500/20 to-zinc-500/20",
+    content: `# 택티컬 에코 (Tactical Echoes) 전투 디자인\n\n## 1. 핵심 메커니즘: 에코(Echo)\n유닛이 턴을 종료할 때, 이전 턴에 수행한 행동을 50%의 위력으로 자동 반복합니다.\n\n## 2. 전략적 깊이\n에코는 유닛의 현재 위치가 아닌, '행동이 수행되었던 위치'에서 발생합니다.\n\n## 3. 밸런싱 전략\n에코 시스템이 너무 강력해지지 않도록 '에코 게이지'를 도입했습니다.`
   },
   {
     id: 4,
     title: "크로노 바운드 (Chrono Bound)",
-    category: "시스템 디자인",
+    category: "시스템 기획",
     description: "시간 역행 메커니즘을 활용한 퍼즐 액션 게임의 시스템 기획서입니다.",
     tags: ["시간 역행", "퍼즐 기획", "시스템"],
     image: "https://picsum.photos/seed/time/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
+    color: "from-zinc-500/20 to-zinc-500/20",
     content: "# 크로노 바운드 상세 기획..."
   },
   {
     id: 5,
     title: "스타더스트 아레나 (Stardust Arena)",
-    category: "전투 디자인",
+    category: "전투 기획",
     description: "무중력 환경에서의 3:3 팀 전투 밸런싱 및 유닛 스킬 설계 프로젝트입니다.",
     tags: ["무중력", "팀 전투", "밸런싱"],
     image: "https://picsum.photos/seed/space/800/600",
-    color: "from-zinc-500/10 to-blue-500/20",
+    color: "from-zinc-500/20 to-zinc-500/20",
     content: "# 스타더스트 아레나 상세 기획..."
   }
 ];
@@ -305,33 +255,33 @@ const PROJECTS: Project[] = [
 const PORTFOLIO_PROJECTS: Project[] = [
   {
     id: 101,
-    title: "UI/UX 개선 제안서",
-    category: "UI/UX",
-    description: "기존 모바일 RPG의 복잡한 상점 UI를 직관적으로 개선한 디자인 제안서입니다.",
-    tags: ["UI 개선", "UX 분석", "피그마"],
-    image: "https://picsum.photos/seed/ui/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: "# UI/UX 개선 제안 상세..."
+    title: "모바일 RPG 경제 시스템 밸런싱",
+    category: "시스템 기획",
+    description: "인게임 재화의 인플레이션을 방지하고 유저의 지속적인 플레이를 유도하는 경제 밸런싱 모델입니다.",
+    tags: ["경제 시스템", "밸런싱", "엑셀"],
+    image: "https://picsum.photos/seed/economy/800/600",
+    color: "from-zinc-500/10 to-zinc-500/10",
+    content: "# 경제 시스템 밸런싱 상세..."
   },
   {
     id: 102,
-    title: "신규 캐릭터 컨셉 아트",
-    category: "아트 컨셉",
-    description: "스팀펑크 세계관의 기계공 캐릭터 비주얼 컨셉 및 스킬 이펙트 가이드입니다.",
-    tags: ["스팀펑크", "캐릭터", "가이드"],
+    title: "신규 캐릭터 전투 기획서",
+    category: "전투 기획",
+    description: "스팀펑크 세계관의 기계공 캐릭터 스킬 메커니즘 및 데미지 공식 기획서입니다.",
+    tags: ["전투 기획", "스킬 디자인", "GDD"],
     image: "https://picsum.photos/seed/steampunk/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: "# 캐릭터 컨셉 상세..."
+    color: "from-amber-500/10 to-orange-500/10",
+    content: "# 캐릭터 전투 기획 상세..."
   },
   {
     id: 103,
-    title: "게임 시장 분석 보고서",
-    category: "시장 분석",
-    description: "2024년 상반기 서브컬처 게임 시장 트렌드 및 향후 전망 분석 보고서입니다.",
-    tags: ["시장 조사", "트렌드", "데이터"],
-    image: "https://picsum.photos/seed/chart/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
-    content: "# 시장 분석 보고서 상세..."
+    title: "매치3 퍼즐 레벨 디자인",
+    category: "레벨 디자인",
+    description: "난이도 곡선을 고려한 매치3 퍼즐 게임의 1~50 스테이지 레벨 디자인 문서입니다.",
+    tags: ["레벨 디자인", "난이도 곡선", "퍼즐"],
+    image: "https://picsum.photos/seed/puzzle/800/600",
+    color: "from-emerald-500/10 to-teal-500/10",
+    content: "# 레벨 디자인 상세..."
   },
   {
     id: 104,
@@ -340,32 +290,64 @@ const PORTFOLIO_PROJECTS: Project[] = [
     description: "다중 선택지에 따른 분기형 퀘스트 스크립트 및 대사 연출 가이드입니다.",
     tags: ["스크립트", "내러티브", "분기"],
     image: "https://picsum.photos/seed/book/800/600",
-    color: "from-zinc-500/10 to-zinc-400/10",
+    color: "from-zinc-500/10 to-zinc-500/10",
     content: "# 퀘스트 스크립트 상세..."
   }
 ];
 
 const SKILLS: Skill[] = [
-  { name: "시스템 디자인", level: 90, icon: <Cpu className="w-5 h-5" />, caption: "복잡한 수치 체계 및 밸런싱 설계 가능" },
-  { name: "레벨 디자인", level: 85, icon: <Layers className="w-5 h-5" />, caption: "UE5 기반 수직적 동선 및 라이팅 가이드 설계" },
-  { name: "내러티브 디자인", level: 80, icon: <ScrollText className="w-5 h-5" />, caption: "세계관 설정 및 퀘스트 스크립트 작성" },
-  { name: "밸런싱 & QA", level: 95, icon: <Target className="w-5 h-5" />, caption: "시뮬레이션을 통한 정밀한 수치 검증" },
-  { name: "C# / Blueprint", level: 75, icon: <Code2 className="w-5 h-5" />, caption: "기능 구현 및 프로토타이핑 가능" },
+  { name: "시스템 기획", level: 95, icon: <Cpu className="w-5 h-5" />, caption: "코어 루프 설계 및 모듈형 시스템 구조화" },
+  { name: "경제 밸런싱", level: 90, icon: <ScrollText className="w-5 h-5" />, caption: "재화 인플레이션 제어 및 보상 루프 설계" },
+  { name: "레벨 디자인", level: 85, icon: <Layers className="w-5 h-5" />, caption: "동선 설계, 기믹 배치 및 난이도 곡선 조정" },
+  { name: "GDD 작성", level: 95, icon: <Target className="w-5 h-5" />, caption: "개발팀과의 협업을 위한 명확한 기획 문서화" },
+  { name: "프로토타이핑", level: 80, icon: <Code2 className="w-5 h-5" />, caption: "엔진(UE5/Unity) 및 Figma를 활용한 검증" },
 ];
 
-// --- Editable Content Hook ---
+// --- Editable Content Hook (Supabase-backed) ---
 const useEditableContent = (initialData: any, key: string) => {
-  const [data, setData] = useState(() => {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : initialData;
-  });
+  const [data, setData] = useState(initialData);
+  const [loaded, setLoaded] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const updateData = (newData: any) => {
+  useEffect(() => {
+    const loadFromSupabase = async () => {
+      try {
+        const { data: row, error } = await supabase
+          .from('portfolio_content')
+          .select('content')
+          .eq('key', key)
+          .maybeSingle();
+        if (!error && row?.content) {
+          setData(row.content);
+        }
+      } catch (e) {
+        console.warn(`Supabase load failed for key "${key}", using defaults.`);
+      } finally {
+        setLoaded(true);
+      }
+    };
+    loadFromSupabase();
+  }, [key]);
+
+  const saveToSupabase = useCallback(async (newData: any) => {
+    try {
+      await supabase
+        .from('portfolio_content')
+        .upsert({ key, content: newData }, { onConflict: 'key' });
+    } catch (e) {
+      console.error(`Supabase save failed for key "${key}":`, e);
+    }
+  }, [key]);
+
+  const updateData = useCallback((newData: any) => {
     setData(newData);
-    localStorage.setItem(key, JSON.stringify(newData));
-  };
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      saveToSupabase(newData);
+    }, 500);
+  }, [saveToSupabase]);
 
-  return [data, updateData];
+  return [data, updateData, loaded];
 };
 
 // --- Components ---
@@ -375,26 +357,29 @@ const EditableText = ({
   onSave, 
   isEditing, 
   className = "", 
-  multiline = false 
+  multiline = false,
 }: { 
   value: string, 
   onSave: (v: string) => void, 
   isEditing: boolean, 
   className?: string,
-  multiline?: boolean
+  multiline?: boolean,
+  light?: boolean
 }) => {
   if (!isEditing) return <span className={className}>{value}</span>;
 
+  const baseClasses = "bg-[#1a1a1a] border-[#2a2a2a] text-[#e8e4dc] focus:border-[#800020]";
+
   return multiline ? (
     <textarea
-      className={`w-full max-w-full bg-white/5 border border-white/20 rounded p-2 text-white focus:outline-none focus:border-zinc-600 ${className}`}
+      className={`w-full max-w-full border rounded-lg p-2 focus:outline-none font-sans ${baseClasses} ${className}`}
       value={value}
       onChange={(e) => onSave(e.target.value)}
-      rows={3}
+      rows={Math.max(3, value.split('\n').length)}
     />
   ) : (
     <input
-      className={`w-full max-w-full bg-white/5 border border-white/20 rounded px-2 py-1 text-white focus:outline-none focus:border-zinc-600 ${className}`}
+      className={`w-full max-w-full border rounded-lg px-2 py-1 focus:outline-none font-sans ${baseClasses} ${className}`}
       value={value}
       onChange={(e) => onSave(e.target.value)}
     />
@@ -403,82 +388,48 @@ const EditableText = ({
 
 const PasswordModal = ({ isOpen, onClose, onConfirm }: { isOpen: boolean, onClose: () => void, onConfirm: (pw: string) => void }) => {
   const [password, setPassword] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onConfirm(password);
-    setPassword('');
-  };
-
+  if (!isOpen) return null;
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
-          onClick={onClose}
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="relative max-w-md w-full glass rounded-[2rem] p-8"
-            onClick={e => e.stopPropagation()}
-          >
-            <h3 className="text-2xl font-bold text-white mb-6 text-center">관리자 인증</h3>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">비밀번호를 입력하세요 (0000)</label>
-                <input
-                  type="password"
-                  autoFocus
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-600 transition-all text-center text-2xl tracking-widest"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="flex-1 px-6 py-3 glass rounded-xl text-white font-bold hover:bg-white/10 transition-all"
-                >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-6 py-3 bg-zinc-800 rounded-xl text-white font-bold hover:bg-zinc-700 transition-all shadow-lg shadow-black/20"
-                >
-                  확인
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="bg-[#111] border border-[#2a2a2a] p-8 max-w-sm w-full shadow-xl rounded-2xl">
+        <h3 className="text-xl font-display font-bold text-[#e8e4dc] mb-4 tracking-tight">관리자 로그인</h3>
+        <p className="text-[#888] text-sm mb-6">내용을 수정하려면 비밀번호를 입력하세요.</p>
+        <input 
+          type="password" 
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') onConfirm(password); }}
+          className="w-full bg-[#0a0a0a] border border-[#2a2a2a] p-3 text-[#e8e4dc] focus:outline-none focus:border-[#800020] mb-6 font-mono rounded-lg"
+          placeholder="••••"
+          autoFocus
+        />
+        <div className="flex gap-4">
+          <button onClick={onClose} className="flex-1 py-3 text-[#888] font-medium hover:text-[#e8e4dc] transition-colors rounded-xl">취소</button>
+          <button onClick={() => onConfirm(password)} className="flex-1 py-3 bg-[#800020] text-[#e8e4dc] font-bold hover:bg-[#9a0028] transition-colors rounded-xl">확인</button>
+        </div>
+      </div>
+    </div>
   );
 };
 
-const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing }: { setView: (v: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects') => void, currentView: string, onNavClick: (id: string) => void, isEditing: boolean, setIsEditing: (v: boolean) => void }) => {
+// --- Navbar (Horizontal Top Bar — Dark) ---
+const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection }: { setView: (v: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects') => void, currentView: string, onNavClick: (id: string) => void, isEditing: boolean, setIsEditing: (v: boolean) => void, activeSection: string }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolledPastHero(window.scrollY > window.innerHeight - 80);
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLinkClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     onNavClick(id);
-    setIsMenuOpen(false);
-  };
-
-  const handleResumeClick = () => {
-    setView('resume');
-    setIsMenuOpen(false);
-  };
-
-  const handlePortfolioClick = () => {
-    setView('portfolio');
     setIsMenuOpen(false);
   };
 
@@ -501,452 +452,320 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing }: {
     }
   };
 
+  const navBgClass = scrolledPastHero ? 'bg-[#0a0a0a]/95 border-[#1e1e1e]/60 backdrop-blur-md border-b shadow-lg py-4' : 'bg-transparent py-6';
+
   return (
     <>
-      {/* Mobile Top Bar */}
-      <nav className="lg:hidden fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50 bg-zinc-900/80 backdrop-blur-md border border-zinc-800/80 rounded-none px-6 h-16 flex items-center justify-between shadow-lg shadow-black/50">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }}>
-          <div className="w-8 h-8 bg-zinc-800 border border-zinc-700 rounded-none flex items-center justify-center shadow-lg shadow-black/20">
-            <FileText className="text-zinc-100 w-4 h-4" />
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBgClass}`}>
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => { setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }}>
+            <span className="font-display font-bold tracking-tight text-xl text-[#e8e4dc]">지망생 조경환</span>
+            <span className="text-[10px] font-mono tracking-widest uppercase hidden sm:block text-[#555]">// Game Designer</span>
+            {isEditing && (
+              <div className="ml-2 px-2 py-0.5 bg-[#800020]/20 border border-[#800020]/40 rounded text-[10px] text-[#800020] font-bold uppercase">
+                Edit
+              </div>
+            )}
           </div>
-          <span className="font-bold tracking-tight text-lg text-zinc-100">조경환</span>
-          {isEditing && (
-            <div className="ml-2 px-2 py-0.5 bg-amber-500/20 border border-amber-500/50 rounded text-[10px] text-amber-500 font-bold uppercase ">
-              Edit
-            </div>
-          )}
-        </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleAdminClick}
-            className="p-2 hover:bg-zinc-800 rounded-none transition-colors"
-          >
-            <Lock className={`w-5 h-5 ${isEditing ? 'text-amber-500' : 'text-zinc-500'}`} />
-          </button>
-          <button
-            className="text-zinc-100 p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-6">
+            {[
+              { id: 'about', label: '소개', num: '01' },
+              { id: 'projects', label: '프로젝트', num: '02' },
+              { id: 'skills', label: '핵심역량', num: '03' },
+              { id: 'play-history', label: '사용 툴', num: '04' }
+            ].map(({ id, label, num }, idx) => (
+              <React.Fragment key={id}>
+                <a 
+                  href={`#${id}`}
+                  onClick={(e) => handleLinkClick(e, id)}
+                  className={`text-sm font-medium transition-all flex items-center gap-1.5 relative ${activeSection === id ? 'text-[#800020]' : 'text-[#888] hover:text-[#e8e4dc]'}`}
+                >
+                  <span className={`text-[10px] font-mono transition-opacity ${activeSection === id ? 'opacity-100' : 'opacity-60'}`}>{num}.</span>
+                  {label}
+                  {activeSection === id && (
+                    <motion.div layoutId="nav-indicator" className="absolute -bottom-2 left-0 right-0 h-px bg-[#800020]" />
+                  )}
+                </a>
+                {idx < 3 && <span className="w-px h-3 bg-[#2a2a2a]"></span>}
+              </React.Fragment>
+            ))}
+            <div className="w-px h-4 mx-2 bg-[#2a2a2a]"></div>
+            <button 
+              onClick={handleAdminClick}
+              className="p-2 rounded-full transition-colors flex items-center justify-center hover:bg-[#1a1a1a]"
+            >
+              <Lock className={`w-4 h-4 ${isEditing ? 'text-[#800020]' : 'text-[#555]'}`} />
+            </button>
+          </div>
+
+          {/* Mobile Toggle */}
+          <div className="md:hidden flex items-center gap-4">
+            <button onClick={handleAdminClick} className="p-2 rounded-full transition-colors hover:bg-[#1a1a1a]">
+              <Lock className={`w-4 h-4 ${isEditing ? 'text-[#800020]' : 'text-[#555]'}`} />
+            </button>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 focus:outline-none text-[#e8e4dc]">
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Desktop Left Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-44 hover:w-64 bg-bg-main/95 backdrop-blur-md border-r border-zinc-800 flex-col justify-between py-8 px-6 z-40 transition-all duration-300 overflow-hidden group">
-        <div>
-          <div className="w-8 h-8 border border-zinc-700 flex items-center justify-center mb-12 cursor-pointer shrink-0" onClick={() => { setView('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-            <Gamepad2 className="text-zinc-400 w-4 h-4" />
-          </div>
-
-          <nav className="space-y-6">
-            <div className="text-[10px] font-mono text-zinc-500 tracking-widest mb-4 uppercase whitespace-nowrap overflow-hidden">
-              <span className="opacity-40 group-hover:opacity-100 transition-opacity duration-300">목차</span>
-            </div>
-            {[
-              { id: 'about', label: '소개', icon: User },
-              { id: 'projects', label: '프로젝트', icon: Layers },
-              { id: 'skills', label: '핵심역량', icon: Zap },
-              { id: 'play-history', label: '플레이 이력', icon: Clock },
-              { id: 'contact', label: '문의하기', icon: Mail }
-            ].map(({ id, label, icon: Icon }) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                onClick={(e) => handleLinkClick(e, id)}
-                className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors uppercase tracking-widest whitespace-nowrap overflow-hidden"
-              >
-                <Icon className="w-5 h-5 shrink-0" />
-                <span className="opacity-80 group-hover:opacity-100 transition-opacity duration-300">{label}</span>
-              </a>
-            ))}
-
-            <div className="text-[10px] font-mono text-zinc-500 tracking-widest mt-8 mb-4 uppercase whitespace-nowrap overflow-hidden">
-              <span className="opacity-40 group-hover:opacity-100 transition-opacity duration-300">문서</span>
-            </div>
-            <button
-              onClick={handleResumeClick}
-              className={`flex items-center gap-4 w-full text-left text-sm font-medium transition-colors uppercase tracking-widest whitespace-nowrap overflow-hidden ${currentView === 'resume' ? 'text-zinc-100' : 'text-zinc-400 hover:text-zinc-100'}`}
-            >
-              <FileText className="w-5 h-5 shrink-0" />
-              <span className="opacity-80 group-hover:opacity-100 transition-opacity duration-300">이력서</span>
-            </button>
-            <button
-              onClick={handlePortfolioClick}
-              className={`flex items-center gap-4 w-full text-left text-sm font-medium transition-colors uppercase tracking-widest whitespace-nowrap overflow-hidden ${currentView === 'portfolio' ? 'text-zinc-100' : 'text-zinc-400 hover:text-zinc-100'}`}
-            >
-              <Briefcase className="w-5 h-5 shrink-0" />
-              <span className="opacity-80 group-hover:opacity-100 transition-opacity duration-300">포트폴리오</span>
-            </button>
-          </nav>
-        </div>
-
-        <div className="space-y-4">
-          <div className="text-[10px] font-mono text-zinc-500 tracking-widest uppercase whitespace-nowrap overflow-hidden">
-            <span className="opacity-40 group-hover:opacity-100 transition-opacity duration-300">상태</span>
-          </div>
-          <div className="flex items-center gap-4 whitespace-nowrap overflow-hidden">
-            <div className="w-5 h-5 flex items-center justify-center shrink-0">
-              <div className="w-1.5 h-1.5 bg-zinc-400 rounded-full"></div>
-            </div>
-            <span className="text-xs font-medium text-zinc-300 uppercase tracking-widest opacity-80 group-hover:opacity-100 duration-300">구직 중</span>
-          </div>
-
-          <button
-            onClick={handleAdminClick}
-            className="flex items-center gap-4 text-[10px] font-mono text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-widest mt-4 whitespace-nowrap overflow-hidden"
-          >
-            <div className="w-5 h-5 flex items-center justify-center shrink-0">
-              <Lock className={`w-4 h-4 ${isEditing ? 'text-amber-500' : ''}`} />
-            </div>
-            <span className="opacity-80 group-hover:opacity-100 duration-300">{isEditing ? '관리자 종료' : '관리자 로그인'}</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-40 bg-zinc-900/90 backdrop-blur-xl border border-zinc-800/80 rounded-none p-6 flex flex-col gap-4 lg:hidden shadow-2xl shadow-black/50"
+            className="fixed inset-0 z-40 pt-24 px-6 bg-[#0a0a0a]"
           >
-            <a href="#about" onClick={(e) => handleLinkClick(e, 'about')} className="text-lg font-medium text-zinc-400 hover:text-zinc-100">소개</a>
-            <a href="#projects" onClick={(e) => handleLinkClick(e, 'projects')} className="text-lg font-medium text-zinc-400 hover:text-zinc-100">프로젝트</a>
-            <a href="#skills" onClick={(e) => handleLinkClick(e, 'skills')} className="text-lg font-medium text-zinc-400 hover:text-zinc-100">핵심역량</a>
-            <button
-              onClick={handleResumeClick}
-              className={`text-left text-lg font-medium text-zinc-400 hover:text-zinc-100 ${currentView === 'resume' ? 'text-zinc-100' : ''}`}
-            >
-              이력서
-            </button>
-            <button
-              onClick={handlePortfolioClick}
-              className={`text-left text-lg font-medium text-zinc-400 hover:text-zinc-100 ${currentView === 'portfolio' ? 'text-zinc-100' : ''}`}
-            >
-              포트폴리오
-            </button>
-            <a href="#play-history" onClick={(e) => handleLinkClick(e, 'play-history')} className="text-lg font-medium text-zinc-400 hover:text-zinc-100">플레이 이력</a>
-            <a href="#contact" onClick={(e) => handleLinkClick(e, 'contact')} className="bg-zinc-800/50 border border-zinc-700 px-4 py-3 rounded-none text-zinc-100 text-center font-bold mt-4">문의하기</a>
+            <div className="flex flex-col gap-6 text-lg">
+              {[
+                { id: 'about', label: '소개', num: '01' },
+                { id: 'projects', label: '프로젝트', num: '02' },
+                { id: 'skills', label: '핵심역량', num: '03' },
+                { id: 'play-history', label: '사용 툴', num: '04' }
+              ].map(({ id, label, num }) => (
+                <a key={id} href={`#${id}`} onClick={(e) => handleLinkClick(e, id)}
+                  className="font-medium flex items-center gap-3 pb-4 border-b border-[#1e1e1e] text-[#e8e4dc]">
+                  <span className="text-xs font-mono opacity-50">{num}.</span>
+                  {label}
+                </a>
+              ))}
+              <div className="pt-4 flex flex-col gap-4">
+                <button onClick={() => { setView('resume'); setIsMenuOpen(false); }} className="text-left font-medium flex items-center gap-2 text-[#888]">
+                  <FileText className="w-4 h-4" /> 이력서 보기
+                </button>
+                <button onClick={() => { setView('portfolio'); setIsMenuOpen(false); }} className="text-left font-medium flex items-center gap-2 text-[#888]">
+                  <FolderOpen className="w-4 h-4" /> 포트폴리오 갤러리
+                </button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-
-      <PasswordModal
-        isOpen={isPasswordModalOpen}
-        onClose={() => setIsPasswordModalOpen(false)}
-        onConfirm={handlePasswordConfirm}
-      />
+      {isPasswordModalOpen && (
+        <PasswordModal isOpen={isPasswordModalOpen} onConfirm={handlePasswordConfirm} onClose={() => setIsPasswordModalOpen(false)} />
+      )}
     </>
   );
 };
 
+// --- Hero ---
 const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent }: { onPortfolioClick: () => void, onResumeClick: () => void, isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-20 overflow-hidden">
-    <div className="absolute top-1/4 -left-20 w-96 h-96 bg-zinc-800/20 rounded-full blur-[120px] "></div>
-    <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-zinc-800/20 rounded-full blur-[120px]  delay-700"></div>
+  <section className="relative min-h-screen flex flex-col justify-center items-center px-6 md:px-12 py-[120px] overflow-hidden bg-[#0a0a0a]">
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.03)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     
     <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="z-10 text-center"
+      className="z-10 text-center max-w-5xl relative w-full mx-auto flex flex-col items-center pb-24"
     >
-      <h1 className="flex flex-col gap-3 mb-10">
-        <EditableText 
-          value={content.titleLine1 || "기획의도를 알고"} 
-          onSave={(v) => setContent({...content, titleLine1: v})} 
-          isEditing={isEditing} 
-          className="text-3xl md:text-6xl font-bold text-zinc-300 tracking-[0.3em] uppercase opacity-90"
-        />
-        <EditableText 
-          value={content.titleLine2 || "목차를 쓸줄 아는 기획자"} 
-          onSave={(v) => setContent({...content, titleLine2: v})} 
-          isEditing={isEditing} 
-          className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[1.05] drop-shadow-2xl"
-        />
+      <h1 className="mb-8 flex flex-col items-center">
+        <div className="text-2xl md:text-3xl lg:text-4xl font-display font-medium text-[#888] tracking-tight mb-4">
+          <EditableText value={content.titleLine1 || "기획의도를 알고"} onSave={(v) => setContent({...content, titleLine1: v})} isEditing={isEditing} />
+        </div>
+        <div className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-display font-bold text-[#e8e4dc] tracking-tighter leading-[1.05] break-keep">
+          <EditableText value={content.titleLine2 || "목차를 쓸줄 아는 기획자"} onSave={(v) => setContent({...content, titleLine2: v})} isEditing={isEditing} />
+        </div>
       </h1>
-      <p className="max-w-2xl mx-auto text-slate-400 text-lg md:text-xl font-medium leading-relaxed mb-12">
-        <EditableText 
-          value={content.description} 
-          onSave={(v) => setContent({...content, description: v})} 
-          isEditing={isEditing} 
-          multiline
-        />
+      <p className="text-[#888] text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-2xl mx-auto">
+        <EditableText value={content.description} onSave={(v) => setContent({...content, description: v})} isEditing={isEditing} multiline />
       </p>
       
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
         <motion.button 
-          whileHover={{ y: -4, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
           onClick={onResumeClick}
-          className="px-8 py-4 bg-zinc-800 text-white font-bold rounded-2xl flex items-center gap-2 shadow-xl shadow-black/20 hover:bg-zinc-700 transition-all"
+          className="px-10 py-5 bg-[#e8e4dc] text-[#0a0a0a] font-bold flex items-center justify-center gap-3 hover:bg-[#800020] hover:text-white transition-all duration-500 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-xl hover:shadow-2xl"
         >
-          이력서 보기 <ChevronRight className="w-5 h-5" />
+          이력서 보기 <ChevronRight className="w-4 h-4" />
         </motion.button>
         <motion.button 
-          whileHover={{ y: -4, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
           onClick={onPortfolioClick}
-          className="px-8 py-4 glass font-bold rounded-2xl hover:bg-white/5 transition-all flex items-center gap-2"
+          className="px-10 py-5 bg-transparent border border-[#2a2a2a] text-[#c8c4bc] font-bold hover:border-[#800020] hover:text-[#e8e4dc] transition-all duration-500 flex items-center justify-center gap-3 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase"
         >
-          포트폴리오 보기 <ArrowUpRight className="w-5 h-5" />
+          포트폴리오 보기 <ArrowUpRight className="w-4 h-4" />
         </motion.button>
       </div>
     </motion.div>
 
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1, duration: 1 }}
-      className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-    >
-      <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center p-1">
-        <motion.div 
-          animate={{ y: [0, 12, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-1.5 h-1.5 bg-indigo-400 rounded-full"
-        />
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="mt-16 flex flex-col items-center gap-4">
+      <span className="text-[10px] font-mono text-[#555] uppercase tracking-widest">Scroll to explore</span>
+      <div className="w-[1px] h-16 bg-[#2a2a2a] relative overflow-hidden">
+        <motion.div animate={{ y: [-64, 64] }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="absolute top-0 left-0 w-full h-1/2 bg-[#800020]" />
       </div>
     </motion.div>
   </section>
 );
 
+// --- About ---
 const About = ({ isEditing, content, setContent }: { isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="about" className="py-32 px-6 max-w-7xl mx-auto">
-    <div className="grid lg:grid-cols-12 gap-12 items-start">
-      <div className="lg:col-span-7">
-        <div className="inline-block px-4 py-1 rounded-lg bg-zinc-700/10 text-zinc-300 text-xs font-bold mb-6">01_ABOUT ME</div>
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight leading-tight">
-          <EditableText 
-            value={content.title} 
-            onSave={(v) => setContent({...content, title: v})} 
-            isEditing={isEditing} 
-            className="block"
-          />
-          <EditableText 
-            value={content.subtitle} 
-            onSave={(v) => setContent({...content, subtitle: v})} 
-            isEditing={isEditing} 
-            className="text-slate-400 block"
-          />
+  <section id="about" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    
+    <div className="max-w-5xl mx-auto w-full relative z-10">
+      <div className="text-center mb-16">
+        <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-6 block">01. About</span>
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">
+          <EditableText value={content.title || "안녕하세요."} onSave={(v) => setContent({...content, title: v})} isEditing={isEditing} />
         </h2>
-        <div className="space-y-6 text-slate-400 text-lg leading-relaxed font-medium">
-          <p>
-            <EditableText 
-              value={content.p1} 
-              onSave={(v) => setContent({...content, p1: v})} 
-              isEditing={isEditing} 
-              multiline
-            />
-          </p>
-          <p>
-            <EditableText 
-              value={content.p2} 
-              onSave={(v) => setContent({...content, p2: v})} 
-              isEditing={isEditing} 
-              multiline
-            />
-          </p>
-        </div>
-        
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-6">
-          {content.stats.map((stat: any, idx: number) => (
-            <div key={idx} className="bento-card !p-6">
-              <div className="text-3xl font-bold text-zinc-300 mb-1">
-                <EditableText 
-                  value={stat.value} 
-                  onSave={(v) => {
-                    const newStats = [...content.stats];
-                    newStats[idx].value = v;
-                    setContent({...content, stats: newStats});
-                  }} 
-                  isEditing={isEditing} 
-                />
-              </div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-tighter">
-                <EditableText 
-                  value={stat.label} 
-                  onSave={(v) => {
-                    const newStats = [...content.stats];
-                    newStats[idx].label = v;
-                    setContent({...content, stats: newStats});
-                  }} 
-                  isEditing={isEditing} 
-                />
-              </div>
-            </div>
-          ))}
+        <div className="space-y-6 text-[#888] font-medium text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+          <p><EditableText value={content.p1} onSave={(v) => setContent({...content, p1: v})} isEditing={isEditing} multiline /></p>
+          <p><EditableText value={content.p2} onSave={(v) => setContent({...content, p2: v})} isEditing={isEditing} multiline /></p>
         </div>
       </div>
       
-      <div className="lg:col-span-5 relative">
-        <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-white/10 group shadow-2xl shadow-black/20">
-          <img 
-            src="https://picsum.photos/seed/designer/800/1000" 
-            alt="Designer Profile" 
-            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-main via-transparent to-transparent opacity-60"></div>
-          <div className="absolute bottom-8 left-8">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full "></div>
-              <span className="text-xs font-bold text-zinc-400 tracking-widest">STATUS: READY_TO_BUILD</span>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        {content.stats.slice(0, 3).map((stat: any, idx: number) => (
+          <div key={idx} className="group flex flex-col items-center justify-center gap-2 bg-[#111] border border-[#1e1e1e] rounded-3xl p-10 hover:border-[#800020]/40 hover:-translate-y-1 transition-all duration-500">
+            <div className="text-5xl font-display font-bold text-[#e8e4dc] tracking-tighter group-hover:text-[#800020] transition-colors">
+              <EditableText value={stat.value} onSave={(v) => { const s = [...content.stats]; s[idx].value = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
             </div>
-            <div className="text-white text-2xl font-bold">신입 게임 기획자</div>
+            <div className="text-sm font-bold text-[#555] tracking-widest uppercase">
+              <EditableText value={stat.label} onSave={(v) => { const s = [...content.stats]; s[idx].label = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 );
 
+// --- ProjectCard ---
+const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProjectClick, layout = 'default' }: { project: Project, idx: number, isEditing: boolean, projects: Project[], setProjects: (p: Project[]) => void, onProjectClick: (p: Project) => void, layout?: 'default' | 'featured' | 'supporting' | 'accordion-active' | 'accordion-inactive' }) => {
+  const isActive = layout === 'accordion-active';
+  const isInactive = layout === 'accordion-inactive';
+  
+  if (isActive || isInactive) {
+    return (
+      <div className="relative w-full h-full flex flex-col justify-end p-6 lg:p-8">
+        <div className={`absolute inset-0 ${isActive ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'} transition-opacity duration-500`}>
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+        </div>
+        
+        {isEditing && (
+          <button onClick={(e) => { e.stopPropagation(); if (confirm("이 프로젝트를 삭제하시겠습니까?")) { setProjects(projects.filter(p => p.id !== project.id)); }}}
+            className="absolute top-4 right-4 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+            <X className="w-4 h-4" />
+          </button>
+        )}
+
+        <div className={`relative z-10 transition-all duration-500 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 lg:opacity-100 lg:translate-y-0'}`}>
+          <div className="bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit mb-4">
+            <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+          </div>
+          <h3 className={`font-bold text-white mb-2 ${isActive ? 'text-2xl lg:text-3xl' : 'text-xl'} line-clamp-2`}>
+            <EditableText value={project.title} onSave={(v) => { const p = [...projects]; p[idx].title = v; setProjects(p); }} isEditing={isEditing} />
+          </h3>
+          
+          {isActive && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-4">
+              <p className="text-zinc-300 line-clamp-2 mb-6 text-sm lg:text-base">
+                <EditableText value={project.description} onSave={(v) => { const p = [...projects]; p[idx].description = v; setProjects(p); }} isEditing={isEditing} multiline />
+              </p>
+              <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }}
+                className="px-6 py-3 bg-white text-[#2C2C2C] font-bold text-xs tracking-widest hover:bg-[#800020] hover:text-white transition-colors flex items-center gap-2 rounded-full uppercase w-fit">
+                기획서 보기 <ArrowRight className="w-4 h-4" />
+              </button>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div whileHover={{ scale: 1.02 }} className="group relative bg-[#111] border border-[#1e1e1e] rounded-xl overflow-hidden hover:border-[#2e2e2e] hover:shadow-xl transition-all duration-300 flex flex-col">
+      {isEditing && (
+        <button onClick={(e) => { e.stopPropagation(); if (confirm("삭제하시겠습니까?")) { setProjects(projects.filter(p => p.id !== project.id)); }}}
+          className="absolute top-4 right-4 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+          <X className="w-4 h-4" />
+        </button>
+      )}
+      <div className="overflow-hidden relative bg-[#111] shrink-0 aspect-[16/10] border-b border-[#1e1e1e]">
+        <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 absolute inset-0" referrerPolicy="no-referrer" />
+        <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-3 py-1 text-[10px] font-sans font-bold text-[#e8e4dc] tracking-tight shadow-sm">
+          <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+        </div>
+      </div>
+      <div className="flex-1 flex flex-col justify-between p-8">
+        <div>
+          <h3 className="text-xl font-bold mb-3 text-[#e8e4dc] group-hover:text-[#800020] transition-colors line-clamp-1">
+            <EditableText value={project.title} onSave={(v) => { const p = [...projects]; p[idx].title = v; setProjects(p); }} isEditing={isEditing} />
+          </h3>
+          <p className="text-[#888] text-sm leading-relaxed mb-6 line-clamp-2">
+            <EditableText value={project.description} onSave={(v) => { const p = [...projects]; p[idx].description = v; setProjects(p); }} isEditing={isEditing} multiline />
+          </p>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {project.tags.slice(0, 3).map((tag, tagIdx) => (
+              <span key={tagIdx} className="text-[10px] font-sans font-bold px-2 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md text-[#888] flex items-center gap-1">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+        <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }}
+          className="w-full py-4 bg-[#e8e4dc] text-[#0a0a0a] font-bold text-xs tracking-widest hover:bg-[#800020] hover:text-white transition-colors flex items-center justify-center gap-2 uppercase rounded-xl">
+          기획서 보기 <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+// --- Projects ---
 const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, setView }: { onProjectClick: (p: Project) => void, isEditing: boolean, projects: Project[], setProjects: (p: Project[]) => void, limit?: number, setView?: (v: any) => void }) => {
+  const [featuredId, setFeaturedId] = useState<number | null>(null);
+  const actualFeaturedId = featuredId || (projects[0] ? projects[0].id : null);
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
 
   return (
-    <section id="projects" className="py-32 px-6 bg-white/[0.01]">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
-          <div>
-            <div className="inline-block px-4 py-1 rounded-lg bg-zinc-800/20 text-zinc-400 text-xs font-bold mb-6">02_PROJECTS</div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">주요 프로젝트.</h2>
-          </div>
-          <p className="text-slate-500 max-w-md text-lg font-medium">
-            부트캠프 및 개인 연구를 통해 개발한 게임 컨셉과 프로토타입 결과물입니다.
+    <section id="projects" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="text-center mb-16">
+          <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-6 block">02. Projects</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">주요 프로젝트.</h2>
+          <p className="text-[#888] text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
+            시스템 기획 및 레벨 디자인, 프로토타입 개발 결과물입니다.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayedProjects.map((project, idx) => (
-            <motion.div 
-              key={project.id}
-              whileHover={{ y: -10 }}
-              className="group relative flex flex-col glass rounded-[2rem] overflow-hidden transition-all duration-500"
-            >
-              {isEditing && (
-                <button 
-                  onClick={() => {
-                    if (confirm("이 프로젝트를 삭제하시겠습니까?")) {
-                      const newProjects = projects.filter(p => p.id !== project.id);
-                      setProjects(newProjects);
-                    }
-                  }}
-                  className="absolute top-4 right-4 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
-                  title="삭제"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-              <div className="aspect-[16/10] overflow-hidden relative">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                />
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-40`}></div>
-                <div className="absolute top-4 left-4 glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
-                  <EditableText 
-                    value={project.category} 
-                    onSave={(v) => {
-                      const newProjects = [...projects];
-                      newProjects[idx].category = v;
-                      setProjects(newProjects);
-                    }} 
-                    isEditing={isEditing} 
-                  />
-                </div>
-              </div>
-              
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-zinc-300 transition-colors">
-                  <EditableText 
-                    value={project.title} 
-                    onSave={(v) => {
-                      const newProjects = [...projects];
-                      newProjects[idx].title = v;
-                      setProjects(newProjects);
-                    }} 
-                    isEditing={isEditing} 
-                  />
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-1">
-                  <EditableText 
-                    value={project.description} 
-                    onSave={(v) => {
-                      const newProjects = [...projects];
-                      newProjects[idx].description = v;
-                      setProjects(newProjects);
-                    }} 
-                    isEditing={isEditing} 
-                    multiline
-                  />
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {project.tags.map((tag, tagIdx) => (
-                    <span key={tagIdx} className="text-[10px] font-bold px-3 py-1 bg-white/5 border border-white/10 rounded-full text-slate-500 flex items-center gap-1">
-                      #<EditableText 
-                        value={tag} 
-                        onSave={(v) => {
-                          const newProjects = [...projects];
-                          newProjects[idx].tags[tagIdx] = v;
-                          setProjects(newProjects);
-                        }} 
-                        isEditing={isEditing} 
-                      />
-                      {isEditing && (
-                        <button 
-                          onClick={() => {
-                            const newProjects = [...projects];
-                            newProjects[idx].tags.splice(tagIdx, 1);
-                            setProjects(newProjects);
-                          }}
-                          className="hover:text-red-400 transition-colors"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      )}
-                    </span>
-                  ))}
-                  {isEditing && (
-                    <button 
-                      onClick={() => {
-                        const newProjects = [...projects];
-                        newProjects[idx].tags.push("새태그");
-                        setProjects(newProjects);
-                      }}
-                      className="text-[10px] font-bold px-3 py-1 bg-zinc-700/20 border border-zinc-600/30 rounded-full text-zinc-300 hover:bg-zinc-700/30 transition-all"
-                    >
-                      + 태그 추가
-                    </button>
-                  )}
-                </div>
-                
-                <button 
-                  onClick={() => onProjectClick(project)}
-                  className="w-full py-4 glass rounded-2xl text-sm font-bold flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-black transition-all"
-                >
-                  상세보기 <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {limit ? (
+          <div className="flex flex-col lg:flex-row gap-4 h-auto lg:h-[600px]">
+            {displayedProjects.map((project, idx) => {
+              const isActive = project.id === actualFeaturedId;
+              return (
+                <motion.div key={project.id} layout onClick={() => setFeaturedId(project.id)}
+                  className={`relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-700 ease-in-out border border-[#1e1e1e] hover:border-[#2e2e2e] shadow-sm hover:shadow-xl flex flex-col bg-[#111] ${
+                    isActive ? 'lg:grow-[3] lg:basis-0 h-[500px] lg:h-full' : 'lg:grow-[1] lg:basis-0 h-[150px] lg:h-full'
+                  }`}>
+                  <ProjectCard project={project} idx={idx} isEditing={isEditing} projects={projects} setProjects={setProjects} onProjectClick={onProjectClick} layout={isActive ? 'accordion-active' : 'accordion-inactive'} />
+                </motion.div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, idx) => (
+              <ProjectCard key={project.id} project={project} idx={idx} isEditing={isEditing} projects={projects} setProjects={setProjects} onProjectClick={onProjectClick} layout="default" />
+            ))}
+          </div>
+        )}
 
-        {limit && projects.length > limit && setView && (
+        {limit && setView && (
           <div className="mt-16 text-center">
-            <button 
-              onClick={() => setView('all-projects')}
-              className="px-8 py-4 glass rounded-2xl font-bold hover:bg-white hover:text-black transition-all flex items-center gap-2 mx-auto"
-            >
-              더보기 <Plus className="w-5 h-5" />
+            <button onClick={() => setView('portfolio')}
+              className="px-10 py-5 bg-[#e8e4dc] text-[#0a0a0a] font-bold inline-flex items-center gap-3 hover:bg-[#800020] hover:text-white transition-all duration-500 text-sm tracking-widest rounded-full uppercase shadow-xl hover:shadow-2xl hover:-translate-y-1">
+              전체 포트폴리오 보기 <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -955,97 +774,45 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
   );
 };
 
+// --- Portfolio ---
 const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView }: { onProjectClick: (p: Project) => void, isEditing: boolean, projects: Project[], setProjects: (p: Project[]) => void, setView: (v: any) => void }) => {
   const categories = Array.from(new Set(projects.map(p => p.category)));
-
   return (
-    <motion.section 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="pt-32 pb-24 px-6 max-w-7xl mx-auto"
-    >
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="py-[120px] px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
         <div>
-          <button 
-            onClick={() => setView('home')}
-            className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 돌아가기
+          <button onClick={() => setView('home')} className="flex items-center gap-2 text-[#888] hover:text-[#800020] transition-colors mb-6 group font-sans tracking-tight text-sm uppercase font-bold">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Return to Home
           </button>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">포트폴리오 갤러리.</h2>
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-[#888] font-mono text-sm uppercase tracking-widest font-bold">DOC. 02</span>
+            <div className="w-12 h-px bg-[#2a2a2a]"></div>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight">포트폴리오 갤러리.</h2>
         </div>
       </div>
-
       <div className="space-y-24">
         {categories.map(category => (
           <div key={category}>
-            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
-              <Sparkles className="w-6 h-6 text-zinc-300" /> {category}
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-[#e8e4dc] border-b border-[#1e1e1e] pb-4">
+              <FileText className="w-5 h-5 text-[#800020]" /> {category}
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.filter(p => p.category === category).map((project, idx) => (
-                <motion.div 
-                  key={project.id}
-                  whileHover={{ y: -10 }}
-                  className="group relative flex flex-col glass rounded-[2rem] overflow-hidden transition-all duration-500"
-                >
-                  {isEditing && (
-                    <button 
-                      onClick={() => {
-                        if (confirm("이 포트폴리오 항목을 삭제하시겠습니까?")) {
-                          const newProjects = projects.filter(p => p.id !== project.id);
-                          setProjects(newProjects);
-                        }
-                      }}
-                      className="absolute top-4 right-4 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg"
-                      title="삭제"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  <div className="aspect-[16/10] overflow-hidden relative">
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-40`}></div>
+                <motion.div key={project.id} whileHover={{ y: -4 }} className="group relative flex flex-col bg-[#111] border border-[#1e1e1e] rounded-xl overflow-hidden hover:border-[#2e2e2e] hover:shadow-md transition-all duration-300">
+                  <div className="aspect-[16/10] overflow-hidden relative border-b border-[#1e1e1e] bg-[#111]">
+                    <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" referrerPolicy="no-referrer" />
                   </div>
-                  
                   <div className="p-8 flex-1 flex flex-col">
-                    <h4 className="text-xl font-bold mb-4 group-hover:text-zinc-300 transition-colors">
-                      <EditableText 
-                        value={project.title} 
-                        onSave={(v) => {
-                          const newProjects = [...projects];
-                          const pIdx = newProjects.findIndex(p => p.id === project.id);
-                          newProjects[pIdx].title = v;
-                          setProjects(newProjects);
-                        }} 
-                        isEditing={isEditing} 
-                      />
+                    <h4 className="text-xl font-bold mb-3 text-[#e8e4dc] group-hover:text-[#800020] transition-colors">
+                      <EditableText value={project.title} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }} isEditing={isEditing} />
                     </h4>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-1">
-                      <EditableText 
-                        value={project.description} 
-                        onSave={(v) => {
-                          const newProjects = [...projects];
-                          const pIdx = newProjects.findIndex(p => p.id === project.id);
-                          newProjects[pIdx].description = v;
-                          setProjects(newProjects);
-                        }} 
-                        isEditing={isEditing} 
-                        multiline
-                      />
+                    <p className="text-[#888] text-sm leading-relaxed mb-8 flex-1">
+                      <EditableText value={project.description} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} multiline />
                     </p>
-                    
-                    <button 
-                      onClick={() => onProjectClick(project)}
-                      className="w-full py-4 glass rounded-2xl text-sm font-bold flex items-center justify-center gap-2 group-hover:bg-white group-hover:text-black transition-all"
-                    >
-                      상세보기 <ArrowUpRight className="w-4 h-4" />
+                    <button onClick={() => onProjectClick(project)}
+                      className="w-full py-4 bg-[#e8e4dc] text-[#0a0a0a] font-bold text-xs tracking-widest hover:bg-[#800020] hover:text-white transition-colors flex items-center justify-center gap-2 uppercase rounded-xl">
+                      자세히 보기 <ArrowUpRight className="w-4 h-4" />
                     </button>
                   </div>
                 </motion.div>
@@ -1058,6 +825,7 @@ const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView }
   );
 };
 
+// --- ICON_OPTIONS ---
 const ICON_OPTIONS = [
   { name: 'Cpu', icon: <Cpu className="w-5 h-5" /> },
   { name: 'Layers', icon: <Layers className="w-5 h-5" /> },
@@ -1067,122 +835,62 @@ const ICON_OPTIONS = [
   { name: 'Zap', icon: <Zap className="w-5 h-5" /> },
   { name: 'Monitor', icon: <Monitor className="w-5 h-5" /> },
   { name: 'Smartphone', icon: <Smartphone className="w-5 h-5" /> },
-  { name: 'Gamepad2', icon: <Gamepad2 className="w-5 h-5" /> },
+  { name: 'Gamepad2', icon: <Sparkles className="w-5 h-5" /> },
   { name: 'Wrench', icon: <Wrench className="w-5 h-5" /> }
 ];
 
+// --- Skills ---
 const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: Skill[], setSkills: (s: Skill[]) => void }) => {
   const [showIconPicker, setShowIconPicker] = useState<number | null>(null);
 
   return (
-    <section id="skills" className="py-32 px-6 max-w-7xl mx-auto">
-      <div className="max-w-3xl">
-        <div className="flex items-center justify-between mb-10">
-          <div>
-            <div className="inline-block px-4 py-1 rounded-lg bg-zinc-800/20 text-zinc-400 text-xs font-bold mb-6">03_SKILLS</div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">핵심 역량.</h2>
-          </div>
-          {isEditing && (
-            <button 
-              onClick={() => {
-                const newSkill: Skill = { name: "새 역량", level: 50, icon: <Cpu className="w-5 h-5" />, caption: "역량에 대한 설명을 입력하세요" };
-                setSkills([...skills, newSkill]);
-              }}
-              className="px-4 py-2 bg-zinc-800 text-white text-sm font-bold rounded-xl hover:bg-zinc-700 transition-all flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" /> 역량 추가
-            </button>
-          )}
+    <section id="skills" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      <div className="max-w-6xl mx-auto w-full relative z-10">
+        <div className="text-center mb-16">
+          <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-6 block">03. Skills</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">핵심 역량.</h2>
         </div>
-        <div className="space-y-10">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, idx) => (
-            <div key={idx} className="relative group/skill">
+            <div key={idx} className="relative group/skill flex flex-col gap-6 bg-[#111] border border-[#1e1e1e] rounded-3xl p-8 hover:border-[#800020]/40 hover:-translate-y-1 transition-all duration-500">
               {isEditing && (
-                <button 
-                  onClick={() => {
-                    const newSkills = [...skills];
-                    newSkills.splice(idx, 1);
-                    setSkills(newSkills);
-                  }}
-                  className="absolute -left-12 top-1/2 -translate-y-1/2 p-2 text-red-500 opacity-0 group-hover/skill:opacity-100 transition-all hover:bg-red-500/10 rounded-lg"
-                  title="삭제"
-                >
-                  <X className="w-5 h-5" />
+                <button onClick={() => { const s = [...skills]; s.splice(idx, 1); setSkills(s); }}
+                  className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-sm z-10" title="삭제">
+                  <X className="w-3 h-3" />
                 </button>
               )}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div 
-                    className={`w-10 h-10 glass rounded-xl flex items-center justify-center text-zinc-300 ${isEditing ? 'cursor-pointer hover:bg-white/10' : ''}`}
-                    onClick={() => isEditing && setShowIconPicker(showIconPicker === idx ? null : idx)}
-                  >
-                    {skill.icon}
-                  </div>
-                  {isEditing && showIconPicker === idx && (
-                    <div className="absolute top-12 left-0 z-30 glass p-3 rounded-2xl grid grid-cols-5 gap-2 shadow-2xl">
-                      {ICON_OPTIONS.map((opt) => (
-                        <button 
-                          key={opt.name}
-                          onClick={() => {
-                            const newSkills = [...skills];
-                            newSkills[idx].icon = opt.icon;
-                            setSkills(newSkills);
-                            setShowIconPicker(null);
-                          }}
-                          className="p-2 hover:bg-white/10 rounded-lg transition-colors text-zinc-300"
-                        >
-                          {opt.icon}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                  <span className="font-bold text-lg">
-                    <EditableText 
-                      value={skill.name} 
-                      onSave={(v) => {
-                        const newSkills = [...skills];
-                        newSkills[idx].name = v;
-                        setSkills(newSkills);
-                      }} 
-                      isEditing={isEditing} 
-                    />
-                  </span>
+              
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 bg-[#1a1a1a] rounded-2xl flex items-center justify-center text-[#e8e4dc] shrink-0 border border-[#2a2a2a] group-hover/skill:bg-[#800020] group-hover/skill:border-[#800020] group-hover/skill:text-white transition-colors duration-500`}>
+                  {skill.icon}
                 </div>
-                <div className="flex items-center gap-6">
-                  <span className="text-xs text-slate-500 bg-white/5 px-3 py-1 rounded-lg border border-white/10 italic">
-                    <EditableText 
-                      value={skill.caption || ""} 
-                      onSave={(v) => {
-                        const newSkills = [...skills];
-                        newSkills[idx].caption = v;
-                        setSkills(newSkills);
-                      }} 
-                      isEditing={isEditing} 
-                    />
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm text-slate-500">
-                      <EditableText 
-                        value={skill.level.toString()} 
-                        onSave={(v) => {
-                          const newSkills = [...skills];
-                          newSkills[idx].level = parseInt(v) || 0;
-                          setSkills(newSkills);
-                        }} 
-                        isEditing={isEditing} 
-                      />%
-                    </span>
-                  </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-[#e8e4dc] truncate">
+                    <EditableText value={skill.name} onSave={(v) => { const s = [...skills]; s[idx].name = v; setSkills(s); }} isEditing={isEditing} />
+                  </h3>
+                  <p className="text-sm font-medium text-[#888] mt-1 truncate">
+                    <EditableText value={skill.caption || ""} onSave={(v) => { const s = [...skills]; s[idx].caption = v; setSkills(s); }} isEditing={isEditing} />
+                  </p>
                 </div>
               </div>
-              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.level}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
-                />
+              
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-[#555] tracking-widest uppercase">Proficiency</span>
+                  <span className="text-sm font-bold text-[#e8e4dc]">{skill.level}%</span>
+                </div>
+                <div className="h-2 w-full bg-[#1a1a1a] rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.level}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="h-full bg-[#e8e4dc] group-hover/skill:bg-[#800020] transition-colors duration-500 rounded-full"
+                  />
+                </div>
               </div>
             </div>
           ))}
@@ -1192,210 +900,97 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
   );
 };
 
-const PlayHistory = ({ isEditing, history, setHistory }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void }) => (
-  <section id="play-history" className="py-32 px-6 max-w-7xl mx-auto border-t border-white/5">
-    <div className="inline-block px-4 py-1 rounded-lg bg-zinc-800/20 text-zinc-400 text-xs font-bold mb-6">04_PLAY_HISTORY</div>
-    <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight">게임 플레이 이력.</h2>
-    
-    <div className="grid md:grid-cols-3 gap-8">
-      {/* Online */}
-      <div className="bento-card !p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3 text-zinc-300">
-            <Monitor className="w-6 h-6" />
-            <span className="font-bold uppercase tracking-wider">Online Games</span>
+// --- PlayHistory ---
+const PlayHistory = ({ isEditing, history, setHistory }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const renderCategory = (title: string, icon: React.ReactNode, dataKey: keyof GameHistory) => {
+    const items = history[dataKey];
+    const displayItems = isExpanded || isEditing ? items : items.slice(0, 2);
+    const hiddenCount = items.length - 2;
+
+    return (
+      <div className="group flex flex-col bg-[#111] border border-[#1e1e1e] rounded-3xl p-8 hover:border-[#800020]/40 hover:-translate-y-1 transition-all duration-500 h-full">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#1e1e1e]">
+          <div className="flex items-center gap-4 text-[#e8e4dc]">
+            <div className="w-12 h-12 bg-[#1a1a1a] rounded-2xl flex items-center justify-center text-[#e8e4dc] border border-[#2a2a2a] group-hover:bg-[#800020] group-hover:border-[#800020] group-hover:text-white transition-colors duration-500">
+              {icon}
+            </div>
+            <span className="font-bold tracking-tight text-xl">{title}</span>
           </div>
           {isEditing && (
-            <button 
-              onClick={() => {
-                const newHistory = {...history};
-                newHistory.online.push({ id: Date.now().toString(), name: "새 게임", hours: 0 });
-                setHistory(newHistory);
-              }}
-              className="p-1.5 glass rounded-lg text-zinc-300 hover:bg-white/10"
-            >
+            <button onClick={() => { const h = {...history}; h[dataKey].push({ id: Date.now().toString(), name: "새 항목", hours: 0 }); setHistory(h); }}
+              className="p-2 bg-[#1a1a1a] border border-[#2a2a2a] text-[#888] hover:bg-[#2a2a2a] transition-colors rounded-full">
               <Plus className="w-4 h-4" />
             </button>
           )}
         </div>
-        <div className="space-y-4">
-          {history.online.map((game, idx) => (
-            <div key={game.id} className="flex justify-between items-center group">
+        <div className="space-y-6 flex-1">
+          {displayItems.map((game, idx) => (
+            <div key={game.id} className="group/item flex flex-col gap-1 p-3 -mx-3 rounded-2xl hover:bg-[#1a1a1a] transition-colors">
               <div className="flex items-center gap-2">
                 {isEditing && (
-                  <button 
-                    onClick={() => {
-                      const newHistory = {...history};
-                      newHistory.online.splice(idx, 1);
-                      setHistory(newHistory);
-                    }}
-                    className="text-slate-600 hover:text-red-400 transition-colors"
-                  >
+                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="text-[#555] hover:text-red-500 transition-colors">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 )}
-                <span className="text-slate-300 font-medium">
-                  <EditableText 
-                    value={game.name} 
-                    onSave={(v) => {
-                      const newHistory = {...history};
-                      newHistory.online[idx].name = v;
-                      setHistory(newHistory);
-                    }} 
-                    isEditing={isEditing} 
-                  />
+                <span className="text-[#e8e4dc] font-bold text-lg truncate">
+                  <EditableText value={game.name} onSave={(v) => { const h = {...history}; h[dataKey][idx].name = v; setHistory(h); }} isEditing={isEditing} />
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 text-slate-500 font-mono text-sm">
+              <div className="flex items-center gap-1.5 text-[#888] font-mono text-sm ml-5">
                 <Clock className="w-3.5 h-3.5" /> 
-                <EditableText 
-                  value={game.hours.toString()} 
-                  onSave={(v) => {
-                    const newHistory = {...history};
-                    newHistory.online[idx].hours = parseInt(v) || 0;
-                    setHistory(newHistory);
-                  }} 
-                  isEditing={isEditing} 
-                />h
+                <span className="flex items-center">
+                  <EditableText value={game.hours.toString()} onSave={(v) => { const h = {...history}; h[dataKey][idx].hours = parseInt(v) || 0; setHistory(h); }} isEditing={isEditing} />
+                  <span className="ml-1">HOURS PLAYED</span>
+                </span>
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Mobile */}
-      <div className="bento-card !p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3 text-zinc-400">
-            <Smartphone className="w-6 h-6" />
-            <span className="font-bold uppercase tracking-wider">Mobile Games</span>
-          </div>
-          {isEditing && (
-            <button 
-              onClick={() => {
-                const newHistory = {...history};
-                newHistory.mobile.push({ id: Date.now().toString(), name: "새 게임", hours: 0 });
-                setHistory(newHistory);
-              }}
-              className="p-1.5 glass rounded-lg text-zinc-400 hover:bg-white/10"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
+          {!isExpanded && hiddenCount > 0 && !isEditing && (
+            <div className="pt-4 mt-4 border-t border-dashed border-[#2a2a2a] text-center">
+              <span className="text-xs font-bold text-[#555] tracking-widest uppercase">+ {hiddenCount} More Entries</span>
+            </div>
           )}
         </div>
-        <div className="space-y-4">
-          {history.mobile.map((game, idx) => (
-            <div key={game.id} className="flex justify-between items-center group">
-              <div className="flex items-center gap-2">
-                {isEditing && (
-                  <button 
-                    onClick={() => {
-                      const newHistory = {...history};
-                      newHistory.mobile.splice(idx, 1);
-                      setHistory(newHistory);
-                    }}
-                    className="text-slate-600 hover:text-red-400 transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-                <span className="text-slate-300 font-medium">
-                  <EditableText 
-                    value={game.name} 
-                    onSave={(v) => {
-                      const newHistory = {...history};
-                      newHistory.mobile[idx].name = v;
-                      setHistory(newHistory);
-                    }} 
-                    isEditing={isEditing} 
-                  />
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-slate-500 font-mono text-sm">
-                <Clock className="w-3.5 h-3.5" /> 
-                <EditableText 
-                  value={game.hours.toString()} 
-                  onSave={(v) => {
-                    const newHistory = {...history};
-                    newHistory.mobile[idx].hours = parseInt(v) || 0;
-                    setHistory(newHistory);
-                  }} 
-                  isEditing={isEditing} 
-                />h
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
+    );
+  };
 
-      {/* Package */}
-      <div className="bento-card !p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3 text-orange-400">
-            <PackageIcon className="w-6 h-6" />
-            <span className="font-bold uppercase tracking-wider">Package Games</span>
+  return (
+    <section id="play-history" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+      
+      <div className="max-w-6xl mx-auto w-full relative z-10">
+        <div className="text-center mb-16">
+          <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-6 block">04. Play History</span>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-tight mb-8">툴 사용 이력.</h2>
+          <div className="flex flex-col items-center gap-6">
+            <p className="text-[#888] text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
+              기획 및 개발 과정에서 활용한 다양한 툴과 환경에 대한 <br className="hidden md:block" />
+              경험을 수치화하여 보여줍니다.
+            </p>
+            {!isEditing && (
+              <button onClick={() => setIsExpanded(!isExpanded)}
+                className="px-6 py-3 bg-[#1a1a1a] text-[#888] rounded-full text-sm font-bold hover:bg-[#2a2a2a] transition-all flex items-center gap-2 shadow-sm tracking-widest uppercase border border-[#2a2a2a]">
+                {isExpanded ? '접기' : '자세히 보기'} 
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+              </button>
+            )}
           </div>
-          {isEditing && (
-            <button 
-              onClick={() => {
-                const newHistory = {...history};
-                newHistory.package.push({ id: Date.now().toString(), name: "새 게임", hours: 0 });
-                setHistory(newHistory);
-              }}
-              className="p-1.5 glass rounded-lg text-orange-400 hover:bg-white/10"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          )}
         </div>
-        <div className="space-y-4">
-          {history.package.map((game, idx) => (
-            <div key={game.id} className="flex justify-between items-center group">
-              <div className="flex items-center gap-2">
-                {isEditing && (
-                  <button 
-                    onClick={() => {
-                      const newHistory = {...history};
-                      newHistory.package.splice(idx, 1);
-                      setHistory(newHistory);
-                    }}
-                    className="text-slate-600 hover:text-red-400 transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-                <span className="text-slate-300 font-medium">
-                  <EditableText 
-                    value={game.name} 
-                    onSave={(v) => {
-                      const newHistory = {...history};
-                      newHistory.package[idx].name = v;
-                      setHistory(newHistory);
-                    }} 
-                    isEditing={isEditing} 
-                  />
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-slate-500 font-mono text-sm">
-                <Clock className="w-3.5 h-3.5" /> 
-                <EditableText 
-                  value={game.hours.toString()} 
-                  onSave={(v) => {
-                    const newHistory = {...history};
-                    newHistory.package[idx].hours = parseInt(v) || 0;
-                    setHistory(newHistory);
-                  }} 
-                  isEditing={isEditing} 
-                />h
-              </div>
-            </div>
-          ))}
+        
+        <div className="grid md:grid-cols-3 gap-6">
+          {renderCategory("협업 도구", <Monitor className="w-6 h-6" />, "online")}
+          {renderCategory("데이터 분석", <Smartphone className="w-6 h-6" />, "mobile")}
+          {renderCategory("엔진 / 개발", <Gamepad2 className="w-6 h-6" />, "package")}
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
+// --- Resume ---
 interface ResumeProps {
   setView: (v: 'home' | 'resume' | 'project-detail') => void;
   isEditing: boolean;
@@ -1404,267 +999,114 @@ interface ResumeProps {
 }
 
 const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
-  const handleDownload = () => {
-    window.print();
-  };
+  const handleDownload = () => { window.print(); };
 
   return (
-    <motion.section 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      className="pt-32 pb-24 px-6 max-w-5xl mx-auto print:pt-0 print:pb-0 print:max-w-none"
-    >
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+      className="py-[120px] px-6 md:px-12 max-w-5xl mx-auto print:pt-0 print:pb-0 print:max-w-none">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 print:hidden">
-        <button 
-          onClick={() => setView('home')}
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
-        >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 돌아가기
+        <button onClick={() => setView('home')} className="flex items-center gap-2 text-[#888] hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm">
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
         </button>
-        <motion.button 
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleDownload}
-          className="px-6 py-3 glass rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white/10 transition-all"
-        >
-          <ScrollText className="w-4 h-4 text-zinc-300" /> PDF 이력서 다운로드
+        <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={handleDownload}
+          className="px-8 py-4 bg-[#111] border border-[#1e1e1e] rounded-xl text-[#e8e4dc] font-bold flex items-center justify-center gap-3 hover:border-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto">
+          <ScrollText className="w-4 h-4 text-[#800020]" /> PDF 다운로드
         </motion.button>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-12 print:grid-cols-3">
+      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 print:grid-cols-3">
         {/* Sidebar */}
-        <div className="md:col-span-1 space-y-12">
-          <div className="text-center md:text-left">
-            <div className="w-32 h-32 rounded-3xl overflow-hidden mb-6 mx-auto md:mx-0 border border-white/10 shadow-2xl shadow-black/20 print:shadow-none">
-              <img src="https://picsum.photos/seed/profile/300/300" alt="Profile" className="w-full h-full object-cover" />
+        <div className="lg:col-span-4 space-y-12 lg:sticky lg:top-24 self-start">
+          <div className="text-center lg:text-left">
+            <div className="w-40 h-40 rounded-3xl overflow-hidden mb-8 mx-auto lg:mx-0 border border-[#1e1e1e] shadow-sm print:shadow-none">
+              <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
             </div>
-            <h1 className="text-3xl font-bold mb-2 print:text-black">
-              <EditableText 
-                value={data.name} 
-                onSave={(v) => setData({...data, name: v})} 
-                isEditing={isEditing} 
-              />
+            <h1 className="text-4xl font-display font-bold mb-3 text-[#e8e4dc] tracking-tight">
+              <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
             </h1>
-            <p className="text-zinc-300 font-medium mb-6 print:text-zinc-300">
-              <EditableText 
-                value={data.role} 
-                onSave={(v) => setData({...data, role: v})} 
-                isEditing={isEditing} 
-              />
+            <p className="text-[#800020] font-bold mb-8 font-mono tracking-widest text-sm uppercase">
+              <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
             </p>
-            <div className="space-y-4 text-sm text-slate-400 print:text-slate-600">
-              <div className="flex items-center gap-3 justify-center md:justify-start">
-                <div className="w-8 h-8 glass rounded-lg flex items-center justify-center text-slate-500 print:border print:border-slate-200">
-                  <Mail className="w-4 h-4" />
+            <div className="space-y-4 text-sm text-[#888] font-medium">
+              {[
+                { icon: <Mail className="w-4 h-4" />, field: 'email' },
+                { icon: <Linkedin className="w-4 h-4" />, field: 'linkedin' },
+                { icon: <Github className="w-4 h-4" />, field: 'github' },
+              ].map(({ icon, field }) => (
+                <div key={field} className="flex items-center gap-4 justify-center lg:justify-start">
+                  <div className="w-10 h-10 bg-[#1a1a1a] rounded-xl flex items-center justify-center text-[#888] border border-[#2a2a2a]">{icon}</div>
+                  <span><EditableText value={(data as any)[field]} onSave={(v) => setData({...data, [field]: v})} isEditing={isEditing} /></span>
                 </div>
-                <span>
-                  <EditableText 
-                    value={data.email} 
-                    onSave={(v) => setData({...data, email: v})} 
-                    isEditing={isEditing} 
-                  />
-                </span>
-              </div>
-              <div className="flex items-center gap-3 justify-center md:justify-start">
-                <div className="w-8 h-8 glass rounded-lg flex items-center justify-center text-slate-500 print:border print:border-slate-200">
-                  <Linkedin className="w-4 h-4" />
-                </div>
-                <span>
-                  <EditableText 
-                    value={data.linkedin} 
-                    onSave={(v) => setData({...data, linkedin: v})} 
-                    isEditing={isEditing} 
-                  />
-                </span>
-              </div>
-              <div className="flex items-center gap-3 justify-center md:justify-start">
-                <div className="w-8 h-8 glass rounded-lg flex items-center justify-center text-slate-500 print:border print:border-slate-200">
-                  <Github className="w-4 h-4" />
-                </div>
-                <span>
-                  <EditableText 
-                    value={data.github} 
-                    onSave={(v) => setData({...data, github: v})} 
-                    isEditing={isEditing} 
-                  />
-                </span>
-              </div>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             <div>
-              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 flex items-center gap-2 print:text-slate-800">
-                <Wrench className="w-4 h-4" /> 기술 스택
-              </h3>
-              <div className="space-y-4">
+              <h3 className="text-xs font-bold text-[#555] tracking-widest uppercase mb-6 flex items-center gap-2"><Wrench className="w-4 h-4" /> 기술 스택</h3>
+              <div className="space-y-6">
                 <div>
-                  <p className="text-[10px] font-bold text-slate-600 uppercase mb-2">Engines & Languages</p>
+                  <p className="text-[10px] font-bold text-[#555] uppercase mb-3">기획 및 문서화</p>
                   <div className="flex flex-wrap gap-2">
-                    {['Unity', 'UE5', 'C#', 'C++', 'Blueprints'].map(tool => (
-                      <span key={tool} className="px-3 py-1.5 glass rounded-lg text-xs font-medium text-slate-300 print:text-slate-700 print:border print:border-slate-200">{tool}</span>
+                    {['Excel', 'Notion', 'Jira', 'Confluence', 'Figma'].map(tool => (
+                      <span key={tool} className="px-4 py-2 bg-[#1a1a1a] rounded-xl text-xs font-bold text-[#888] border border-[#2a2a2a]">{tool}</span>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-slate-600 uppercase mb-2">Design Tools</p>
+                  <p className="text-[10px] font-bold text-[#555] uppercase mb-3">엔진 및 개발</p>
                   <div className="flex flex-wrap gap-2">
-                    {['Excel', 'Python', 'Jira', 'Figma', 'Confluence'].map(tool => (
-                      <span key={tool} className="px-3 py-1.5 glass rounded-lg text-xs font-medium text-slate-300 print:text-slate-700 print:border print:border-slate-200">{tool}</span>
+                    {['UE5', 'Unity', 'C#', 'Git'].map(tool => (
+                      <span key={tool} className="px-4 py-2 bg-[#1a1a1a] rounded-xl text-xs font-bold text-[#888] border border-[#2a2a2a]">{tool}</span>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
-
             <div>
-              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 flex items-center gap-2 print:text-slate-800">
-                <Zap className="w-4 h-4" /> 핵심 역량
-              </h3>
-              <ul className="space-y-3 text-sm text-slate-400 print:text-slate-600">
-                <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mt-1.5 shrink-0"></div>
-                  <span>수치 기반의 밸런싱 시뮬레이션</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mt-1.5 shrink-0"></div>
-                  <span>논리적인 시스템 구조 설계</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 mt-1.5 shrink-0"></div>
-                  <span>플레이어 심리 분석 및 UX 설계</span>
-                </li>
+              <h3 className="text-xs font-bold text-[#555] tracking-widest uppercase mb-6 flex items-center gap-2"><Zap className="w-4 h-4" /> 핵심 역량</h3>
+              <ul className="space-y-4 text-sm text-[#888] font-medium">
+                {["데이터 기반의 시스템 설계 및 밸런싱", "플레이어 동선 및 레벨 디자인", "명확하고 직관적인 GDD 작성"].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <div className="w-2 h-2 rounded-full bg-[#800020] mt-1.5 shrink-0"></div>
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="md:col-span-2 space-y-16">
+        <div className="lg:col-span-8 space-y-8">
           {/* Summary */}
-          <section>
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-3 print:text-black">
-              <User className="text-zinc-300 w-6 h-6" /> 자기소개
-            </h3>
-            <p className="text-slate-400 leading-relaxed font-medium print:text-slate-700">
-              <EditableText 
-                value={data.summary} 
-                onSave={(v) => setData({...data, summary: v})} 
-                isEditing={isEditing} 
-                multiline
-              />
+          <section className="bg-[#111] rounded-3xl p-8 lg:p-12 shadow-sm border border-[#1e1e1e]">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-[#e8e4dc]"><User className="w-6 h-6" /> 자기소개</h3>
+            <p className="text-[#888] leading-relaxed font-medium">
+              <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} multiline />
             </p>
           </section>
 
           {/* Education */}
-          <section>
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-xl font-bold flex items-center gap-3 print:text-black">
-                <GraduationCap className="text-zinc-400 w-6 h-6" /> 학력 및 교육
-              </h3>
-              {isEditing && (
-                <button 
-                  onClick={() => {
-                    const newEdu = [...data.education];
-                    newEdu.push({ title: "새 교육", period: "기간", description: "설명", details: [] });
-                    setData({...data, education: newEdu});
-                  }}
-                  className="p-2 glass rounded-xl text-zinc-400 hover:bg-white/10 transition-all flex items-center gap-2 text-xs font-bold"
-                >
-                  <Plus className="w-4 h-4" /> 교육 추가
-                </button>
-              )}
-            </div>
+          <section className="bg-[#111] rounded-3xl p-8 lg:p-12 shadow-sm border border-[#1e1e1e]">
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#e8e4dc]"><GraduationCap className="w-6 h-6" /> 학력 및 교육</h3>
             <div className="space-y-10">
               {data.education.map((edu, idx) => (
-                <div key={idx} className="relative pl-8 border-l border-white/10 print:border-slate-200">
-                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] print:shadow-none"></div>
-                  {isEditing && (
-                    <button 
-                      onClick={() => {
-                        const newEdu = [...data.education];
-                        newEdu.splice(idx, 1);
-                        setData({...data, education: newEdu});
-                      }}
-                      className="absolute -left-10 top-0 p-1 text-slate-600 hover:text-red-400 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
+                <div key={idx} className="relative pl-8 border-l-2 border-[#2a2a2a]">
+                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#555]"></div>
                   <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-lg print:text-black">
-                      <EditableText 
-                        value={edu.title} 
-                        onSave={(v) => {
-                          const newEdu = [...data.education];
-                          newEdu[idx].title = v;
-                          setData({...data, education: newEdu});
-                        }} 
-                        isEditing={isEditing} 
-                      />
+                    <h4 className="font-bold text-lg text-[#e8e4dc]">
+                      <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
                     </h4>
-                    <span className="text-xs font-mono text-slate-500">
-                      <EditableText 
-                        value={edu.period} 
-                        onSave={(v) => {
-                          const newEdu = [...data.education];
-                          newEdu[idx].period = v;
-                          setData({...data, education: newEdu});
-                        }} 
-                        isEditing={isEditing} 
-                      />
+                    <span className="text-xs font-sans text-[#888]">
+                      <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 leading-relaxed mb-4 print:text-slate-600">
-                    <EditableText 
-                      value={edu.description} 
-                      onSave={(v) => {
-                        const newEdu = [...data.education];
-                        newEdu[idx].description = v;
-                        setData({...data, education: newEdu});
-                      }} 
-                      isEditing={isEditing} 
-                    />
+                  <p className="text-sm text-[#888] leading-relaxed mb-4">
+                    <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} />
                   </p>
-                  <ul className="text-xs text-slate-500 space-y-2 list-disc list-inside print:text-slate-500">
-                    {edu.details.map((detail, dIdx) => (
-                      <li key={dIdx} className="group flex items-center gap-2">
-                        <EditableText 
-                          value={detail} 
-                          onSave={(v) => {
-                            const newEdu = [...data.education];
-                            newEdu[idx].details[dIdx] = v;
-                            setData({...data, education: newEdu});
-                          }} 
-                          isEditing={isEditing} 
-                        />
-                        {isEditing && (
-                          <button 
-                            onClick={() => {
-                              const newEdu = [...data.education];
-                              newEdu[idx].details.splice(dIdx, 1);
-                              setData({...data, education: newEdu});
-                            }}
-                            className="opacity-0 group-hover:opacity-100 text-slate-600 hover:text-red-400 transition-all"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        )}
-                      </li>
-                    ))}
-                    {isEditing && (
-                      <button 
-                        onClick={() => {
-                          const newEdu = [...data.education];
-                          newEdu[idx].details.push("새 상세 내용");
-                          setData({...data, education: newEdu});
-                        }}
-                        className="text-[10px] text-zinc-300 hover:text-zinc-300 transition-colors flex items-center gap-1"
-                      >
-                        <Plus className="w-3 h-3" /> 항목 추가
-                      </button>
-                    )}
+                  <ul className="text-xs text-[#888] space-y-2 list-disc list-inside">
+                    {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
                   </ul>
                 </div>
               ))}
@@ -1672,113 +1114,25 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
           </section>
 
           {/* Experience */}
-          <section>
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-xl font-bold flex items-center gap-3 print:text-black">
-                <Briefcase className="text-zinc-400 w-6 h-6" /> 프로젝트 경험
-              </h3>
-              {isEditing && (
-                <button 
-                  onClick={() => {
-                    const newExp = [...data.experience];
-                    newExp.push({ title: "새 프로젝트", period: "기간", description: "설명", details: [] });
-                    setData({...data, experience: newExp});
-                  }}
-                  className="p-2 glass rounded-xl text-zinc-400 hover:bg-white/10 transition-all flex items-center gap-2 text-xs font-bold"
-                >
-                  <Plus className="w-4 h-4" /> 프로젝트 추가
-                </button>
-              )}
-            </div>
+          <section className="bg-[#111] rounded-3xl p-8 lg:p-12 shadow-sm border border-[#1e1e1e]">
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#e8e4dc]"><Briefcase className="text-[#800020] w-6 h-6" /> 프로젝트 경험</h3>
             <div className="space-y-10">
               {data.experience.map((exp, idx) => (
-                <div key={idx} className="relative pl-8 border-l border-white/10 print:border-slate-200">
-                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)] print:shadow-none"></div>
-                  {isEditing && (
-                    <button 
-                      onClick={() => {
-                        const newExp = [...data.experience];
-                        newExp.splice(idx, 1);
-                        setData({...data, experience: newExp});
-                      }}
-                      className="absolute -left-10 top-0 p-1 text-slate-600 hover:text-red-400 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
+                <div key={idx} className="relative pl-8 border-l-2 border-[#2a2a2a]">
+                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#800020]"></div>
                   <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-lg print:text-black">
-                      <EditableText 
-                        value={exp.title} 
-                        onSave={(v) => {
-                          const newExp = [...data.experience];
-                          newExp[idx].title = v;
-                          setData({...data, experience: newExp});
-                        }} 
-                        isEditing={isEditing} 
-                      />
+                    <h4 className="font-bold text-lg text-[#e8e4dc]">
+                      <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                     </h4>
-                    <span className="text-xs font-mono text-slate-500">
-                      <EditableText 
-                        value={exp.period} 
-                        onSave={(v) => {
-                          const newExp = [...data.experience];
-                          newExp[idx].period = v;
-                          setData({...data, experience: newExp});
-                        }} 
-                        isEditing={isEditing} 
-                      />
+                    <span className="text-xs font-sans text-[#888]">
+                      <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 mb-4 print:text-slate-600">
-                    <EditableText 
-                      value={exp.description} 
-                      onSave={(v) => {
-                        const newExp = [...data.experience];
-                        newExp[idx].description = v;
-                        setData({...data, experience: newExp});
-                      }} 
-                      isEditing={isEditing} 
-                    />
+                  <p className="text-sm text-[#888] mb-4">
+                    <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                   </p>
-                  <ul className="text-xs text-slate-500 space-y-2 list-disc list-inside print:text-slate-500">
-                    {exp.details.map((detail, dIdx) => (
-                      <li key={dIdx} className="group flex items-center gap-2">
-                        <EditableText 
-                          value={detail} 
-                          onSave={(v) => {
-                            const newExp = [...data.experience];
-                            newExp[idx].details[dIdx] = v;
-                            setData({...data, experience: newExp});
-                          }} 
-                          isEditing={isEditing} 
-                        />
-                        {isEditing && (
-                          <button 
-                            onClick={() => {
-                              const newExp = [...data.experience];
-                              newExp[idx].details.splice(dIdx, 1);
-                              setData({...data, experience: newExp});
-                            }}
-                            className="opacity-0 group-hover:opacity-100 text-slate-600 hover:text-red-400 transition-all"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        )}
-                      </li>
-                    ))}
-                    {isEditing && (
-                      <button 
-                        onClick={() => {
-                          const newExp = [...data.experience];
-                          newExp[idx].details.push("새 상세 내용");
-                          setData({...data, experience: newExp});
-                        }}
-                        className="text-[10px] text-zinc-300 hover:text-zinc-300 transition-colors flex items-center gap-1"
-                      >
-                        <Plus className="w-3 h-3" /> 항목 추가
-                      </button>
-                    )}
+                  <ul className="text-xs text-[#888] space-y-2 list-disc list-inside">
+                    {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
                   </ul>
                 </div>
               ))}
@@ -1786,238 +1140,260 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
           </section>
 
           {/* Awards */}
-          <section>
-            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 print:text-black">
-              <Award className="text-zinc-400 w-6 h-6" /> 자격 및 수상
-            </h3>
+          <section className="bg-[#111] rounded-3xl p-8 lg:p-12 shadow-sm border border-[#1e1e1e]">
+            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#e8e4dc]"><Award className="text-[#800020] w-6 h-6" /> 자격 및 수상</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {data.awards.map((award, idx) => (
-                <div key={idx} className="p-5 glass rounded-2xl border-l-4 border-pink-500/50 print:border-slate-200 print:text-black">
-                  <h4 className="font-bold text-sm mb-1">
-                    <EditableText 
-                      value={award.title} 
-                      onSave={(v) => {
-                        const newAwards = [...data.awards];
-                        newAwards[idx].title = v;
-                        setData({...data, awards: newAwards});
-                      }} 
-                      isEditing={isEditing} 
-                    />
+                <div key={idx} className="p-5 bg-[#1a1a1a] rounded-2xl border-l-4 border-l-[#800020]">
+                  <h4 className="font-bold text-sm mb-1 text-[#e8e4dc]">
+                    <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
                   </h4>
-                  <p className="text-xs text-slate-500">
-                    <EditableText 
-                      value={award.organization} 
-                      onSave={(v) => {
-                        const newAwards = [...data.awards];
-                        newAwards[idx].organization = v;
-                        setData({...data, awards: newAwards});
-                      }} 
-                      isEditing={isEditing} 
-                    /> // <EditableText 
-                      value={award.year} 
-                      onSave={(v) => {
-                        const newAwards = [...data.awards];
-                        newAwards[idx].year = v;
-                        setData({...data, awards: newAwards});
-                      }} 
-                      isEditing={isEditing} 
-                    />
-                  </p>
+                  <p className="text-xs text-[#888]">{award.organization} // {award.year}</p>
                 </div>
               ))}
             </div>
           </section>
+        </div>
+      </div>
 
-          {/* Self Introduction */}
-          <section className="pt-8 border-t border-white/5 print:border-slate-200">
-            <h3 className="text-xl font-bold mb-8 flex items-center gap-3 print:text-black">
-              <ScrollText className="text-zinc-300 w-6 h-6" /> 자기소개서
-            </h3>
-            <div className="glass rounded-[2rem] p-8 md:p-12 markdown-body print:p-0 print:glass-none print:bg-transparent">
-              {isEditing ? (
-                <textarea
-                  className="w-full h-[400px] bg-white/5 border border-white/20 rounded-2xl p-6 text-white font-mono text-sm focus:outline-none focus:border-zinc-600"
-                  value={data.selfIntroduction}
-                  onChange={(e) => setData({...data, selfIntroduction: e.target.value})}
-                />
-              ) : (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {data.selfIntroduction}
-                </ReactMarkdown>
+      {/* Self Introduction */}
+      <div className="mt-24 pt-24 border-t border-[#1e1e1e]">
+        <div className="flex items-center gap-4 mb-12">
+          <span className="text-[#888] font-mono text-sm uppercase tracking-widest font-bold">Cover Letter</span>
+          <div className="w-12 h-px bg-[#2a2a2a]"></div>
+          <h3 className="text-3xl font-display font-bold text-[#e8e4dc]">자기소개서</h3>
+        </div>
+        
+        {data.selfIntroductions ? (
+          <div className="flex flex-col gap-8">
+            {data.selfIntroductions.map((intro, idx) => (
+              <div key={idx} className="bg-[#111] rounded-3xl p-8 md:p-12 relative overflow-hidden group border border-[#1e1e1e]">
+                {isEditing && (
+                  <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
+                    className="absolute top-6 right-6 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+                <div className="absolute -right-10 -top-10 text-[150px] font-display font-bold text-white/[0.02] select-none pointer-events-none transition-transform duration-700 group-hover:scale-110">
+                  {String(idx + 1).padStart(2, '0')}
+                </div>
+                <div className="relative z-10">
+                  <div className="flex flex-col md:flex-row md:items-start gap-6 mb-8">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-[#1a1a1a] flex items-center justify-center shadow-sm text-[#800020] font-display font-bold text-xl border border-[#2a2a2a]">
+                      {String(idx + 1).padStart(2, '0')}
+                    </div>
+                    <h4 className="text-2xl md:text-3xl font-bold text-[#e8e4dc] leading-snug tracking-tight pt-2">
+                      <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
+                    </h4>
+                  </div>
+                  <div className="text-[#888] leading-loose text-base md:text-lg bg-[#0a0a0a] p-8 md:p-10 rounded-2xl border border-[#1e1e1e]">
+                    {isEditing ? (
+                      <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
+                    ) : (
+                      <div className="markdown-body">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{intro.content}</ReactMarkdown>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {isEditing && (
+              <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
+                className="flex flex-col items-center justify-center border-2 border-dashed border-[#2a2a2a] bg-[#111] hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-3xl">
+                <Plus className="w-8 h-8 text-[#555] mb-2" />
+                <span className="text-[#888] font-bold">새 자기소개 항목 추가</span>
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="bento-card p-8 md:p-12 markdown-body">
+            {isEditing ? (
+              <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
+                value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
+            ) : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.selfIntroduction || ''}</ReactMarkdown>
+            )}
+          </div>
+        )}
+      </div>
+    </motion.section>
+  );
+};
+
+// --- Contact ---
+const Contact = () => (
+  <section id="contact" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    
+    <div className="max-w-4xl mx-auto w-full text-center relative z-10">
+      <span className="text-[#800020] font-mono text-sm uppercase tracking-widest font-bold mb-8 block">05. Contact</span>
+      <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tighter text-[#e8e4dc] leading-[1.1] mb-8">
+        저는 <br/><span className="text-[#555]">준비되었습니다.</span>
+      </h2>
+      <p className="text-[#888] text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+        새로운 프로젝트나 협업 제안은 언제나 환영입니다. <br className="hidden md:block" />
+        아래 이메일로 연락 주시면 빠르게 답변 드리겠습니다.
+      </p>
+      
+      <a href="mailto:kh980624@naver.com" 
+        className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#e8e4dc] text-[#0a0a0a] font-bold hover:bg-[#800020] hover:text-white transition-all duration-500 shadow-xl hover:shadow-2xl hover:-translate-y-1 tracking-widest text-sm rounded-full uppercase overflow-hidden relative">
+        <span className="relative z-10 flex items-center gap-3">
+          <Mail className="w-5 h-5" /> 이메일 보내기
+        </span>
+      </a>
+    </div>
+  </section>
+);
+
+// --- Footer ---
+const Footer = () => (
+  <footer className="py-12 px-6 md:px-12 text-center bg-[#0a0a0a]">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 border-t border-[#1e1e1e] pt-8">
+      <div className="flex items-center gap-2">
+        <div className="w-6 h-6 bg-[#e8e4dc] flex items-center justify-center rounded-md">
+          <FileText className="text-[#0a0a0a] w-3 h-3" />
+        </div>
+        <span className="font-bold text-[#888] font-sans">지망생 조경환</span>
+      </div>
+      <p className="text-[#555] text-xs font-mono uppercase tracking-widest">© 2026 GAME DESIGNER PORTFOLIO. All rights reserved.</p>
+    </div>
+  </footer>
+);
+
+// --- RightRail (Dot Navigation) ---
+const RightRail = ({ view, onNavClick, activeSection }: { view: string, onNavClick: (id: string) => void, activeSection: string }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sections = [
+    { id: 'about', label: '01' },
+    { id: 'projects', label: '02' },
+    { id: 'skills', label: '03' },
+    { id: 'play-history', label: '04' },
+    { id: 'contact', label: '05' }
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => { setIsVisible(window.pageYOffset > 500); };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [view]);
+
+  const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+
+  return (
+    <>
+      {view === 'home' && (
+        <div className="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center gap-6">
+          <div className="w-px h-24 bg-[#2a2a2a]"></div>
+          <div className="flex flex-col gap-5">
+            {sections.map(section => {
+              const isActive = activeSection === section.id;
+              return (
+                <button key={section.id} onClick={() => onNavClick(section.id)} className="group relative flex items-center justify-center w-6 h-6" aria-label={`Scroll to ${section.id}`}>
+                  <div className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${isActive ? 'bg-[#800020] scale-150' : 'bg-[#555] group-hover:bg-[#888]'}`}></div>
+                  <span className={`absolute right-8 text-[10px] font-mono tracking-widest transition-all duration-300 ${isActive ? 'text-[#800020] font-bold opacity-100 translate-x-0' : 'text-[#555] opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`}>
+                    {section.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="w-px h-24 bg-[#2a2a2a]"></div>
+          <div className="absolute top-full mt-6">
+            <AnimatePresence>
+              {isVisible && (
+                <motion.button initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                  onClick={scrollToTop} className="group w-8 h-8 flex items-center justify-center border border-[#2a2a2a] bg-[#111] hover:bg-[#1a1a1a] hover:border-[#800020] transition-all" aria-label="Back to top">
+                  <ArrowUp className="w-3 h-3 text-[#888] group-hover:text-[#800020] group-hover:-translate-y-0.5 transition-all" />
+                </motion.button>
               )}
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+
+      <AnimatePresence>
+        {isVisible && (
+          <motion.button initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className={`fixed bottom-8 right-8 z-50 w-12 h-12 bg-[#111]/90 backdrop-blur-md border border-[#2a2a2a] rounded-xl flex items-center justify-center text-[#e8e4dc] hover:bg-[#1a1a1a] hover:border-[#800020] transition-all shadow-md ${view === 'home' ? 'xl:hidden' : ''}`}>
+            <ArrowUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+// --- ProjectDetail ---
+const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: { project: Project, onBack: () => void, isEditing: boolean, onSaveContent: (content: string) => void }) => {
+  const headings = project.content.match(/^##\s+(.*)/gm)?.map(h => h.replace(/^##\s+/, '')) || [];
+  const generateId = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-가-힣]/g, '');
+
+  return (
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="py-[120px] px-6 md:px-12 max-w-7xl mx-auto">
+      <button onClick={onBack} className="flex items-center gap-2 text-[#888] hover:text-[#800020] transition-colors mb-12 group font-sans text-sm">
+        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 프로젝트 목록으로 돌아가기
+      </button>
+
+      <div className="flex flex-col lg:flex-row gap-16">
+        <div className="hidden lg:block w-64 shrink-0">
+          <div className="sticky top-32">
+            <h4 className="text-xs font-bold text-[#555] uppercase tracking-widest mb-6 pb-4 border-b border-[#1e1e1e]">Table of Contents</h4>
+            <ul className="space-y-4 text-sm font-medium text-[#888]">
+              {headings.map((heading, idx) => (
+                <li key={idx}><a href={`#${generateId(heading)}`} className="hover:text-[#800020] transition-colors block leading-snug">{heading}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="mb-16">
+            <div className="aspect-[21/9] relative group mb-10 border border-[#1e1e1e] rounded-xl overflow-hidden bg-[#111]">
+              <img src={project.image} alt={project.title} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" referrerPolicy="no-referrer" />
             </div>
-          </section>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="bg-[#1a1a1a] border border-[#2a2a2a] px-3 py-1 rounded-md text-[10px] font-bold text-[#888] tracking-tight font-sans">{project.category}</span>
+              <div className="flex gap-2">
+                {project.tags.map(tag => (
+                  <span key={tag} className="text-[10px] font-bold px-3 py-1 bg-[#111] border border-[#1e1e1e] rounded-md text-[#888] font-sans">#{tag}</span>
+                ))}
+              </div>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#e8e4dc] leading-tight tracking-tight">{project.title}</h1>
+          </div>
+
+          <div className="markdown-body bg-[#111] border border-[#1e1e1e] rounded-xl p-8 md:p-16">
+            {isEditing ? (
+              <textarea className="w-full h-[600px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-md p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
+                value={project.content} onChange={(e) => onSaveContent(e.target.value)} />
+            ) : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]}
+                components={{
+                  h2: ({node, ...props}) => {
+                    const extractText = (children: any): string => {
+                      if (typeof children === 'string') return children;
+                      if (Array.isArray(children)) return children.map(extractText).join('');
+                      if (children?.props?.children) return extractText(children.props.children);
+                      return '';
+                    };
+                    const text = extractText(props.children);
+                    return <h2 id={generateId(text)} className="scroll-mt-32" {...props} />;
+                  }
+                }}>
+                {project.content}
+              </ReactMarkdown>
+            )}
+          </div>
         </div>
       </div>
     </motion.section>
   );
 };
 
-const Contact = () => (
-  <section id="contact" className="py-32 px-6 max-w-7xl mx-auto text-center">
-    <div className="inline-block px-4 py-1 rounded-lg bg-zinc-700/10 text-zinc-300 text-xs font-bold mb-6">04_CONTACT</div>
-    <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">함께 일하고 싶으신가요?</h2>
-    <p className="text-slate-400 text-lg mb-12 max-w-2xl mx-auto font-medium">
-      새로운 프로젝트나 협업 제안은 언제나 환영입니다. <br />
-      아래 이메일로 연락 주시면 빠르게 답변 드리겠습니다.
-    </p>
-    <a 
-      href="mailto:minho.dev@email.com" 
-      className="inline-flex items-center gap-3 px-10 py-5 bg-white text-black font-bold rounded-2xl hover:scale-105 transition-all shadow-2xl shadow-white/10"
-    >
-      <Mail className="w-5 h-5" /> 메일 보내기
-    </a>
-  </section>
-);
-
-const Footer = () => (
-  <footer className="py-16 px-6 text-center">
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 border-t border-white/5 pt-12">
-      <div className="flex items-center gap-2">
-        <div className="w-6 h-6 bg-slate-800 rounded flex items-center justify-center">
-          <Gamepad className="text-slate-400 w-4 h-4" />
-        </div>
-        <span className="font-bold text-slate-500">DESIGNER_LOG</span>
-      </div>
-      <p className="text-slate-600 text-sm font-medium">© 2026 게임 기획자 포트폴리오. All rights reserved.</p>
-      <div className="flex gap-6 text-slate-600 text-sm font-medium">
-        <a href="#" className="hover:text-white transition-colors">Privacy</a>
-        <a href="#" className="hover:text-white transition-colors">Terms</a>
-      </div>
-    </div>
-  </footer>
-);
-
-const BackToTop = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 500) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 glass rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-all shadow-2xl"
-        >
-          <ArrowUp className="w-6 h-6" />
-        </motion.button>
-      )}
-    </AnimatePresence>
-  );
-};
-
-const ImageModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => (
-  <AnimatePresence>
-    {isOpen && (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      >
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
-          className="relative max-w-5xl w-full glass rounded-[2.5rem] overflow-hidden p-2"
-          onClick={e => e.stopPropagation()}
-        >
-          <button 
-            onClick={onClose}
-            className="absolute top-6 right-6 z-10 w-10 h-10 glass rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-all"
-          >
-            <X className="w-6 h-6" />
-          </button>
-          <img 
-            src="https://ais-dev-pk434uciagywugueajrdik-352024962937.asia-northeast1.run.app/api/file/ais-dev-pk434uciagywugueajrdik-352024962937.asia-northeast1.run.app/attachments/0194b635-f09d-7901-831d-853488730870" 
-            alt="UI Reference" 
-            className="w-full h-auto rounded-[2rem]"
-            referrerPolicy="no-referrer"
-          />
-        </motion.div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-);
-
-const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: { project: Project, onBack: () => void, isEditing: boolean, onSaveContent: (content: string) => void }) => (
-  <motion.section 
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -20 }}
-    className="pt-32 pb-24 px-6 max-w-4xl mx-auto"
-  >
-    <button 
-      onClick={onBack}
-      className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-12 group"
-    >
-      <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 프로젝트 목록으로
-    </button>
-
-    <div className="glass rounded-[2.5rem] overflow-hidden mb-12">
-      <div className="aspect-[21/9] relative">
-        <img 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-full object-cover"
-          referrerPolicy="no-referrer"
-        />
-        <div className={`absolute inset-0 bg-gradient-to-t from-bg-main via-transparent to-transparent`}></div>
-        <div className="absolute bottom-8 left-8 right-8">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="glass px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider">
-              {project.category}
-            </span>
-            <div className="flex gap-2">
-              {project.tags.map(tag => (
-                <span key={tag} className="text-[10px] font-bold text-slate-400">#{tag}</span>
-              ))}
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white">{project.title}</h1>
-        </div>
-      </div>
-    </div>
-
-    <div className="glass rounded-[2rem] p-8 md:p-12 markdown-body">
-      {isEditing ? (
-        <textarea
-          className="w-full h-[600px] bg-white/5 border border-white/20 rounded-2xl p-6 text-white font-mono text-sm focus:outline-none focus:border-zinc-600"
-          value={project.content}
-          onChange={(e) => onSaveContent(e.target.value)}
-        />
-      ) : (
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {project.content}
-        </ReactMarkdown>
-      )}
-    </div>
-  </motion.section>
-);
-
+// --- Main App ---
 export default function App() {
   const [view, setView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects'>('home');
   const [prevView, setPrevView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects'>('home');
@@ -2029,7 +1405,32 @@ export default function App() {
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [scrollTarget, setScrollTarget] = useState<string | null>(null);
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (view === 'home') {
+        const sections = ['about', 'projects', 'skills', 'play-history', 'contact'];
+        let current = '';
+        for (const section of sections) {
+          const el = document.getElementById(section);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+              current = section;
+              break;
+            }
+          }
+        }
+        setActiveSection(current);
+      } else {
+        setActiveSection('');
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [view]);
 
   // --- Edit Mode Logic ---
   const [isEditing, setIsEditing] = useState(false);
@@ -2068,7 +1469,7 @@ export default function App() {
         setIsEditing(!isEditing);
         setInputSequence('');
         if (!isEditing) {
-          alert("관리자 모드가 활성화되었습니다. 내용을 클릭하여 수정하세요.");
+          alert("관리자 모드가 활성화되었습니다.");
         } else {
           alert("관리자 모드가 비활성화되었습니다.");
         }
@@ -2088,11 +1489,7 @@ export default function App() {
           const elementRect = el.getBoundingClientRect().top;
           const elementPosition = elementRect - bodyRect;
           const offsetPosition = elementPosition - offset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
           setScrollTarget(null);
         }
       }, 300);
@@ -2116,11 +1513,7 @@ export default function App() {
         const elementRect = el.getBoundingClientRect().top;
         const elementPosition = elementRect - bodyRect;
         const offsetPosition = elementPosition - offset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
       }
     }
   };
@@ -2131,142 +1524,67 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-zinc-700/30">
-      <Navbar 
-        setView={changeView} 
-        currentView={view} 
-        onNavClick={handleNavClick} 
-        isEditing={isEditing} 
-        setIsEditing={setIsEditing}
-      />
-      <main className="lg:pl-44 xl:pr-20">
+    <div className="min-h-screen selection:bg-[#800020]/20 flex flex-col relative">
+      {/* Global Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-bg-main">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(128,0,32,0.03),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(128,0,32,0.02),transparent_50%)]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#111]/30 rounded-full blur-[120px] mix-blend-lighten"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#111]/30 rounded-full blur-[120px] mix-blend-lighten"></div>
+      </div>
+
+      <Navbar setView={changeView} currentView={view} onNavClick={handleNavClick} isEditing={isEditing} setIsEditing={setIsEditing} activeSection={activeSection} />
+      <main className="flex-1 w-full min-w-0 relative z-10 transition-all duration-300">
         <AnimatePresence mode="wait">
           {view === 'home' && (
-            <motion.div 
-              key="home"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Hero 
-                onPortfolioClick={() => changeView('portfolio')} 
-                onResumeClick={() => changeView('resume')}
-                isEditing={isEditing}
-                content={heroContent}
-                setContent={setHeroContent}
-              />
-              <About 
-                isEditing={isEditing} 
-                content={aboutContent} 
-                setContent={setAboutContent} 
-              />
-              <Projects 
-                onProjectClick={handleProjectClick} 
-                isEditing={isEditing} 
-                projects={projectsData} 
-                setProjects={setProjectsData}
-                limit={3}
-                setView={changeView}
-              />
-              <Skills 
-                isEditing={isEditing} 
-                skills={skillsData} 
-                setSkills={setSkillsData} 
-              />
-              <PlayHistory 
-                isEditing={isEditing} 
-                history={historyData} 
-                setHistory={setHistoryData} 
-              />
+            <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <Hero onPortfolioClick={() => changeView('portfolio')} onResumeClick={() => changeView('resume')} isEditing={isEditing} content={heroContent} setContent={setHeroContent} />
+              <About isEditing={isEditing} content={aboutContent} setContent={setAboutContent} />
+              <Projects onProjectClick={handleProjectClick} isEditing={isEditing} projects={projectsData} setProjects={setProjectsData} limit={3} setView={changeView} />
+              <Skills isEditing={isEditing} skills={skillsData} setSkills={setSkillsData} />
+              <PlayHistory isEditing={isEditing} history={historyData} setHistory={setHistoryData} />
               <Contact />
             </motion.div>
           )}
 
           {view === 'resume' && (
-            <Resume 
-              key="resume"
-              setView={changeView} 
-              isEditing={isEditing} 
-              data={resumeData} 
-              setData={setResumeData} 
-            />
+            <Resume key="resume" setView={changeView} isEditing={isEditing} data={resumeData} setData={setResumeData} />
           )}
 
           {view === 'portfolio' && (
-            <Portfolio 
-              key="portfolio"
-              onProjectClick={handleProjectClick}
-              isEditing={isEditing}
-              projects={portfolioData}
-              setProjects={setPortfolioData}
-              setView={changeView}
-            />
-          )}
-
-          {view === 'all-projects' && (
-            <div key="all-projects" className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
-              <button 
-                onClick={() => changeView('home')}
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-12 group"
-              >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 돌아가기
-              </button>
-              <Projects 
-                onProjectClick={handleProjectClick} 
-                isEditing={isEditing} 
-                projects={projectsData} 
-                setProjects={setProjectsData}
-              />
-            </div>
+            <Portfolio key="portfolio" onProjectClick={handleProjectClick} isEditing={isEditing} projects={portfolioData} setProjects={setPortfolioData} setView={changeView} />
           )}
 
           {view === 'project-detail' && selectedProject && (
-            <ProjectDetail 
-              key="project-detail"
-              project={selectedProject} 
-              onBack={() => changeView(prevView === 'project-detail' ? 'home' : prevView)} 
-              isEditing={isEditing}
+            <ProjectDetail key="project-detail" project={selectedProject} onBack={() => changeView(prevView === 'project-detail' ? 'home' : prevView)} isEditing={isEditing}
               onSaveContent={(content) => {
-                const newProjects = [...projectsData];
-                const idx = newProjects.findIndex(p => p.id === selectedProject.id);
-                if (idx !== -1) {
-                  newProjects[idx].content = content;
-                  setProjectsData(newProjects);
-                  setSelectedProject({...selectedProject, content});
-                } else {
-                  // Check portfolio projects
-                  const newPortfolio = [...portfolioData];
-                  const pIdx = newPortfolio.findIndex(p => p.id === selectedProject.id);
-                  if (pIdx !== -1) {
-                    newPortfolio[pIdx].content = content;
-                    setPortfolioData(newPortfolio);
-                    setSelectedProject({...selectedProject, content});
-                  }
+                const np = [...projectsData];
+                const idx = np.findIndex(p => p.id === selectedProject.id);
+                if (idx !== -1) { np[idx].content = content; setProjectsData(np); setSelectedProject({...selectedProject, content}); }
+                else {
+                  const npp = [...portfolioData];
+                  const pIdx = npp.findIndex(p => p.id === selectedProject.id);
+                  if (pIdx !== -1) { npp[pIdx].content = content; setPortfolioData(npp); setSelectedProject({...selectedProject, content}); }
                 }
-              }}
-            />
+              }} />
           )}
         </AnimatePresence>
+        <Footer />
       </main>
-      <Footer />
-      <BackToTop />
-      <ImageModal isOpen={isImageModalOpen} onClose={() => setIsImageModalOpen(false)} />
+      <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />
       
       {isEditing && (
         <div className="fixed bottom-24 left-8 z-50 flex flex-col gap-2">
-          <div className="glass p-4 rounded-2xl flex items-center gap-3 border border-amber-500/30 shadow-2xl">
-            <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-black">
+          <div className="bg-[#111]/90 backdrop-blur-xl p-4 rounded-2xl flex items-center gap-3 border border-[#2a2a2a] shadow-xl">
+            <div className="w-10 h-10 bg-[#800020] rounded-xl flex items-center justify-center text-white">
               <Edit3 className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Admin Mode</p>
-              <p className="text-[10px] text-slate-400">내용을 클릭하여 직접 수정하세요. 자동 저장됩니다.</p>
+              <p className="text-xs font-bold text-[#e8e4dc] tracking-tight font-sans">ADMIN MODE</p>
+              <p className="text-[10px] text-[#888] font-sans">내용을 클릭하여 직접 수정하세요. 자동 저장됩니다.</p>
             </div>
-            <button 
-              onClick={() => setIsEditing(false)}
-              className="ml-4 p-2 hover:bg-white/5 rounded-lg transition-colors"
-            >
-              <Lock className="w-4 h-4 text-slate-500" />
+            <button onClick={() => setIsEditing(false)} className="ml-4 p-2 hover:bg-[#1a1a1a] rounded-xl transition-colors">
+              <Lock className="w-4 h-4 text-[#888]" />
             </button>
           </div>
         </div>
