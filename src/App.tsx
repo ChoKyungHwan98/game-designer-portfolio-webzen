@@ -1398,6 +1398,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
             </div>
           )}
         </div>
+      </div>
     </motion.section>
 
     {/* Off-screen PDF source (html2pdf.js captures this) */}
