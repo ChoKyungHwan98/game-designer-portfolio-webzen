@@ -1064,9 +1064,9 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         </motion.button>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 print:grid-cols-3">
+      <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 print:grid-cols-12 print:gap-12">
         {/* Sidebar */}
-        <div className="lg:col-span-4 space-y-12 lg:sticky lg:top-24 self-start">
+        <div className="lg:col-span-4 print:col-span-4 space-y-12 lg:sticky lg:top-24 self-start">
           <div className="text-center lg:text-left">
             <div className="w-40 h-40 rounded-3xl overflow-hidden mb-8 mx-auto lg:mx-0 border border-[#1e1e1e] shadow-sm print:shadow-none">
               <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
@@ -1140,7 +1140,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 print:col-span-8 space-y-8">
           {/* Summary */}
           <section className="bg-[#111] rounded-3xl p-8 lg:p-12 shadow-sm border border-[#1e1e1e]">
             <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-[#e8e4dc]"><User className="w-6 h-6" /> 자기소개</h3>
