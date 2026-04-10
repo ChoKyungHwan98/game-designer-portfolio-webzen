@@ -881,7 +881,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
 const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView }: { onProjectClick: (p: Project) => void, isEditing: boolean, projects: Project[], setProjects: (p: Project[]) => void, setView: (v: any) => void }) => {
   const categories = Array.from(new Set(projects.map(p => p.category)));
   return (
-    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="py-[120px] px-6 md:px-12 max-w-7xl mx-auto">
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
         <div>
           <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors mb-6 group font-sans tracking-tight text-sm uppercase font-bold">
@@ -1164,7 +1164,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
   return (
     <>
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="py-12 md:py-20 px-6 md:px-12 max-w-5xl mx-auto w-full">
+      className="pt-32 pb-12 md:pt-[160px] md:pb-20 px-6 md:px-12 max-w-5xl mx-auto w-full">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm">
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
@@ -1629,7 +1629,7 @@ const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: { project:
   const generateId = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-가-힣]/g, '');
 
   return (
-    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="py-[120px] px-6 md:px-12 max-w-7xl mx-auto">
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-7xl mx-auto">
       <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors mb-12 group font-sans text-sm tracking-tight font-bold">
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 프로젝트 목록으로 돌아가기
       </button>
@@ -1694,7 +1694,7 @@ const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: { project:
 const GameHistoryView = ({ setView }: { setView: (v: any) => void }) => {
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="py-[120px] px-6 md:px-12 max-w-5xl mx-auto flex flex-col min-h-screen">
+      className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-5xl mx-auto flex flex-col min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm font-bold uppercase">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
@@ -1794,13 +1794,13 @@ export default function App() {
   const [inputSequence, setInputSequence] = useState('');
 
   // --- Persistent Content ---
-  const [heroContent, setHeroContent] = useEditableContent({
+  const [heroContent, setHeroContent, heroLoaded] = useEditableContent({
     titleLine1: "기획 의도를 알고",
     titleLine2: "목차를 작성할 줄 아는 기획자",
-    description: "법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다. 플레이어의 경험을 치밀하게 설계하고, 흔들림 없는 시스템으로 구현하여 최고의 재미를 만들어냅니다."
+    description: "사용자의 경험을 논리적으로 설계하고, 명확한 문서화를 통해 팀의 비전을 구체화합니다. 데이터와 심리학을 기반으로 한 깊이 있는 기획을 지향합니다."
   }, 'hero_content');
 
-  const [aboutContent, setAboutContent] = useEditableContent({
+  const [aboutContent, setAboutContent, aboutLoaded] = useEditableContent({
     title: "논리와 감성의 균형으로",
     subtitle: "최고의 재미를 설계합니다.",
     p1: "게임이 '작동'하는 원리를 깊이 있게 학습했습니다. 단순한 아이디어를 넘어, 수치로 증명되는 밸런싱과 플레이어의 심리를 관통하는 내러티브 설계를 지향합니다.",
@@ -1812,11 +1812,13 @@ export default function App() {
     ]
   }, 'about_content');
 
-  const [projectsData, setProjectsData] = useEditableContent(PROJECTS, 'projects_data');
-  const [portfolioData, setPortfolioData] = useEditableContent(PORTFOLIO_PROJECTS, 'portfolio_data');
-  const [skillsData, setSkillsData] = useEditableContent(SKILLS, 'skills_data');
-  const [historyData, setHistoryData] = useEditableContent(GAME_HISTORY, 'history_data');
-  const [resumeData, setResumeData] = useEditableContent(RESUME_DATA, 'resume_data');
+  const [projectsData, setProjectsData, projectsLoaded] = useEditableContent(PROJECTS, 'projects_data');
+  const [portfolioData, setPortfolioData, portfolioLoaded] = useEditableContent(PORTFOLIO_PROJECTS, 'portfolio_data');
+  const [skillsData, setSkillsData, skillsLoaded] = useEditableContent(SKILLS, 'skills_data');
+  const [historyData, setHistoryData, historyLoaded] = useEditableContent(GAME_HISTORY, 'history_data');
+  const [resumeData, setResumeData, resumeLoaded] = useEditableContent(RESUME_DATA, 'resume_data');
+
+  const isDataLoaded = heroLoaded && aboutLoaded && projectsLoaded && portfolioLoaded && skillsLoaded && historyLoaded && resumeLoaded;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -1883,6 +1885,10 @@ export default function App() {
     setSelectedProject(project);
     changeView('project-detail');
   };
+
+  if (!isDataLoaded) {
+    return <div className="min-h-screen bg-[#F6F6F3] dark:bg-[#0a0a0a] flex items-center justify-center transition-colors duration-500" />;
+  }
 
   return (
     <div className="min-h-screen selection:bg-[#800020]/20 flex flex-col relative">
