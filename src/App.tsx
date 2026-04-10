@@ -1135,7 +1135,6 @@ interface ResumeProps {
 }
 
 const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
-  const [activeTab, setActiveTab] = React.useState<'overview' | 'experience' | 'coverletter'>('overview');
   const [isGeneratingPdf, setIsGeneratingPdf] = React.useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -1263,152 +1262,142 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         </div>
 
         {/* Main Content */}
-        <div className="lg:col-span-8 print:col-span-8">
+        <div className="lg:col-span-8 print:col-span-8 flex flex-col gap-10">
           
-          {/* Tabs for Web View */}
-          <div className="flex gap-4 border-b border-black/10 mb-8 print:hidden overflow-x-auto whitespace-nowrap">
-            <button onClick={() => setActiveTab('overview')} className={`pb-4 px-2 text-sm font-bold tracking-widest border-b-2 transition-all ${activeTab === 'overview' ? 'text-[#2C2C2C] border-[#800020]' : 'text-zinc-500 border-transparent hover:text-[#2C2C2C]'}`}>개요</button>
-            <button onClick={() => setActiveTab('experience')} className={`pb-4 px-2 text-sm font-bold tracking-widest border-b-2 transition-all ${activeTab === 'experience' ? 'text-[#2C2C2C] border-[#800020]' : 'text-zinc-500 border-transparent hover:text-[#2C2C2C]'}`}>경험</button>
-            <button onClick={() => setActiveTab('coverletter')} className={`pb-4 px-2 text-sm font-bold tracking-widest border-b-2 transition-all ${activeTab === 'coverletter' ? 'text-[#2C2C2C] border-[#800020]' : 'text-zinc-500 border-transparent hover:text-[#2C2C2C]'}`}>자기소개서</button>
-          </div>
-
-          <div className="space-y-6 print:space-y-4">
-            {/* TAB: OVERVIEW */}
-            <div className={`space-y-6 print:space-y-4 ${activeTab === 'overview' ? 'block' : 'hidden print:block'}`}>
+          {/* OVERVIEW & EXPERIENCE COMBINED SCROLL */}
+          <div className="space-y-10 print:space-y-6">
+              
               {/* Summary */}
-              <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 print:p-6 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-                <h3 className="text-xl font-bold mb-4 print:mb-3 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><User className="w-6 h-6" /> 자기소개</h3>
-                <div className="text-zinc-600 dark:text-[#888] print:text-[13px] print:leading-relaxed leading-relaxed font-medium">
+              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><User className="w-6 h-6 text-[#800020]" /> 소개</h3>
+                <div className="text-zinc-600 dark:text-[#888] leading-[1.8] font-medium text-[15px] print:text-[13px]">
                   <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                 </div>
               </section>
 
-          {/* Education */}
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 print:p-6 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-            <h3 className="text-xl font-bold mb-6 print:mb-4 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><GraduationCap className="w-6 h-6" /> 학력 및 교육</h3>
-            <div className="space-y-8 print:space-y-4">
-              {data.education.map((edu, idx) => (
-                <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
-                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300 dark:bg-[#555]"></div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-lg text-[#2C2C2C] dark:text-[#e8e4dc]">
-                      <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                    </h4>
-                    <span className="text-xs font-sans text-zinc-500 dark:text-[#888]">
-                      <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                    </span>
-                  </div>
-                  <div className="text-sm text-[#888] leading-relaxed mb-4">
-                    <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
-                  </div>
-                  <ul className="text-xs text-[#888] space-y-2 list-disc list-inside">
-                    {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
-                  </ul>
+              {/* Experience */}
+              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
+                <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Briefcase className="text-[#800020] w-6 h-6" /> 프로젝트 경험</h3>
+                <div className="space-y-10 pl-2">
+                  {data.experience.map((exp, idx) => (
+                    <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
+                      <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#800020]"></div>
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-bold text-xl md:text-2xl text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight">
+                          <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
+                        </h4>
+                        <span className="text-xs font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-white/5 border border-black/5 px-2 py-1 rounded-md shrink-0 whitespace-nowrap">
+                          <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
+                        </span>
+                      </div>
+                      <div className="text-[14px] md:text-[15px] font-bold text-[#800020] mb-4">
+                        <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
+                      </div>
+                      <ul className="text-sm text-zinc-600 dark:text-[#888] space-y-2 list-disc list-inside bg-zinc-50 dark:bg-[#1a1a1a] border border-black/5 dark:border-[#2a2a2a] p-4 md:p-6 rounded-xl leading-relaxed">
+                        {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-          
-          {/* Awards */}
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 print:p-6 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-            <h3 className="text-xl font-bold mb-6 print:mb-4 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Award className="text-[#800020] w-6 h-6" /> 자격 및 수상</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 print:gap-3">
-              {data.awards.map((award, idx) => (
-                <div key={idx} className="p-5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-2xl border-l-4 border-l-[#800020] border-y border-r border-black/5 dark:border-[#1e1e1e]">
-                  <h4 className="font-bold text-sm mb-1 text-[#2C2C2C] dark:text-[#e8e4dc]">
-                    <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
-                  </h4>
-                  <p className="text-xs text-zinc-500 dark:text-[#888]">{award.organization} // {award.year}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
+              </section>
 
-        {/* TAB: EXPERIENCE */}
-        <div className={activeTab === 'experience' ? 'block print:mt-12' : 'hidden print:block print:mt-12'}>
-          {/* Experience */}
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 print:p-6 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-            <h3 className="text-xl font-bold mb-6 print:mb-4 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Briefcase className="text-[#800020] w-6 h-6" /> 프로젝트 경험</h3>
-            <div className="space-y-8 print:space-y-4">
-              {data.experience.map((exp, idx) => (
-                <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
-                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#800020]"></div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-lg text-[#2C2C2C] dark:text-[#e8e4dc]">
-                      <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
-                    </h4>
-                    <span className="text-xs font-sans text-zinc-500 dark:text-[#888]">
-                      <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
-                    </span>
-                  </div>
-                  <div className="text-sm text-zinc-600 dark:text-[#888] mb-4">
-                    <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
-                  </div>
-                  <ul className="text-xs text-[#888] space-y-2 list-disc list-inside">
-                    {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
-                  </ul>
+              {/* Education */}
+              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
+                <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><GraduationCap className="w-6 h-6 text-[#800020]" /> 학력 및 교육</h3>
+                <div className="space-y-8 pl-2">
+                  {data.education.map((edu, idx) => (
+                    <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
+                      <div className="absolute -left-[5px] top-2.5 w-2 h-2 rounded-full bg-zinc-400"></div>
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-bold text-lg md:text-xl text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight">
+                          <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                        </h4>
+                        <span className="text-xs font-mono font-bold text-zinc-500 whitespace-nowrap">
+                          <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                        </span>
+                      </div>
+                      <div className="text-[14px] font-bold text-zinc-600 dark:text-[#888] mb-3">
+                        <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
+                      </div>
+                      <ul className="text-[13px] text-zinc-500 space-y-1 list-disc list-inside">
+                        {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        {/* TAB: COVER LETTER */}
-        <div className={activeTab === 'coverletter' ? 'block print:break-before-page' : 'hidden print:block print:break-before-page'}>
-          {/* Self Introduction */}
-          <div className="flex flex-col gap-2 mb-10 print:mb-6">
-            <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.25em] font-bold">자기소개서 전문</span>
-            <h3 className="text-3xl md:text-4xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.02em]">자기소개서</h3>
+              </section>
+              
+              {/* Awards */}
+              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Award className="text-[#800020] w-6 h-6" /> 자격 및 수상</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-3">
+                  {data.awards.map((award, idx) => (
+                    <div key={idx} className="p-5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-2xl border-l-4 border-l-[#800020] border-y border-r border-black/5 dark:border-[#1e1e1e]">
+                      <h4 className="font-bold text-[15px] mb-1 text-[#2C2C2C] dark:text-[#e8e4dc] truncate">
+                        <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
+                      </h4>
+                      <p className="text-xs text-zinc-500 dark:text-[#888] font-mono mt-1">{award.organization} <span className="opacity-40">|</span> {award.year}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
           </div>
-        
-        {data.selfIntroductions ? (
-          <div className="flex flex-col gap-10">
-            {data.selfIntroductions.map((intro, idx) => (
-              <div key={idx} className="relative group print:break-inside-avoid">
-                {isEditing && (
-                  <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
-                    className="absolute top-6 right-6 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
-                {/* Logline header */}
-                <div className="flex items-start gap-5 mb-6 print:mb-3">
-                  <div className="w-10 h-10 shrink-0 rounded-xl bg-[#800020]/10 flex items-center justify-center text-[#800020] font-mono font-bold text-sm border border-[#800020]/20">
-                    {String(idx + 1).padStart(2, '0')}
+        </div> {/* Main Content End */}
+      </div> {/* Top Grid End */}
+
+      {/* NEW FULL-WIDTH COVER LETTER SECTION */}
+      <div className="mt-20 pt-20 border-t border-black/10 dark:border-[#1e1e1e] print:break-before-page">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-[#800020] font-mono text-sm uppercase tracking-[0.25em] font-bold block mb-4">자기소개서 전문</span>
+            <h3 className="text-3xl md:text-5xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.03em]">기획의 이유.</h3>
+          </div>
+          
+          {data.selfIntroductions ? (
+            <div className="flex flex-col gap-12">
+              {data.selfIntroductions.map((intro, idx) => (
+                <div key={idx} className="relative group bg-white dark:bg-[#111] rounded-[2.5rem] p-8 md:p-16 shadow-lg shadow-black/5 border border-black/5 dark:border-[#1e1e1e] transition-all duration-500 print:shadow-none print:border-b print:rounded-none">
+                  {isEditing && (
+                    <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
+                      className="absolute top-8 right-8 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  {/* Category/Number Bubble */}
+                  <div className="inline-flex items-center justify-center bg-[#2C2C2C] dark:bg-white text-white dark:text-[#111] px-4 py-2 rounded-xl font-mono text-xs tracking-widest font-bold shadow-md shadow-black/10 mb-8 border border-white/10">
+                    CHAPTER {String(idx + 1).padStart(2, '0')}
                   </div>
-                  <h4 className="text-xl md:text-2xl font-bold text-[#2C2C2C] dark:text-[#e8e4dc] leading-snug tracking-[-0.01em] pt-1">
+                  
+                  {/* Logline header */}
+                  <h4 className="text-2xl md:text-3xl font-bold text-[#2C2C2C] dark:text-[#e8e4dc] leading-[1.3] tracking-[-0.02em] mb-10 pb-10 border-b border-black/5 dark:border-[#2a2a2a]">
                     <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
                   </h4>
+                  
+                  {/* Content body */}
+                  <div className="text-zinc-600 dark:text-[#555] leading-[2] md:leading-[2.2] text-[16px] md:text-[17px] font-medium [&_p]:mb-8 [&_strong]:text-[#800020] dark:[&_strong]:text-[#ff3b6b] [&_strong]:font-bold [&_ul]:mb-8 [&_li]:mb-3 [&_blockquote]:border-l-4 [&_blockquote]:border-[#800020] [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-zinc-50 dark:[&_blockquote]:bg-white/5 [&_blockquote]:py-4 [&_blockquote]:rounded-r-2xl">
+                    <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
+                  </div>
                 </div>
-                {/* Content body */}
-                <div className="ml-[60px] text-zinc-600 dark:text-[#999] leading-[2] text-[15px] md:text-base bg-white dark:bg-[#111] p-6 md:p-8 print:p-6 print:py-4 rounded-2xl border border-black/5 dark:border-[#1e1e1e] hover:border-black/10 dark:hover:border-[#2a2a2a] transition-colors shadow-sm">
-                  <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
-                </div>
-              </div>
-            ))}
-            {isEditing && (
-              <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
-                className="flex flex-col items-center justify-center border-2 border-dashed border-[#2a2a2a] bg-[#111] hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-3xl">
-                <Plus className="w-8 h-8 text-[#555] mb-2" />
-                <span className="text-[#888] font-bold">새 자기소개 항목 추가</span>
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="bento-card p-8 md:p-12 markdown-body">
-            {isEditing ? (
-              <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
-                value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
-            ) : (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.selfIntroduction || ''}</ReactMarkdown>
-            )}
-          </div>
-        )}
-        </div> {/* TAB: COVER LETTER */}
-        </div> {/* space-y-6 */}
-      </div> {/* Main Content */}
-      </div> {/* Grid */}
+              ))}
+              {isEditing && (
+                <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
+                  className="flex flex-col items-center justify-center border-2 border-dashed border-[#2a2a2a] bg-[#111] hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-[2.5rem]">
+                  <Plus className="w-8 h-8 text-[#555] mb-2" />
+                  <span className="text-[#888] font-bold">새 자기소개 항목 추가</span>
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="bento-card p-8 md:p-12 markdown-body max-w-3xl mx-auto">
+              {isEditing ? (
+                <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
+                  value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
+              ) : (
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.selfIntroduction || ''}</ReactMarkdown>
+              )}
+            </div>
+          )}
+        </div>
     </motion.section>
 
     {/* Off-screen PDF source (html2pdf.js captures this) */}
