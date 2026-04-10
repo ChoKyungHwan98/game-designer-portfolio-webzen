@@ -636,7 +636,7 @@ const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent 
 
 // --- About ---
 const About = ({ isEditing, content, setContent }: { isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="about" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     
     <div className="max-w-5xl mx-auto w-full relative z-10">
@@ -689,16 +689,16 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
 
         <div className={`relative z-10 transition-all duration-500 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 lg:opacity-100 lg:translate-y-0'}`}>
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <div className="bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit">
+            <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[11px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit">
               <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
             </div>
             {project.status && (
-              <div className={`px-3 py-1 text-[10px] font-sans font-bold tracking-tight rounded-md w-fit border ${project.status === '미출시' ? 'bg-zinc-800/80 text-zinc-300 border-zinc-700' : 'bg-[#800020]/90 text-white border-[#800020]'}`}>
+              <div className={`px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight rounded-md w-fit border backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-800/80 text-zinc-300 border-zinc-600' : 'bg-[#800020] text-white border-[#800020] shadow-lg shadow-[#800020]/30'}`}>
                 <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
               </div>
             )}
           </div>
-          <h3 className={`font-bold text-white mb-2 ${isActive ? 'text-2xl lg:text-3xl' : 'text-xl'} line-clamp-2`}>
+          <h3 className={`font-bold text-white mb-2 ${isActive ? 'text-2xl lg:text-3xl' : 'text-lg lg:text-xl'} line-clamp-2`}>
             <EditableText value={project.title} onSave={(v) => { const p = [...projects]; p[idx].title = v; setProjects(p); }} isEditing={isEditing} />
           </h3>
           
@@ -728,12 +728,12 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
       )}
       <div className="overflow-hidden relative bg-[#111] shrink-0 aspect-[16/10] border-b border-[#1e1e1e]">
         <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 absolute inset-0" referrerPolicy="no-referrer" />
-        <div className="absolute top-4 left-4 flex flex-col gap-2">
-          <div className="bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-3 py-1 text-[10px] font-sans font-bold text-[#e8e4dc] tracking-tight shadow-sm w-fit">
+        <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+          <div className="bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-3 py-1.5 text-[11px] font-sans font-bold text-[#e8e4dc] tracking-tight shadow-sm w-fit">
             <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
           </div>
           {project.status && (
-            <div className={`border rounded-md px-3 py-1 text-[10px] font-sans font-bold tracking-tight shadow-sm w-fit ${project.status === '미출시' ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800' : 'bg-[#800020]/90 text-white border-[#800020]'}`}>
+            <div className={`border rounded-md px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight shadow-sm w-fit backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-900/80 text-zinc-300 border-zinc-700' : 'bg-[#800020] text-white border-[#800020] shadow-lg shadow-[#800020]/30'}`}>
               <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
             </div>
           )}
@@ -771,7 +771,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
 
   return (
-    <section id="projects" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+    <section id="projects" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -893,7 +893,7 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
   const [showIconPicker, setShowIconPicker] = useState<number | null>(null);
 
   return (
-    <section id="skills" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+    <section id="skills" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="max-w-6xl mx-auto w-full relative z-10">
@@ -1008,7 +1008,7 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
   };
 
   return (
-    <section id="play-history" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+    <section id="play-history" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="max-w-6xl mx-auto w-full relative z-10">
@@ -1281,7 +1281,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
 // --- Contact ---
 const Contact = () => (
-  <section id="contact" className="py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
+  <section id="contact" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-[#1e1e1e] min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a] overflow-hidden">
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(128,0,32,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     
     <div className="max-w-4xl mx-auto w-full text-center relative z-10">
@@ -1522,7 +1522,7 @@ export default function App() {
           const el = document.getElementById(section);
           if (el) {
             const rect = el.getBoundingClientRect();
-            if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+            if (rect.top <= 200 && rect.bottom >= 200) {
               current = section;
               break;
             }
@@ -1590,7 +1590,7 @@ export default function App() {
       const timer = setTimeout(() => {
         const el = document.getElementById(scrollTarget);
         if (el) {
-          const offset = 80;
+          const offset = 64;
           const bodyRect = document.body.getBoundingClientRect().top;
           const elementRect = el.getBoundingClientRect().top;
           const elementPosition = elementRect - bodyRect;
@@ -1614,7 +1614,7 @@ export default function App() {
     } else {
       const el = document.getElementById(id);
       if (el) {
-        const offset = 80;
+        const offset = 64;
         const bodyRect = document.body.getBoundingClientRect().top;
         const elementRect = el.getBoundingClientRect().top;
         const elementPosition = elementRect - bodyRect;
