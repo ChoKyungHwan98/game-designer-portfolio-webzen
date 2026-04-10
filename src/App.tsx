@@ -57,6 +57,7 @@ interface Project {
   image: string;
   color: string;
   content: string;
+  status?: string;
 }
 
 interface Skill {
@@ -213,53 +214,36 @@ const RESUME_DATA: ResumeData = {
 const PROJECTS: Project[] = [
   {
     id: 1,
-    title: "네온 프로토콜 (Neon Protocol)",
+    title: "도로시아 (Dorothia)",
     category: "시스템 기획",
-    description: "모듈형 어빌리티 트리와 동적 경제 밸런싱에 중점을 둔 사이버펑크 테마의 RPG 시스템입니다. 핵심 루프와 진행 방식을 다루는 50페이지 분량의 기획서를 작성했습니다.",
-    tags: ["시스템 기획", "GDD 작성", "밸런싱"],
-    image: "https://picsum.photos/seed/cyberpunk/800/600",
+    description: "핵앤슬래시 방치형 RPG 시스템 기획 프로젝트입니다. 장비 합성, 4종 재화 경제 시스템 설계 및 500개 스테이지 구성을 담당했습니다.",
+    tags: ["방치형 RPG", "시스템 기획", "경제 밸런싱"],
+    image: "https://picsum.photos/seed/dorothia/800/600",
     color: "from-zinc-500/20 to-zinc-400/20",
-    content: `# 네온 프로토콜 (Neon Protocol) 시스템 기획서\n\n## 1. 문제 제기 및 기획 배경\n기존 사이버펑크 RPG의 스킬 트리는 고정된 루트를 따라가는 선형적 구조가 많아 플레이어의 자유도가 제한되었습니다.\n\n## 2. 기획 의도 (Planning Intent)\n플레이어에게 "성장의 즐거움"과 "선택의 중요성"을 동시에 전달하는 것을 목표로 합니다.\n\n## 3. 코어 루프 및 시스템 구조\n1. **해킹 (전투)**: 거대 기업의 메인프레임에 침투하여 적을 물리치고 자원 획득.\n2. **업그레이드 (성장)**: 획득한 자원으로 어빌리티 트리를 커스터마이징.\n3. **도전 (심화)**: 더 높은 난이도의 메인프레임에 도전.\n\n## 4. 핵심 메커니즘\n### 4.1 모듈형 어빌리티 트리\n- 100개 이상의 모듈을 조합하여 자신만의 전투 스타일을 구축합니다.\n\n### 4.2 동적 경제 시스템\n- 인플레이션 제어: 재화 소모처(Sink)를 다각화했습니다.\n\n## 5. 기대 효과\n- 높은 리플레이 가치\n- 커뮤니티 활성화\n- 안정적인 경제`
+    status: "구글플레이스토어 출시",
+    content: `# 도로시아 (Dorothia) 시스템 기획서\n\n## 1. 기획 개요\n핵앤슬래시 방치형 RPG 의 코어 시스템을 설계했습니다.\n\n## 2. 주요 설계 내용\n### 2.1 경제 시스템\n- 4종 재화 순환 구조 확립\n- 인플레이션 제어 및 싱크 설계\n\n### 2.2 장비 합성\n- 직관적인 합성 룰 및 상승 곡선 밸런싱\n\n### 2.3 스테이지\n- 500 스테이지의 레벨 디자인 및 난이도 스케일링`
   },
   {
     id: 2,
-    title: "잊혀진 첨탑 (The Forgotten Spire)",
-    category: "레벨 디자인",
-    description: "언리얼 엔진 5로 제작된 3D 플랫포머 레벨입니다. 수직적 구조, 조명을 활용한 플레이어 가이드, 환경 스토리텔링에 집중했습니다.",
-    tags: ["레벨 디자인", "UE5", "스토리텔링"],
-    image: "https://picsum.photos/seed/castle/800/600",
+    title: "Digreed",
+    category: "룰 기획",
+    description: "잠입 액션 로그라이트 게임의 전체 룰 및 시스템을 설계했습니다. 무기 교체 시스템과 맵 프리팹 구조를 기획했습니다.",
+    tags: ["로그라이트", "잠입 액션", "시스템 기획"],
+    image: "https://picsum.photos/seed/digreed/800/600",
     color: "from-emerald-500/20 to-teal-500/20",
-    content: `# 잊혀진 첨탑 (The Forgotten Spire) 레벨 디자인 기획서\n\n## 1. 기획 배경\n일반적인 3D 플랫포머에서 플레이어는 종종 길을 잃거나 다음 목표를 찾지 못해 피로감을 느낍니다.\n\n## 2. 기획 의도\n고대 문명의 유적을 탐험하는 신비로움과, 거대한 구조물을 등반하는 성취감을 전달합니다.\n\n## 3. 핵심 메커니즘\n### 3.1 수직적 동선 설계\n- 첨탑의 하층부에서 시작하여 최상층까지 도달하는 수직적 구조.\n\n### 3.2 시각적 가이드\n- 빛의 인도: 플레이어가 가야 할 방향에 강렬한 빛을 배치.\n\n## 4. 기대 효과\n- 몰입감 극대화\n- 성취감 부여`
+    status: "미출시",
+    content: `# Digreed 시스템 기획서\n\n## 1. 코어 루프 설계\n로그라이트 특유의 반복되는 도전과 성장 요소를 체계화했습니다.\n\n## 2. 주요 시스템\n### 2.1 무기 교체 시스템\n- 상황에 따른 무기 교체가 생존에 필수적인 메카닉으로 작용하도록 설계\n\n### 2.2 맵 프리팹 구조\n- 절차적 생성의 한계를 보완하는 수동 프리팹 블록화 기획`
   },
   {
     id: 3,
-    title: "택티컬 에코 (Tactical Echoes)",
-    category: "전투 기획",
-    description: "턴제 전략 프로토타입입니다. 유닛이 마지막 행동을 낮은 효율로 반복하는 독특한 '에코' 메커니즘을 설계했습니다.",
-    tags: ["전투 기획", "프로토타이핑", "전략"],
-    image: "https://picsum.photos/seed/strategy/800/600",
+    title: "침묵의 저택",
+    category: "레벨 디자인 & AI",
+    description: "메이플월드 플랫폼을 기반으로 한 술래잡기형 생존 공포 게임입니다. 유령 AI 행동 패턴과 시야 축소 메카닉을 기획했습니다.",
+    tags: ["공포 생존", "메이플월드", "시스템 설계"],
+    image: "https://picsum.photos/seed/silence/800/600",
     color: "from-orange-500/20 to-zinc-500/20",
-    content: `# 택티컬 에코 (Tactical Echoes) 전투 디자인\n\n## 1. 핵심 메커니즘: 에코(Echo)\n유닛이 턴을 종료할 때, 이전 턴에 수행한 행동을 50%의 위력으로 자동 반복합니다.\n\n## 2. 전략적 깊이\n에코는 유닛의 현재 위치가 아닌, '행동이 수행되었던 위치'에서 발생합니다.\n\n## 3. 밸런싱 전략\n에코 시스템이 너무 강력해지지 않도록 '에코 게이지'를 도입했습니다.`
-  },
-  {
-    id: 4,
-    title: "크로노 바운드 (Chrono Bound)",
-    category: "시스템 기획",
-    description: "시간 역행 메커니즘을 활용한 퍼즐 액션 게임의 시스템 기획서입니다.",
-    tags: ["시간 역행", "퍼즐 기획", "시스템"],
-    image: "https://picsum.photos/seed/time/800/600",
-    color: "from-zinc-500/20 to-zinc-500/20",
-    content: "# 크로노 바운드 상세 기획..."
-  },
-  {
-    id: 5,
-    title: "스타더스트 아레나 (Stardust Arena)",
-    category: "전투 기획",
-    description: "무중력 환경에서의 3:3 팀 전투 밸런싱 및 유닛 스킬 설계 프로젝트입니다.",
-    tags: ["무중력", "팀 전투", "밸런싱"],
-    image: "https://picsum.photos/seed/space/800/600",
-    color: "from-zinc-500/20 to-zinc-500/20",
-    content: "# 스타더스트 아레나 상세 기획..."
+    status: "메이플월드 출시",
+    content: `# 침묵의 저택 기획서\n\n## 1. 기획 의도\n메이플월드 플랫폼 특성을 활용해 긴장감 넘치는 술래잡기 생존 공포를 구현합니다.\n\n## 2. 주요 메카닉\n### 2.1 유령 AI 설계\n- 플레이어의 행동을 분석하여 추적하는 패턴 정의\n\n### 2.2 시야 축소 시스템\n- 공포감을 극대화하기 위해 조건부로 시야가 좁아지는 메카닉 기획\n\n### 2.3 상호작용 규칙\n- 공간 내 숨기, 아이템 획득 및 탈출 로직 기획`
   }
 ];
 
@@ -669,8 +653,15 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
         )}
 
         <div className={`relative z-10 transition-all duration-500 ${isActive ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 lg:opacity-100 lg:translate-y-0'}`}>
-          <div className="bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit mb-4">
-            <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <div className="bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-sans font-bold text-[#2C2C2C] tracking-tight rounded-md w-fit">
+              <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+            </div>
+            {project.status && (
+              <div className={`px-3 py-1 text-[10px] font-sans font-bold tracking-tight rounded-md w-fit border ${project.status === '미출시' ? 'bg-zinc-800/80 text-zinc-300 border-zinc-700' : 'bg-[#800020]/90 text-white border-[#800020]'}`}>
+                <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
+              </div>
+            )}
           </div>
           <h3 className={`font-bold text-white mb-2 ${isActive ? 'text-2xl lg:text-3xl' : 'text-xl'} line-clamp-2`}>
             <EditableText value={project.title} onSave={(v) => { const p = [...projects]; p[idx].title = v; setProjects(p); }} isEditing={isEditing} />
@@ -702,8 +693,15 @@ const ProjectCard = ({ project, idx, isEditing, projects, setProjects, onProject
       )}
       <div className="overflow-hidden relative bg-[#111] shrink-0 aspect-[16/10] border-b border-[#1e1e1e]">
         <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 absolute inset-0" referrerPolicy="no-referrer" />
-        <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-3 py-1 text-[10px] font-sans font-bold text-[#e8e4dc] tracking-tight shadow-sm">
-          <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+        <div className="absolute top-4 left-4 flex flex-col gap-2">
+          <div className="bg-black/70 backdrop-blur-sm border border-white/10 rounded-md px-3 py-1 text-[10px] font-sans font-bold text-[#e8e4dc] tracking-tight shadow-sm w-fit">
+            <EditableText value={project.category} onSave={(v) => { const p = [...projects]; p[idx].category = v; setProjects(p); }} isEditing={isEditing} />
+          </div>
+          {project.status && (
+            <div className={`border rounded-md px-3 py-1 text-[10px] font-sans font-bold tracking-tight shadow-sm w-fit ${project.status === '미출시' ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800' : 'bg-[#800020]/90 text-white border-[#800020]'}`}>
+              <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex-1 flex flex-col justify-between p-8">
@@ -813,6 +811,11 @@ const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView }
                 <motion.div key={project.id} whileHover={{ y: -4 }} className="group relative flex flex-col bg-[#111] border border-[#1e1e1e] rounded-xl overflow-hidden hover:border-[#2e2e2e] hover:shadow-md transition-all duration-300">
                   <div className="aspect-[16/10] overflow-hidden relative border-b border-[#1e1e1e] bg-[#111]">
                     <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" referrerPolicy="no-referrer" />
+                    {project.status && (
+                      <div className={`absolute top-4 left-4 border rounded-md px-3 py-1 text-[10px] font-sans font-bold tracking-tight shadow-sm ${project.status === '미출시' ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800' : 'bg-[#800020]/90 text-white border-[#800020]'}`}>
+                        <EditableText value={project.status} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].status = v; setProjects(p); }} isEditing={isEditing} />
+                      </div>
+                    )}
                   </div>
                   <div className="p-8 flex-1 flex flex-col">
                     <h4 className="text-xl font-bold mb-3 text-[#e8e4dc] group-hover:text-[#800020] transition-colors">
