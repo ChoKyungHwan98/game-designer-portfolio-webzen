@@ -1163,6 +1163,8 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
         pagebreak: { mode: 'css' }
+      };
+      
       const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
       
       // 크롬 보안 우회: 실제 화면에 안 보이는 a 태그를 숨겨서 붙이고 클릭해야 파일명이 유지됩니다.
