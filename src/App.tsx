@@ -686,7 +686,7 @@ const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent,
 
 // --- About ---
 const About = ({ isEditing, content, setContent }: { isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex items-center bg-[#FDFDFB] overflow-hidden">
+  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex items-center bg-[#FAFAFA] overflow-hidden">
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
     
     <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -819,7 +819,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
 
   return (
-    <section id="projects" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col items-center justify-center bg-[#F6F6F3] overflow-hidden border-t border-black/5">
+    <section id="projects" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col items-center justify-center bg-[#FFFFFF] overflow-hidden border-t border-black/5">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
       
@@ -838,7 +838,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
             </motion.p>
             {limit && setView && (
               <button onClick={() => setView('portfolio')}
-                className="group flex items-center gap-2 text-[#800020] font-bold text-xs uppercase tracking-widest hover:text-[#1A1A1A] transition-colors bg-[#800020]/5 px-4 py-2 rounded-full">
+                className="group flex items-center gap-2 text-[#800020] font-bold text-[10px] uppercase tracking-[0.2em] hover:text-[#1A1A1A] transition-colors bg-[#800020]/5 hover:bg-[#800020]/10 px-4 py-2.5 rounded-full mt-2">
                 전체 찾아보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             )}
@@ -846,28 +846,27 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
         </div>
 
         {limit ? (
-          <div className="flex flex-col lg:flex-row gap-3 h-[420px]">
-            {/* Left: Active Project (Master) */}
-            <motion.div layout className="relative w-full lg:w-[75%] h-full rounded-[1.5rem] overflow-hidden shadow-xl flex-shrink-0 group cursor-pointer"
+          <div className="flex flex-col gap-4">
+            {/* Top: Active Project (Master Banner) */}
+            <motion.div layout className="relative w-full h-[320px] rounded-[1.5rem] overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex-shrink-0 group cursor-pointer border border-black/5"
               onClick={() => { const p = displayedProjects.find(p => p.id === actualFeaturedId); if(p) onProjectClick(p); }}>
               <AnimatePresence mode="wait">
                 {displayedProjects.map((project) => project.id === actualFeaturedId && (
                   <motion.div key={project.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
                     className="absolute inset-0 w-full h-full">
-                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-                    
-                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-10 pt-24 bg-gradient-to-t from-black/95 via-black/50 to-transparent z-10 flex items-end justify-between gap-6 pointer-events-none">
-                      <div className="flex flex-col items-start gap-3 w-full">
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+                    <div className="absolute inset-x-0 bottom-0 p-8 flex items-end justify-between gap-6 pointer-events-none">
+                      <div className="flex flex-col items-start gap-4">
                         <div className="flex gap-2">
-                          <span className="bg-white/90 backdrop-blur-sm text-[#2C2C2C] px-3 py-1 rounded-full text-[9px] font-bold tracking-tight uppercase">{project.category}</span>
-                          {project.status && <span className="bg-[#800020] text-white px-3 py-1 rounded-full text-[9px] font-bold tracking-tight shadow-md shadow-[#800020]/30">{project.status}</span>}
+                          <span className="bg-white/90 backdrop-blur-sm text-[#2C2C2C] px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm uppercase">{project.category}</span>
+                          {project.status && <span className="bg-[#800020] text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm">{project.status}</span>}
                         </div>
-                        <h3 className="text-2xl md:text-4xl font-display font-bold text-white tracking-tight drop-shadow-md leading-tight line-clamp-1">{project.title}</h3>
-                        <p className="text-white/80 text-xs md:text-sm font-medium leading-relaxed max-w-xl drop-shadow-md line-clamp-2"><EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} /></p>
+                        <h3 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight drop-shadow-md leading-tight line-clamp-1">{project.title}</h3>
+                        <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed max-w-2xl drop-shadow-md line-clamp-1"><EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} /></p>
                       </div>
-                      
-                      <div className="hidden md:flex shrink-0 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white items-center justify-center group-hover:bg-[#800020] group-hover:scale-110 transition-all duration-300 pointer-events-auto shadow-lg">
-                        <ArrowRight className="w-5 h-5 -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                      <div className="hidden md:flex shrink-0 px-6 py-3 bg-white/20 backdrop-blur-md text-white font-bold text-xs uppercase tracking-widest items-center justify-center rounded-full group-hover:bg-[#800020] group-hover:-translate-y-1 transition-all duration-300 pointer-events-auto border border-white/30 hover:border-transparent">
+                        자세히 보기 <ArrowRight className="w-4 h-4 ml-2" />
                       </div>
                     </div>
                   </motion.div>
@@ -875,8 +874,8 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
               </AnimatePresence>
             </motion.div>
 
-            {/* Right: Truncated List (Thumbnails) */}
-            <div className="hidden lg:flex w-[25%] flex-col gap-3 h-full">
+            {/* Bottom: Thumbnails Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 h-[140px]">
               <AnimatePresence mode="popLayout">
                 {displayedProjects.map((project) => project.id !== actualFeaturedId && (
                   <motion.div 
@@ -887,13 +886,13 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
                     transition={{ duration: 0.4 }}
                     key={project.id} 
                     onClick={() => setFeaturedId(project.id)}
-                    className="relative flex-1 rounded-[1.2rem] overflow-hidden cursor-pointer group hover:shadow-xl transition-all duration-500 bg-[#1A1A1A] border border-black/5"
+                    className="relative rounded-[1.2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-lg transition-all duration-500 bg-[#FAFAFA] border border-black/5"
                   >
-                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500" />
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500" />
                     <div className="absolute bottom-5 left-5 right-5 z-10 transition-transform duration-500 group-hover:-translate-y-1">
-                      <span className="text-white/60 text-[8px] font-bold uppercase tracking-widest mb-1 block">{project.category}</span>
-                      <h3 className="text-sm font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-2 leading-snug">{project.title}</h3>
+                      <span className="text-white/80 text-[9px] font-bold uppercase tracking-widest mb-1.5 block">{project.category}</span>
+                      <h3 className="text-sm md:text-base font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-1 leading-snug">{project.title}</h3>
                     </div>
                   </motion.div>
                 ))}
@@ -985,53 +984,53 @@ const ICON_OPTIONS = [
 // --- Skills ---
 const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: Skill[], setSkills: (s: Skill[]) => void }) => {
   return (
-    <section id="skills" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#1A1A1A] overflow-hidden rounded-t-[3rem] mt-[-3rem] z-20">
-      <div className="absolute inset-0 pointer-events-none opacity-20 object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
+    <section id="skills" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#FAFAFA] overflow-hidden rounded-t-[3rem] mt-[-3rem] z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] border-t border-black/5">
+      <div className="absolute inset-0 pointer-events-none opacity-[0.15] object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
       
-      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col h-full">
-        <div className="mb-12 grid lg:grid-cols-2 gap-6 items-end border-b border-white/10 pb-6">
+      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col h-full bg-white border border-black/5 rounded-3xl p-8 md:p-12 shadow-sm">
+        <div className="mb-8 grid lg:grid-cols-2 gap-6 items-end border-b border-black/5 pb-6">
           <div>
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-mono text-[10px] uppercase tracking-[0.3em] font-bold mb-3 block">03. Core Competencies</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-display font-bold tracking-[-0.03em] text-white leading-tight">핵심 역량.</motion.h2>
+              className="text-3xl md:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">핵심 역량.</motion.h2>
           </div>
-          <p className="text-zinc-400 text-sm leading-[1.6] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
+          <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
         </div>
         
         <div className="flex flex-col w-full flex-1 justify-center">
           {skills.map((skill, idx) => (
             <motion.div key={idx} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
-              className="relative group border-b border-white/5 py-6 px-6 lg:px-8 hover:pl-12 transition-all duration-500 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default">
+              className="relative group border-b border-black/5 py-5 px-4 md:px-8 hover:pl-10 lg:hover:pl-12 transition-all duration-500 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-default">
               
-              {/* Giant Background Progress Bar */}
+              {/* Subtle Background Progress Bar */}
               <motion.div 
                 initial={{ width: 0 }}
                 whileInView={{ width: `${skill.level}%` }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#800020]/30 to-[#800020]/10 z-0 origin-left"
+                className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#800020]/10 to-transparent z-0 origin-left"
               />
-              <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-[#800020] z-0 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 ease-out" />
+              <div className="absolute top-0 left-0 bottom-0 w-1 bg-[#800020] z-0 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 ease-out" />
 
               <div className="relative z-10 flex items-center gap-6 md:w-[45%]">
-                <div className="text-white/20 group-hover:text-[#800020] transition-all duration-500 transform group-hover:scale-110 mb-auto pt-1 hidden md:block">
+                <div className="text-black/10 group-hover:text-[#800020] transition-all duration-500 transform group-hover:scale-110 mb-auto pt-1 hidden md:block">
                   {skill.icon}
                 </div>
                 <div>
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-black text-white/90 tracking-tighter uppercase group-hover:text-white transition-colors duration-300 break-keep">
+                  <h3 className="text-xl md:text-2xl lg:text-3xl font-display font-black text-[#2C2C2C] tracking-tighter uppercase group-hover:text-[#800020] transition-colors duration-300 break-keep">
                     <EditableText value={skill.name} onSave={(v) => { const s = [...skills]; s[idx].name = v; setSkills(s); }} isEditing={isEditing} />
                   </h3>
                 </div>
               </div>
               
               <div className="relative z-10 flex-1 flex flex-col gap-1.5 ml-auto md:text-right md:items-end">
-                 <p className="text-sm md:text-base font-medium text-zinc-400 group-hover:text-white transition-colors duration-300 max-w-sm line-clamp-1">
+                 <p className="text-xs md:text-sm font-medium text-zinc-500 group-hover:text-[#2C2C2C] transition-colors duration-300 max-w-sm line-clamp-1">
                    <EditableText value={skill.caption || ""} onSave={(v) => { const s = [...skills]; s[idx].caption = v; setSkills(s); }} isEditing={isEditing} />
                  </p>
                  <div className="flex items-center md:flex-row-reverse gap-3">
-                    <span className="text-[10px] font-bold text-zinc-500 tracking-[0.2em] uppercase">Proficiency</span>
-                    <span className="text-[#800020] group-hover:text-white font-bold font-mono text-base transition-colors">{skill.level}%</span>
+                    <span className="text-[9px] font-bold text-zinc-400 tracking-[0.2em] uppercase">Proficiency</span>
+                    <span className="text-[#800020] font-bold font-mono text-base transition-colors">{skill.level}%</span>
                  </div>
               </div>
 
@@ -1107,30 +1106,36 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
   };
 
   return (
-    <section id="play-history" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#F6F6F3] overflow-hidden border-t border-black/5">
+    <section id="play-history" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#FFFFFF] overflow-hidden border-t border-black/5">
       <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col h-full">
         
         {/* Top: Horizontal Dashboard Stats */}
-        <div className="bg-[#1A1A1A] text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 w-full border border-black/5">
-          <div className="flex flex-col sm:flex-row items-center gap-6">
-            <h2 className="text-3xl md:text-4xl font-display font-bold tracking-[-0.03em] leading-tight break-keep text-center sm:text-left">플레이 통계.</h2>
+        <div className="bg-[#800020] text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 w-full border border-black/5 relative overflow-hidden">
+          {/* Subtle noise/pattern inside the maroon banner */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.05] object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
+            <div className="text-center sm:text-left">
+              <span className="text-white/60 font-mono text-[9px] uppercase tracking-[0.4em] font-bold mb-2 block">04. Statistics</span>
+              <h2 className="text-3xl md:text-4xl font-display font-bold tracking-[-0.03em] leading-tight break-keep">플레이 통계.</h2>
+            </div>
             <div className="w-px h-12 bg-white/20 hidden sm:block"></div>
             <div className="flex items-center gap-4 bg-white/10 px-5 py-3 rounded-2xl backdrop-blur-md">
-               <Gamepad2 className="w-5 h-5 text-[#800020]" />
+               <Gamepad2 className="w-5 h-5 text-white/90" />
                <div>
-                  <span className="block text-[9px] font-bold text-zinc-400 uppercase tracking-widest leading-none mb-1">Total Analyzed</span>
+                  <span className="block text-[9px] font-bold text-white/60 uppercase tracking-widest leading-none mb-1">Total Analyzed</span>
                   <span className="text-2xl font-display font-bold text-white tracking-tight leading-none">{allGames.length}</span>
                </div>
             </div>
           </div>
           
-          <div className="flex-1 max-w-sm text-zinc-400 font-medium text-[13px] leading-relaxed hidden lg:block text-center md:text-left">
+          <div className="flex-1 max-w-sm text-white/70 font-medium text-[13px] leading-relaxed hidden lg:block text-center md:text-left relative z-10">
              다양한 플랫폼 및 장르 분석을 통해 트렌디한 감각과 심층적인 레벨 디자인 설계 능력을 검증합니다.
           </div>
 
           {!isEditing && (
             <button onClick={onViewAll}
-              className="w-full md:w-auto py-3 px-6 bg-white text-[#1A1A1A] rounded-xl font-bold tracking-widest text-xs uppercase hover:bg-[#800020] hover:text-white transition-all duration-300 shadow-md flex items-center justify-center gap-3 shrink-0">
+              className="w-full md:w-auto py-3 px-6 bg-white text-[#800020] rounded-xl font-bold tracking-widest text-xs uppercase hover:bg-zinc-100 transition-all duration-300 shadow-md flex items-center justify-center gap-3 shrink-0 relative z-10">
               전체 목록 보기 <ArrowRight className="w-4 h-4" />
             </button>
           )}
