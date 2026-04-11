@@ -444,7 +444,7 @@ const PasswordModal = ({ isOpen, onClose, onConfirm }: { isOpen: boolean, onClos
 };
 
 // --- Navbar (Premium Floating Pill Design - BOLD SCALED) ---
-const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, theme, setTheme }: { setView: (v: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history') => void, currentView: string, onNavClick: (id: string) => void, isEditing: boolean, setIsEditing: (v: boolean) => void, activeSection: string, theme: string, setTheme: (v: string) => void }) => {
+const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, theme, setTheme }: { setView: (v: 'home' | 'resume' | 'cover-letter' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history') => void, currentView: string, onNavClick: (id: string) => void, isEditing: boolean, setIsEditing: (v: boolean) => void, activeSection: string, theme: string, setTheme: (v: string) => void }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
@@ -1126,9 +1126,9 @@ const TOOL_ICONS: Record<string, React.ReactNode> = {
   Git: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-80 group-hover:opacity-100 group-hover:text-[#f14e32] transition-colors"><path d="M23.546 10.93L13.067.452a1.43 1.43 0 00-2.022 0L8.52 2.977l3.208 3.208c.523-.211 1.137-.101 1.554.316.51.51.602 1.28.261 1.884l3.111 3.111c.603-.341 1.373-.249 1.884.261s.602 1.28.261 1.884l1.378 1.378a1.393 1.393 0 011.83-.263c.692.692.692 1.815 0 2.507-.692.692-1.815.692-2.507 0a1.393 1.393 0 01-.263-1.83l-1.378-1.378c-.604.341-1.374.249-1.884-.261-.417-.417-.527-1.031-.316-1.554l-3.111-3.111c-.604.341-1.374.249-1.884-.261-.51-.51-.602-1.28-.261-1.884l-3.208-3.208-5.508 5.508a1.43 1.43 0 000 2.022l10.478 10.478a1.43 1.43 0 002.022 0l7.51-7.51a1.43 1.43 0 000-2.022zM10.158 9.387c-.692.692-1.815.692-2.507 0s-.692-1.815 0-2.507c.692-.692 1.815-.692 2.507 0s.692 1.815 0 2.507z"/></svg>
 };
 
-// --- Resume ---
+// --- Resume (Magazine-style One-Page Layout) ---
 interface ResumeProps {
-  setView: (v: 'home' | 'resume' | 'project-detail') => void;
+  setView: (v: any) => void;
   isEditing: boolean;
   data: ResumeData;
   setData: (d: ResumeData) => void;
@@ -1163,242 +1163,236 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
   return (
     <>
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="pt-32 pb-12 md:pt-[160px] md:pb-20 px-6 md:px-12 max-w-5xl mx-auto w-full">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-        <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm">
+      className="pt-32 pb-12 md:pt-[160px] md:pb-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
+      
+      {/* Top Bar */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm font-bold">
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
         </button>
         <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={handleDownload}
           disabled={isGeneratingPdf}
-          className="px-8 py-4 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-3 hover:border-[#800020] hover:text-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto disabled:opacity-50">
+          className="px-8 py-4 bg-white dark:bg-[#111] border border-black/10 dark:border-[#2a2a2a] rounded-xl text-[#2C2C2C] dark:text-[#e8e4dc] font-bold flex items-center justify-center gap-3 hover:border-[#800020] hover:text-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto disabled:opacity-50">
           {isGeneratingPdf ? (
-            <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#800020] border-t-transparent rounded-full" /> PDF 생성 중...
-            </>
+            <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#800020] border-t-transparent rounded-full" /> PDF 생성 중...</>
           ) : (
             <><ScrollText className="w-4 h-4 text-[#800020]" /> PDF 다운로드</>
           )}
         </motion.button>
       </div>
 
-      <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 print:grid-cols-12 print:gap-8">
-        {/* Sidebar */}
-        <div className="lg:col-span-4 print:col-span-4 space-y-8 print:space-y-6 lg:sticky lg:top-24 self-start">
-          <div className="text-center lg:text-left">
-            <div className="w-40 h-40 print:w-32 print:h-32 print:mb-4 rounded-3xl overflow-hidden mb-8 mx-auto lg:mx-0 border border-black/5 shadow-sm print:shadow-none">
+      {/* ===== PROFILE HEADER BANNER (Compact Horizontal) ===== */}
+      <div className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] mb-8 transition-colors">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+          {/* Photo + Identity */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
+            <div className="w-28 h-28 rounded-2xl overflow-hidden border border-black/5 shadow-sm shrink-0">
               <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
             </div>
-            <h1 className="text-4xl print:text-3xl font-display font-bold mb-3 text-[#2C2C2C] tracking-tight">
-              <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
-            </h1>
-            <p className="text-[#800020] font-bold mb-8 print:mb-4 font-mono tracking-widest text-sm uppercase">
-              <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
-            </p>
-            <div className="space-y-4 text-sm text-zinc-600 font-medium">
-              {/* 이메일 — 항상 표시 */}
-              <div className="flex items-center gap-4 justify-center lg:justify-start">
-                <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-500 border border-black/5"><Mail className="w-4 h-4" /></div>
-                <span><EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} /></span>
+            <div className="text-center sm:text-left">
+              <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight mb-1">
+                <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
+              </h1>
+              <p className="text-[#800020] font-bold font-mono tracking-widest text-xs uppercase mb-4">
+                <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
+              </p>
+              <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-[#888] font-medium">
+                <Mail className="w-4 h-4 text-zinc-400" />
+                <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
               </div>
-              {/* 전화번호 — PDF 다운로드(인쇄) 시에만 표시 */}
-              <div className="hidden print:flex items-center gap-4 justify-center lg:justify-start">
-                <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-500 border border-black/5 print:border-gray-200"><Phone className="w-4 h-4" /></div>
-                <span><EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} /></span>
+              <div className="hidden print:flex items-center gap-3 text-sm text-zinc-600 mt-1">
+                <Phone className="w-4 h-4 text-zinc-400" />
+                <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
               </div>
             </div>
           </div>
 
-          <div className="space-y-10 print:space-y-6">
-            <div>
-              <h3 className="text-xs font-bold text-[#555] tracking-widest uppercase mb-6 print:mb-3 flex items-center gap-2"><Wrench className="w-4 h-4" /> 기술 스택</h3>
-              <div className="space-y-6">
-                <div>
-                  <p className="text-[10px] font-bold text-[#555] uppercase mb-3">기획 및 문서화</p>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { name: 'Word', desc: '• 사용자 정의 스타일 및 섹션 정형화\n• 논리적 구조에 따른 목차 작성\n• 법학 논문 및 공문서 수준의 작문 구사능력\n• 기획서 가독성 최적화를 위한 전용 템플릿 보유' },
-                      { name: 'Powerpoint', desc: '• 슬라이드 마스터 기반의 커스텀 템플릿 제작\n• 기획 의도 전달을 위한 텍스트의 도식화 및 레이아웃 설계\n• 논리를 기반으로 한 목차 구성이 강점' },
-                      { name: 'Excel', desc: '• 함수: VLOOKUP, 사칙연산, 조건부 서식 등\n• 데이터 테이블 구조화 및 정합성 검토\n• 데이터 테이블 프로그램 개발 구상' },
-                      { name: 'Notion', desc: '• 전반적인 문서 작성 및 간트차트 작성' },
-                      { name: 'Figma', desc: '• UI 와이어프레임 작성' }
-                    ].map(tool => (
-                      <span key={tool.name} className="group relative px-4 py-2 bg-[#1a1a1a] rounded-xl text-xs font-bold text-[#888] border border-[#2a2a2a] hover:border-[#800020] hover:bg-[#800020]/5 hover:text-[#e8e4dc] transition-all cursor-help flex items-center justify-center gap-2">
-                        {TOOL_ICONS[tool.name]}
-                        {tool.name}
-                        <Info className="w-3 h-3 text-[#444] group-hover:text-[#800020] transition-colors" />
-                        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#800020] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-50 mb-3 w-max max-w-[320px] bg-white dark:bg-[#111] border border-black/10 dark:border-[#333] text-[#2C2C2C] dark:text-[#e8e4dc] text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
-                          {tool.desc}
-                          <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-white dark:border-t-[#333] border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
-                        </div>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold text-[#555] uppercase mb-3">엔진 및 개발</p>
-                  <div className="flex flex-wrap gap-2">
-                    {['Unity', 'Git'].map(tool => (
-                      <span key={tool} className="px-4 py-2 bg-zinc-50 dark:bg-[#1a1a1a] rounded-xl text-xs font-bold text-zinc-600 dark:text-[#888] border border-black/5 dark:border-[#2a2a2a] flex items-center gap-2">
-                        {TOOL_ICONS[tool]}
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-xs font-bold text-[#555] tracking-widest uppercase mb-6 print:mb-3 flex items-center gap-2"><Zap className="w-4 h-4" /> 핵심 역량</h3>
-              <ul className="space-y-4 print:space-y-2 text-sm text-[#888] font-medium">
-                {["기획 의도를 먼저 세우고 목차로 증명하는 문서 설계", "법학적 사고 기반 시스템 정합성 확보", "AI 프롬프트 설계를 통한 업무 자동화"].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-2 h-2 rounded-full bg-[#800020] mt-1.5 shrink-0"></div>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* Divider */}
+          <div className="hidden lg:block w-px h-24 bg-black/10 dark:bg-white/10 self-center shrink-0"></div>
+
+          {/* Summary */}
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xs font-bold text-zinc-400 dark:text-[#555] tracking-widest uppercase mb-3 flex items-center gap-2">
+              <User className="w-3.5 h-3.5" /> 자기소개
+            </h3>
+            <div className="text-sm text-zinc-600 dark:text-[#888] leading-relaxed font-medium">
+              <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
             </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="lg:col-span-8 print:col-span-8 flex flex-col gap-10">
-          
-          {/* OVERVIEW & EXPERIENCE COMBINED SCROLL */}
-          <div className="space-y-10 print:space-y-6">
-              
-              {/* Summary */}
-              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><User className="w-6 h-6 text-[#800020]" /> 소개</h3>
-                <div className="text-zinc-600 dark:text-[#888] leading-[1.8] font-medium text-[15px] print:text-[13px]">
-                  <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
+        {/* Tool Stack - Inline */}
+        <div className="mt-6 pt-6 border-t border-black/5 dark:border-[#1e1e1e]">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-[#555] uppercase tracking-widest mr-2">STACK</span>
+            {[
+              { name: 'Word', desc: '• 사용자 정의 스타일 및 섹션 정형화\n• 논리적 구조에 따른 목차 작성\n• 법학 논문 및 공문서 수준의 작문 구사능력\n• 기획서 가독성 최적화를 위한 전용 템플릿 보유' },
+              { name: 'Powerpoint', desc: '• 슬라이드 마스터 기반의 커스텀 템플릿 제작\n• 기획 의도 전달을 위한 텍스트의 도식화 및 레이아웃 설계\n• 논리를 기반으로 한 목차 구성이 강점' },
+              { name: 'Excel', desc: '• 함수: VLOOKUP, 사칙연산, 조건부 서식 등\n• 데이터 테이블 구조화 및 정합성 검토\n• 데이터 테이블 프로그램 개발 구상' },
+              { name: 'Notion', desc: '• 전반적인 문서 작성 및 간트차트 작성' },
+              { name: 'Figma', desc: '• UI 와이어프레임 작성' }
+            ].map(tool => (
+              <span key={tool.name} className="group relative px-3 py-1.5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-lg text-[11px] font-bold text-zinc-600 dark:text-[#888] border border-black/5 dark:border-[#2a2a2a] hover:border-[#800020] hover:text-[#800020] transition-all cursor-help flex items-center gap-1.5">
+                {TOOL_ICONS[tool.name]}
+                {tool.name}
+                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-50 mb-3 w-max max-w-[320px] bg-white dark:bg-[#111] border border-black/10 dark:border-[#333] text-[#2C2C2C] dark:text-[#e8e4dc] text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
+                  {tool.desc}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-white dark:border-t-[#333] border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
                 </div>
-              </section>
-
-              {/* Experience */}
-              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
-                <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Briefcase className="text-[#800020] w-6 h-6" /> 프로젝트 경험</h3>
-                <div className="space-y-10 pl-2">
-                  {data.experience.map((exp, idx) => (
-                    <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
-                      <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#800020]"></div>
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-bold text-xl md:text-2xl text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight">
-                          <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
-                        </h4>
-                        <span className="text-xs font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-white/5 border border-black/5 px-2 py-1 rounded-md shrink-0 whitespace-nowrap">
-                          <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
-                        </span>
-                      </div>
-                      <div className="text-[14px] md:text-[15px] font-bold text-[#800020] mb-4">
-                        <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
-                      </div>
-                      <ul className="text-sm text-zinc-600 dark:text-[#888] space-y-2 list-disc list-inside bg-zinc-50 dark:bg-[#1a1a1a] border border-black/5 dark:border-[#2a2a2a] p-4 md:p-6 rounded-xl leading-relaxed">
-                        {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Education */}
-              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
-                <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><GraduationCap className="w-6 h-6 text-[#800020]" /> 학력 및 교육</h3>
-                <div className="space-y-8 pl-2">
-                  {data.education.map((edu, idx) => (
-                    <div key={idx} className="relative pl-8 border-l-2 border-black/10 dark:border-[#2a2a2a] print:break-inside-avoid">
-                      <div className="absolute -left-[5px] top-2.5 w-2 h-2 rounded-full bg-zinc-400"></div>
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-bold text-lg md:text-xl text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight">
-                          <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                        </h4>
-                        <span className="text-xs font-mono font-bold text-zinc-500 whitespace-nowrap">
-                          <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                        </span>
-                      </div>
-                      <div className="text-[14px] font-bold text-zinc-600 dark:text-[#888] mb-3">
-                        <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
-                      </div>
-                      <ul className="text-[13px] text-zinc-500 space-y-1 list-disc list-inside">
-                        {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </section>
-              
-              {/* Awards */}
-              <section className="bg-white dark:bg-[#111] rounded-3xl p-8 lg:p-10 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors print:p-6 print:shadow-none">
-                <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]"><Award className="text-[#800020] w-6 h-6" /> 자격 및 수상</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 print:gap-3">
-                  {data.awards.map((award, idx) => (
-                    <div key={idx} className="p-5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-2xl border-l-4 border-l-[#800020] border-y border-r border-black/5 dark:border-[#1e1e1e]">
-                      <h4 className="font-bold text-[15px] mb-1 text-[#2C2C2C] dark:text-[#e8e4dc] truncate">
-                        <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
-                      </h4>
-                      <p className="text-xs text-zinc-500 dark:text-[#888] font-mono mt-1">{award.organization} <span className="opacity-40">|</span> {award.year}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              </span>
+            ))}
+            <span className="w-px h-5 bg-black/10 dark:bg-white/10 mx-1"></span>
+            {['Unity', 'Git'].map(tool => (
+              <span key={tool} className="px-3 py-1.5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-lg text-[11px] font-bold text-zinc-600 dark:text-[#888] border border-black/5 dark:border-[#2a2a2a] flex items-center gap-1.5">
+                {TOOL_ICONS[tool]}
+                {tool}
+              </span>
+            ))}
           </div>
-        </div> {/* Main Content End */}
-      </div> {/* Top Grid End */}
-
-      {/* NEW FULL-WIDTH COVER LETTER SECTION */}
-      <div className="mt-20 pt-20 border-t border-black/10 dark:border-[#1e1e1e] print:break-before-page">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-[#800020] font-mono text-sm uppercase tracking-[0.25em] font-bold block mb-4">자기소개서 전문</span>
-            <h3 className="text-3xl md:text-5xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.03em]">기획의 이유.</h3>
-          </div>
-          
-          {data.selfIntroductions ? (
-            <div className="flex flex-col gap-12">
-              {data.selfIntroductions.map((intro, idx) => (
-                <div key={idx} className="relative group bg-white dark:bg-[#111] rounded-[2.5rem] p-8 md:p-16 shadow-lg shadow-black/5 border border-black/5 dark:border-[#1e1e1e] transition-all duration-500 print:shadow-none print:border-b print:rounded-none">
-                  {isEditing && (
-                    <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
-                      className="absolute top-8 right-8 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                  {/* Category/Number Bubble */}
-                  <div className="inline-flex items-center justify-center bg-[#2C2C2C] dark:bg-white text-white dark:text-[#111] px-4 py-2 rounded-xl font-mono text-xs tracking-widest font-bold shadow-md shadow-black/10 mb-8 border border-white/10">
-                    CHAPTER {String(idx + 1).padStart(2, '0')}
-                  </div>
-                  
-                  {/* Logline header */}
-                  <h4 className="text-2xl md:text-3xl font-bold text-[#2C2C2C] dark:text-[#e8e4dc] leading-[1.3] tracking-[-0.02em] mb-10 pb-10 border-b border-black/5 dark:border-[#2a2a2a]">
-                    <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
-                  </h4>
-                  
-                  {/* Content body */}
-                  <div className="text-zinc-600 dark:text-[#555] leading-[2] md:leading-[2.2] text-[16px] md:text-[17px] font-medium [&_p]:mb-8 [&_strong]:text-[#800020] dark:[&_strong]:text-[#ff3b6b] [&_strong]:font-bold [&_ul]:mb-8 [&_li]:mb-3 [&_blockquote]:border-l-4 [&_blockquote]:border-[#800020] [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-zinc-50 dark:[&_blockquote]:bg-white/5 [&_blockquote]:py-4 [&_blockquote]:rounded-r-2xl">
-                    <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
-                  </div>
-                </div>
-              ))}
-              {isEditing && (
-                <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
-                  className="flex flex-col items-center justify-center border-2 border-dashed border-[#2a2a2a] bg-[#111] hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-[2.5rem]">
-                  <Plus className="w-8 h-8 text-[#555] mb-2" />
-                  <span className="text-[#888] font-bold">새 자기소개 항목 추가</span>
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="bento-card p-8 md:p-12 markdown-body max-w-3xl mx-auto">
-              {isEditing ? (
-                <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
-                  value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
-              ) : (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.selfIntroduction || ''}</ReactMarkdown>
-              )}
-            </div>
-          )}
         </div>
       </div>
+
+      {/* ===== TWO-COLUMN BODY (Education+Awards LEFT | Experience RIGHT) ===== */}
+      <div className="grid lg:grid-cols-12 gap-8 mb-8">
+
+        {/* LEFT COLUMN: Education + Awards */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Education */}
+          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+              <GraduationCap className="w-5 h-5" /> 학력 및 교육
+            </h3>
+            <div className="space-y-6">
+              {data.education.map((edu, idx) => (
+                <div key={idx} className="relative pl-6 border-l-2 border-black/10 dark:border-[#2a2a2a]">
+                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300 dark:bg-[#555]"></div>
+                  <div className="flex flex-col gap-1 mb-2">
+                    <h4 className="font-bold text-[15px] text-[#2C2C2C] dark:text-[#e8e4dc] leading-snug">
+                      <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                    </h4>
+                    <span className="text-[11px] font-mono text-zinc-400 dark:text-[#666]">
+                      <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                    </span>
+                  </div>
+                  <div className="text-xs text-zinc-500 dark:text-[#888] leading-relaxed mb-2">
+                    <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
+                  </div>
+                  <ul className="text-[11px] text-zinc-500 dark:text-[#888] space-y-1 list-disc list-inside">
+                    {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Awards */}
+          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+              <Award className="text-[#800020] w-5 h-5" /> 자격 및 수상
+            </h3>
+            <div className="space-y-3">
+              {data.awards.map((award, idx) => (
+                <div key={idx} className="p-4 bg-zinc-50 dark:bg-[#1a1a1a] rounded-xl border-l-3 border-l-[#800020] border-y border-r border-black/5 dark:border-[#1e1e1e]" style={{ borderLeftWidth: '3px', borderLeftColor: '#800020' }}>
+                  <h4 className="font-bold text-sm mb-0.5 text-[#2C2C2C] dark:text-[#e8e4dc]">
+                    <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
+                  </h4>
+                  <p className="text-[11px] text-zinc-500 dark:text-[#888]">{award.organization} · {award.year}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* RIGHT COLUMN: Experience */}
+        <div className="lg:col-span-7">
+          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors h-full">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+              <Briefcase className="text-[#800020] w-5 h-5" /> 프로젝트 경험
+            </h3>
+            <div className="space-y-7">
+              {data.experience.map((exp, idx) => (
+                <div key={idx} className="relative pl-6 border-l-2 border-[#800020]/30 dark:border-[#800020]/40">
+                  <div className="absolute -left-[6px] top-1 w-3 h-3 rounded-full bg-[#800020] border-2 border-white dark:border-[#111]"></div>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                    <h4 className="font-bold text-base text-[#2C2C2C] dark:text-[#e8e4dc]">
+                      <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
+                    </h4>
+                    <span className="text-[11px] font-mono text-zinc-400 dark:text-[#666] shrink-0">
+                      <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
+                    </span>
+                  </div>
+                  <div className="text-sm text-[#800020] dark:text-[#c0304a] font-medium mb-3">
+                    <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
+                  </div>
+                  <ul className="text-xs text-zinc-500 dark:text-[#888] space-y-1.5 list-disc list-inside leading-relaxed">
+                    {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </div>
+
+      {/* ===== BOTTOM: Core Skills Strip ===== */}
+      <div className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] mb-8 transition-colors">
+        <div className="flex flex-col md:flex-row md:items-start gap-6">
+          <h3 className="text-xs font-bold text-zinc-400 dark:text-[#555] tracking-widest uppercase flex items-center gap-2 shrink-0 pt-0.5">
+            <Zap className="w-4 h-4" /> 핵심 역량
+          </h3>
+          <div className="flex flex-wrap gap-x-8 gap-y-3">
+            {["기획 의도를 먼저 세우고 목차로 증명하는 문서 설계", "법학적 사고 기반 시스템 정합성 확보", "AI 프롬프트 설계를 통한 업무 자동화"].map((item, i) => (
+              <div key={i} className="flex items-center gap-2.5 text-sm text-zinc-600 dark:text-[#999] font-medium">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#800020] shrink-0"></div>
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== COVER LETTER CTA - Premium Teaser Card ===== */}
+      <motion.div 
+        whileHover={{ y: -4 }}
+        onClick={() => setView('cover-letter')}
+        className="group relative bg-gradient-to-br from-[#2C2C2C] to-[#1a1a1a] dark:from-[#111] dark:to-[#0a0a0a] rounded-3xl p-8 lg:p-10 shadow-lg border border-black/5 dark:border-[#1e1e1e] cursor-pointer overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[#800020]/10"
+      >
+        {/* Background decorative element */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#800020]/5 rounded-full blur-[80px] group-hover:bg-[#800020]/10 transition-colors duration-700"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#800020]/3 rounded-full blur-[60px]"></div>
+        
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-10">
+          {/* Left: Icon & Label */}
+          <div className="flex items-center gap-4 shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-[#800020]/10 border border-[#800020]/20 flex items-center justify-center group-hover:bg-[#800020] group-hover:border-[#800020] transition-all duration-500">
+              <ScrollText className="w-6 h-6 text-[#800020] group-hover:text-white transition-colors duration-500" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono tracking-widest uppercase text-[#800020] font-bold block mb-1">COVER LETTER</span>
+              <h3 className="text-xl font-bold text-white tracking-tight">자기소개서</h3>
+            </div>
+          </div>
+
+          {/* Center: First logline teaser */}
+          <div className="flex-1 min-w-0">
+            <p className="text-zinc-400 text-sm leading-relaxed line-clamp-2 italic">
+              "{data.selfIntroductions?.[0]?.logline || '자기소개서를 확인해주세요.'}"
+            </p>
+            <p className="text-zinc-600 text-xs mt-2">
+              총 {data.selfIntroductions?.length || 0}개의 자기소개 항목
+            </p>
+          </div>
+
+          {/* Right: Arrow */}
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest group-hover:text-[#800020] transition-colors hidden sm:block">전문 읽기</span>
+            <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#800020] group-hover:border-[#800020] transition-all duration-500">
+              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all duration-300" />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
     </motion.section>
 
     {/* Off-screen PDF source (html2pdf.js captures this) */}
@@ -1505,6 +1499,80 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
     </div>
     </>
+  );
+};
+
+// --- Cover Letter (Essay-style Immersive Reading View) ---
+const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
+  return (
+    <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+      className="pt-32 pb-20 md:pt-[160px] px-6 md:px-12 max-w-3xl mx-auto w-full">
+      
+      {/* Top Bar */}
+      <div className="flex items-center justify-between mb-16">
+        <button onClick={() => setView('resume')} className="flex items-center gap-2 text-zinc-500 hover:text-[#800020] transition-colors group font-sans tracking-tight text-sm font-bold">
+          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 이력서로 돌아가기
+        </button>
+      </div>
+
+      {/* Title */}
+      <div className="text-center mb-16">
+        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-4 block">Cover Letter</span>
+        <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.02em] mb-6">자기소개서</h2>
+        <div className="w-16 h-px bg-[#800020]/30 mx-auto"></div>
+      </div>
+
+      {/* Self Introduction Entries */}
+      {data.selfIntroductions ? (
+        <div className="flex flex-col gap-20">
+          {data.selfIntroductions.map((intro, idx) => (
+            <article key={idx} className="relative group">
+              {isEditing && (
+                <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
+                  className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+
+              {/* Number Badge */}
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-[#800020]/10 flex items-center justify-center text-[#800020] font-mono font-bold text-base border border-[#800020]/20">
+                  {String(idx + 1).padStart(2, '0')}
+                </div>
+                <div className="flex-1 h-px bg-gradient-to-r from-[#800020]/20 to-transparent"></div>
+              </div>
+
+              {/* Logline */}
+              <h3 className="text-2xl md:text-3xl font-bold text-[#2C2C2C] dark:text-[#e8e4dc] leading-snug tracking-[-0.01em] mb-8">
+                <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
+              </h3>
+
+              {/* Body Text - Optimized reading width */}
+              <div className="text-zinc-600 dark:text-[#999] leading-[2.1] text-[16px] md:text-[17px] font-medium [&>p]:mb-6 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#800020]/30 [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-zinc-500 dark:text-[#888] [&>blockquote]:my-8">
+                <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
+              </div>
+            </article>
+          ))}
+
+          {isEditing && (
+            <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
+              className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-[#2a2a2a] bg-zinc-50 dark:bg-[#111] hover:bg-zinc-100 dark:hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-3xl">
+              <Plus className="w-8 h-8 text-zinc-400 dark:text-[#555] mb-2" />
+              <span className="text-zinc-500 dark:text-[#888] font-bold">새 자기소개 항목 추가</span>
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="bg-white dark:bg-[#111] p-8 md:p-12 rounded-2xl border border-black/5 dark:border-[#1e1e1e] markdown-body">
+          {isEditing ? (
+            <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
+              value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
+          ) : (
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.selfIntroduction || ''}</ReactMarkdown>
+          )}
+        </div>
+      )}
+    </motion.section>
   );
 };
 
@@ -1730,8 +1798,8 @@ const GameHistoryView = ({ setView }: { setView: (v: any) => void }) => {
 
 // --- Main App ---
 export default function App() {
-  const [view, setView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
-  const [prevView, setPrevView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
+  const [view, setView] = useState<'home' | 'resume' | 'cover-letter' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
+  const [prevView, setPrevView] = useState<'home' | 'resume' | 'cover-letter' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history'>('home');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
   });
@@ -1745,7 +1813,7 @@ export default function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
   
-  const changeView = (newView: 'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history') => {
+  const changeView = (newView: 'home' | 'resume' | 'cover-letter' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history') => {
     setPrevView(view);
     setView(newView);
   };
@@ -1906,6 +1974,10 @@ export default function App() {
 
           {view === 'resume' && (
             <Resume key="resume" setView={changeView} isEditing={isEditing} data={resumeData} setData={setResumeData} />
+          )}
+
+          {view === 'cover-letter' && (
+            <CoverLetter key="cover-letter" setView={changeView} isEditing={isEditing} data={resumeData} setData={setResumeData} />
           )}
 
           {view === 'portfolio' && (
