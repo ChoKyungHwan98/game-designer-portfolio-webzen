@@ -686,18 +686,28 @@ const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent,
 
 // --- About ---
 const About = ({ isEditing, content, setContent }: { isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex flex-col items-center justify-center bg-[#FDFDFB] overflow-hidden">
-    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+  <section id="about" className="scroll-mt-20 py-[160px] px-6 md:px-12 relative border-t border-black/5 min-h-[80vh] flex bg-[#FDFDFB] overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
     
-    <div className="max-w-4xl mx-auto w-full relative z-10">
-      <div className="text-center">
-        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.25em] font-bold mb-6 block">01. About Me</span>
-        <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#1A2332] leading-[1.2] mb-12">
+    <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+      {/* Sticky Left: Manifesto Headers */}
+      <div className="lg:sticky lg:top-40 relative">
+        <span className="inline-block px-4 py-1.5 bg-[#800020]/10 text-[#800020] rounded-full font-mono text-[10px] uppercase tracking-[0.25em] font-bold mb-8">01. About Me</span>
+        <h2 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-[-0.03em] text-[#1A2332] leading-[1.15] mb-8 break-keep">
           <EditableText value={content.title || "안녕하세요."} onSave={(v) => setContent({...content, title: v})} isEditing={isEditing} />
         </h2>
-        <div className="space-y-6 text-zinc-600 font-normal text-lg md:text-xl leading-[1.85] max-w-3xl mx-auto">
-          <p><EditableText value={content.p1} onSave={(v) => setContent({...content, p1: v})} isEditing={isEditing} multiline /></p>
-          <p><EditableText value={content.p2} onSave={(v) => setContent({...content, p2: v})} isEditing={isEditing} multiline /></p>
+        <div className="w-16 h-1.5 bg-[#800020] mb-8"></div>
+      </div>
+      
+      {/* Scrolling Right: Split Screen Biography */}
+      <div className="space-y-12 text-zinc-600 font-medium text-lg lg:text-xl leading-[2] pt-4 lg:pt-0">
+        <div className="relative pl-8 border-l-[3px] border-black/10 hover:border-[#800020] transition-colors duration-500 group">
+          <div className="absolute -left-[9px] top-2 w-4 h-4 bg-white border-[3px] border-black/10 rounded-full group-hover:border-[#800020] transition-colors duration-500"></div>
+          <EditableText value={content.p1} onSave={(v) => setContent({...content, p1: v})} isEditing={isEditing} multiline />
+        </div>
+        <div className="relative pl-8 border-l-[3px] border-black/10 hover:border-[#800020] transition-colors duration-500 group">
+          <div className="absolute -left-[9px] top-2 w-4 h-4 bg-white border-[3px] border-black/10 rounded-full group-hover:border-[#800020] transition-colors duration-500"></div>
+          <EditableText value={content.p2} onSave={(v) => setContent({...content, p2: v})} isEditing={isEditing} multiline />
         </div>
       </div>
     </div>
@@ -974,64 +984,63 @@ const ICON_OPTIONS = [
 
 // --- Skills ---
 const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: Skill[], setSkills: (s: Skill[]) => void }) => {
-  const [showIconPicker, setShowIconPicker] = useState<number | null>(null);
-
   return (
-    <section id="skills" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col items-center justify-center bg-[#F6F6F3] overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+    <section id="skills" className="scroll-mt-20 py-[160px] px-6 md:px-12 relative min-h-screen flex flex-col items-start bg-[#1A1A1A] overflow-hidden rounded-t-[3rem] mt-[-3rem] z-20">
+      <div className="absolute inset-0 pointer-events-none opacity-20 object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
       
-      <div className="max-w-6xl mx-auto w-full relative z-10">
-        <div className="text-center mb-20">
-          <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-6 block">03. Skills</motion.span>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight mb-8">핵심 역량.</motion.h2>
+      <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col h-full">
+        <div className="mb-24 grid lg:grid-cols-2 gap-12 items-end border-b border-white/10 pb-12">
+          <div>
+            <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-6 block">03. Core Competencies</motion.span>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-[-0.03em] text-white leading-tight">핵심 역량.</motion.h2>
+          </div>
+          <p className="text-zinc-400 text-lg leading-[1.8] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col w-full flex-1">
           {skills.map((skill, idx) => (
-            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
-              className="relative group/skill flex flex-col gap-6 bg-white border border-black/5 rounded-2xl p-8 hover:border-black/10 hover:-translate-y-2 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]">
-              {/* Card top edge glow (light version) */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/[0.03] to-transparent" />
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 group-hover/skill:w-1/2 h-px bg-gradient-to-r from-transparent via-[#800020]/30 to-transparent transition-all duration-700" />
-              {isEditing && (
-                <button onClick={() => { const s = [...skills]; s.splice(idx, 1); setSkills(s); }}
-                  className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-sm z-10" title="삭제">
-                  <X className="w-3 h-3" />
-                </button>
-              )}
+            <motion.div key={idx} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }}
+              className="relative group border-b border-white/5 py-12 px-6 lg:px-12 hover:pl-16 transition-all duration-700 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8 cursor-default">
               
-              <div className="flex items-center gap-4">
-                <div className={`w-14 h-14 bg-zinc-50 rounded-2xl flex items-center justify-center text-[#2C2C2C] shrink-0 border border-black/5 group-hover/skill:bg-[#800020] group-hover/skill:border-[#800020] group-hover/skill:text-white transition-colors duration-500`}>
+              {/* Giant Background Progress Bar */}
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: `${skill.level}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-[#800020]/30 to-[#800020]/10 z-0 origin-left"
+              />
+              <div className="absolute top-0 left-0 bottom-0 w-2 bg-[#800020] z-0 scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out" />
+
+              <div className="relative z-10 flex items-center gap-10 md:w-1/2">
+                <div className="text-white/20 group-hover:text-[#800020] transition-all duration-500 transform group-hover:scale-125 mb-auto pt-2 hidden md:block">
                   {skill.icon}
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-[#2C2C2C] truncate">
+                <div>
+                  <h3 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white/90 tracking-tighter uppercase group-hover:text-white transition-colors duration-500 break-keep">
                     <EditableText value={skill.name} onSave={(v) => { const s = [...skills]; s[idx].name = v; setSkills(s); }} isEditing={isEditing} />
                   </h3>
-                  <p className="text-sm font-medium text-zinc-500 mt-1 truncate">
-                    <EditableText value={skill.caption || ""} onSave={(v) => { const s = [...skills]; s[idx].caption = v; setSkills(s); }} isEditing={isEditing} />
-                  </p>
                 </div>
               </div>
               
-              <div className="flex flex-col gap-2 relative z-10">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs font-bold text-zinc-400 tracking-[0.2em] uppercase">Proficiency</span>
-                  <span className="text-sm font-bold text-[#2C2C2C] group-hover/skill:text-[#800020] transition-colors duration-500">{skill.level}%</span>
-                </div>
-                <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden relative border border-black/[0.03]">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-0 left-0 bottom-0 bg-gradient-to-r from-zinc-300 to-zinc-400 group-hover/skill:from-[#800020] group-hover/skill:to-[#c80032] transition-colors duration-500 rounded-full group-hover/skill:shadow-[0_0_8px_rgba(128,0,32,0.3)]"
-                  />
-                </div>
+              <div className="relative z-10 md:w-1/3 flex flex-col gap-3 ml-auto md:text-right md:items-end">
+                 <p className="text-lg md:text-xl font-medium text-zinc-400 group-hover:text-white transition-colors duration-500 max-w-sm">
+                   <EditableText value={skill.caption || ""} onSave={(v) => { const s = [...skills]; s[idx].caption = v; setSkills(s); }} isEditing={isEditing} />
+                 </p>
+                 <div className="flex items-center md:flex-row-reverse gap-4 mt-2">
+                    <span className="text-xs font-bold text-zinc-500 tracking-[0.2em] uppercase">Proficiency</span>
+                    <span className="text-[#800020] group-hover:text-white font-bold font-mono text-xl transition-colors">{skill.level}%</span>
+                 </div>
               </div>
+
+              {isEditing && (
+                <button onClick={() => { const s = [...skills]; s.splice(idx, 1); setSkills(s); }}
+                  className="absolute top-1/2 -translate-y-1/2 right-4 p-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-sm z-20" title="삭제">
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </motion.div>
           ))}
         </div>
@@ -1042,99 +1051,116 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
 
 // --- PlayHistory ---
 const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void, onViewAll: () => void }) => {
-  const renderCategory = (title: string, icon: React.ReactNode, dataKey: keyof GameHistory) => {
-    const items = history[dataKey] || [];
-    const displayItems = items.slice(0, 3);
-    const hiddenCount = items.length - 3;
+  const allGames = [...(history.pc||[]), ...(history.mobile||[]), ...(history.console||[])];
 
+  const renderDashboardRow = (title: string, icon: React.ReactNode, dataKey: keyof GameHistory) => {
+    const items = history[dataKey] || [];
     return (
-      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}
-        className="group flex flex-col bg-[#F6F6F3] border border-black/5 rounded-2xl p-8 hover:border-[#800020]/20 hover:-translate-y-2 transition-all duration-500 h-full relative overflow-hidden shadow-sm hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-black/[0.03] to-transparent" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 group-hover:w-1/2 h-px bg-gradient-to-r from-transparent via-[#800020]/30 to-transparent transition-all duration-700" />
-        
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-black/5 relative z-10">
-          <div className="flex items-center gap-4 text-[#2C2C2C]">
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#2C2C2C] border border-black/5 group-hover:bg-[#800020] group-hover:border-[#800020] group-hover:text-white transition-all duration-500 shadow-sm">
+      <div className="mb-14 bg-white border border-black/5 rounded-[2.5rem] p-8 lg:p-10 shadow-sm hover:shadow-xl transition-all duration-500 group/board">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-6 border-b-2 border-black/5 group-hover/board:border-black/10 transition-colors">
+          <div className="flex items-center gap-5 text-[#2C2C2C]">
+            <div className="w-14 h-14 bg-zinc-50 rounded-2xl flex items-center justify-center text-[#2C2C2C] border border-black/5 group-hover/board:bg-[#800020] group-hover/board:text-white transition-colors duration-500 shadow-sm shrink-0">
               {icon}
             </div>
-            <span className="font-bold tracking-tight text-xl group-hover:text-[#800020] transition-colors duration-500">{title}</span>
+            <span className="font-display font-bold tracking-tight text-2xl md:text-3xl">{title}</span>
           </div>
-          {isEditing && (
-            <button onClick={() => { const h = {...history}; h[dataKey].push({ id: Date.now().toString(), name: "새 항목", hours: 0 }); setHistory(h); }}
-              className="p-2 bg-white border border-black/10 text-zinc-500 hover:bg-zinc-50 transition-colors rounded-full">
-              <Plus className="w-4 h-4" />
-            </button>
-          )}
+          <div className="mt-4 sm:mt-0 flex items-center gap-4">
+             <span className="px-4 py-2 bg-zinc-100 rounded-xl font-mono text-sm font-bold text-[#800020] flex items-center gap-2">
+               <span className="w-2 h-2 rounded-full bg-[#800020] animate-pulse"></span> {items.length} TITLES
+             </span>
+             {isEditing && (
+              <button onClick={() => { const h = {...history}; h[dataKey].push({ id: Date.now().toString(), name: "새 항목", hours: 0 }); setHistory(h); }}
+                className="w-10 h-10 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors rounded-full" title="항목 추가">
+                <Plus className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
-        <div className="space-y-6 flex-1">
-          {displayItems.map((game, idx) => (
-            <div key={game.id} className="group/item flex flex-col gap-1 p-3 -mx-3 rounded-2xl hover:bg-white transition-colors relative shadow-transparent hover:shadow-sm">
-              <div className="flex items-center gap-2 mb-1">
+        
+        <div className="flex flex-col gap-1">
+          {items.slice(0, 5).map((game, idx) => (
+            <div key={game.id} className="group flex flex-col md:flex-row md:items-center justify-between p-4 px-6 hover:bg-[#FDFDFB] rounded-2xl transition-colors cursor-default border border-transparent hover:border-black/5 w-full relative overflow-hidden">
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#800020] rounded-r-full scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+              
+              <div className="flex items-center gap-5 w-full md:w-auto mb-3 md:mb-0">
+                <span className="text-[#800020] font-mono text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity w-5 shrink-0">{(idx+1).toString().padStart(2, '0')}</span>
+                <div className="flex-1 min-w-0">
+                   <h4 className="font-bold text-lg text-[#2C2C2C] group-hover:text-[#800020] transition-colors truncate">
+                     <EditableText value={game.title || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].title = v; setHistory(h); }} isEditing={isEditing} />
+                   </h4>
+                   <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest leading-none block mt-1">{game.genre}</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-8 md:text-right pl-10 md:pl-0">
+                <div className="text-left md:text-right w-24">
+                  <span className="block text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">Platform</span>
+                  <span className="font-mono text-xs text-[#2C2C2C] font-bold truncate block">
+                    <EditableText value={game.platform || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].platform = v; setHistory(h); }} isEditing={isEditing} />
+                  </span>
+                </div>
+                {game.playTime && (
+                  <div className="text-left md:text-right w-20">
+                    <span className="block text-[9px] font-bold text-[#800020]/70 uppercase tracking-widest mb-0.5">Playtime</span>
+                    <span className="font-mono text-xs text-[#800020] font-bold truncate block">{game.playTime}</span>
+                  </div>
+                )}
                 {isEditing && (
-                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="absolute -left-4 text-zinc-400 hover:text-red-500 transition-colors">
-                    <X className="w-3.5 h-3.5" />
+                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="text-zinc-300 hover:text-red-500 transition-colors ml-2 shrink-0">
+                    <X className="w-4 h-4" />
                   </button>
                 )}
-                <span className="px-2 py-0.5 bg-[#800020]/10 text-[#800020] rounded-sm text-[10px] font-bold tracking-widest">{game.genre}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#2C2C2C] font-bold text-lg truncate">
-                  <EditableText value={game.title || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].title = v; setHistory(h); }} isEditing={isEditing} />
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5 text-zinc-500 font-mono text-xs mt-0.5">
-                <Gamepad2 className="w-3.5 h-3.5" /> 
-                <span className="flex items-center">
-                  <EditableText value={game.platform || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].platform = v; setHistory(h); }} isEditing={isEditing} />
-                  {game.playTime && <span className="ml-2 pl-2 border-l border-zinc-300 text-zinc-500">{game.playTime}</span>}
-                </span>
               </div>
             </div>
           ))}
-          {hiddenCount > 0 && !isEditing && (
-            <div className="pt-4 mt-4 border-t border-dashed border-black/10 text-center">
-              <span className="text-xs font-bold text-zinc-400 tracking-widest uppercase">+ {hiddenCount} More Entries</span>
+          {items.length > 5 && !isEditing && (
+            <div className="text-center pt-6 mt-4 border-t border-dashed border-black/10">
+              <span className="text-[11px] font-bold text-zinc-400 tracking-widest uppercase">+ {items.length - 5} More Games in Portfolio View</span>
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     );
   };
 
   return (
-    <section id="play-history" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden border-t border-black/5">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-      
-      <div className="max-w-6xl mx-auto w-full relative z-10">
-        <div className="text-center mb-20">
-          <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-6 block">04. Play History</motion.span>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight mb-8">게임 플레이 이력.</motion.h2>
-          <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="flex flex-col items-center gap-8">
-            <p className="text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-[1.9]">
-              다양한 장르와 플랫폼을 아우르는 게임 플레이 경험이 <br className="hidden md:block" />
-              폭넓은 시야와 차별화된 레벨 디자인의 밑거름이 됩니다.
-            </p>
-            {!isEditing && (
-              <button onClick={onViewAll}
-                className="group relative px-8 py-4 bg-white text-zinc-600 rounded-full text-xs font-bold tracking-widest uppercase border border-black/10 hover:border-[#800020] transition-all duration-500 overflow-hidden flex items-center gap-3">
-                <span className="relative z-10 flex items-center gap-2 group-hover:text-white transition-colors duration-500">
-                  전체 플레이 이력 보기 <ArrowRight className="w-4 h-4" />
-                </span>
-                <div className="absolute inset-0 bg-[#800020] scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
-              </button>
-            )}
-          </motion.div>
+    <section id="play-history" className="scroll-mt-20 py-[160px] px-6 md:px-12 relative min-h-screen bg-[#F6F6F3] overflow-hidden border-t border-black/5">
+      <div className="max-w-7xl mx-auto w-full relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        
+        {/* Left: Dashboard Stats */}
+        <div className="lg:col-span-4 lg:sticky lg:top-40 bg-[#1A1A1A] text-white rounded-[3rem] p-10 lg:p-12 shadow-2xl flex flex-col justify-between overflow-hidden relative min-h-[500px]">
+          {/* subtle background graphic */}
+          <div className="absolute -right-20 -bottom-20 w-64 h-64 border-[40px] border-white/5 rounded-full pointer-events-none"></div>
+          
+          <div>
+            <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-6 block drop-shadow-md">04. Statistics</span>
+            <h2 className="text-4xl lg:text-6xl font-display font-bold tracking-[-0.03em] leading-tight mb-12 break-keep">플레이<br />통계.</h2>
+            
+            <div className="grid gap-6 mb-12">
+               <div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md">
+                  <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center gap-2"><Gamepad2 className="w-3 h-3" /> Total Games Analyzed</span>
+                  <span className="text-5xl font-display font-bold text-white tracking-tighter">{allGames.length}</span>
+               </div>
+               
+               <p className="text-zinc-400 font-medium leading-[1.8] text-sm mt-4">
+                 다양한 플랫폼 및 장르 분석을 통해 트렌디한 감각과 심층적인 레벨 디자인 설계 능력을 검증합니다.
+               </p>
+            </div>
+          </div>
+
+          {!isEditing && (
+            <button onClick={onViewAll}
+              className="mt-auto w-full py-6 bg-white shrink-0 text-[#1A1A1A] rounded-2xl font-bold tracking-widest text-xs uppercase hover:bg-[#800020] hover:text-white transition-all duration-300 shadow-md flex justify-center items-center gap-3 group">
+              전체 플레이 이력 보기 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          )}
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6">
-          {renderCategory("PC / 메인라인", <Monitor className="w-6 h-6" />, "pc")}
-          {renderCategory("모바일 / 휴대용", <Smartphone className="w-6 h-6" />, "mobile")}
-          {renderCategory("콘솔 / 패키지", <Gamepad2 className="w-6 h-6" />, "console")}
+        {/* Right: Data Rows */}
+        <div className="lg:col-span-8">
+          {renderDashboardRow("PC / Mainline", <Monitor className="w-7 h-7" />, "pc")}
+          {renderDashboardRow("Console / Package", <Gamepad2 className="w-7 h-7" />, "console")}
+          {renderDashboardRow("Mobile / Portable", <Smartphone className="w-7 h-7" />, "mobile")}
         </div>
       </div>
     </section>
@@ -1641,25 +1667,32 @@ const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
 // --- Contact ---
 const Contact = () => (
-  <section id="contact" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
-    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-    
-    <div className="max-w-4xl mx-auto w-full text-center relative z-10">
-      <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.25em] font-bold mb-8 block">05. Contact</span>
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-[1.15] mb-8">
-        저는 <br/><span className="text-zinc-400">준비되었습니다.</span>
-      </h2>
-      <p className="text-zinc-500 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-        새로운 프로젝트나 협업 제안은 언제나 환영입니다. <br className="hidden md:block" />
-        아래 이메일로 연락 주시면 빠르게 답변 드리겠습니다.
-      </p>
+  <section id="contact" className="h-[80vh] px-0 relative flex flex-col items-center justify-center bg-[#800020] overflow-hidden group/contact border-t border-black/10">
+    {/* Default State: Massive Typo */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/contact:scale-[1.15] group-hover/contact:opacity-0 mix-blend-overlay">
+       <span className="text-[14vw] font-display font-black text-white tracking-tighter leading-[0.8] m-0 p-0 text-center uppercase">
+         LET'S<br/>WORK.
+       </span>
+    </div>
+
+    {/* Hover Revealed State: Details */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 scale-95 group-hover/contact:opacity-100 group-hover/contact:scale-100 transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] bg-[#1A1A1A]">
+      <div className="absolute inset-0 pointer-events-none opacity-20 object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
       
-      <a href="mailto:kh980624@naver.com" 
-        className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#800020] text-white font-bold hover:bg-[#a10028] transition-all duration-500 shadow-lg hover:shadow-xl hover:-translate-y-1 tracking-widest text-sm rounded-full uppercase overflow-hidden relative">
-        <span className="relative z-10 flex items-center gap-3">
-          <Mail className="w-5 h-5" /> 이메일 보내기
-        </span>
-      </a>
+      <div className="text-center relative z-10 w-full px-6 max-w-4xl mx-auto">
+        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. Contact</span>
+        <h2 className="text-6xl md:text-8xl lg:text-[7rem] font-display font-bold tracking-tighter text-white leading-none mb-12">
+          준비되었습니다.
+        </h2>
+        <p className="text-zinc-400 text-xl mb-16 max-w-2xl mx-auto font-medium leading-relaxed hidden sm:block">
+          새로운 프로젝트나 협업 제안은 언제나 환영입니다.
+        </p>
+        
+        <a href="mailto:kh980624@naver.com" 
+          className="inline-flex items-center justify-center gap-5 px-14 py-7 bg-transparent border-2 border-white/20 text-white font-bold hover:bg-[#800020] hover:border-[#800020] transition-all duration-500 rounded-full tracking-widest text-lg sm:text-xl lg:text-2xl shadow-2xl">
+          <Mail className="w-6 h-6 sm:w-8 sm:h-8" /> kh980624@naver.com
+        </a>
+      </div>
     </div>
   </section>
 );
