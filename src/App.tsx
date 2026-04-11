@@ -1163,10 +1163,24 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         html2canvas: { scale: 2, useCORS: true, letterRendering: true, windowWidth: 800 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
         pagebreak: { mode: 'css' }
-      };
+      const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
       
-      await html2pdf().set(opt).from(element).save();
+      // 크롬 보안 우회: 실제 화면에 안 보이는 a 태그를 숨겨서 붙이고 클릭해야 파일명이 유지됩니다.
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      const link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = blobUrl;
+      link.download = 'Resume.pdf';
       
+      document.body.appendChild(link);
+      link.click();
+      
+      // 브라우저가 디스크에 쓰는 시간을 충분히 보장(5초)
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+      }, 5000);
+
     } catch (err) {
       console.error('PDF generation failed:', err);
       alert('PDF 생성에 실패했습니다. 다시 시도해 주세요.');
