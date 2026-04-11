@@ -1168,11 +1168,16 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
       const blobUrl = URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = `Resume_${data.name || 'Portfolio'}.pdf`;
+      link.setAttribute('download', '조경환_이력서.pdf');
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(blobUrl);
+      
+      // 브라우저가 실제로 파일을 다운로드할 시간을 넉넉히 준 뒤 메모리를 정리합니다.
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+      }, 1500);
+      
     } catch (err) {
       console.error('PDF generation failed:', err);
       alert('PDF 생성에 실패했습니다. 다시 시도해 주세요.');
