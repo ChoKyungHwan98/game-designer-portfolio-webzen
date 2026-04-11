@@ -826,18 +826,57 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
         </div>
 
         {limit ? (
-          <div className="flex flex-col lg:flex-row gap-4 h-auto lg:h-[600px]">
-            {displayedProjects.map((project, idx) => {
-              const isActive = project.id === actualFeaturedId;
-              return (
-                <motion.div key={project.id} layout onClick={() => setFeaturedId(project.id)}
-                  className={`relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-700 ease-in-out border border-black/5 hover:border-black/10 shadow-sm hover:shadow-lg flex flex-col bg-white ${
-                    isActive ? 'lg:grow-[3] lg:basis-0 h-[500px] lg:h-full' : 'lg:grow-[1] lg:basis-0 h-[150px] lg:h-full'
-                  }`}>
-                  <ProjectCard project={project} idx={idx} isEditing={isEditing} projects={projects} setProjects={setProjects} onProjectClick={onProjectClick} layout={isActive ? 'accordion-active' : 'accordion-inactive'} />
-                </motion.div>
-              );
-            })}
+          <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[640px]">
+            {/* Left: Active Project (Master) */}
+            <motion.div layout className="relative w-full lg:w-[65%] h-[500px] lg:h-full rounded-[2.5rem] overflow-hidden shadow-2xl flex-shrink-0 group cursor-pointer"
+              onClick={() => { const p = displayedProjects.find(p => p.id === actualFeaturedId); if(p) onProjectClick(p); }}>
+              <AnimatePresence mode="wait">
+                {displayedProjects.map((project) => project.id === actualFeaturedId && (
+                  <motion.div key={project.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                    className="absolute inset-0 w-full h-full">
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                    
+                    <div className="absolute bottom-10 left-10 right-10 z-10 flex flex-col items-start gap-5">
+                      <div className="flex gap-2">
+                        <span className="bg-white/90 backdrop-blur-sm text-[#2C2C2C] px-4 py-1.5 rounded-full text-[11px] font-bold tracking-tight shadow-sm uppercase">{project.category}</span>
+                        {project.status && <span className="bg-[#800020] text-white px-4 py-1.5 rounded-full text-[11px] font-bold tracking-tight shadow-md shadow-[#800020]/30">{project.status}</span>}
+                      </div>
+                      <h3 className="text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-display font-bold text-white tracking-tight drop-shadow-lg leading-tight line-clamp-2">{project.title}</h3>
+                      <p className="text-white/80 text-base md:text-lg lg:text-xl font-medium leading-relaxed max-w-2xl drop-shadow-md line-clamp-2">{project.description}</p>
+                      <div className="mt-2 px-8 py-4 bg-white/10 hover:bg-white text-white hover:text-[#1A2332] backdrop-blur-md font-bold text-sm tracking-widest transition-all duration-500 rounded-full flex gap-3 items-center uppercase">
+                        기획서 보기 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Right: Truncated List (Thumbnails) */}
+            <div className="w-full lg:w-[35%] flex flex-col gap-6">
+              <AnimatePresence mode="popLayout">
+                {displayedProjects.map((project) => project.id !== actualFeaturedId && (
+                  <motion.div 
+                    layoutId={`thumb-${project.id}`}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
+                    key={project.id} 
+                    onClick={() => setFeaturedId(project.id)}
+                    className="relative flex-1 rounded-[2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-500 min-h-[220px] bg-zinc-900"
+                  >
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-black/10 group-hover:bg-black/20 transition-all duration-500" />
+                    <div className="absolute bottom-8 left-8 right-8 z-10 transition-transform duration-500 group-hover:translate-x-2">
+                      <span className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-3 block">{project.category}</span>
+                      <h3 className="text-2xl lg:text-3xl font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-2">{project.title}</h3>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
