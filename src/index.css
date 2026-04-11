@@ -12,13 +12,7 @@
   --color-bg-main: #F6F6F3; /* Light Editorial */
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
-@layer base {
-  * {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+@custom-variant dark (&:where(
   html {
     scroll-behavior: smooth;
   }

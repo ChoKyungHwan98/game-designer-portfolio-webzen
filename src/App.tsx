@@ -489,7 +489,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
     : 'py-8';
     
   const navBgClass = scrolledPastHero
-    ? 'bg-white/85 dark:bg-[#0a0a0a]/85 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.6)]'
+    ? 'bg-white/85  backdrop-blur-2xl border border-black/10  shadow-[0_12px_40px_rgba(0,0,0,0.08)] '
     : 'bg-transparent border border-transparent';
 
   return (
@@ -503,8 +503,8 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
               조
             </div>
             <div className="flex flex-col justify-center">
-              <span className="font-display font-bold tracking-tight text-[16px] md:text-[18px] text-[#2C2C2C] dark:text-[#e8e4dc] group-hover:text-[#800020] transition-colors leading-none">조경환</span>
-              <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-500 dark:text-[#666] mt-1.5 leading-none hidden sm:block">Game Designer</span>
+              <span className="font-display font-bold tracking-tight text-[16px] md:text-[18px] text-[#2C2C2C]  group-hover:text-[#800020] transition-colors leading-none">조경환</span>
+              <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-500  mt-1.5 leading-none hidden sm:block">Game Designer</span>
             </div>
             {isEditing && (
               <span className="ml-3 px-2 py-1 bg-[#800020]/10 border border-[#800020]/30 rounded text-[10px] text-[#800020] font-bold uppercase tracking-wider">
@@ -525,7 +525,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                 key={id}
                 href={`#${id}`}
                 onClick={(e) => handleLinkClick(e, id)}
-                className={`relative px-5 py-3 rounded-full text-[15px] font-bold transition-all flex items-center gap-2.5 group overflow-hidden ${activeSection === id ? 'text-[#800020] bg-[#800020]/5 dark:bg-[#800020]/10' : 'text-zinc-500 dark:text-zinc-400 hover:text-[#2C2C2C] dark:hover:text-[#e8e4dc] hover:bg-zinc-100 dark:hover:bg-white/5'}`}
+                className={`relative px-5 py-3 rounded-full text-[15px] font-bold transition-all flex items-center gap-2.5 group overflow-hidden ${activeSection === id ? 'text-[#800020] bg-[#800020]/5 ' : 'text-zinc-500  hover:text-[#2C2C2C]  hover:bg-zinc-100 '}`}
               >
                 <span className={`text-[12px] font-mono uppercase tracking-widest transition-colors duration-300 ${activeSection === id ? 'text-[#800020]/70' : 'text-zinc-400'}`}>{num}</span>
                 <span className="tracking-wide">{label}</span>
@@ -535,40 +535,34 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
 
           {/* Right: Utilities */}
           <div className="flex items-center justify-end gap-3 shrink-0">
-            <div className="hidden xl:flex bg-zinc-100/80 dark:bg-white/5 p-1.5 rounded-full border border-black/5 dark:border-white/5 shadow-inner">
+            <div className="hidden xl:flex bg-zinc-100/80  p-1.5 rounded-full border border-black/5  shadow-inner">
               {[
                 { key: 'resume', label: '이력서', icon: <FileText className="w-4 h-4" /> },
                 { key: 'portfolio', label: '포트폴리오', icon: <FolderOpen className="w-4 h-4" /> },
                 { key: 'game-history', label: '플레이 이력', icon: <Gamepad2 className="w-4 h-4" /> },
               ].map(item => (
                 <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0,0); }} 
-                  className={`px-5 py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all flex items-center gap-2 ${currentView === item.key ? 'bg-white dark:bg-[#222] text-[#800020] shadow-md' : 'text-zinc-500 hover:text-[#2C2C2C] dark:hover:text-[#e8e4dc]'}`}>
+                  className={`px-5 py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all flex items-center gap-2 ${currentView === item.key ? 'bg-white  text-[#800020] shadow-md' : 'text-zinc-500 hover:text-[#2C2C2C] '}`}>
                   {item.icon}
                   <span>{item.label}</span>
                 </button>
               ))}
             </div>
             
-            <div className="hidden xl:block w-px h-8 bg-black/10 dark:bg-white/10 mx-1.5"></div>
+            <div className="hidden xl:block w-px h-8 bg-black/10  mx-1.5"></div>
             
             <div className="flex items-center gap-2">
-              <button 
-                onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                className="w-12 h-12 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:text-[#2C2C2C] dark:hover:text-white"
-                title="Toggle Theme"
-              >
-                {isDark ? <Sun className="w-[20px] h-[20px]" /> : <Moon className="w-[20px] h-[20px]" />}
-              </button>
+              {/* Dark mode has been removed permanently */}
               <button 
                 onClick={handleAdminClick}
-                className="w-12 h-12 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:text-[#2C2C2C] dark:hover:text-white"
+                className="w-12 h-12 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100  text-zinc-500  hover:text-[#2C2C2C] "
                 title="Admin Mode"
               >
                 <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#800020]' : 'opacity-80'}`} />
               </button>
               
               {/* Mobile Menu Toggle */}
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-white/5 text-[#2C2C2C] dark:text-[#e8e4dc] ml-1">
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100  text-[#2C2C2C]  ml-1">
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
@@ -583,12 +577,12 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
             initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             animate={{ opacity: 1, backdropFilter: 'blur(16px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            className="fixed inset-0 z-40 bg-white/90 dark:bg-[#0a0a0a]/95 flex items-center justify-center pt-20 pb-10"
+            className="fixed inset-0 z-40 bg-white/90  flex items-center justify-center pt-20 pb-10"
           >
-            <div className="w-[90%] max-w-md bg-white dark:bg-[#111] border border-black/5 dark:border-white/10 p-8 rounded-3xl shadow-2xl flex flex-col gap-8 max-h-[90vh] overflow-y-auto">
+            <div className="w-[90%] max-w-md bg-white  border border-black/5  p-8 rounded-3xl shadow-2xl flex flex-col gap-8 max-h-[90vh] overflow-y-auto">
               
               {/* Document Nav Inside Mobile */}
-              <div className="bg-zinc-50 dark:bg-white/5 rounded-2xl p-4 flex flex-col gap-2">
+              <div className="bg-zinc-50  rounded-2xl p-4 flex flex-col gap-2">
                 <span className="text-[10px] font-mono tracking-widest uppercase text-zinc-500 mb-2">Documents</span>
                 {[
                   { key: 'resume', label: '이력서 보기', icon: <FileText className="w-4 h-4" /> },
@@ -596,7 +590,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                   { key: 'game-history', label: '플레이 이력 보기', icon: <Gamepad2 className="w-4 h-4" /> },
                 ].map(item => (
                   <button key={item.key} onClick={() => { setView(item.key as any); setIsMenuOpen(false); window.scrollTo(0,0); }} 
-                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-colors ${currentView === item.key ? 'bg-white dark:bg-[#222] text-[#800020] shadow-sm' : 'text-zinc-600 dark:text-zinc-400 hover:bg-white dark:hover:bg-[#222] hover:text-[#2C2C2C] dark:hover:text-white'}`}>
+                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-colors ${currentView === item.key ? 'bg-white  text-[#800020] shadow-sm' : 'text-zinc-600  hover:bg-white  hover:text-[#2C2C2C] '}`}>
                     {item.icon} {item.label}
                   </button>
                 ))}
@@ -612,7 +606,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                   { id: 'contact', label: '문의하기', num: '04' } /* Optional info link added per current structure */
                 ].map(({ id, label, num }) => (
                   <a key={id} href={`#${id}`} onClick={(e) => handleLinkClick(e, id)}
-                    className="group relative font-bold flex items-center gap-4 py-3 px-4 rounded-xl text-[#2C2C2C] dark:text-[#e8e4dc] hover:bg-zinc-50 dark:hover:bg-white/5 transition-colors">
+                    className="group relative font-bold flex items-center gap-4 py-3 px-4 rounded-xl text-[#2C2C2C]  hover:bg-zinc-50  transition-colors">
                     <span className="text-xs font-mono opacity-40 text-zinc-500 group-hover:text-[#800020] transition-colors">{num}</span>
                     <span className="text-base tracking-wide">{label}</span>
                   </a>
@@ -620,7 +614,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
               </div>
               
               {/* Close Button Bottom */}
-              <button onClick={() => setIsMenuOpen(false)} className="mt-auto w-full py-4 rounded-xl bg-zinc-100 dark:bg-white/5 text-zinc-600 dark:text-zinc-400 font-bold tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200 dark:hover:bg-white/10 transition-colors">
+              <button onClick={() => setIsMenuOpen(false)} className="mt-auto w-full py-4 rounded-xl bg-zinc-100  text-zinc-600  font-bold tracking-widest flex items-center justify-center gap-2 hover:bg-zinc-200  transition-colors">
                 닫기 <X className="w-4 h-4" />
               </button>
             </div>
@@ -637,48 +631,75 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
 
 // --- Hero ---
 const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent }: { onPortfolioClick: () => void, onResumeClick: () => void, isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="hero" className="relative min-h-screen flex flex-col justify-center items-center px-6 md:px-12 py-[120px] overflow-hidden bg-transparent border-b border-black/10 dark:border-[#1e1e1e] transition-colors duration-500">
-    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+  <section id="hero" className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 py-[120px] overflow-hidden bg-[#FDFDFB] border-b border-black/10">
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="z-10 text-center max-w-5xl relative w-full mx-auto flex flex-col items-center pb-24"
-    >
-      <h1 className="mb-10 flex flex-col items-center gap-3">
-        <div className="text-xl md:text-2xl lg:text-3xl font-display font-medium text-zinc-500 dark:text-zinc-400 tracking-tight transition-colors">
-          <EditableText value={content.titleLine1 || "기획의도를 알고"} onSave={(v) => setContent({...content, titleLine1: v})} isEditing={isEditing} />
+    <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8 mt-12">
+      {/* Editorial Left Side - Huge Title & Text */}
+      <motion.div 
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full lg:w-[55%] flex flex-col items-start text-left"
+      >
+        <span className="text-[#800020] font-mono text-sm uppercase tracking-[0.25em] font-bold mb-6 block drop-shadow-sm">01. Game Designer</span>
+        <h1 className="mb-8 flex flex-col items-start gap-4">
+          <div className="text-2xl md:text-3xl lg:text-4xl font-display font-medium text-zinc-500 tracking-tight">
+            <EditableText value={content.titleLine1 || "기획의도를 알고"} onSave={(v) => setContent({...content, titleLine1: v})} isEditing={isEditing} />
+          </div>
+          <div className="text-5xl md:text-7xl lg:text-[5.5rem] font-display font-bold text-[#1A2332] tracking-[-0.04em] leading-[1.05] break-keep">
+            <EditableText value={content.titleLine2 || "목차를 쓸줄 아는 기획자"} onSave={(v) => setContent({...content, titleLine2: v})} isEditing={isEditing} />
+          </div>
+        </h1>
+        <p className="text-zinc-500 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-xl">
+          <EditableText value={content.description} onSave={(v) => setContent({...content, description: v})} isEditing={isEditing} multiline />
+        </p>
+        
+        <div className="flex flex-col sm:flex-row justify-start items-center gap-4 w-full sm:w-auto">
+          <motion.button 
+            whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
+            onClick={onResumeClick}
+            className="px-10 py-5 bg-[#800020] text-white font-bold flex items-center justify-center gap-3 hover:bg-[#a10028] transition-all duration-500 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-lg shadow-[#800020]/20 hover:shadow-xl"
+          >
+            이력서 보기 <ChevronRight className="w-4 h-4" />
+          </motion.button>
+          <motion.button 
+            whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
+            onClick={onPortfolioClick}
+            className="px-10 py-5 bg-white border border-zinc-200 text-zinc-600 font-bold hover:border-zinc-300 hover:text-[#1A2332] hover:bg-zinc-50 transition-all duration-500 flex items-center justify-center gap-3 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-sm hover:shadow-md"
+          >
+            포트폴리오 보기 <ArrowUpRight className="w-4 h-4" />
+          </motion.button>
         </div>
-        <div className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.04em] leading-[1.1] break-keep drop-shadow-sm transition-colors">
-          <EditableText value={content.titleLine2 || "목차를 쓸줄 아는 기획자"} onSave={(v) => setContent({...content, titleLine2: v})} isEditing={isEditing} />
-        </div>
-      </h1>
-      <p className="text-zinc-500 dark:text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-12 max-w-2xl mx-auto transition-colors">
-        <EditableText value={content.description} onSave={(v) => setContent({...content, description: v})} isEditing={isEditing} multiline />
-      </p>
-      
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-        <motion.button 
-          whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
-          onClick={onResumeClick}
-          className="px-10 py-5 bg-[#800020] text-white font-bold flex items-center justify-center gap-3 hover:bg-[#a10028] transition-all duration-500 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-lg shadow-[#800020]/20 hover:shadow-xl"
-        >
-          이력서 보기 <ChevronRight className="w-4 h-4" />
-        </motion.button>
-        <motion.button 
-          whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
-          onClick={onPortfolioClick}
-          className="px-10 py-5 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-[#e8e4dc] font-bold hover:border-zinc-300 hover:text-[#2C2C2C] hover:bg-zinc-50 dark:hover:bg-white/10 transition-all duration-500 flex items-center justify-center gap-3 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-sm dark:shadow-none hover:shadow-md"
-        >
-          포트폴리오 보기 <ArrowUpRight className="w-4 h-4" />
-        </motion.button>
-      </div>
-    </motion.div>
+      </motion.div>
 
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="mt-16 flex flex-col items-center gap-4">
-      <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-widest transition-colors">Scroll to explore</span>
-      <div className="w-[1px] h-16 bg-zinc-200 dark:bg-white/10 relative overflow-hidden transition-colors">
+      {/* Floating Glassmorphism Cards on the right */}
+      <motion.div 
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        className="w-full lg:w-[40%] flex flex-col gap-6 relative"
+      >
+        <div className="absolute -inset-10 bg-gradient-to-tr from-[#800020]/5 to-transparent blur-3xl rounded-full z-0 pointer-events-none" />
+        {content.stats.slice(0, 3).map((stat: any, idx: number) => (
+          <div key={idx} className="glass group relative overflow-hidden rounded-[2rem] p-8 flex items-center justify-between gap-4 transition-all duration-500 hover:shadow-[0_8px_30px_rgba(128,0,32,0.1)] hover:-translate-y-1 hover:border-[#800020]/20 z-10 bg-white/70 backdrop-blur-xl">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#800020]/5 to-transparent rounded-bl-full pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
+            <div className="flex flex-col gap-1 z-10">
+              <div className="text-[11px] font-bold text-[#800020] tracking-widest uppercase">
+                <EditableText value={stat.label} onSave={(v) => { const s = [...content.stats]; s[idx].label = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
+              </div>
+            </div>
+            <div className="text-4xl lg:text-5xl font-display font-bold text-[#1A2332] tracking-tighter text-right z-10">
+              <EditableText value={stat.value} onSave={(v) => { const s = [...content.stats]; s[idx].value = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
+            </div>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+      <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Scroll to explore</span>
+      <div className="w-[1px] h-16 bg-zinc-200 relative overflow-hidden">
         <motion.div animate={{ y: [-64, 64] }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className="absolute top-0 left-0 w-full h-1/2 bg-[#800020]" />
       </div>
     </motion.div>
@@ -687,32 +708,19 @@ const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent 
 
 // --- About ---
 const About = ({ isEditing, content, setContent }: { isEditing: boolean, content: any, setContent: (c: any) => void }) => (
-  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden">
+  <section id="about" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative border-t border-black/5 min-h-screen flex flex-col items-center justify-center bg-[#FDFDFB] overflow-hidden">
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
     
-    <div className="max-w-5xl mx-auto w-full relative z-10">
-      <div className="text-center mb-16">
-        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.25em] font-bold mb-6 block">01. About</span>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-[1.15] mb-10">
+    <div className="max-w-4xl mx-auto w-full relative z-10">
+      <div className="text-center">
+        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.25em] font-bold mb-6 block">02. Mindset</span>
+        <h2 className="text-4xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#1A2332] leading-[1.2] mb-12">
           <EditableText value={content.title || "안녕하세요."} onSave={(v) => setContent({...content, title: v})} isEditing={isEditing} />
         </h2>
-        <div className="space-y-5 text-zinc-600 font-normal text-base md:text-lg leading-[1.85] max-w-2xl mx-auto">
+        <div className="space-y-6 text-zinc-600 font-normal text-lg md:text-xl leading-[1.85] max-w-3xl mx-auto">
           <p><EditableText value={content.p1} onSave={(v) => setContent({...content, p1: v})} isEditing={isEditing} multiline /></p>
           <p><EditableText value={content.p2} onSave={(v) => setContent({...content, p2: v})} isEditing={isEditing} multiline /></p>
         </div>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
-        {content.stats.slice(0, 3).map((stat: any, idx: number) => (
-          <div key={idx} className="group flex flex-col items-center justify-center gap-2 bg-[#F6F6F3] border border-black/5 rounded-3xl p-10 hover:border-[#800020]/20 hover:shadow-md hover:-translate-y-1 transition-all duration-500">
-            <div className="text-5xl font-display font-bold text-[#2C2C2C] tracking-tighter group-hover:text-[#800020] transition-colors">
-              <EditableText value={stat.value} onSave={(v) => { const s = [...content.stats]; s[idx].value = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
-            </div>
-            <div className="text-sm font-bold text-zinc-500 tracking-widest uppercase">
-              <EditableText value={stat.label} onSave={(v) => { const s = [...content.stats]; s[idx].label = v; setContent({...content, stats: s}); }} isEditing={isEditing} />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   </section>
@@ -1208,7 +1216,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         </button>
         <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={handleDownload}
           disabled={isGeneratingPdf}
-          className="px-8 py-4 bg-white dark:bg-[#111] border border-black/10 dark:border-[#2a2a2a] rounded-xl text-[#2C2C2C] dark:text-[#e8e4dc] font-bold flex items-center justify-center gap-3 hover:border-[#800020] hover:text-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto disabled:opacity-50">
+          className="px-8 py-4 bg-white  border border-black/10  rounded-xl text-[#2C2C2C]  font-bold flex items-center justify-center gap-3 hover:border-[#800020] hover:text-[#800020] transition-all duration-300 text-sm tracking-widest shadow-sm w-full sm:w-auto disabled:opacity-50">
           {isGeneratingPdf ? (
             <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#800020] border-t-transparent rounded-full" /> PDF 생성 중...</>
           ) : (
@@ -1218,7 +1226,7 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
       </div>
 
       {/* ===== PROFILE HEADER BANNER (Compact Horizontal) ===== */}
-      <div className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] mb-8 transition-colors">
+      <div className="bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  mb-8 transition-colors">
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
           {/* Photo + Identity */}
           <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
@@ -1226,13 +1234,13 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
               <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
             </div>
             <div className="text-center sm:text-left">
-              <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight mb-1">
+              <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C]  tracking-tight mb-1">
                 <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
               </h1>
               <p className="text-[#800020] font-bold font-mono tracking-widest text-xs uppercase mb-4">
                 <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
               </p>
-              <div className="flex items-center gap-3 text-sm text-zinc-600 dark:text-[#888] font-medium">
+              <div className="flex items-center gap-3 text-sm text-zinc-600  font-medium">
                 <Mail className="w-4 h-4 text-zinc-400" />
                 <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
               </div>
@@ -1244,23 +1252,23 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
           </div>
 
           {/* Divider */}
-          <div className="hidden lg:block w-px h-24 bg-black/10 dark:bg-white/10 self-center shrink-0"></div>
+          <div className="hidden lg:block w-px h-24 bg-black/10  self-center shrink-0"></div>
 
           {/* Summary */}
           <div className="flex-1 min-w-0">
-            <h3 className="text-xs font-bold text-zinc-400 dark:text-[#555] tracking-widest uppercase mb-3 flex items-center gap-2">
+            <h3 className="text-xs font-bold text-zinc-400  tracking-widest uppercase mb-3 flex items-center gap-2">
               <User className="w-3.5 h-3.5" /> 자기소개
             </h3>
-            <div className="text-sm text-zinc-600 dark:text-[#888] leading-relaxed font-medium">
+            <div className="text-sm text-zinc-600  leading-relaxed font-medium">
               <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
             </div>
           </div>
         </div>
 
         {/* Tool Stack - Inline */}
-        <div className="mt-6 pt-6 border-t border-black/5 dark:border-[#1e1e1e]">
+        <div className="mt-6 pt-6 border-t border-black/5 ">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-[#555] uppercase tracking-widest mr-2">STACK</span>
+            <span className="text-[10px] font-bold text-zinc-400  uppercase tracking-widest mr-2">STACK</span>
             {[
               { name: 'Word', desc: '• 사용자 정의 스타일 및 섹션 정형화\n• 논리적 구조에 따른 목차 작성\n• 법학 논문 및 공문서 수준의 작문 구사능력\n• 기획서 가독성 최적화를 위한 전용 템플릿 보유' },
               { name: 'Powerpoint', desc: '• 슬라이드 마스터 기반의 커스텀 템플릿 제작\n• 기획 의도 전달을 위한 텍스트의 도식화 및 레이아웃 설계\n• 논리를 기반으로 한 목차 구성이 강점' },
@@ -1268,18 +1276,18 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
               { name: 'Notion', desc: '• 전반적인 문서 작성 및 간트차트 작성' },
               { name: 'Figma', desc: '• UI 와이어프레임 작성' }
             ].map(tool => (
-              <span key={tool.name} className="group relative px-3 py-1.5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-lg text-[11px] font-bold text-zinc-600 dark:text-[#888] border border-black/5 dark:border-[#2a2a2a] hover:border-[#800020] hover:text-[#800020] transition-all cursor-help flex items-center gap-1.5">
+              <span key={tool.name} className="group relative px-3 py-1.5 bg-zinc-50  rounded-lg text-[11px] font-bold text-zinc-600  border border-black/5  hover:border-[#800020] hover:text-[#800020] transition-all cursor-help flex items-center gap-1.5">
                 {TOOL_ICONS[tool.name]}
                 {tool.name}
-                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-50 mb-3 w-max max-w-[320px] bg-white dark:bg-[#111] border border-black/10 dark:border-[#333] text-[#2C2C2C] dark:text-[#e8e4dc] text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
+                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-50 mb-3 w-max max-w-[320px] bg-white  border border-black/10  text-[#2C2C2C]  text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
                   {tool.desc}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-white dark:border-t-[#333] border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-white  border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
                 </div>
               </span>
             ))}
-            <span className="w-px h-5 bg-black/10 dark:bg-white/10 mx-1"></span>
+            <span className="w-px h-5 bg-black/10  mx-1"></span>
             {['Unity', 'Git'].map(tool => (
-              <span key={tool} className="px-3 py-1.5 bg-zinc-50 dark:bg-[#1a1a1a] rounded-lg text-[11px] font-bold text-zinc-600 dark:text-[#888] border border-black/5 dark:border-[#2a2a2a] flex items-center gap-1.5">
+              <span key={tool} className="px-3 py-1.5 bg-zinc-50  rounded-lg text-[11px] font-bold text-zinc-600  border border-black/5  flex items-center gap-1.5">
                 {TOOL_ICONS[tool]}
                 {tool}
               </span>
@@ -1292,19 +1300,19 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
       <motion.div 
         whileHover={{ y: -2 }}
         onClick={() => setView('cover-letter')}
-        className="group relative bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-md hover:border-[#800020]/30 mb-8"
+        className="group relative bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-md hover:border-[#800020]/30 mb-8"
       >
         <div className="absolute top-0 left-0 bottom-0 w-1.5 bg-gradient-to-b from-[#800020] to-[#500014] opacity-80 group-hover:opacity-100 transition-opacity"></div>
         
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-8 ml-2">
           {/* Left: Icon & Label */}
           <div className="flex items-center gap-4 shrink-0">
-            <div className="w-12 h-12 rounded-xl bg-zinc-50 dark:bg-[#1a1a1a] border border-black/5 dark:border-[#2a2a2a] flex items-center justify-center group-hover:bg-[#800020]/5 transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-zinc-50  border border-black/5  flex items-center justify-center group-hover:bg-[#800020]/5 transition-colors">
               <ScrollText className="w-5 h-5 text-[#800020]" />
             </div>
             <div className="md:hidden">
               <span className="text-[10px] font-bold tracking-widest uppercase text-[#800020] block mb-0.5">COVER LETTER</span>
-              <span className="text-[11px] font-medium text-zinc-500 dark:text-[#888]">총 {data.selfIntroductions?.length || 0}개의 항목</span>
+              <span className="text-[11px] font-medium text-zinc-500 ">총 {data.selfIntroductions?.length || 0}개의 항목</span>
             </div>
           </div>
 
@@ -1312,10 +1320,10 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
           <div className="flex-1 min-w-0">
             <div className="hidden md:flex items-center gap-2 mb-1.5">
               <span className="text-[10px] font-bold tracking-widest uppercase text-[#800020]">COVER LETTER</span>
-              <span className="w-1 h-1 rounded-full bg-black/20 dark:bg-white/20"></span>
-              <span className="text-[11px] font-medium text-zinc-500 dark:text-[#888]">총 {data.selfIntroductions?.length || 0}개의 항목</span>
+              <span className="w-1 h-1 rounded-full bg-black/20 "></span>
+              <span className="text-[11px] font-medium text-zinc-500 ">총 {data.selfIntroductions?.length || 0}개의 항목</span>
             </div>
-            <h3 className="text-lg md:text-[22px] font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-tight leading-snug group-hover:text-[#800020] transition-colors line-clamp-2">
+            <h3 className="text-lg md:text-[22px] font-bold text-[#2C2C2C]  tracking-tight leading-snug group-hover:text-[#800020] transition-colors line-clamp-2">
               "{data.selfIntroductions?.[0]?.logline || '자기소개서를 확인해주세요.'}"
             </h3>
           </div>
@@ -1336,26 +1344,26 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         {/* LEFT COLUMN: Education + Awards */}
         <div className="lg:col-span-5 space-y-6">
           {/* Education */}
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+          <section className="bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  transition-colors">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] ">
               <GraduationCap className="w-5 h-5" /> 학력 및 교육
             </h3>
             <div className="space-y-6">
               {data.education.map((edu, idx) => (
-                <div key={idx} className="relative pl-6 border-l-2 border-black/10 dark:border-[#2a2a2a]">
-                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300 dark:bg-[#555]"></div>
+                <div key={idx} className="relative pl-6 border-l-2 border-black/10 ">
+                  <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300 "></div>
                   <div className="flex flex-col gap-1 mb-2">
-                    <h4 className="font-bold text-[15px] text-[#2C2C2C] dark:text-[#e8e4dc] leading-snug">
+                    <h4 className="font-bold text-[15px] text-[#2C2C2C]  leading-snug">
                       <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
                     </h4>
-                    <span className="text-[11px] font-mono text-zinc-400 dark:text-[#666]">
+                    <span className="text-[11px] font-mono text-zinc-400 ">
                       <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
                     </span>
                   </div>
-                  <div className="text-xs text-zinc-500 dark:text-[#888] leading-relaxed mb-2">
+                  <div className="text-xs text-zinc-500  leading-relaxed mb-2">
                     <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
                   </div>
-                  <ul className="text-[11px] text-zinc-500 dark:text-[#888] space-y-1 list-disc list-inside">
+                  <ul className="text-[11px] text-zinc-500  space-y-1 list-disc list-inside">
                     {edu.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
                   </ul>
                 </div>
@@ -1364,17 +1372,17 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
           </section>
 
           {/* Awards */}
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors">
-            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+          <section className="bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  transition-colors">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] ">
               <Award className="text-[#800020] w-5 h-5" /> 자격 및 수상
             </h3>
             <div className="space-y-3">
               {data.awards.map((award, idx) => (
-                <div key={idx} className="p-4 bg-zinc-50 dark:bg-[#1a1a1a] rounded-xl border-l-3 border-l-[#800020] border-y border-r border-black/5 dark:border-[#1e1e1e]" style={{ borderLeftWidth: '3px', borderLeftColor: '#800020' }}>
-                  <h4 className="font-bold text-sm mb-0.5 text-[#2C2C2C] dark:text-[#e8e4dc]">
+                <div key={idx} className="p-4 bg-zinc-50  rounded-xl border-l-3 border-l-[#800020] border-y border-r border-black/5 " style={{ borderLeftWidth: '3px', borderLeftColor: '#800020' }}>
+                  <h4 className="font-bold text-sm mb-0.5 text-[#2C2C2C] ">
                     <EditableText value={award.title} onSave={(v) => { const a = [...data.awards]; a[idx].title = v; setData({...data, awards: a}); }} isEditing={isEditing} />
                   </h4>
-                  <p className="text-[11px] text-zinc-500 dark:text-[#888]">{award.organization} · {award.year}</p>
+                  <p className="text-[11px] text-zinc-500 ">{award.organization} · {award.year}</p>
                 </div>
               ))}
             </div>
@@ -1383,26 +1391,26 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
         {/* RIGHT COLUMN: Experience */}
         <div className="lg:col-span-7">
-          <section className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] transition-colors h-full">
-            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] dark:text-[#e8e4dc]">
+          <section className="bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  transition-colors h-full">
+            <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C] ">
               <Briefcase className="text-[#800020] w-5 h-5" /> 프로젝트 경험
             </h3>
             <div className="space-y-7">
               {data.experience.map((exp, idx) => (
-                <div key={idx} className="relative pl-6 border-l-2 border-[#800020]/30 dark:border-[#800020]/40">
-                  <div className="absolute -left-[6px] top-1 w-3 h-3 rounded-full bg-[#800020] border-2 border-white dark:border-[#111]"></div>
+                <div key={idx} className="relative pl-6 border-l-2 border-[#800020]/30 ">
+                  <div className="absolute -left-[6px] top-1 w-3 h-3 rounded-full bg-[#800020] border-2 border-white "></div>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                    <h4 className="font-bold text-base text-[#2C2C2C] dark:text-[#e8e4dc]">
+                    <h4 className="font-bold text-base text-[#2C2C2C] ">
                       <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                     </h4>
-                    <span className="text-[11px] font-mono text-zinc-400 dark:text-[#666] shrink-0">
+                    <span className="text-[11px] font-mono text-zinc-400  shrink-0">
                       <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                     </span>
                   </div>
-                  <div className="text-sm text-[#800020] dark:text-[#c0304a] font-medium mb-3">
+                  <div className="text-sm text-[#800020]  font-medium mb-3">
                     <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
                   </div>
-                  <ul className="text-xs text-zinc-500 dark:text-[#888] space-y-1.5 list-disc list-inside leading-relaxed">
+                  <ul className="text-xs text-zinc-500  space-y-1.5 list-disc list-inside leading-relaxed">
                     {exp.details.map((detail, dIdx) => <li key={dIdx}>{detail}</li>)}
                   </ul>
                 </div>
@@ -1413,14 +1421,14 @@ const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
       </div>
 
       {/* ===== BOTTOM: Core Skills Strip ===== */}
-      <div className="bg-white dark:bg-[#111] rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 dark:border-[#1e1e1e] mb-8 transition-colors">
+      <div className="bg-white  rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5  mb-8 transition-colors">
         <div className="flex flex-col md:flex-row md:items-start gap-6">
-          <h3 className="text-xs font-bold text-zinc-400 dark:text-[#555] tracking-widest uppercase flex items-center gap-2 shrink-0 pt-0.5">
+          <h3 className="text-xs font-bold text-zinc-400  tracking-widest uppercase flex items-center gap-2 shrink-0 pt-0.5">
             <Zap className="w-4 h-4" /> 핵심 역량
           </h3>
           <div className="flex flex-wrap gap-x-8 gap-y-3">
             {["기획 의도를 먼저 세우고 목차로 증명하는 문서 설계", "법학적 사고 기반 시스템 정합성 확보", "AI 프롬프트 설계를 통한 업무 자동화"].map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-sm text-zinc-600 dark:text-[#999] font-medium">
+              <div key={i} className="flex items-center gap-2.5 text-sm text-zinc-600  font-medium">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#800020] shrink-0"></div>
                 {item}
               </div>
@@ -1556,7 +1564,7 @@ const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
       {/* Title */}
       <div className="text-center mb-16">
         <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.3em] font-bold mb-4 block">Cover Letter</span>
-        <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2C2C2C] dark:text-[#e8e4dc] tracking-[-0.02em] mb-6">자기소개서</h2>
+        <h2 className="text-4xl md:text-5xl font-display font-bold text-[#2C2C2C]  tracking-[-0.02em] mb-6">자기소개서</h2>
         <div className="w-16 h-px bg-[#800020]/30 mx-auto"></div>
       </div>
 
@@ -1581,12 +1589,12 @@ const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
               </div>
 
               {/* Logline */}
-              <h3 className="text-2xl md:text-3xl font-bold text-[#2C2C2C] dark:text-[#e8e4dc] leading-snug tracking-[-0.01em] mb-8">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#2C2C2C]  leading-snug tracking-[-0.01em] mb-8">
                 <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
               </h3>
 
               {/* Body Text - Optimized reading width */}
-              <div className="text-zinc-600 dark:text-[#999] leading-[2.1] text-[16px] md:text-[17px] font-medium [&>p]:mb-6 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#800020]/30 [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-zinc-500 dark:text-[#888] [&>blockquote]:my-8">
+              <div className="text-zinc-600  leading-[2.1] text-[16px] md:text-[17px] font-medium [&>p]:mb-6 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#800020]/30 [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-zinc-500  [&>blockquote]:my-8">
                 <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
               </div>
             </article>
@@ -1594,14 +1602,14 @@ const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
           {isEditing && (
             <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ logline: "새로운 항목의 로그라인을 입력하세요.", content: "내용을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
-              className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 dark:border-[#2a2a2a] bg-zinc-50 dark:bg-[#111] hover:bg-zinc-100 dark:hover:bg-[#1a1a1a] transition-colors min-h-[200px] cursor-pointer rounded-3xl">
-              <Plus className="w-8 h-8 text-zinc-400 dark:text-[#555] mb-2" />
-              <span className="text-zinc-500 dark:text-[#888] font-bold">새 자기소개 항목 추가</span>
+              className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-200  bg-zinc-50  hover:bg-zinc-100  transition-colors min-h-[200px] cursor-pointer rounded-3xl">
+              <Plus className="w-8 h-8 text-zinc-400  mb-2" />
+              <span className="text-zinc-500  font-bold">새 자기소개 항목 추가</span>
             </button>
           )}
         </div>
       ) : (
-        <div className="bg-white dark:bg-[#111] p-8 md:p-12 rounded-2xl border border-black/5 dark:border-[#1e1e1e] markdown-body">
+        <div className="bg-white  p-8 md:p-12 rounded-2xl border border-black/5  markdown-body">
           {isEditing ? (
             <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#800020]"
               value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
@@ -1983,17 +1991,17 @@ export default function App() {
   };
 
   if (!isDataLoaded) {
-    return <div className="min-h-screen bg-[#F6F6F3] dark:bg-[#0a0a0a] flex items-center justify-center transition-colors duration-500" />;
+    return <div className="min-h-screen bg-[#F6F6F3]  flex items-center justify-center transition-colors duration-500" />;
   }
 
   return (
     <div className="min-h-screen selection:bg-[#800020]/20 flex flex-col relative">
       {/* Global Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#F6F6F3] dark:bg-[#0a0a0a] transition-colors duration-500">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.02),transparent_50%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(128,0,32,0.05),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(0,0,0,0.01),transparent_50%)] dark:bg-[radial-gradient(circle_at_bottom_left,rgba(128,0,32,0.03),transparent_50%)]"></div>
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-white/50 dark:bg-[#800020]/5 rounded-full blur-[120px] mix-blend-overlay dark:mix-blend-lighten"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-white/50 dark:bg-[#800020]/5 rounded-full blur-[120px] mix-blend-overlay dark:mix-blend-lighten"></div>
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#F6F6F3]  transition-colors duration-500">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.02),transparent_50%)] "></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(0,0,0,0.01),transparent_50%)] "></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-white/50  rounded-full blur-[120px] mix-blend-overlay "></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-white/50  rounded-full blur-[120px] mix-blend-overlay "></div>
       </div>
 
       <Navbar setView={changeView} currentView={view} onNavClick={handleNavClick} isEditing={isEditing} setIsEditing={setIsEditing} activeSection={activeSection} theme={theme} setTheme={setTheme} />
