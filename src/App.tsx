@@ -141,7 +141,7 @@ const GAME_HISTORY: GameHistory = {
 const RESUME_DATA: ResumeData = {
   name: "조경환",
   role: "Game Designer",
-  email: "kh980624@naver.com",
+  email: "ckh980624@gmail.com",
   phone: "010-4826-6256",
   summary: "기획 의도를 알고, 그것을 관통하는 목차를 작성할 줄 아는 게임 기획자 지망생입니다. 법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다.",
   selfIntroductions: [
@@ -226,7 +226,7 @@ const PROJECTS: Project[] = [
     category: "밸런스 기획",
     description: "핵앤슬래시 방치형 RPG의 전체 게임 밸런스(전투/경제 수치)를 총괄했습니다. 디테일한 PDPS 기반 파워 구조를 정립하고 게임의 성장 곡선을 면밀히 설계했습니다.",
     tags: ["밸런싱", "전투 밸런스", "수치 설계"],
-    image: "./images/dorothia.png",
+    image: "./images/dorothia_main.jpg",
     color: "from-zinc-500/20 to-zinc-400/20",
     status: "구글플레이스토어 출시",
     content: `# 도로시아 (Dorothia) 밸런스 기획서
@@ -1145,7 +1145,58 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
 const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing: boolean, history: GameHistory, setHistory: (h: GameHistory) => void, onViewAll: () => void }) => {
   const allGames = [...(history.pc||[]), ...(history.mobile||[]), ...(history.console||[])];
 
-
+  const renderDashboardRow = (title: string, icon: React.ReactNode, dataKey: keyof GameHistory) => {
+    const items = history[dataKey] || [];
+    return (
+      <div className="flex flex-col bg-white border border-black/5 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 group/board min-h-[320px]">
+        <div className="flex flex-col mb-4 pb-4 border-b border-black/5 group-hover/board:border-black/10 transition-colors">
+          <div className="flex items-center gap-3 text-[#2C2C2C] mb-2">
+             <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center text-[#2C2C2C] border border-black/5 group-hover/board:bg-[#800020] group-hover/board:text-white transition-colors duration-300 shadow-sm shrink-0">
+               {icon}
+             </div>
+             <span className="font-display font-bold tracking-tight text-xl">{title}</span>
+          </div>
+          <div className="flex items-center justify-between">
+             <span className="px-3 py-1 bg-zinc-100 rounded-lg font-mono text-xs font-bold text-[#800020]">{items.length} TITLES</span>
+             {isEditing && (
+              <button onClick={() => { const h = {...history}; h[dataKey].push({ id: Date.now().toString(), name: "새 항목", hours: 0 }); setHistory(h); }}
+                className="w-8 h-8 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors rounded-full text-xs" title="항목 추가">
+                <Plus className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex flex-col gap-0 flex-1 mt-2">
+          {items.slice(0, 3).map((game, idx) => (
+            <div key={game.id} className="group relative flex items-center justify-between py-3 px-2 border-b border-black/5 hover:border-[#800020]/20 hover:bg-zinc-50 transition-colors h-[56px] flex-none">
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 bottom-auto h-[60%] w-[3px] bg-[#800020] scale-y-0 group-hover:scale-y-100 transition-transform duration-300 rounded-r z-10 w-[3px]"></div>
+              
+              <div className="flex items-center gap-3 min-w-0 pr-4 pl-3 relative z-10">
+                 <span className="text-[10px] font-bold text-[#800020]/60 group-hover:text-[#800020] uppercase tracking-widest shrink-0 truncate w-16">{game.genre}</span>
+                 <h4 className="font-bold text-sm text-[#2C2C2C] truncate">
+                   <EditableText value={game.title || ""} onSave={(v) => { const h = {...history}; h[dataKey][idx].title = v; setHistory(h); }} isEditing={isEditing} />
+                 </h4>
+              </div>
+              {game.playTime && (
+                 <span className="font-mono text-[10px] text-zinc-400 group-hover:text-zinc-600 font-bold shrink-0 relative z-10 pr-2">{game.playTime}</span>
+              )}
+               {isEditing && (
+                  <button onClick={() => { const h = {...history}; h[dataKey].splice(idx, 1); setHistory(h); }} className="text-zinc-300 hover:text-red-500 transition-colors p-1 relative z-20">
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+            </div>
+          ))}
+          {items.length > 3 && !isEditing && (
+            <div className="text-center pt-2 mt-auto">
+              <span className="text-[10px] font-bold text-zinc-300 tracking-[0.2em] uppercase">+ {items.length - 3} TITLES HIDDEN</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section id="play-history" className="py-[120px] lg:py-[160px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#FFFFFF] overflow-hidden border-t border-black/5">
@@ -1191,27 +1242,11 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
           )}
         </div>
         
-        {/* Bottom: Teaser Infinite Marquee */}
-        <div className="w-full relative mt-16 pt-4 pb-12 overflow-hidden select-none cursor-default">
-          {/* Edge fade masks */}
-          <div className="absolute top-0 bottom-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute top-0 bottom-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-          
-          <motion.div 
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ ease: "linear", duration: 60, repeat: Infinity }}
-            className="flex items-center w-max"
-          >
-            {/* Duplicate the array enough times to ensure seamless infinite looping */}
-            {[...allGames, ...allGames, ...allGames, ...allGames, ...allGames, ...allGames, ...allGames, ...allGames].map((game, i) => (
-              <div key={i} className="flex items-center gap-8 px-4 group">
-                <span className="w-2.5 h-2.5 rounded-full bg-zinc-200 group-hover:bg-[#800020] transition-colors" />
-                <span className="font-display font-black text-5xl md:text-7xl lg:text-8xl text-zinc-100 group-hover:text-[#2C2C2C] uppercase tracking-tighter transition-colors duration-500 whitespace-nowrap drop-shadow-sm">
-                  {game.title}
-                </span>
-              </div>
-            ))}
-          </motion.div>
+        {/* Bottom: Horizontal Category Grids */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 shrink-0">
+          {renderDashboardRow("PC / Mainline", <Monitor className="w-6 h-6" />, "pc")}
+          {renderDashboardRow("Console", <Gamepad2 className="w-6 h-6" />, "console")}
+          {renderDashboardRow("Mobile", <Smartphone className="w-6 h-6" />, "mobile")}
         </div>
       </div>
     </section>
