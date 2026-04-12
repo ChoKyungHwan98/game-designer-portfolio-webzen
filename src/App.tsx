@@ -874,7 +874,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 프로젝트</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">실전으로 증명한 결과물.</motion.h2>
+              className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">실전으로 증명한 결과물</motion.h2>
           </div>
           <div className="flex flex-col items-start md:items-end gap-3">
             <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
@@ -1037,7 +1037,7 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">03. 핵심 역량</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">논리와 구조를 AI로 확장하는 기획 역량.</motion.h2>
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">논리와 구조를 AI로 확장하는 기획 역량</motion.h2>
           </div>
           <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
         </div>
@@ -1156,33 +1156,38 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
     <section id="play-history" className="scroll-mt-20 py-[120px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-[#FFFFFF] overflow-hidden border-t border-black/5">
       <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col h-full">
         
+        <div className="mb-8 grid lg:grid-cols-2 gap-6 items-end border-b border-black/5 pb-6">
+          <div>
+            <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</motion.span>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">방대한 플레이 경험이 만든 인사이트</motion.h2>
+          </div>
+          <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">플랫폼과 장르를 넘나드는 심층 분석 데이터베이스입니다.</p>
+        </div>
+
         {/* Top: Horizontal Dashboard Stats */}
         <div className="bg-[#800020] text-white rounded-3xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 w-full border border-black/5 relative overflow-hidden">
           {/* Subtle noise/pattern inside the maroon banner */}
           <div className="absolute inset-0 pointer-events-none opacity-[0.05] object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
-            <div className="text-center sm:text-left">
-              <span className="text-white/60 font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] leading-tight break-keep">방대한 플레이 경험이 만든 인사이트.</h2>
-            </div>
-            <div className="w-px h-12 bg-white/20 hidden sm:block"></div>
-            <div className="flex items-center gap-4 bg-white/10 px-5 py-3 rounded-2xl backdrop-blur-md">
-               <Gamepad2 className="w-5 h-5 text-white/90" />
-               <div>
-                  <span className="block text-[9px] font-bold text-white/60 uppercase tracking-widest leading-none mb-1">Total Analyzed</span>
-                  <span className="text-2xl font-display font-bold text-white tracking-tight leading-none">{allGames.length}</span>
+          <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10 w-full md:w-auto">
+            <div className="flex items-center gap-4 bg-white/10 px-6 py-4 rounded-2xl backdrop-blur-md w-full md:w-auto justify-center">
+               <Gamepad2 className="w-6 h-6 text-white/90" />
+               <div className="text-left">
+                  <span className="block text-[10px] font-bold text-white/70 uppercase tracking-widest leading-none mb-1">Total Analyzed</span>
+                  <span className="text-3xl font-display font-bold text-white tracking-tight leading-none">{allGames.length}</span>
                </div>
             </div>
           </div>
           
-          <div className="flex-1 max-w-sm text-white/70 font-medium text-[13px] leading-relaxed hidden lg:block text-center md:text-left relative z-10">
-             다양한 플랫폼 및 장르 분석을 통해 트렌디한 감각과 심층적인 레벨 디자인 설계 능력을 검증합니다.
+          <div className="flex-1 max-w-md text-white/80 font-medium text-[14px] leading-relaxed hidden lg:block text-center md:text-left relative z-10 mx-auto">
+             다양한 플랫폼 및 장르 분석을 통해 트렌디한 감각과 심층적인 수준의 역량을 증명합니다.
           </div>
 
           {!isEditing && (
             <button onClick={onViewAll}
-              className="w-full md:w-auto py-3 px-6 bg-white text-[#800020] rounded-xl font-bold tracking-widest text-xs uppercase hover:bg-zinc-100 transition-all duration-300 shadow-md flex items-center justify-center gap-3 shrink-0 relative z-10">
+              className="w-full md:w-auto py-4 px-8 bg-white text-[#800020] rounded-xl font-bold tracking-widest text-sm uppercase hover:bg-zinc-100 transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.15)] flex items-center justify-center gap-3 shrink-0 relative z-10 hover:-translate-y-0.5">
               전체 목록 보기 <ArrowRight className="w-4 h-4" />
             </button>
           )}
@@ -1713,8 +1718,9 @@ const Contact = () => (
       
       <div className="text-center relative z-10 w-full px-6 max-w-4xl mx-auto">
         <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. 문의</span>
-        <h2 className="text-6xl md:text-8xl lg:text-[7rem] font-display font-bold tracking-tighter text-white leading-none mb-12">
-          저는 준비되었습니다.
+        <h2 className="flex flex-col items-center justify-center gap-2 mb-12">
+          <span className="text-2xl md:text-4xl lg:text-5xl text-zinc-400 font-display font-medium tracking-tight mb-2">저는</span>
+          <span className="text-6xl md:text-8xl lg:text-[7rem] font-display font-bold tracking-tighter text-white leading-none">준비되었습니다</span>
         </h2>
         <p className="text-zinc-400 text-xl mb-16 max-w-2xl mx-auto font-medium leading-relaxed hidden sm:block">
           새로운 프로젝트나 협업 제안은 언제나 환영입니다.
