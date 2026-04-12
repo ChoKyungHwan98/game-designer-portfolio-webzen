@@ -147,15 +147,15 @@ const RESUME_DATA: ResumeData = {
   selfIntroductions: [
     {
       logline: "14년간 달려온 꿈을 포기하게 만든 계기는 메이플스토리입니다.",
-      content: "사람을 돕고 싶어 법학과에 진학했습니다. 12시간 이상 공부하며 한계에 부딪힐 때마다 그 이유를 되뇌며 버텼습니다.\n\n그러나 달리면 달릴수록 외면할 수 없는 사실과 마주했습니다. **하고 싶은 것, 좋아하는 것, 잘하는 것은 다르다는 것을.**\n\n법학으로 사람을 돕고 싶었지만, 그것이 제가 좋아하는 일이 아니라는 사실을 마주한 순간 더 이상 법학을 공부할 수 없게 되었습니다.\n\n> 대학교 마지막 학기였습니다. 졸업을 앞두고도 방향을 찾지 못한 채, 반년을 \"나는 어떻게 살아가야 하는가?\"라는 질문 하나에 매달렸습니다. 제 인생에서 가장 깊게 몰입했던 순간이었습니다.\n\n그러던 중 홀린 듯이 찾아간 **메이플 콘 오프라인 행사**에서 답을 찾았습니다. 쇼케이스가 시작되자 동시에 터지는 환호, 가족들이 함께 웃는 표정.\n\n그 장면을 보며 문득 떠올랐습니다. 나도 게임을 할 때 저렇게 기뻤었다는 것을. 학업에 치여 제대로 하지 못했지만, **게임 앞에서만큼은 언제나 진심이었다는 것을. '나는 게임을 진짜 좋아했구나.'**\n\n그 자리에서 확신했습니다. 법학이 '-에서 0으로 되돌리는 일'이라면, 게임은 누군가의 하루를 움직이는 **'0에서 +가 되는 경험'**을 만든다는 것. 저도 누군가의 하루를 움직이는 사람이 되고 싶었습니다.\n\n법학을 공부하며 배운 것이 있습니다. 모든 제도는 입법 **'의도'**를 바탕으로 **'구조화'**되고, 사회라는 하나의 **'시스템'**으로 작동한다는 것입니다. 저는 이 원리가 게임 기획과 같다고 생각합니다.\n\n저는 그 **+를 설계하는 기획자**가 되겠습니다."
+      content: "사람을 돕고 싶어 법학과에 진학했습니다. 12시간 이상 공부하며 한계에 부딪힐 때마다 그 이유를 되뇌며 버텼습니다.\n\n그러나 달리면 달릴수록 외면할 수 없는 사실과 마주했습니다. **하고 싶은 것, 좋아하는 것, 잘하는 것은 다르다는 것을.**\n\n법학으로 사람을 돕고 싶었지만, 그것이 제가 좋아하는 일이 아니라는 사실을 마주한 순간 더 이상 법학을 공부할 수 없게 되었습니다.\n\n대학교 마지막 학기였습니다. 졸업을 앞두고도 방향을 찾지 못한 채, 반년을 **“나는 어떻게 살아가야 하는가?”**라는 질문 하나에 매달렸습니다. 제 인생에서 가장 깊게 몰입했던 순간이었습니다.\n\n그러던 중 홀린 듯이 찾아간 **메이플 콘 오프라인 행사**에서 답을 찾았습니다. 쇼케이스가 시작되자 동시에 터지는 환호, 가족들이 함께 웃는 표정.\n\n그 장면을 보며 문득 떠올랐습니다. 나도 게임을 할 때 저렇게 기뻤었다는 것을. 학업에 치여 제대로 하지 못했지만, **게임 앞에서만큼은 언제나 진심이었다는 것을. ‘나는 게임을 진짜 좋아했구나.’**\n\n그 자리에서 확신했습니다. 법학이 ‘-에서 0으로 되돌리는 일’이라면, 게임은 누군가의 하루를 움직이는 **‘0에서 +가 되는 경험’**을 만든다는 것. 저도 누군가의 하루를 움직이는 사람이 되고 싶었습니다.\n\n법학을 공부하며 배운 것이 있습니다. 모든 제도는 입법 **‘의도’**를 바탕으로 **‘구조화’**되고, 사회라는 하나의 **‘시스템’**으로 작동한다는 것입니다. 저는 이 원리가 게임 기획과 같다고 생각합니다.\n\n저는 그 **+를 설계하는 기획자**가 되겠습니다."
     },
     {
       logline: "저는 기획 의도를 알고, 그것을 관통하는 목차를 작성할 줄 아는 사람입니다.",
-      content: "저는 원래 논리적인 사람이 아니었습니다. 문학을 좋아하는 감성적인 학생이었고, 그것이 법학과에서 가장 큰 벽이 되었습니다.\n\n대학교 2학년 형법 시험에서 C학점을 받았습니다. 교수님께 피드백을 받으러 찾아갔고, 교수님은 말없이 1등 학생의 답안을 보여주셨습니다.\n\n그 답안에서 **목차**가 눈에 들어왔습니다. 대전제에서 소전제로, 논리의 위계가 한눈에 보였고, 내용이 그 구조에 따라 자연스럽게 읽혔습니다.\n\n부끄러웠습니다. 제 답안에는 목차가 없었습니다. 그날부터 **목차를 작성하는 훈련**을 시작했습니다.\n\n21살부터 7년간 반복했습니다. 법학 답안은 **문제상황 → 학설 → 판례 → 검토** 순으로 전개됩니다.\n\n- 매 시험마다 **핵심 주장을 한 문장으로 정한 뒤**, 모든 항목이 그것을 관통하는지 반복해서 검증했습니다.\n- 주장이 흔들리면 목차 전체가 무너졌고, 목차가 흔들리면 답안 전체가 설득력을 잃었습니다. 그 실패를 반복하며 구조를 다듬었습니다.\n\n그 훈련의 결과가 졸업 논문이었습니다. 동기들이 자료를 먼저 뒤지고 본문부터 채워나갈 때, 저는 **목차를 먼저 완성**했습니다.\n\n탄탄한 목차가 완성된 뒤 본문 작성은 그 내용을 채우는 일에 불과했고, 동기들보다 빠르게 논문을 마쳤습니다. 결과는 **96점**이었습니다.\n\n**설득력 있는 주장은 논리가 아니라, 그 논리를 담는 구조에서 나옵니다.** 기획 의도를 알고 목차를 작성하는 능력은, 7년간의 실패가 만들어준 저의 핵심 역량입니다."
+      content: "저는 원래 논리적인 사람이 아니었습니다. 문학을 좋아하는 감성적인 학생이었고, 그것이 법학과에서 가장 큰 벽이 되었습니다.\n\n대학교 2학년 형법 시험에서 C학점을 받았습니다. 교수님께 피드백을 받으러 찾아갔고, 교수님은 말없이 1등 학생의 답안을 보여주셨습니다.\n\n그 답안에서 **목차**가 눈에 들어왔습니다. 대전제에서 소전제로, 논리의 위계가 한눈에 보였고, 내용이 그 구조에 따라 자연스럽게 읽혔습니다.\n\n부끄러웠습니다. 제 답안에는 목차가 없었습니다. 그날부터 **목차를 작성하는 훈련**을 시작했습니다.\n\n21살부터 7년간 반복했습니다. 법학 답안은 **문제상황 → 학설 →판례 → 검토** 순으로 전개됩니다.\n\n저는 매 시험마다 **핵심 주장을 한 문장으로 정한 뒤**, 모든 항목이 그것을 관통하는지 반복해서 검증했습니다. 주장이 흔들리면 목차 전체가 무너졌고, 목차가 흔들리면 답안 전체가 설득력을 잃었습니다. 그 실패를 반복하며 구조를 다듬었습니다.\n\n그 훈련의 결과가 졸업 논문이었습니다. 동기들이 자료를 먼저 뒤지고 본문부터 채워나갈 때, 저는 **목차를 먼저 완성**했습니다.\n\n탄탄한 목차가 완성된 뒤 본문 작성은 그 내용을 채우는 일에 불과했고, 동기들보다 빠르게 논문을 마쳤습니다. 결과는 **95점**이었습니다.\n\n**설득력 있는 주장은 논리가 아니라, 그 논리를 담는 구조에서 나옵니다.** 기획 의도를 알고 목차를 작성하는 능력은, 7년간의 실패가 만들어준 저의 역량입니다."
     },
     {
       logline: "기획 의도를 알고 목차를 작성하는 능력은 AI 프롬프트 설계에서도 빛납니다.",
-      content: "팀 프로젝트를 진행하며 회의록 작성이 매번 작업 시간을 빼앗는 문제가 발생했습니다.\n\n저는 AI봇 설계 도구인 Eve를 활용해 **LLM 기반 회의록 자동화 봇**을 직접 설계했습니다. 회의록에 필요한 양식을 지식팩으로 구성한 뒤, 다음과 같은 순서로 **프롬프트 구조를 설계**했습니다:\n\n- **Role** (역할 등 부여)\n- **Goals** (목표 설정)\n- **Behaviors** (행동 지침)\n- **Output** (출력 형식)\n\n정해진 양식을 채우는 것에 그치지 않고, 회의 내용을 설명하면 그 의도를 파악해 맥락에 맞는 문서를 스스로 구성하도록 했습니다.\n\n두 개의 팀 프로젝트에 걸쳐 총 **20건 이상의 회의록**을 생성했습니다. 회의록 작성에 소요되던 시간을 **1시간에서 3분으로 단축**하여, 확보된 시간을 다른 핵심 작업에 활용할 수 있었습니다.\n\n이 과정에서 **프롬프트 엔지니어링이 목차 작성과 본질적으로 같은 원리**임을 알게 되었습니다. 이 논리 구조 설계 능력이 AI 설계에도 그대로 통한다는 것을 현장에서 검증했습니다."
+      content: "팀 프로젝트를 진행하며 회의록 작성이 매번 작업 시간을 빼앗는 문제가 발생했습니다.\n\n저는 AI봇 설계 도구인 Eve를 활용해 **LLM 기반 회의록 자동화 봇**을 직접 설계했습니다. 회의록에 필요한 양식을 지식팩으로 구성한 뒤, **Role → Goals → Behaviors → Output** 순으로 프롬프트 구조를 설계했습니다.\n\n정해진 양식을 채우는 것에 그치지 않고, 회의 내용을 설명하면 그 의도를 파악해 맥락에 맞는 문서를 스스로 구성하도록 했습니다.\n\n두 개의 팀 프로젝트에 걸쳐 총 20건 이상의 회의록을 생성했습니다. 회의록 작성에 소요되던 시간을 **1시간에서 3분으로 줄여**, 확보된 시간을 다른 작업에 활용할 수 있었습니다.\n\n이 과정에서 **프롬프트 엔지니어링이 목차 작성과 본질적으로 같은 원리**임을 알게 되었습니다. 이 능력이 AI 설계에도 그대로 통한다는 것을 현장에서 검증했습니다."
     }
   ],
   education: [
@@ -1699,34 +1699,47 @@ const CoverLetter = ({ setView, isEditing, data, setData }: ResumeProps) => {
 
       {/* Self Introduction Entries */}
       {data.selfIntroductions ? (
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-16 md:gap-24 items-center">
           {data.selfIntroductions.map((intro, idx) => (
-            <article key={idx} className="relative group">
-              {isEditing && (
-                <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
-                  className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+            <React.Fragment key={idx}>
+              <article className="relative w-full max-w-[760px] mx-auto">
+                {isEditing && (
+                  <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
+                    className="absolute -top-4 -right-4 md:right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
 
-              {/* Number Badge */}
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-[#800020]/10 flex items-center justify-center text-[#800020] font-mono font-bold text-base border border-[#800020]/20">
-                  {String(idx + 1).padStart(2, '0')}
+                {/* Number Badge & Separator - Minimalist */}
+                <div className="flex items-center gap-4 mb-8 md:mb-10 opacity-70">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-black/10 flex items-center justify-center text-zinc-400 font-mono font-bold text-xs md:text-sm">
+                    {String(idx + 1).padStart(2, '0')}
+                  </div>
+                  <div className="flex-1 h-px bg-gradient-to-r from-black/5 to-transparent"></div>
                 </div>
-                <div className="flex-1 h-px bg-gradient-to-r from-[#800020]/20 to-transparent"></div>
-              </div>
 
-              {/* Logline */}
-              <h3 className="text-2xl md:text-3xl font-bold text-[#2C2C2C]  leading-snug tracking-[-0.01em] mb-8">
-                <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
-              </h3>
+                {/* Logline - Captivating Editorial Headline */}
+                <h3 className="text-[26px] md:text-4xl lg:text-[40px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter mb-8 md:mb-10 break-keep">
+                  <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
+                </h3>
 
-              {/* Body Text - Optimized reading width */}
-              <div className="text-zinc-600  leading-[2.1] text-[16px] md:text-[17px] font-medium [&>p]:mb-6 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#800020]/30 [&>blockquote]:pl-6 [&>blockquote]:italic [&>blockquote]:text-zinc-500  [&>blockquote]:my-8">
-                <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
-              </div>
-            </article>
+                {/* Body Text - Extreme Readability Typography */}
+                <div className="text-[#333333] leading-[1.8] md:leading-[1.85] text-[15px] md:text-[17px] font-medium 
+                    [&>p]:mb-7 [&>p]:break-keep 
+                    [&>p:first-of-type]:text-[17px] md:[&>p:first-of-type]:text-[19px] [&>p:first-of-type]:font-bold [&>p:first-of-type]:mb-8 md:[&>p:first-of-type]:mb-10 [&>p:first-of-type]:text-[#800020]
+                    [&>p_strong]:text-[#800020] [&>p_strong]:font-black [&>p_strong]:bg-[#800020]/[0.03] [&>p_strong]:px-1 [&>p_strong]:rounded-sm 
+                    [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#800020]/20 [&>blockquote]:bg-zinc-50/50 [&>blockquote]:py-3 [&>blockquote]:px-5 [&>blockquote]:italic [&>blockquote]:text-zinc-500 [&>blockquote]:my-8 [&>blockquote]:rounded-r-lg">
+                  <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
+                </div>
+              </article>
+
+              {/* Elegant Divider between sections */}
+              {idx < data.selfIntroductions!.length - 1 && (
+                <div className="w-full max-w-[760px] mx-auto flex justify-center py-2 md:py-4 opacity-30">
+                  <span className="tracking-[1em] md:tracking-[2em] text-zinc-400 font-bold text-xs md:text-sm">•••</span>
+                </div>
+              )}
+            </React.Fragment>
           ))}
 
           {isEditing && (
