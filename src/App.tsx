@@ -896,27 +896,29 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
         </div>
 
         {limit ? (
-          <div className="flex flex-col lg:flex-row gap-4 h-[auto] lg:h-[480px]">
+          <div className="flex flex-col lg:flex-row gap-4 h-[auto] lg:h-[500px]">
             {/* Left: Active Project (Master Banner) */}
-            <motion.div layout className="relative w-full lg:w-[70%] h-[320px] lg:h-full rounded-[1.5rem] overflow-hidden shadow-md flex-shrink-0 border border-black/5 group">
+            <motion.div layout className="relative w-full lg:w-[70%] h-[400px] lg:h-full rounded-3xl overflow-hidden shadow-md flex-shrink-0 border border-black/5 group">
               <AnimatePresence mode="wait">
                 {displayedProjects.map((project) => project.id === actualFeaturedId && (
                   <motion.div key={project.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
                     className="absolute inset-0 w-full h-full">
                     <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]" referrerPolicy="no-referrer" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
-                    <div className="absolute inset-x-0 bottom-0 p-8 flex items-end justify-between gap-6 pointer-events-none">
-                      <div className="flex flex-col items-start gap-4 flex-1">
-                        <div className="flex gap-2">
-                          <span className="bg-white/90 text-[#2C2C2C] px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm uppercase">{project.category}</span>
-                          {project.status && <span className="bg-[#800020] text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm">{project.status}</span>}
+                    <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8 flex flex-col justify-end pointer-events-none w-full">
+                      <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 w-full">
+                        <div className="flex flex-col items-start gap-4 flex-1 w-full relative z-10">
+                          <div className="flex items-center gap-2">
+                            <span className="bg-white/90 text-[#2C2C2C] px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm uppercase">{project.category}</span>
+                            {project.status && <span className="bg-[#800020] text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-tight shadow-sm">{project.status}</span>}
+                          </div>
+                          <h3 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight drop-shadow-md leading-tight line-clamp-1">{project.title}</h3>
+                          <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed max-w-xl drop-shadow-md line-clamp-2 w-full"><EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} /></p>
                         </div>
-                        <h3 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight drop-shadow-md leading-tight line-clamp-1">{project.title}</h3>
-                        <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed max-w-xl drop-shadow-md line-clamp-2"><EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} /></p>
+                        <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }} className="pointer-events-auto mt-4 md:mt-0 md:ml-auto shrink-0 px-6 py-3 bg-white text-[#800020] hover:bg-[#800020] hover:text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center rounded-full transition-all duration-300 border border-white/10 hover:border-transparent gap-2 shadow-xl hover:-translate-y-1">
+                          자세히 보기 <ArrowRight className="w-4 h-4" />
+                        </button>
                       </div>
-                      <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }} className="hidden md:flex shrink-0 px-6 py-3 bg-white text-[#800020] hover:bg-[#800020] hover:text-white font-bold text-xs uppercase tracking-widest items-center justify-center rounded-full transition-all duration-300 pointer-events-auto border border-white/10 hover:border-transparent flex-row gap-2 shadow-xl hover:-translate-y-1">
-                        자세히 보기 <ArrowRight className="w-4 h-4" />
-                      </button>
                     </div>
                   </motion.div>
                 ))}
@@ -924,7 +926,7 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
             </motion.div>
 
             {/* Right: Remaining Projects (Max 2 via flex-col) */}
-            <div className="flex flex-row lg:flex-col lg:w-[30%] gap-4 h-[140px] lg:h-full">
+            <div className="flex flex-row lg:flex-col lg:w-[30%] gap-4 h-[200px] lg:h-full">
               <AnimatePresence mode="popLayout">
                 {displayedProjects.filter(p => p.id !== actualFeaturedId).slice(0, 2).map((project) => (
                   <motion.div 
@@ -935,13 +937,23 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
                     transition={{ duration: 0.4 }}
                     key={project.id} 
                     onClick={() => setFeaturedId(project.id)}
-                    className="relative flex-1 rounded-[1.2rem] overflow-hidden cursor-pointer group shadow-sm hover:shadow-lg transition-all duration-500 bg-[#FAFAFA] border border-black/5"
+                    className="relative flex-1 rounded-3xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-500 bg-[#FAFAFA] border border-black/5"
                   >
                     <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500" />
-                    <div className="absolute bottom-5 left-5 right-5 z-10 transition-transform duration-500 group-hover:-translate-y-1">
-                      <span className="text-white/80 text-[9px] font-bold uppercase tracking-widest mb-1.5 block">{project.category}</span>
-                      <h3 className="text-sm md:text-base font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-2 leading-snug">{project.title}</h3>
+                    <div className="absolute inset-0 p-6 lg:p-8 flex flex-col justify-end z-10 w-full h-full">
+                      <div className="flex flex-col items-start gap-2 max-w-[85%] transition-transform duration-500 group-hover:-translate-y-1">
+                        <span className="bg-white/20 backdrop-blur-md text-white px-2.5 py-1 rounded-md text-[9px] font-bold uppercase tracking-widest shadow-sm leading-none">{project.category}</span>
+                        <h3 className="text-base md:text-xl font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-1 leading-snug">{project.title}</h3>
+                        <p className="text-white/70 text-xs md:text-sm font-medium leading-relaxed drop-shadow-md line-clamp-2 hidden sm:block">
+                          {project.description}
+                        </p>
+                      </div>
+                      
+                      {/* Action Icon explicitly aligned to bottom right, matching the master card button location visually */}
+                      <div className="absolute bottom-6 right-6 lg:bottom-8 lg:right-8 w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/20 bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </motion.div>
                 ))}
