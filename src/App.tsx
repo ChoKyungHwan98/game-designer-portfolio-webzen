@@ -1037,7 +1037,10 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">03. 핵심 역량</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">논리와 구조를 AI로 확장하는<br className="hidden md:block"/> 기획 역량</motion.h2>
+              className="flex flex-col gap-1 items-start mt-2">
+              <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-tight">논리와 구조를 AI로 확장하는</span>
+              <span className="text-5xl md:text-6xl lg:text-[5rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none">기획 역량</span>
+            </motion.h2>
           </div>
           <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
         </div>
@@ -1161,7 +1164,10 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">방대한 플레이 경험이 만든<br className="hidden md:block"/> 인사이트</motion.h2>
+              className="flex flex-col gap-1 items-start mt-2">
+              <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-tight">방대한 플레이 경험이 만든</span>
+              <span className="text-5xl md:text-6xl lg:text-[5rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none">인사이트</span>
+            </motion.h2>
           </div>
           <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">플랫폼과 장르를 넘나드는 심층 분석 데이터베이스입니다.</p>
         </div>
