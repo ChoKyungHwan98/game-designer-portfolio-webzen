@@ -740,7 +740,7 @@ const About = ({ isEditing, content, setContent }: { isEditing: boolean, content
         <span className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">01. 소개</span>
         <h2 className="flex flex-col gap-1 items-start mt-2 mb-8">
           <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-tight">논리와 감성으로,</span>
-          <span className="text-5xl md:text-6xl lg:text-[5rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none">0에서 +로</span>
+          <span className="text-5xl md:text-6xl lg:text-[5rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none">0 에서 +로</span>
         </h2>
         <div className="w-16 h-1.5 bg-[#800020] mb-8"></div>
       </div>
