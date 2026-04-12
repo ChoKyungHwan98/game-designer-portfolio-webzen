@@ -910,8 +910,8 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
                   }`}
                   style={{ flexBasis: 'auto' }}
                 >
-                  <motion.img layout="position" src={project.image} alt={project.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isActive ? 'opacity-100 group-hover:scale-[1.02]' : 'opacity-40 group-hover:opacity-70 grayscale-[50%]'}`} referrerPolicy="no-referrer" />
-                  <motion.div layout="position" className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-300 ${isActive ? 'from-black/90 via-black/40 to-transparent' : 'from-black/80 via-black/30 to-transparent'}`} />
+                  <motion.img layout="position" src={project.image} alt={project.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isActive ? 'opacity-100 group-hover:scale-[1.02]' : 'opacity-40 group-hover:opacity-70 grayscale-[60%]'}`} referrerPolicy="no-referrer" />
+                  <motion.div layout="position" className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-300 ${isActive ? 'from-black/70 via-black/5 to-transparent' : 'from-black/90 via-black/40 to-black/10'}`} />
                   
                   {/* Unified Top Structure */}
                   <motion.div layout="position" className="absolute top-6 left-6 lg:top-8 lg:left-8 flex gap-2 pointer-events-none">
