@@ -910,19 +910,19 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
                   }`}
                   style={{ flexBasis: 'auto' }}
                 >
-                  <motion.img layout="position" src={project.image} alt={project.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ${isActive ? 'opacity-100 group-hover:scale-[1.02]' : 'opacity-40 group-hover:opacity-70 grayscale-[40%]'}`} referrerPolicy="no-referrer" />
-                  <motion.div layout="position" className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-700 ${isActive ? 'from-black/90 via-black/40 to-transparent' : 'from-black/60 via-black/20 to-transparent'}`} />
+                  <motion.img layout="position" src={project.image} alt={project.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isActive ? 'opacity-100 group-hover:scale-[1.02]' : 'opacity-40 group-hover:opacity-70 grayscale-[50%]'}`} referrerPolicy="no-referrer" />
+                  <motion.div layout="position" className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-300 ${isActive ? 'from-black/90 via-black/40 to-transparent' : 'from-black/80 via-black/30 to-transparent'}`} />
                   
                   {/* Unified Top Structure */}
                   <motion.div layout="position" className="absolute top-6 left-6 lg:top-8 lg:left-8 flex gap-2 pointer-events-none">
-                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest shadow-sm leading-none transition-all duration-500 ${isActive ? 'bg-white/90 text-[#2C2C2C]' : 'bg-white/20 backdrop-blur-md text-white'}`}>{project.category}</span>
-                    {project.status && <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm leading-none transition-all duration-500 ${isActive ? 'bg-[#800020] text-white' : 'border border-white/20 text-white'}`}>{project.status}</span>}
+                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest shadow-sm leading-none transition-all duration-300 ${isActive ? 'bg-white/90 text-[#2C2C2C]' : 'bg-white/20 backdrop-blur-md text-white'}`}>{project.category}</span>
+                    {project.status && <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm leading-none transition-all duration-300 ${isActive ? 'bg-[#800020] text-white' : 'border border-white/20 text-white'}`}>{project.status}</span>}
                   </motion.div>
 
                   {/* Unified Bottom Structure */}
                   <motion.div layout="position" className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-8 flex items-end justify-between gap-4 pointer-events-none min-w-0">
                     <div className="flex flex-col items-start w-full relative z-10 min-w-0">
-                      <motion.h3 layout="position" className={`font-display font-bold text-white tracking-tighter drop-shadow-md leading-tight truncate w-full transition-all duration-700 ${isActive ? 'text-3xl md:text-5xl lg:whitespace-normal line-clamp-1' : 'text-lg md:text-2xl lg:whitespace-nowrap opacity-60 group-hover:opacity-100'}`}>
+                      <motion.h3 layout="position" className={`font-display font-bold text-white tracking-tighter drop-shadow-md leading-tight truncate w-full transition-all duration-300 ${isActive ? 'text-3xl md:text-5xl lg:whitespace-normal line-clamp-1' : 'text-lg md:text-2xl lg:whitespace-nowrap opacity-50 group-hover:opacity-100'}`}>
                         <EditableText value={project.title} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }} isEditing={isEditing} />
                       </motion.h3>
                       <AnimatePresence>
