@@ -672,7 +672,52 @@ const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setContent,
         </div>
       </motion.div>
 
-      {/* Removed stats mapping entirely to accommodate background video */}
+      {/* Visual Right Side - Cinematic Content Mockup (Video / Index) */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+        className="hidden lg:flex lg:w-1/2 justify-end relative"
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] h-full bg-gradient-to-tr from-[#800020]/10 to-transparent blur-[80px] rounded-full mix-blend-multiply opacity-50"></div>
+        
+        {/* Playable Video Frame Interface */}
+        <div className="relative w-full max-w-[520px] aspect-video sm:aspect-[4/3] lg:aspect-[16/10] mt-4 z-10 rounded-[1.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.06)] border border-black/5 bg-zinc-900 flex flex-col group hover:shadow-[0_20px_60px_rgba(128,0,32,0.15)] transition-shadow duration-500">
+           {/* Top Bar (Browser/OS Style) */}
+           <div className="h-10 bg-[#1A1A1A] border-b border-white/5 flex items-center px-4 gap-2 text-white shrink-0">
+             <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+             <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+             <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+             <div className="flex-1 text-center font-mono text-[10px] text-zinc-400 uppercase tracking-widest mr-8">INDEX_TRAILER.mp4</div>
+           </div>
+           
+           {/* Video Player Area */}
+           <div className="flex-1 relative bg-black">
+             {/* Actual Video Element: User can swap the src */}
+             <video 
+               src="https://cdn.pixabay.com/video/2021/08/11/84687-588328639_tiny.mp4" 
+               autoPlay loop muted playsInline 
+               className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-700"
+             />
+             
+             {/* Cinematic Overlay & Typography for "Index" */}
+             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none transition-opacity duration-500 group-hover:opacity-40"></div>
+             <div className="absolute inset-x-0 bottom-0 p-6 xl:p-8 flex items-end justify-between pointer-events-none">
+               <div>
+                 <span className="text-white/60 font-mono text-[10px] tracking-widest uppercase mb-2 block">00 . INITIALIZE</span>
+                 <h3 className="text-white font-display font-medium text-2xl xl:text-3xl leading-tight">
+                   The Master <br/><span className="font-bold text-[#f2aab8]">Blueprint.</span>
+                 </h3>
+               </div>
+               
+               {/* Play Button Indicator */}
+               <div className="w-12 h-12 rounded-full border border-white/20 bg-white/10 backdrop-blur-md flex items-center justify-center text-white shrink-0 group-hover:bg-white group-hover:text-black transition-colors duration-300">
+                 <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 ml-1"><path d="M8 5v14l11-7z" /></svg>
+               </div>
+             </div>
+           </div>
+        </div>
+      </motion.div>
     </div>
 
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
@@ -2033,12 +2078,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen selection:bg-[#800020]/20 flex flex-col relative">
-      {/* Global Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#F6F6F3]  transition-colors duration-500">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.02),transparent_50%)] "></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(0,0,0,0.01),transparent_50%)] "></div>
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-white/50  rounded-full blur-[120px] mix-blend-overlay "></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-white/50  rounded-full blur-[120px] mix-blend-overlay "></div>
+      {/* Global Background (Cinematic A + C combo) */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#F6F6F3] transition-colors duration-500">
+        {/* Solution A: White Noise Grain */}
+        <div className="absolute inset-0 opacity-[0.035] mix-blend-multiply" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
+        {/* Solution C: Ambient Blur Glows (Burgundy Red) */}
+        <div className="absolute top-[-15%] right-[-10%] w-[800px] h-[800px] bg-[#800020]/[0.025] blur-[100px] rounded-full mix-blend-multiply"></div>
+        <div className="absolute bottom-[-10%] left-[-15%] w-[600px] h-[600px] bg-[#800020]/[0.02] blur-[120px] rounded-full mix-blend-multiply"></div>
       </div>
 
       <Navbar setView={changeView} currentView={view} onNavClick={handleNavClick} isEditing={isEditing} setIsEditing={setIsEditing} activeSection={activeSection} theme={theme} setTheme={setTheme} />
