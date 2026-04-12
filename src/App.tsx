@@ -542,7 +542,7 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                 { key: 'game-history', label: '플레이 이력', icon: <Gamepad2 className="w-4 h-4" /> },
               ].map(item => (
                 <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0,0); }} 
-                  className={`px-5 py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all flex items-center gap-2 ${currentView === item.key ? 'bg-white  text-[#800020] shadow-md' : 'text-zinc-500 hover:text-[#2C2C2C] '}`}>
+                  className={`px-5 py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center gap-2 ${currentView === item.key ? 'bg-white  text-[#800020] shadow-md scale-100' : 'text-zinc-500 hover:text-white hover:bg-[#800020] hover:shadow-lg hover:scale-105 hover:-translate-y-0.5'}`}>
                   {item.icon}
                   <span>{item.label}</span>
                 </button>
@@ -590,8 +590,8 @@ const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, act
                   { key: 'game-history', label: '플레이 이력 보기', icon: <Gamepad2 className="w-4 h-4" /> },
                 ].map(item => (
                   <button key={item.key} onClick={() => { setView(item.key as any); setIsMenuOpen(false); window.scrollTo(0,0); }} 
-                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-colors ${currentView === item.key ? 'bg-white  text-[#800020] shadow-sm' : 'text-zinc-600  hover:bg-white  hover:text-[#2C2C2C] '}`}>
-                    {item.icon} {item.label}
+                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${currentView === item.key ? 'bg-white  text-[#800020] shadow-sm' : 'text-zinc-600 hover:bg-[#800020] hover:text-white hover:shadow-lg hover:-translate-y-1'}`}>
+                    <span className="transition-transform group-hover:scale-110">{item.icon}</span> {item.label}
                   </button>
                 ))}
               </div>
