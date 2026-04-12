@@ -872,9 +872,9 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 border-b border-black/5 pb-6">
           <div>
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 주요 프로젝트</motion.span>
+              className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 프로젝트</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">주요 프로젝트.</motion.h2>
+              className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">실전으로 증명한 결과물.</motion.h2>
           </div>
           <div className="flex flex-col items-start md:items-end gap-3">
             <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
@@ -1037,7 +1037,7 @@ const Skills = ({ isEditing, skills, setSkills }: { isEditing: boolean, skills: 
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#800020] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">03. 핵심 역량</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight">핵심 역량.</motion.h2>
+              className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] text-[#2C2C2C] leading-tight break-keep">논리와 구조를 AI로 확장하는 기획 역량.</motion.h2>
           </div>
           <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium">프로젝트의 성공을 이끄는 실무 중심의 기술적 토대입니다.</p>
         </div>
@@ -1164,7 +1164,7 @@ const PlayHistory = ({ isEditing, history, setHistory, onViewAll }: { isEditing:
           <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10">
             <div className="text-center sm:text-left">
               <span className="text-white/60 font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</span>
-              <h2 className="text-3xl md:text-5xl lg:text-5xl font-display font-bold tracking-[-0.03em] leading-tight break-keep">플레이 이력.</h2>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold tracking-[-0.03em] leading-tight break-keep">방대한 플레이 경험이 만든 인사이트.</h2>
             </div>
             <div className="w-px h-12 bg-white/20 hidden sm:block"></div>
             <div className="flex items-center gap-4 bg-white/10 px-5 py-3 rounded-2xl backdrop-blur-md">
@@ -1712,9 +1712,9 @@ const Contact = () => (
       <div className="absolute inset-0 pointer-events-none opacity-20 object-cover bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
       
       <div className="text-center relative z-10 w-full px-6 max-w-4xl mx-auto">
-        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. Contact</span>
+        <span className="text-[#800020] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. 문의</span>
         <h2 className="text-6xl md:text-8xl lg:text-[7rem] font-display font-bold tracking-tighter text-white leading-none mb-12">
-          준비되었습니다.
+          저는 준비되었습니다.
         </h2>
         <p className="text-zinc-400 text-xl mb-16 max-w-2xl mx-auto font-medium leading-relaxed hidden sm:block">
           새로운 프로젝트나 협업 제안은 언제나 환영입니다.
