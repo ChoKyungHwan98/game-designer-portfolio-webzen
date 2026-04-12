@@ -896,60 +896,81 @@ const Projects = ({ onProjectClick, isEditing, projects, setProjects, limit, set
         </div>
 
         {limit ? (
-          <div className="flex flex-col lg:flex-row gap-4 h-[600px] lg:h-[500px] w-full">
-            {displayedProjects.slice(0, 3).map((project) => {
-              const isActive = project.id === actualFeaturedId;
-              return (
-                <motion.div
-                  layout
-                  onClick={() => !isActive && setFeaturedId(project.id)}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  key={project.id}
-                  className={`relative rounded-3xl overflow-hidden shadow-md group cursor-pointer border border-black/5 bg-[#1A1A1A] flex-shrink-0 lg:flex-shrink transition-colors duration-500 ${
-                    isActive ? 'lg:flex-[5] flex-[4]' : 'lg:flex-[1.5] flex-[1.5] hover:border-black/20'
-                  }`}
-                  style={{ flexBasis: 'auto' }}
-                >
-                  <motion.img layout="position" src={project.image} alt={project.title} className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 ${isActive ? 'opacity-100 group-hover:scale-[1.02]' : 'opacity-40 group-hover:opacity-70 grayscale-[60%]'}`} referrerPolicy="no-referrer" />
-                  <motion.div layout="position" className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-300 ${isActive ? 'from-black/70 via-black/5 to-transparent' : 'from-black/90 via-black/40 to-black/10'}`} />
-                  
-                  {/* Unified Top Structure */}
-                  <motion.div layout="position" className="absolute top-6 left-6 lg:top-8 lg:left-8 flex gap-2 pointer-events-none">
-                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest shadow-sm leading-none transition-all duration-300 ${isActive ? 'bg-white/90 text-[#2C2C2C]' : 'bg-white/20 backdrop-blur-md text-white'}`}>{project.category}</span>
-                    {project.status && <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm leading-none transition-all duration-300 ${isActive ? 'bg-[#800020] text-white' : 'border border-white/20 text-white'}`}>{project.status}</span>}
-                  </motion.div>
-
-                  {/* Unified Bottom Structure */}
-                  <motion.div layout="position" className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-8 flex items-end justify-between gap-4 pointer-events-none min-w-0">
-                    <div className="flex flex-col items-start w-full relative z-10 min-w-0">
-                      <motion.h3 layout="position" className={`font-display font-bold text-white tracking-tighter drop-shadow-md leading-tight truncate w-full transition-all duration-300 ${isActive ? 'text-3xl md:text-5xl lg:whitespace-normal line-clamp-1' : 'text-lg md:text-2xl lg:whitespace-nowrap opacity-50 group-hover:opacity-100'}`}>
-                        <EditableText value={project.title} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }} isEditing={isEditing} />
-                      </motion.h3>
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.4 }} className="overflow-hidden w-full">
-                            <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed drop-shadow-md line-clamp-2 w-full mt-3">
-                              <EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} />
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
+          <div className="flex flex-col lg:flex-row gap-4 h-[auto] lg:h-[500px]">
+            {/* Left: Active Project (Master Banner) */}
+            <motion.div layout className="relative w-full lg:w-[70%] h-[400px] lg:h-full rounded-3xl overflow-hidden shadow-md flex-shrink-0 border border-black/5 group">
+              <AnimatePresence mode="wait">
+                {displayedProjects.map((project) => project.id === actualFeaturedId && (
+                  <motion.div key={project.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
+                    className="absolute inset-0 w-full h-full">
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
                     
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.button 
-                          initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }} transition={{ delay: 0.2, duration: 0.3 }}
-                          onClick={(e) => { e.stopPropagation(); onProjectClick(project); }} 
-                          className="pointer-events-auto shrink-0 w-12 h-12 md:w-14 md:h-14 bg-white hover:bg-[#800020] text-[#2C2C2C] hover:text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-xl group/btn border border-white/20 hover:-translate-y-1">
-                          <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-0.5 transition-transform" />
-                        </motion.button>
-                      )}
-                    </AnimatePresence>
+                    {/* Unified Top Structure */}
+                    <div className="absolute top-6 left-6 lg:top-8 lg:left-8 flex gap-2 pointer-events-none">
+                      <span className="bg-white/90 text-[#2C2C2C] px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm uppercase leading-none">{project.category}</span>
+                      {project.status && <span className="bg-[#800020] text-white px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm leading-none">{project.status}</span>}
+                    </div>
+
+                    {/* Unified Bottom Structure */}
+                    <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-8 flex items-end justify-between gap-6 pointer-events-none">
+                      <div className="flex flex-col items-start gap-2 flex-1 w-full relative z-10 max-w-[80%]">
+                        <h3 className="text-3xl md:text-5xl font-display font-bold text-white tracking-tight drop-shadow-md leading-tight line-clamp-1">
+                          <EditableText value={project.title} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }} isEditing={isEditing} />
+                        </h3>
+                        <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed drop-shadow-md line-clamp-2 w-full"><EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} /></p>
+                      </div>
+                      
+                      {/* Standardized Circular Action Button */}
+                      <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }} 
+                        className="pointer-events-auto shrink-0 w-12 h-12 md:w-14 md:h-14 bg-white hover:bg-[#800020] text-[#2C2C2C] hover:text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-xl group border border-white/20 hover:-translate-y-1">
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+                    </div>
                   </motion.div>
-                </motion.div>
-              );
-            })}
+                ))}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Right: Remaining Projects (Max 2 via flex-col) */}
+            <div className="flex flex-row lg:flex-col lg:w-[30%] gap-4 h-[200px] lg:h-full">
+              <AnimatePresence mode="popLayout">
+                {displayedProjects.filter(p => p.id !== actualFeaturedId).slice(0, 2).map((project) => (
+                  <motion.div 
+                    layoutId={`thumb-${project.id}`}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
+                    key={project.id} 
+                    onClick={() => setFeaturedId(project.id)}
+                    className="relative flex-1 rounded-3xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-xl transition-all duration-500 bg-[#FAFAFA] border border-black/5"
+                  >
+                    <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 pointer-events-none" />
+                    
+                    {/* Unified Top Structure */}
+                    <div className="absolute top-6 left-6 lg:top-8 lg:left-8 flex gap-2 pointer-events-none">
+                      <span className="bg-white/20 backdrop-blur-md text-white px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-widest shadow-sm leading-none">{project.category}</span>
+                      {project.status && <span className="border border-white/20 text-white px-2.5 py-1 rounded-md text-[10px] font-bold tracking-tight shadow-sm leading-none">{project.status}</span>}
+                    </div>
+
+                    {/* Unified Bottom Structure */}
+                    <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 right-6 lg:right-8 flex items-end justify-between gap-4 pointer-events-none">
+                      <div className="flex flex-col items-start gap-2 max-w-[75%] transition-transform duration-500 group-hover:-translate-y-1 relative z-10 w-full">
+                        <h3 className="text-base md:text-xl font-display font-bold text-white tracking-tight drop-shadow-md line-clamp-1 leading-snug">{project.title}</h3>
+                        <p className="text-white/70 text-xs md:text-sm font-medium leading-relaxed drop-shadow-md line-clamp-2 w-full">{project.description}</p>
+                      </div>
+                      
+                      {/* Standardized Circular Action Button */}
+                      <div className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg group-hover:-translate-y-1">
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
