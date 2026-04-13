@@ -60,6 +60,37 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
                   </div>
 
+                  {/* 섹션 0 전용: 인라인 타이포그래픽 대비 */}
+                  {idx === 0 && (
+                    <div className="max-w-[800px] mx-auto mt-2 mb-8 text-[#333F48] leading-[1.9] text-[16px] md:text-[18px] font-medium tracking-[-0.01em] break-keep">
+                      <p className="mb-6 md:mb-8">
+                        그 자리에서 확신했습니다.{' '}
+                        법학이{' '}
+                        <span className="inline-flex items-baseline gap-[2px] mx-[2px]">
+                          <span className="text-[30px] md:text-[40px] font-black text-zinc-300 leading-none">−</span>
+                          <span className="text-[15px] md:text-[17px] font-semibold text-zinc-400">에서</span>
+                          <span className="text-[30px] md:text-[40px] font-black text-zinc-400 leading-none">0</span>
+                        </span>
+                        으로 되돌리는 일이라면, 게임은{' '}
+                        <span className="inline-flex items-baseline gap-[2px] mx-[2px]">
+                          <span className="text-[30px] md:text-[40px] font-black text-zinc-500 leading-none">0</span>
+                          <span className="text-[15px] md:text-[17px] font-semibold text-zinc-500">에서</span>
+                          <span className="text-[38px] md:text-[52px] font-black text-[#0047BB] leading-none">+</span>
+                        </span>
+                        가 되는 경험을 만든다는 것을.{' '}
+                        저도 누군가의 하루를 움직이는 사람이 되고 싶었습니다.
+                      </p>
+                      <p className="text-[15px] md:text-[17px]">
+                        법학을 공부하며 배운 것은, 모든 제도는 입법{' '}
+                        <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'의도'</strong>를 바탕으로{' '}
+                        <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'구조화'</strong>되며, 사회라는 하나의{' '}
+                        <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'시스템'</strong>으로 작동한다는 것입니다.
+                        저는 이 원리가{' '}
+                        <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">게임 기획의 본질</strong>과 같다고 믿습니다.
+                      </p>
+                    </div>
+                  )}
+
                 </div>
               </article>
 
