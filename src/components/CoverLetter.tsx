@@ -35,7 +35,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
           <div className="relative border-l-[3px] border-[#0047BB]/15 ml-2 md:ml-[40px] lg:ml-[60px] w-full max-w-[900px] flex-1">
           {data.selfIntroductions.map((intro, idx) => (
             <React.Fragment key={idx}>
-              <article className="relative w-full pl-8 md:pl-16 pb-[80px] md:pb-[120px]" id={`intro-${idx}`}>
+              <article className="relative w-full pl-8 md:pl-16 pb-[80px] md:pb-[120px] scroll-mt-24 md:scroll-mt-[140px]" id={`intro-${idx}`}>
                 {isEditing && (
                   <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
                     className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
@@ -120,6 +120,11 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
 
 
                 </motion.div>
+
+                {/* 섹션 사이 희미한 구분선 (마지막 항목 제외) */}
+                {idx < (data.selfIntroductions || []).length - 1 && (
+                  <div className="absolute bottom-10 left-8 md:left-16 right-0 h-px bg-gradient-to-r from-[#0047BB]/10 via-[#0047BB]/5 to-transparent" />
+                )}
               </article>
 
 
@@ -145,7 +150,15 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
             <div className="flex flex-col gap-6 border-l-[2px] border-[#0047BB]/10 pl-6 py-2">
               <div className="text-xs font-black tracking-[0.2em] text-[#0047BB]/60 mb-2">INDEX</div>
               {data.selfIntroductions.map((intro, idx) => (
-                <a key={idx} href={`#intro-${idx}`} className="text-[14px] font-semibold text-zinc-400 hover:text-[#0047BB] transition-colors relative group block">
+                <a 
+                  key={idx} 
+                  href={`#intro-${idx}`} 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById(`intro-${idx}`)?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-[14px] font-medium text-zinc-400 hover:text-[#0047BB] transition-colors relative group block"
+                >
                   <span className="opacity-0 group-hover:opacity-100 absolute -left-[29px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#0047BB] transition-opacity"/>
                   {String(idx + 1).padStart(2, '0')}. {intro.navTitle || '섹션 ' + (idx + 1)}
                 </a>
