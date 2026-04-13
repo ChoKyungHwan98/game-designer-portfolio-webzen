@@ -31,11 +31,11 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
       </div>
 
       {data.selfIntroductions ? (
-        <div className="flex justify-between items-start xl:gap-20">
-          <div className="relative border-l-[3px] border-zinc-200/80 ml-2 md:ml-[40px] lg:ml-[80px] w-full max-w-[880px] flex-1">
+        <div className="flex justify-between items-start xl:gap-16">
+          <div className="relative border-l-[3px] border-[#0047BB]/15 ml-2 md:ml-[40px] lg:ml-[60px] w-full max-w-[900px] flex-1">
           {data.selfIntroductions.map((intro, idx) => (
             <React.Fragment key={idx}>
-              <article className="relative w-full pl-8 md:pl-16 pb-20 md:pb-32" id={`intro-${idx}`}>
+              <article className="relative w-full pl-8 md:pl-16 pb-[80px] md:pb-[120px]" id={`intro-${idx}`}>
                 {isEditing && (
                   <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
                     className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
@@ -43,20 +43,24 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                   </button>
                 )}
 
-                <div className="absolute -left-[19px] md:-left-[24px] top-0 w-9 h-9 md:w-11 md:h-11 bg-white border-[3px] border-[#0047BB]/20 rounded-full flex items-center justify-center text-[#0047BB] font-mono font-bold text-xs md:text-sm shadow-sm ring-4 ring-white">
+                <div className="absolute -left-[19px] md:-left-[24px] top-0 w-9 h-9 md:w-11 md:h-11 bg-white border-[3px] border-[#0047BB]/30 rounded-full flex items-center justify-center text-[#0047BB] font-mono font-bold text-xs md:text-sm shadow-md ring-4 ring-white">
                   {String(idx + 1).padStart(2, '0')}
                 </div>
 
-                <div className="mb-8 md:mb-10">
-                  <h3 className="text-[28px] md:text-[36px] lg:text-[40px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter break-keep">
-                    <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
-                  </h3>
-                </div>
+                {/* 배경 카드 */}
+                <div className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2">
 
-                <div className="max-w-[760px] text-[#333F48] leading-[1.9] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-12 md:[&_p]:mb-16 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_p:first-of-type]:text-[17px] md:[&_p:first-of-type]:text-[19px] [&_p:first-of-type]:font-semibold [&_p:first-of-type]:mb-10 md:[&_p:first-of-type]:mb-12 [&_p:first-of-type]:border-b [&_p:first-of-type]:border-[#0047BB]/10 [&_p:first-of-type]:pb-6 [&_strong]:text-[#111] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,#0047BB33_40%,transparent_40%)] [&_strong]:px-1 [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/70 [&_blockquote]:to-transparent [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-14 md:[&_blockquote]:my-20 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-14 md:[&_ul]:my-16 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-white [&_ul>li]:border [&_ul>li]:border-[#0047BB]/10 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.05)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-zinc-300 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[17px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-2.5 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[13px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-zinc-500 [&_ul>li_em]:leading-[1.6] [&_ul>li_em]:block">
-                  <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
-                </div>
+                  <div className="mb-8 md:mb-10">
+                    <h3 className="text-[28px] md:text-[36px] lg:text-[40px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter break-keep">
+                      <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
+                    </h3>
+                  </div>
 
+                  <div className="max-w-[800px] mx-auto text-[#333F48] leading-[1.9] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-10 md:[&_p]:mb-14 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/80 [&_blockquote]:to-blue-50/10 [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] lg:[&_blockquote]:text-[32px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-12 md:[&_blockquote]:my-16 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-12 md:[&_ul]:my-16 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-[#F8F9FF] [&_ul>li]:border [&_ul>li]:border-[#0047BB]/15 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-[#0047BB]/40 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[18px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-3 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[12px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-[#555F6B] [&_ul>li_em]:leading-[1.7] [&_ul>li_em]:block [&_ul>li_em]:mt-1">
+                    <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
+                  </div>
+
+                </div>
               </article>
             </React.Fragment>
           ))}
