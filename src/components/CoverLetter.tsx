@@ -56,39 +56,13 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     </h3>
                   </div>
 
-                  <div className="max-w-[800px] mx-auto text-[#333F48] leading-[1.9] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-10 md:[&_p]:mb-14 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/80 [&_blockquote]:to-blue-50/10 [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] lg:[&_blockquote]:text-[32px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-12 md:[&_blockquote]:my-16 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-12 md:[&_ul]:my-16 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-[#F8F9FF] [&_ul>li]:border [&_ul>li]:border-[#0047BB]/15 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-[#0047BB]/40 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[18px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-3 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[12px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-[#555F6B] [&_ul>li_em]:leading-[1.7] [&_ul>li_em]:block [&_ul>li_em]:mt-1">
+                  <div className="max-w-[800px] mx-auto text-[#333F48] leading-[1.85] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-6 md:[&_p]:mb-8 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/80 [&_blockquote]:to-blue-50/10 [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] lg:[&_blockquote]:text-[32px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-10 md:[&_blockquote]:my-12 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-10 md:[&_ul]:my-12 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-[#F8F9FF] [&_ul>li]:border [&_ul>li]:border-[#0047BB]/15 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-[#0047BB]/40 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[18px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-3 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[12px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-[#555F6B] [&_ul>li_em]:leading-[1.7] [&_ul>li_em]:block [&_ul>li_em]:mt-1">
                     <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
                   </div>
 
-                  {/* 섹션 0 전용: 인라인 타이포그래픽 대비 문단 */}
-                  {idx === 0 && (
-                    <div className="max-w-[800px] mx-auto mt-2 mb-10 text-[#333F48] leading-[2.0] text-[16px] md:text-[18px] font-medium tracking-[-0.01em] break-keep">
-                      <p>
-                        그 자리에서 확신했습니다.{' '}
-                        법학이{' '}
-                        <span className="inline-flex items-baseline gap-[2px] mx-[2px]">
-                          <span className="text-[30px] md:text-[40px] font-black text-zinc-300 leading-none">−</span>
-                          <span className="text-[16px] md:text-[18px] font-semibold text-zinc-400">에서</span>
-                          <span className="text-[30px] md:text-[40px] font-black text-zinc-400 leading-none">0</span>
-                        </span>
-                        으로 되돌리는 일이라면,{' '}
-                        게임은{' '}
-                        <span className="inline-flex items-baseline gap-[2px] mx-[2px]">
-                          <span className="text-[30px] md:text-[40px] font-black text-zinc-500 leading-none">0</span>
-                          <span className="text-[16px] md:text-[18px] font-semibold text-zinc-500">에서</span>
-                          <span className="text-[38px] md:text-[52px] font-black text-[#0047BB] leading-none">+</span>
-                        </span>
-                        가 되는 경험을 만든다는 것을.{' '}
-                        저도 누군가의 하루를 움직이는 사람이 되고 싶었습니다.
-                      </p>
-                      <p className="mt-8 md:mt-10 text-[15px] md:text-[17px]">
-                        법학을 공부하며 배운 것은, 모든 제도는 입법 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'의도'</strong>를 바탕으로 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'구조화'</strong>되며, 사회라는 하나의 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'시스템'</strong>으로 작동한다는 것입니다. 저는 이 원리가 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">게임 기획의 본질</strong>과 같다고 믿습니다.
-                      </p>
-                    </div>
-                  )}
-
                 </div>
               </article>
+
 
 
             </React.Fragment>
