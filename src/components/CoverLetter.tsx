@@ -16,7 +16,7 @@ interface CoverLetterProps {
 export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterProps) => {
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="pt-32 pb-20 md:pt-[160px] px-6 md:px-12 max-w-3xl mx-auto w-full">
+      className="pt-32 pb-20 md:pt-[160px] px-6 md:px-12 max-w-5xl mx-auto w-full">
       
       <div className="flex items-center justify-between mb-16">
         <button onClick={() => setView('resume')} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors group font-sans tracking-tight text-sm font-bold">
@@ -31,40 +31,31 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
       </div>
 
       {data.selfIntroductions ? (
-        <div className="flex flex-col gap-16 md:gap-24 items-center">
+        <div className="relative border-l-[3px] border-zinc-200/80 ml-2 md:ml-[40px] lg:ml-[80px] w-full max-w-[880px]">
           {data.selfIntroductions.map((intro, idx) => (
             <React.Fragment key={idx}>
-              <article className="relative w-full max-w-[760px] mx-auto">
+              <article className="relative w-full pl-8 md:pl-16 pb-20 md:pb-24">
                 {isEditing && (
                   <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
-                    className="absolute -top-4 -right-4 md:right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                    className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
                     <X className="w-4 h-4" />
                   </button>
                 )}
 
-                <div className="flex items-center gap-4 mb-8 md:mb-10 opacity-60">
-                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-[#0047BB]/15 flex items-center justify-center text-[#0047BB]/60 font-mono font-bold text-xs md:text-sm bg-[#0047BB]/[0.04]">
-                    {String(idx + 1).padStart(2, '0')}
-                  </div>
-                  <div className="flex-1 h-px bg-gradient-to-r from-[#0047BB]/10 to-transparent"></div>
+                <div className="absolute -left-[19px] md:-left-[24px] top-0 w-9 h-9 md:w-11 md:h-11 bg-white border-[3px] border-[#0047BB]/20 rounded-full flex items-center justify-center text-[#0047BB] font-mono font-bold text-xs md:text-sm shadow-sm ring-4 ring-white">
+                  {String(idx + 1).padStart(2, '0')}
                 </div>
 
-                <div className="border-l-4 border-[#0047BB] pl-5 md:pl-7 mb-10 md:mb-12">
-                  <h3 className="text-[26px] md:text-4xl lg:text-[42px] font-display font-black text-[#1A1A1A] leading-[1.25] tracking-tighter break-keep">
+                <div className="mb-8 md:mb-10">
+                  <h3 className="text-[28px] md:text-[36px] lg:text-[40px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter break-keep">
                     <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
                   </h3>
                 </div>
 
-                <div className="text-[#333F48] leading-[1.85] md:leading-[1.9] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&>p]:mb-11 md:[&>p]:mb-14 [&>p]:break-keep [&>p:first-of-type]:text-[17px] md:[&>p:first-of-type]:text-[19px] [&>p:first-of-type]:font-semibold [&>p:first-of-type]:mb-9 md:[&>p:first-of-type]:mb-10 [&>p:first-of-type]:text-[#333F48] [&>p:first-of-type]:border-b [&>p:first-of-type]:border-[#0047BB]/10 [&>p:first-of-type]:pb-6 [&_strong]:text-[#111] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,#0047BB33_40%,transparent_40%)] [&_strong]:px-1 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#0047BB]/25 [&>blockquote]:bg-[#F2F0EB]/60 [&>blockquote]:py-4 [&>blockquote]:px-6 [&>blockquote]:italic [&>blockquote]:text-[#76787A] [&>blockquote]:my-8 [&>blockquote]:rounded-r-lg [&_ul]:list-disc [&_ul]:list-outside [&_ul]:ml-6 [&_ul]:mb-8 [&_ul>li]:mb-3 [&_ul>li]:pl-2 [&_ol]:list-decimal [&_ol]:list-outside [&_ol]:ml-6 [&_ol]:mb-8 [&_ol>li]:mb-3 [&_ol>li]:pl-2">
+                <div className="max-w-[760px] text-[#333F48] leading-[1.85] md:leading-[1.9] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&>p]:mb-11 md:[&>p]:mb-14 [&>p]:break-keep [&>p:first-of-type]:text-[17px] md:[&>p:first-of-type]:text-[19px] [&>p:first-of-type]:font-semibold [&>p:first-of-type]:mb-9 md:[&>p:first-of-type]:mb-10 [&>p:first-of-type]:text-[#333F48] [&>p:first-of-type]:border-b [&>p:first-of-type]:border-[#0047BB]/10 [&>p:first-of-type]:pb-6 [&_strong]:text-[#111] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,#0047BB33_40%,transparent_40%)] [&_strong]:px-1 [&>blockquote]:border-l-[3px] [&>blockquote]:border-[#0047BB]/25 [&>blockquote]:bg-[#F2F0EB]/60 [&>blockquote]:py-4 [&>blockquote]:px-6 [&>blockquote]:italic [&>blockquote]:text-[#76787A] [&>blockquote]:my-8 [&>blockquote]:rounded-r-lg [&_ul]:list-disc [&_ul]:list-outside [&_ul]:ml-6 [&_ul]:mb-8 [&_ul>li]:mb-3 [&_ul>li]:pl-2 [&_ol]:list-decimal [&_ol]:list-outside [&_ol]:ml-6 [&_ol]:mb-8 [&_ol>li]:mb-3 [&_ol>li]:pl-2">
                   <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
                 </div>
               </article>
-
-              {idx < data.selfIntroductions!.length - 1 && (
-                <div className="w-full max-w-[760px] mx-auto flex justify-center py-2 md:py-4 opacity-30">
-                  <span className="tracking-[1em] md:tracking-[2em] text-zinc-400 font-bold text-xs md:text-sm">•••</span>
-                </div>
-              )}
             </React.Fragment>
           ))}
 
