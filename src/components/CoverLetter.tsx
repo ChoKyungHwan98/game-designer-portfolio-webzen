@@ -33,7 +33,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
       {data.selfIntroductions ? (
         <div className="max-w-5xl mx-auto w-full">
         <div className="flex justify-between items-start xl:gap-16">
-          <div className="relative border-l-[3px] border-[#0047BB]/15 ml-2 md:ml-[40px] lg:ml-[60px] w-full max-w-[900px] flex-1">
+          <div className="relative border-l-[3px] border-[#0047BB]/15 w-full max-w-[900px] flex-1">
           {data.selfIntroductions.map((intro, idx) => (
             <React.Fragment key={idx}>
               <article className="relative w-full pl-8 md:pl-16 pb-[80px] md:pb-[120px] scroll-mt-24 md:scroll-mt-[140px]" id={`intro-${idx}`}>
