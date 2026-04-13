@@ -88,8 +88,12 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                         저는 이 원리가{' '}
                         <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">게임 기획의 본질</strong>과 같다고 믿습니다.
                       </p>
+                      <p className="mt-6 md:mt-8 text-[15px] md:text-[17px] font-bold text-[#1A1A1A]">
+                        저는 그 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">+를 설계하는 기획자</strong>가 되겠습니다.
+                      </p>
                     </div>
                   )}
+
 
                 </div>
               </article>
