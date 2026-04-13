@@ -48,21 +48,45 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                 </div>
 
                 {/* 배경 카드 */}
-                <div className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2">
+                <motion.div 
+                  initial={{ opacity: 0, y: 60 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  viewport={{ once: true, margin: "-50px" }} 
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
+                >
 
-                  <div className="mb-8 md:mb-10">
-                    <h3 className="text-[28px] md:text-[36px] lg:text-[40px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter break-keep">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }} 
+                    whileInView={{ opacity: 1, y: 0 }} 
+                    viewport={{ once: true }} 
+                    transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                    className="mb-8 md:mb-10"
+                  >
+                    <h3 className="text-[32px] md:text-[42px] lg:text-[48px] font-display font-black text-[#1A1A1A] leading-[1.25] tracking-tighter break-keep">
                       <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} multiline />
                     </h3>
-                  </div>
+                  </motion.div>
 
-                  <div className="max-w-[800px] mx-auto text-[#333F48] leading-[1.85] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-4 md:[&_p]:mb-5 [&_hr]:border-none [&_hr]:h-3 md:[&_hr]:h-4 [&_hr]:m-0 [&_hr]:p-0 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/80 [&_blockquote]:to-blue-50/10 [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] lg:[&_blockquote]:text-[32px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-10 md:[&_blockquote]:my-12 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-10 md:[&_ul]:my-12 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-[#F8F9FF] [&_ul>li]:border [&_ul>li]:border-[#0047BB]/15 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-[#0047BB]/40 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[18px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-3 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[12px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-[#555F6B] [&_ul>li_em]:leading-[1.7] [&_ul>li_em]:block [&_ul>li_em]:mt-1">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    whileInView={{ opacity: 1, y: 0 }} 
+                    viewport={{ once: true }} 
+                    transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="max-w-[800px] mx-auto text-[#333F48] leading-[1.85] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-4 md:[&_p]:mb-5 [&_hr]:border-none [&_hr]:h-3 md:[&_hr]:h-4 [&_hr]:m-0 [&_hr]:p-0 [&_p]:break-keep [&_blockquote_p]:!mb-0 [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm [&_blockquote]:border-l-[5px] [&_blockquote]:border-[#0047BB] [&_blockquote]:bg-gradient-to-r [&_blockquote]:from-blue-50/80 [&_blockquote]:to-blue-50/10 [&_blockquote]:py-8 md:[&_blockquote]:py-10 [&_blockquote]:px-8 md:[&_blockquote]:px-12 [&_blockquote]:font-black [&_blockquote]:not-italic [&_blockquote]:text-[22px] md:[&_blockquote]:text-[28px] lg:[&_blockquote]:text-[32px] [&_blockquote]:leading-[1.5] [&_blockquote]:text-[#0047BB] [&_blockquote]:my-10 md:[&_blockquote]:my-12 [&_blockquote]:rounded-r-2xl [&_ul]:grid md:[&_ul]:grid-cols-4 [&_ul]:gap-3 md:[&_ul]:gap-5 [&_ul]:my-10 md:[&_ul]:my-12 [&_ul]:pl-0 [&_ul>li]:list-none [&_ul>li]:relative [&_ul>li]:px-7 md:[&_ul>li]:px-8 [&_ul>li]:py-7 md:[&_ul>li]:py-8 [&_ul>li]:bg-[#F8F9FF] [&_ul>li]:border [&_ul>li]:border-[#0047BB]/15 [&_ul>li]:rounded-2xl [&_ul>li]:shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] md:[&_ul>li:not(:last-child)::after]:content-[''] md:[&_ul>li:not(:last-child)::after]:absolute md:[&_ul>li:not(:last-child)::after]:-right-[14px] md:[&_ul>li:not(:last-child)::after]:top-1/2 md:[&_ul>li:not(:last-child)::after]:-translate-y-1/2 md:[&_ul>li:not(:last-child)::after]:border-t-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-r-[2.5px] md:[&_ul>li:not(:last-child)::after]:border-[#0047BB]/40 md:[&_ul>li:not(:last-child)::after]:w-[10px] md:[&_ul>li:not(:last-child)::after]:h-[10px] md:[&_ul>li:not(:last-child)::after]:rotate-45 [&_ul>li_strong]:text-[#0047BB] [&_ul>li_strong]:font-black [&_ul>li_strong]:text-[15px] md:[&_ul>li_strong]:text-[18px] [&_ul>li_strong]:block [&_ul>li_strong]:mb-3 [&_ul>li_strong]:bg-none [&_ul>li_strong]:px-0 [&_ul>li_em]:not-italic [&_ul>li_em]:text-[12px] md:[&_ul>li_em]:text-[14px] [&_ul>li_em]:text-[#555F6B] [&_ul>li_em]:leading-[1.7] [&_ul>li_em]:block [&_ul>li_em]:mt-1"
+                  >
                     <EditableText value={intro.content} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].content = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
-                  </div>
+                  </motion.div>
 
                   {/* 섹션 0 전용: 인라인 타이포그래픽 대비 */}
                   {idx === 0 && (
-                    <div className="max-w-[800px] mx-auto mt-2 mb-8 text-[#333F48] leading-[1.9] text-[16px] md:text-[18px] font-medium tracking-[-0.01em] break-keep">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} 
+                      whileInView={{ opacity: 1, y: 0 }} 
+                      viewport={{ once: true }} 
+                      transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                      className="max-w-[800px] mx-auto mt-2 mb-8 text-[#333F48] leading-[1.9] text-[16px] md:text-[18px] font-medium tracking-[-0.01em] break-keep"
+                    >
                       <p className="mb-4 md:mb-5">
                         그 자리에서 확신했습니다.{' '}
                         법학이{' '}
@@ -91,11 +115,11 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                       <p className="mt-4 md:mt-5 text-[15px] md:text-[17px] font-bold text-[#1A1A1A]">
                         저는 그 <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">+를 설계하는 기획자</strong>가 되겠습니다.
                       </p>
-                    </div>
+                    </motion.div>
                   )}
 
 
-                </div>
+                </motion.div>
               </article>
 
 
@@ -112,7 +136,12 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
           )}
           </div>
 
-          <aside className="hidden xl:block sticky top-40 w-48 shrink-0">
+          <motion.aside 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="hidden xl:block sticky top-40 w-48 shrink-0"
+          >
             <div className="flex flex-col gap-6 border-l-[2px] border-[#0047BB]/10 pl-6 py-2">
               <div className="text-xs font-black tracking-[0.2em] text-[#0047BB]/60 mb-2">INDEX</div>
               {data.selfIntroductions.map((intro, idx) => (
@@ -122,7 +151,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                 </a>
               ))}
             </div>
-          </aside>
+          </motion.aside>
         </div>
       ) : (
         <div className="bg-white p-8 md:p-12 rounded-2xl border border-black/5 markdown-body">
