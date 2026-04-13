@@ -81,7 +81,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                         저도 누군가의 하루를 움직이는 사람이 되고 싶었습니다.
                       </p>
                       <p className="text-[15px] md:text-[17px]">
-                        법학을 공부하며 배운 것은, 모든 제도는 입법{' '}
+                        법학을 공부하며 배운 것이 있습니다. 모든 제도는 입법{' '}
                         <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'의도'</strong>를 바탕으로{' '}
                         <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'구조화'</strong>되며, 사회라는 하나의{' '}
                         <strong className="text-[#0047BB] font-extrabold bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] px-[3px] rounded-sm">'시스템'</strong>으로 작동한다는 것입니다.
