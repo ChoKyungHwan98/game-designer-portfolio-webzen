@@ -1,104 +1,115 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Monitor, Smartphone, Gamepad2 } from 'lucide-react';
 import { ALL_GAMES } from '../data/games';
-import { EditableText } from './EditableText';
 import type { GameHistory } from '../types';
 
 interface GameHistoryViewProps {
   onBack: () => void;
-  history: GameHistory;
-  setHistory: (h: GameHistory) => void;
-  isEditing: boolean;
+  // Included props to avoid breaking App.tsx injection
+  history?: GameHistory;
+  setHistory?: (h: GameHistory) => void;
+  isEditing?: boolean;
 }
 
-export const GameHistoryView = ({ onBack, history, setHistory, isEditing }: GameHistoryViewProps) => {
+export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
+  const [activeTab, setActiveTab] = useState<'PC' | 'Mobile' | 'Console'>('PC');
+  
+  const currentTabGames = ALL_GAMES.filter(g => g.category === activeTab);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.02 }
+    },
+    exit: { opacity: 0, transition: { duration: 0.2 } }
+  };
+
+  const chipVariants = {
+    hidden: { opacity: 0, y: -40, scale: 0.9 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 20 }
+    }
+  };
+
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-7xl mx-auto">
+      className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
       
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
         <div>
           <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors mb-6 group font-sans tracking-tight text-sm uppercase font-bold">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Return to Home
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 대시보드로 돌아가기
           </button>
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-zinc-400 font-mono text-sm uppercase tracking-widest font-bold">DOC. 04</span>
+            <span className="text-zinc-400 font-mono text-sm uppercase tracking-widest font-bold">DOC. 04-A</span>
             <div className="w-12 h-px bg-zinc-300"></div>
           </div>
           <h2 className="text-4xl lg:text-5xl font-display font-bold tracking-tighter text-[#2C2C2C] leading-tight">
-             All Play History
+             All Play Database
           </h2>
           <p className="mt-4 text-zinc-500 text-lg font-medium max-w-xl">
-            플레이 경험과 데이터 분석을 기반으로 최신 트렌드를 파악하고 시스템 기획의 영감을 얻는 레퍼런스 목록입니다.
+            플레이 경험과 데이터 분석을 기반으로 최신 트렌드를 파악하고, 시스템 기획의 영감을 얻는 방대한 레퍼런스 목록입니다.
           </p>
         </div>
         
         <div className="flex items-center gap-4 bg-white border border-black/5 p-4 rounded-2xl shadow-sm md:ml-auto">
           <div className="text-center px-4 border-r border-black/5">
-            <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Total</span>
+            <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Total Analzyed</span>
             <span className="text-2xl font-display font-bold text-[#0047BB]">{ALL_GAMES.length}</span>
           </div>
           <div className="text-center px-4 border-r border-black/5">
             <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">PC/Console</span>
             <span className="text-2xl font-display font-bold text-[#2C2C2C]">
-              {ALL_GAMES.filter(g => g.platform === 'Steam' || g.platform?.includes('온라인') || g.platform === '패키지').length}
+              {ALL_GAMES.filter(g => g.category === 'PC' || g.category === 'Console').length}
             </span>
           </div>
           <div className="text-center px-4">
             <span className="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Mobile</span>
             <span className="text-2xl font-display font-bold text-[#2C2C2C]">
-               {ALL_GAMES.filter(g => g.platform === '모바일').length}
+               {ALL_GAMES.filter(g => g.category === 'Mobile').length}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[
-          { title: 'PC & Online', icon: <Monitor className="w-5 h-5 text-[#0047BB]" />, items: ALL_GAMES.filter(g => g.platform === 'Steam' || g.platform?.includes('온라인')) },
-          { title: 'Mobile', icon: <Smartphone className="w-5 h-5 text-[#0047BB]" />, items: ALL_GAMES.filter(g => g.platform === '모바일') },
-          { title: 'Console & Package', icon: <Gamepad2 className="w-5 h-5 text-[#0047BB]" />, items: ALL_GAMES.filter(g => g.platform === '패키지' || (!g.platform?.includes('온라인') && g.platform !== '모바일' && g.platform !== 'Steam')) }
-        ].map((section, sIdx) => (
-          <div key={sIdx} className="bg-white border border-black/5 rounded-3xl p-6 lg:p-8 shadow-sm h-fit">
-            <div className="flex flex-col mb-6 pb-4 border-b border-black/5">
-              <div className="flex items-center gap-3 text-[#2C2C2C] mb-2">
-                 <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center border border-black/5 shadow-sm text-[#0047BB] shrink-0">
-                   {section.icon}
-                 </div>
-                 <span className="font-display font-bold tracking-tight text-xl">{section.title}</span>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                 <span className="px-3 py-1 bg-zinc-100 rounded-lg font-mono text-xs font-bold text-[#0047BB]">{section.items.length} TITLES</span>
-              </div>
-            </div>
+      <div className="flex flex-col bg-zinc-50 border border-black/5 rounded-3xl p-6 md:p-10 shadow-inner min-h-[600px]">
+        
+        <div className="flex flex-wrap gap-4 mb-10 pb-6 border-b border-black/5 justify-center md:justify-start sticky top-[100px] z-20 bg-zinc-50/90 backdrop-blur-md pt-2">
+          {[{id: 'PC', label: 'PC / Mainline', icon: Monitor},
+            {id: 'Console', label: 'Console / Others', icon: Gamepad2},
+            {id: 'Mobile', label: 'Mobile', icon: Smartphone}].map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id as 'PC'|'Console'|'Mobile')}
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-base tracking-tight transition-all duration-300 \${activeTab === tab.id ? 'bg-[#0047BB] text-white shadow-xl shadow-[#0047BB]/20 -translate-y-1' : 'bg-white text-zinc-500 border border-black/5 hover:border-black/10 hover:bg-zinc-100 hover:-translate-y-0.5'}`}>
+              <tab.icon className={`w-5 h-5 \${activeTab === tab.id ? 'text-white' : 'text-zinc-400'}`} />
+              {tab.label}
+              <span className={`ml-3 px-3 py-1 rounded-full text-[11px] \${activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-zinc-100 text-[#0047BB]'}`}>
+                 {ALL_GAMES.filter(g => g.category === tab.id).length}
+              </span>
+            </button>
+          ))}
+        </div>
 
-            <div className="space-y-1 mt-4 h-[500px] overflow-y-auto pr-2 styled-scrollbar">
-               {section.items.map((game, idx) => (
-                 <div key={idx} className="group relative flex flex-col p-3 border-b border-black/5 hover:border-[#0047BB]/20 hover:bg-zinc-50 transition-colors rounded-lg">
-                   <div className="flex items-start justify-between min-w-0 pr-2">
-                     <div className="flex items-center gap-2">
-                       <span className="text-[10px] font-bold text-white bg-zinc-600 px-2 py-0.5 rounded uppercase tracking-widest shrink-0">{game.genre}</span>
-                     </div>
-                     {game.hours ? (
-                       <span className="font-mono text-[11px] text-[#0047BB] font-bold shrink-0">{game.hours}h+</span>
-                     ) : (
-                       <span className="font-mono text-[11px] text-zinc-400 font-bold shrink-0">{game.playTime}</span>
-                     )}
-                   </div>
-                   <div className="mt-2">
-                     <h4 className="font-bold text-sm text-[#2C2C2C]">
-                       {game.title}
-                     </h4>
-                     {game.brand && (
-                       <span className="text-[11px] text-zinc-500 font-medium block mt-1">{game.brand}</span>
-                     )}
-                   </div>
+        <AnimatePresence mode="wait">
+          <motion.div variants={containerVariants} initial="hidden" animate="show" exit="exit" key={activeTab}
+            className="flex flex-wrap gap-3 md:gap-4 content-start">
+            {currentTabGames.map((game, i) => (
+              <motion.div key={game.id + '-' + i} variants={chipVariants}
+                className="flex flex-col group relative bg-white border border-black/5 px-5 py-4 rounded-xl shadow-sm hover:shadow-lg hover:border-[#0047BB]/30 transition-all duration-300">
+                 <span className="text-[10px] font-bold text-[#0047BB] uppercase tracking-widest mb-1.5">{game.genre}</span>
+                 <div className="flex items-center gap-3">
+                    <span className="font-bold text-[#2C2C2C] text-base group-hover:text-[#0047BB] transition-colors">{game.title}</span>
+                    {game.company && <span className="text-[11px] text-zinc-400 font-medium px-2 py-1 bg-zinc-50 rounded border border-black/5">{game.company}</span>}
                  </div>
-               ))}
-            </div>
-          </div>
-        ))}
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+        
       </div>
     </motion.section>
   );

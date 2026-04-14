@@ -99,7 +99,7 @@ function App() {
           <About isEditing={isEditing} content={aboutContent} setContent={setAboutContent} />
           <Projects onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} isEditing={isEditing} projects={projectsData} setProjects={setProjectsData} limit={3} setView={setView} />
           <Skills isEditing={isEditing} skills={skillsData} setSkills={setSkillsData} />
-          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} />
+          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} onViewAll={() => setView('game-history')} />
           <Contact />
         </main>
       )}
