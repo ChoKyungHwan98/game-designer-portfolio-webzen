@@ -22,9 +22,9 @@ export const Contact = () => (
           새로운 프로젝트나 협업 제안은 언제나 환영입니다.
         </p>
         
-        <a href="mailto:kh980624@naver.com" 
+        <a href="mailto:ckh980624@gmail.com" 
           className="group/btn inline-flex items-center justify-center gap-4 px-12 py-6 bg-white border border-black/10 text-[#2C2C2C] font-bold hover:bg-[#0047BB] hover:text-white hover:border-[#0047BB] transition-all duration-500 rounded-full tracking-widest text-lg md:text-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(128,0,32,0.2)] hover:-translate-y-1">
-          <Mail className="w-6 h-6 md:w-7 md:h-7 group-hover/btn:scale-110 transition-transform" /> kh980624@naver.com
+          <Mail className="w-6 h-6 md:w-7 md:h-7 group-hover/btn:scale-110 transition-transform" /> ckh980624@gmail.com
         </a>
       </div>
     </div>
