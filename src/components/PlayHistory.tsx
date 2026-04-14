@@ -16,7 +16,7 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
 
   const DASHBOARD_HIGHLIGHTS = {
     pc: [
-      { id: 'pc1', title: '메이플스토리', genre: 'RPG', highlight: '15년 플레이', image: './images/games/maple_kr_official.png' },
+      { id: 'pc1', title: '메이플스토리', genre: 'RPG', highlight: '15년 플레이', image: './images/games/maple_kr_wall.jpg' },
       { id: 'pc2', title: 'OSU!', genre: '리듬', highlight: '전세계 1000위 달성', image: './images/games/osu_manual.png' },
       { id: 'pc3', title: '메이플스토리 월드', genre: '캐주얼', highlight: '출시 경험 有', image: './images/games/maple_worlds_manual.png' },
     ],
