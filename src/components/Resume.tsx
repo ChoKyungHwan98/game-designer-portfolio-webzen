@@ -9,12 +9,13 @@ import type { ResumeData } from '../types';
 
 interface ResumeProps {
   setView: (v: any) => void;
+  onBack: () => void;
   isEditing: boolean;
   data: ResumeData;
   setData: (d: ResumeData) => void;
 }
 
-export const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
+export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProps) => {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const printRef = useRef<HTMLDivElement>(null);
 
@@ -78,8 +79,8 @@ export const Resume = ({ setView, isEditing, data, setData }: ResumeProps) => {
         className="pt-32 pb-12 md:pt-[160px] md:pb-20 px-6 md:px-12 max-w-7xl mx-auto w-full">
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-          <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors group font-sans tracking-tight text-sm font-bold">
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> RETURN TO HOME
+          <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors group font-sans tracking-tight text-sm font-bold">
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 대시보드로 돌아가기
           </button>
           <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} onClick={handleDownload}
             disabled={isGeneratingPdf}

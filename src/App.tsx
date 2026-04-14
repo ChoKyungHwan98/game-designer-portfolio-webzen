@@ -71,8 +71,6 @@ function App() {
     setTimeout(() => {
       if (id === 'hero-top') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveSection('');
-        return;
       }
       const element = document.getElementById(id);
       if (element) {
@@ -109,15 +107,15 @@ function App() {
         </main>
       )}
 
-      {view === 'resume' && <Resume setView={setView} isEditing={isEditing} data={resumeData} setData={setResumeData} />}
+      {view === 'resume' && <Resume setView={setView} isEditing={isEditing} data={resumeData} setData={setResumeData} onBack={() => handleNavClick('about')} />}
       {view === 'cover-letter' && <CoverLetter setView={setView} isEditing={isEditing} data={resumeData} setData={setResumeData} />}
       {view === 'project-detail' && selectedProject && (
-        <ProjectDetail project={selectedProject} isEditing={isEditing} onBack={() => { setView('home'); setTimeout(() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }), 100); }} onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }} />
+        <ProjectDetail project={selectedProject} isEditing={isEditing} onBack={() => handleNavClick('projects')} onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }} />
       )}
       {view === 'portfolio' && (
-        <Portfolio onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} isEditing={isEditing} projects={portfolioProjects} setProjects={setPortfolioProjects} setView={setView} />
+        <Portfolio onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} isEditing={isEditing} projects={portfolioProjects} setProjects={setPortfolioProjects} setView={setView} onBack={() => handleNavClick('projects')} />
       )}
-      {view === 'game-history' && <GameHistoryView onBack={() => setView('home')} history={gameHistory} setHistory={setGameHistory} isEditing={isEditing} />}
+      {view === 'game-history' && <GameHistoryView onBack={() => handleNavClick('play-history')} history={gameHistory} setHistory={setGameHistory} isEditing={isEditing} />}
 
       <Footer />
     </div>

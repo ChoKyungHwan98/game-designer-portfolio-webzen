@@ -10,16 +10,17 @@ interface PortfolioProps {
   projects: Project[];
   setProjects: (p: Project[]) => void;
   setView: (v: any) => void;
+  onBack: () => void;
 }
 
-export const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView }: PortfolioProps) => {
+export const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, setView, onBack }: PortfolioProps) => {
   const categories = Array.from(new Set(projects.map(p => p.category)));
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pt-[160px] pb-[120px] px-6 md:px-12 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
         <div>
-          <button onClick={() => setView('home')} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors mb-6 group font-sans tracking-tight text-sm uppercase font-bold">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Return to Home
+          <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors mb-6 group font-sans tracking-tight text-sm uppercase font-bold">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 대시보드로 돌아가기
           </button>
           <div className="flex items-center gap-4 mb-6">
             <span className="text-zinc-400 font-mono text-sm uppercase tracking-widest font-bold">DOC. 02</span>

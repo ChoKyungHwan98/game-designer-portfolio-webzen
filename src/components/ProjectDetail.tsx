@@ -21,7 +21,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-[#FAFAFA] pt-24 pb-20 px-4 md:px-8">
       <div className="max-w-[1200px] mx-auto w-full">
         <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors mb-8 group font-sans tracking-tight text-sm uppercase font-bold">
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Project List
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> 대시보드로 돌아가기
         </button>
 
         <div className="grid lg:grid-cols-12 gap-10">
