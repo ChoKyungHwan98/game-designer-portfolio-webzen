@@ -22,13 +22,13 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
     ],
     console: [
       { id: 'con1', title: '포켓몬스터 시리즈', genre: 'RPG', highlight: '레이팅 2000점대', image: './images/games/pokemon_logo.jpg' },
-      { id: 'con2', title: '다크소울 3', genre: '액션 RPG', highlight: '플레이 시간 500시간', image: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/374320/capsule_616x353.jpg', position: 'bottom', size: 'contain' },
+      { id: 'con2', title: '다크소울 3', genre: '액션 RPG', highlight: '500시간 플레이', image: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/374320/capsule_616x353.jpg', position: 'center 20%', size: 'cover' },
       { id: 'con3', title: '역전재판 시리즈', genre: '법정배틀', highlight: '법학과 진학의 계기', image: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/787480/capsule_616x353.jpg' },
     ],
     mobile: [
-      { id: 'mob1', title: '무기미도', genre: '타워디펜스', highlight: '상위 랭커 달성', image: './images/games/ptn.jpg' },
-      { id: 'mob2', title: '삼국지 천하포무', genre: '역사 전략', highlight: '300시간 이상 플레이', image: './images/games/three_kingdoms.png', position: 'top' },
-      { id: 'mob3', title: '하스스톤', genre: 'TCG', highlight: '전설 등급 달성 경험', image: './images/games/hearthstone.webp' },
+      { id: 'mob1', title: '무기미도', genre: '타워디펜스', highlight: '상위 랭커', image: './images/games/ptn.jpg' },
+      { id: 'mob2', title: '삼국지 천하포무', genre: '역사 전략', highlight: '300시간 플레이', image: './images/games/three_kingdoms.png', position: 'top' },
+      { id: 'mob3', title: '하스스톤', genre: 'TCG', highlight: '전설 등급 달성', image: './images/games/hearthstone.webp' },
     ]
   };
 
