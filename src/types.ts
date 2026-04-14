@@ -30,6 +30,15 @@ export interface GamePlay {
   brand?: string;
 }
 
+export interface GameHistoryItem {
+  id: string | number;
+  category: 'PC' | 'Mobile' | 'Console';
+  genre: string;
+  title: string;
+  company: string;
+  playTime?: string;
+}
+
 export interface GameHistory {
   pc: GamePlay[];
   mobile: GamePlay[];
