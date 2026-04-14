@@ -97,7 +97,7 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
               <span className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tighter text-[#2C2C2C] leading-none mt-1">인사이트</span>
             </motion.h2>
           </div>
-          <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium max-w-sm">
+          <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium max-w-md break-keep">
             방대한 게임을 플레이한 경험으로 기획자로서의 통찰력을 넓혀왔습니다.
           </p>
         </div>
