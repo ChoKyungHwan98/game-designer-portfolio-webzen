@@ -59,7 +59,7 @@ function App() {
       });
     }, { threshold: 0.3 });
     
-    ['about', 'projects', 'skills', 'play-history', 'contact'].forEach(id => {
+    ['hero', 'about', 'projects', 'skills', 'play-history', 'contact'].forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
