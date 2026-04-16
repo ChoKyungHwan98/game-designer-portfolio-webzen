@@ -100,9 +100,9 @@ export const RESUME_DATA: ResumeData = {
     }
   ],
   certificates: [
-    "TOEIC",
-    "TOEFL",
-    "신HSK5급"
+    { name: "TOEIC", date: "2023" },
+    { name: "TOEFL", date: "2017" },
+    { name: "新HSK5급", date: "2016" }
   ],
   tools: [
     { name: "Excel", description: "VLOOKUP, 사칙연산, 조건부 서식 활용 및 데이터 구조화/티어화를 통한 밸런싱 도구 제작" },

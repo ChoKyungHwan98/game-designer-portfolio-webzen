@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Plus, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -14,6 +14,31 @@ interface CoverLetterProps {
 }
 
 export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterProps) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (!data.selfIntroductions) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.id.replace('intro-', ''));
+            setActiveIndex(index);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 }
+    );
+
+    data.selfIntroductions.forEach((_, idx) => {
+      const el = document.getElementById(`intro-${idx}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [data.selfIntroductions]);
+
   return (
     <div className="w-full relative">
 
@@ -140,20 +165,23 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
           >
             <div className="flex flex-col gap-6 border-l-[2px] border-[#0047BB]/10 pl-6 py-2">
               <div className="text-xs font-black tracking-[0.2em] text-[#0047BB]/60 mb-2">INDEX</div>
-              {data.selfIntroductions.map((intro, idx) => (
-                <a 
-                  key={idx} 
-                  href={`#intro-${idx}`} 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(`intro-${idx}`)?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="text-[14px] font-medium text-zinc-400 hover:text-[#0047BB] transition-colors relative group block"
-                >
-                  <span className="opacity-0 group-hover:opacity-100 absolute -left-[29px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#0047BB] transition-opacity"/>
-                  {String(idx + 1).padStart(2, '0')}. {intro.navTitle || '섹션 ' + (idx + 1)}
-                </a>
-              ))}
+              {data.selfIntroductions.map((intro, idx) => {
+                const isActive = activeIndex === idx;
+                return (
+                  <a 
+                    key={idx} 
+                    href={`#intro-${idx}`} 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(`intro-${idx}`)?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className={`text-[14px] font-medium transition-colors relative group block ${isActive ? 'text-[#0047BB]' : 'text-zinc-400 hover:text-[#0047BB]'}`}
+                  >
+                    <span className={`absolute -left-[29px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#0047BB] transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}/>
+                    {String(idx + 1).padStart(2, '0')}. {intro.navTitle || '섹션 ' + (idx + 1)}
+                  </a>
+                );
+              })}
             </div>
           </motion.aside>
 

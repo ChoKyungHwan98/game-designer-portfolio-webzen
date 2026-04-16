@@ -70,7 +70,10 @@ export interface ResumeData {
     description: string;
     details: string[];
   }[];
-  certificates?: string[];
+  certificates?: {
+    name: string;
+    date: string;
+  }[];
   tools?: {
     name: string;
     description: string;

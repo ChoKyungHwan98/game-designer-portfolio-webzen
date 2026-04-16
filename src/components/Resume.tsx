@@ -72,7 +72,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
         className="pt-28 pb-12 md:pt-36 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
         
         {/* Utility Bar (Top Navigation) */}
-        <div className="sticky top-0 z-[100] flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 bg-[#FAFAFA]/90 backdrop-blur-md border-b border-black/5 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
+        <div className="sticky top-24 z-40 flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 bg-[#FAFAFA]/90 backdrop-blur-md border-y border-black/5 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
           {/* Left: Go Back */}
           <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors group font-sans tracking-tight text-sm font-bold w-[180px]">
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 대시보드
@@ -223,17 +223,17 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
                   {/* Certificates */}
                   <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
                     <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C]">
-                      <Award className="text-[#0047BB] w-5 h-5" /> Certificates
+                      <Award className="text-[#0047BB] w-5 h-5" /> 자격증
                     </h3>
                     <div className="flex flex-col gap-2.5">
                       {data.certificates && data.certificates.map((cert, idx) => (
                         <div key={idx} className="flex items-center justify-between p-3.5 bg-zinc-50/50 rounded-xl border border-black/5 hover:border-[#0047BB]/30 hover:bg-[#0047BB]/5 transition-colors">
                           <h4 className="font-bold text-[14px] text-[#2C2C2C]">
-                            {cert}
+                            <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
                           </h4>
-                          <div className="w-6 h-6 rounded-full bg-white border border-black/10 flex items-center justify-center shadow-sm">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3 h-3 text-[#0047BB]"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                          </div>
+                          <span className="text-xs font-mono font-medium text-zinc-400">
+                            <EditableText value={cert.date} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].date = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -340,11 +340,14 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
                   </li>
                 ))}
               </ul>
-              <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', margin: '20px 0 10px 0' }}>Certificates</h2>
+              <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', margin: '20px 0 10px 0' }}>자격증</h2>
               <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '11px', color: '#444' }}>
                 {data.certificates?.map((cert, i) => (
                   <li key={i} style={{ marginBottom: '4px' }}>
-                    {cert}
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span>{cert.name}</span>
+                      <span style={{ fontFamily: 'monospace', color: '#666' }}>{cert.date}</span>
+                    </div>
                   </li>
                 ))}
               </ul>
