@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Edit2, Play, Calendar, Tag, ChevronDown, List as ListIcon, X } from 'lucide-react';
+import { ArrowLeft, Edit2, Play, Calendar, Tag, ChevronDown, List as ListIcon, X, ScrollText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { EditableText } from './EditableText';
