@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Plus, X, Wrench, Figma, Info } from 'lucide-react';
+import { ArrowLeft, ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, Info, User, Star } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
@@ -48,7 +48,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
     
     try {
       const opt = {
-        margin: [-8, 0, 0, 0], // Reduce top margin to fix blank page issue
+        margin: [-8, 0, 0, 0],
         filename: '조경환_게임기획자_포트폴리오.pdf',
         image: { type: 'jpeg', quality: 1.0 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
@@ -69,7 +69,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
   return (
     <>
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-        className="pt-28 pb-12 md:pt-36 md:pb-20 px-6 md:px-12 max-w-[1400px] mx-auto w-full min-h-screen flex flex-col">
+        className="pt-28 pb-12 md:pt-36 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
         
         {/* Utility Bar (Top Navigation) */}
         <div className="sticky top-0 z-[100] flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 bg-[#FAFAFA]/90 backdrop-blur-md border-b border-black/5 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
@@ -80,24 +80,39 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
 
           {/* Center: Segmented Control */}
           <div className="flex-1 flex justify-center">
-            <div className="flex items-center bg-zinc-200/50 p-1 rounded-full border border-black/5">
+            <div className="flex items-center bg-zinc-200/50 p-1.5 rounded-[2rem] border border-black/5 shadow-inner relative">
               <button 
                 onClick={() => setActiveTab('resume')}
-                className={`relative px-8 py-2.5 rounded-full text-sm font-bold transition-colors ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative px-8 py-3 rounded-full text-sm sm:text-[15px] font-bold transition-colors ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'resume' && (
-                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
+                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
                 )}
-                <span className="relative z-10">이력서</span>
+                <span className="relative z-10 flex items-center gap-2">이력서 훑어보기</span>
               </button>
+              
               <button 
                 onClick={() => setActiveTab('cover-letter')}
-                className={`relative px-8 py-2.5 rounded-full text-sm font-bold transition-colors ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative px-8 py-3 rounded-full text-sm sm:text-[15px] font-bold transition-colors ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'cover-letter' && (
-                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
+                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
                 )}
-                <span className="relative z-10">자기소개서</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  <Star className={`w-4 h-4 ${activeTab === 'cover-letter' ? 'text-yellow-300' : 'text-[#0047BB]'}`} fill="currentColor" /> 자기소개서 읽기
+                </span>
+                
+                {/* Hooking Badge (채용 담당자 시선 유도) */}
+                {activeTab !== 'cover-letter' && (
+                  <motion.div 
+                    initial={{ y: 0 }}
+                    animate={{ y: [-4, 0, -4] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="absolute -top-3.5 -right-2 bg-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-md whitespace-nowrap rotate-6 border border-rose-400"
+                  >
+                    MUST READ!
+                  </motion.div>
+                )}
               </button>
             </div>
           </div>
@@ -105,103 +120,141 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
           {/* Right: Actions */}
           <div className="flex justify-end w-[180px]">
             <button onClick={handleDownload} disabled={isGeneratingPdf}
-              className="px-5 py-2.5 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-2 hover:border-[#0047BB] hover:text-[#0047BB] transition-all duration-300 text-xs tracking-widest shadow-sm disabled:opacity-50">
+              className="px-5 py-2.5 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-2 hover:border-[#0047BB] hover:text-[#0047BB] transition-all duration-300 text-xs tracking-widest shadow-sm disabled:opacity-50 group">
               {isGeneratingPdf ? (
                 <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#0047BB] border-t-transparent rounded-full" /> ...</>
               ) : (
-                <><ScrollText className="w-3.5 h-3.5 text-[#0047BB]" /> PDF 저장</>
+                <><ScrollText className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#0047BB] transition-colors" /> PDF 저장</>
               )}
             </button>
           </div>
         </div>
 
-        {/* Main Content Area: Profiler Sidebar + Content Render */}
-        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 flex-1">
-          
-          {/* Left Sidebar: Profile (Persistent) */}
-          <div className="lg:col-span-4 shrink-0">
-            <div className="sticky top-32 space-y-8">
-              {/* Profile Card */}
-              <div className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 transition-colors">
-                <div className="w-32 h-32 rounded-2xl overflow-hidden border border-black/5 shadow-sm mb-6">
-                  <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
-                </div>
-                <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C] tracking-tight mb-2">
-                  <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
-                </h1>
-                <p className="text-[#0047BB] font-bold font-mono tracking-widest text-xs uppercase mb-6">
-                  <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
-                    <Mail className="w-4 h-4 text-zinc-400" />
-                    <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
+        <AnimatePresence mode="wait">
+          {activeTab === 'resume' ? (
+            /* ========================================================= */
+            /* RESUME TAB (Top Profile + Bottom Grid)                    */
+            /* ========================================================= */
+            <motion.div 
+              key="resume"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col gap-8"
+            >
+              {/* TOP PROFILE BOX */}
+              <div className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 transition-colors">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+                  {/* Left: Avatar & Contact */}
+                  <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
+                    <div className="w-28 h-28 lg:w-32 lg:h-32 rounded-2xl overflow-hidden border border-black/5 shadow-sm shrink-0">
+                      <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
+                    </div>
+                    <div className="text-center sm:text-left">
+                      <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C] tracking-tight mb-1">
+                        <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
+                      </h1>
+                      <p className="text-[#0047BB] font-bold font-mono tracking-widest text-xs uppercase mb-4">
+                        <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
+                      </p>
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
+                          <Mail className="w-4 h-4 text-zinc-400" />
+                          <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
+                          <Phone className="w-4 h-4 text-zinc-400" />
+                          <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
-                    <Phone className="w-4 h-4 text-zinc-400" />
-                    <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
-                  </div>
-                </div>
-              </div>
 
-              {/* Tools Section (Only visible in Resume Mode ideally, but keeping it persistent adds value to the overview) */}
-              <AnimatePresence mode="popLayout">
-                {activeTab === 'resume' && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5"
-                  >
-                    <h3 className="text-xs font-bold text-zinc-400 tracking-widest uppercase mb-4">Core Skills</h3>
+                  <div className="hidden lg:block w-px h-28 bg-black/5 self-center shrink-0"></div>
+
+                  {/* Right: Summary & Tools */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-xs font-bold text-zinc-400 tracking-widest uppercase mb-3 flex items-center gap-2 justify-center lg:justify-start">
+                      <User className="w-3.5 h-3.5" /> 한줄 소개
+                    </h3>
+                    <div className="text-base lg:text-lg text-[#2C2C2C] leading-relaxed font-bold break-keep text-center lg:text-left mb-6 [&_strong]:text-[#0047BB] [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.1)_40%,transparent_40%)]">
+                      <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
+                    </div>
+
                     {data.tools && data.tools.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
                         {data.tools.map((tool, idx) => (
-                          <span key={idx} className="group relative px-4 py-2 bg-white rounded-xl text-xs font-bold text-zinc-600 border border-black/5 hover:border-[#0047BB] hover:bg-[#0047BB]/5 hover:text-[#2C2C2C] transition-all cursor-help flex items-center justify-center gap-2 overflow-visible shadow-sm hover:shadow-md">
-                            {TOOL_ICONS[tool.name] || <Wrench className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 group-hover:text-[#0047BB] transition-colors" />}
+                          <span key={idx} className="group relative px-3 py-1.5 bg-zinc-50 rounded-lg text-[11px] font-bold text-zinc-600 border border-black/5 hover:border-[#0047BB] hover:bg-[#0047BB]/5 hover:text-[#2C2C2C] transition-all cursor-help flex items-center justify-center gap-1.5 overflow-visible shadow-sm">
+                            {TOOL_ICONS[tool.name] || <Wrench className="w-3 h-3 opacity-70 group-hover:opacity-100 group-hover:text-[#0047BB] transition-colors" />}
                             <EditableText value={tool.name} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].name = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                            <Info className="w-3 h-3 text-zinc-400 group-hover:text-[#0047BB] transition-colors" />
-                            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0047BB] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-[100] mb-3 w-max max-w-[320px] bg-[#2C2C2C] border border-white/10 text-white text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
+                            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-[100] mb-2 w-max max-w-[280px] bg-[#2C2C2C] border border-white/10 text-white text-[11px] leading-[1.6] p-2.5 rounded-lg shadow-xl whitespace-pre-wrap font-medium text-left">
                               <EditableText value={tool.description} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].description = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-[#2C2C2C] border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
+                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-[#2C2C2C] border-t-6 border-x-transparent border-x-6 border-b-0 w-0 h-0"></div>
                             </div>
                           </span>
                         ))}
                       </div>
                     )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
+                  </div>
+                </div>
+              </div>
 
-          {/* Right Area: Dynamic View (Resume or Cover Letter) */}
-          <div className="lg:col-span-8 relative">
-            <AnimatePresence mode="wait">
-              {activeTab === 'resume' ? (
-                /* Resume Content */
-                <motion.div 
-                  key="resume"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-8"
-                >
-                  {/* Summary */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5">
-                    <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-[#0047BB]"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 
-                      소개
+              {/* BOTTOM COLUMNS */}
+              <div className="grid lg:grid-cols-12 gap-8">
+                {/* Left Column */}
+                <div className="lg:col-span-5 flex flex-col gap-8">
+                  {/* Education */}
+                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 h-full">
+                    <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
+                      <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
                     </h3>
-                    <div className="text-[15px] text-zinc-600 leading-[1.8] font-medium break-keep">
-                      <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
+                    <div className="space-y-6">
+                      {data.education.map((edu, idx) => (
+                        <div key={idx} className="relative pl-6 border-l-2 border-black/10">
+                          <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300"></div>
+                          <div className="flex flex-col gap-1 mb-2">
+                            <h4 className="font-bold text-[15px] text-[#2C2C2C] leading-snug">
+                              <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                            </h4>
+                            <span className="text-[11px] font-mono text-zinc-400">
+                              <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                            </span>
+                          </div>
+                          <div className="text-xs text-zinc-500 leading-relaxed mb-2">
+                            <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
+                          </div>
+                          <ul className="text-[11px] text-zinc-500 space-y-1 list-none">
+                            {edu.details.map((detail, dIdx) => <li key={dIdx} className="relative pl-3"><span className="absolute left-0 top-1.5 w-1 h-1 bg-zinc-300 rounded-full"></span>{detail}</li>)}
+                          </ul>
+                        </div>
+                      ))}
                     </div>
                   </section>
 
-                  {/* Experience */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5">
+                  {/* Certificates */}
+                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
+                    <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C]">
+                      <Award className="text-[#0047BB] w-5 h-5" /> Certificates
+                    </h3>
+                    <div className="flex flex-col gap-2.5">
+                      {data.certificates && data.certificates.map((cert, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3.5 bg-zinc-50/50 rounded-xl border border-black/5 hover:border-[#0047BB]/30 hover:bg-[#0047BB]/5 transition-colors">
+                          <h4 className="font-bold text-[14px] text-[#2C2C2C]">
+                            {cert}
+                          </h4>
+                          <div className="w-6 h-6 rounded-full bg-white border border-black/10 flex items-center justify-center shadow-sm">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3 h-3 text-[#0047BB]"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </div>
+
+                {/* Right Column: Experience */}
+                <div className="lg:col-span-7">
+                  <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 h-full">
                     <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C]">
                       <Briefcase className="text-[#0047BB] w-5 h-5" /> 프로젝트 경험
                     </h3>
@@ -232,71 +285,24 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
                       ))}
                     </div>
                   </section>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {/* Education */}
-                    <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
-                      <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
-                        <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
-                      </h3>
-                      <div className="space-y-6">
-                        {data.education.map((edu, idx) => (
-                          <div key={idx} className="relative pl-6 border-l-2 border-black/10">
-                            <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300"></div>
-                            <div className="flex flex-col gap-1 mb-2">
-                              <h4 className="font-bold text-[15px] text-[#2C2C2C] leading-snug">
-                                <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                              </h4>
-                              <span className="text-[11px] font-mono text-zinc-400">
-                                <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                              </span>
-                            </div>
-                            <div className="text-xs text-zinc-500 leading-relaxed mb-2">
-                              <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
-                            </div>
-                            <ul className="text-[11px] text-zinc-500 space-y-1 list-none">
-                              {edu.details.map((detail, dIdx) => <li key={dIdx} className="relative pl-3"><span className="absolute left-0 top-1.5 w-1 h-1 bg-zinc-300 rounded-full"></span>{detail}</li>)}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-
-                    {/* Certificates */}
-                    <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
-                      <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
-                        <Award className="text-[#0047BB] w-5 h-5" /> Certificates
-                      </h3>
-                      <div className="flex flex-col gap-3">
-                        {data.certificates && data.certificates.map((cert, idx) => (
-                          <div key={idx} className="flex items-center gap-3 p-4 bg-zinc-50/50 rounded-2xl border border-black/5 hover:border-[#0047BB]/30 hover:bg-[#0047BB]/5 transition-colors">
-                            <div className="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center shadow-sm shrink-0">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 text-[#0047BB]"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                            </div>
-                            <h4 className="font-bold text-[14px] text-[#2C2C2C]">
-                              {cert}
-                            </h4>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  </div>
-                </motion.div>
-              ) : (
-                /* Cover Letter Content */
-                <motion.div 
-                  key="cover-letter"
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CoverLetter setView={setView} isEditing={isEditing} data={data} setData={setData} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            /* ========================================================= */
+            /* COVER LETTER TAB (Only the content takes full width/focus)*/
+            /* ========================================================= */
+            <motion.div 
+              key="cover-letter"
+              initial={{ opacity: 0, scale: 0.98, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.02, y: -10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <CoverLetter setView={setView} isEditing={isEditing} data={data} setData={setData} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.section>
 
       {/* PDF Generation Print Template */}
