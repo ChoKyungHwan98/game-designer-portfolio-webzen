@@ -72,7 +72,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
         className="pt-28 pb-12 md:pt-36 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
         
         {/* Utility Bar (Top Navigation) */}
-        <div className="sticky top-24 z-40 flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 bg-[#FAFAFA]/90 backdrop-blur-md border-y border-black/5 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
+        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 border-y border-black/5 mb-12 -mx-6 px-6 md:-mx-12 md:px-12">
           {/* Left: Go Back */}
           <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors group font-sans tracking-tight text-sm font-bold w-[180px]">
             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" /> 대시보드
@@ -231,9 +231,12 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
                           <h4 className="font-bold text-[14px] text-[#2C2C2C]">
                             <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
                           </h4>
-                          <span className="text-xs font-mono font-medium text-zinc-400">
-                            <EditableText value={cert.date} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].date = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
-                          </span>
+                          <div className="flex flex-col items-end gap-0.5">
+                            <span className="text-[10px] text-zinc-400 font-medium">취득 연도</span>
+                            <span className="text-xs font-mono font-bold text-[#0047BB]">
+                              <EditableText value={cert.date} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].date = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -344,9 +347,9 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
               <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '11px', color: '#444' }}>
                 {data.certificates?.map((cert, i) => (
                   <li key={i} style={{ marginBottom: '4px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>{cert.name}</span>
-                      <span style={{ fontFamily: 'monospace', color: '#666' }}>{cert.date}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 600 }}>{cert.name}</span>
+                      <span style={{ fontFamily: 'monospace', color: '#0047BB', fontSize: '10px', fontWeight: 700 }}>취득 연도: {cert.date}</span>
                     </div>
                   </li>
                 ))}
