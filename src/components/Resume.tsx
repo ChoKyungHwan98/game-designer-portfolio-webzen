@@ -1,11 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, ScrollText, Mail, Phone, User, GraduationCap, Award, Briefcase, Plus, X, Wrench } from 'lucide-react';
+import { ArrowLeft, ScrollText, Mail, Phone, User, GraduationCap, Award, Briefcase, Plus, X, Wrench, Figma, Info } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
 import { EditableText } from './EditableText';
 import type { ResumeData } from '../types';
+
+const TOOL_ICONS: Record<string, React.ReactNode> = {
+  Word: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-70 group-hover:opacity-100 group-hover:text-[#2b579a] transition-colors"><path d="M4.17 6.43l7.33-1.07v13.28l-7.33-1.07V6.43zm8.33-1.25V18.82l7.33 1.07V4.11L12.5 5.18zM6.5 8.79l1.19.12.8 4.23.95-4.23h1.05l.93 4.23.77-4.23 1.25.12-1.39 6.27h-1.12l-.98-4.32-.98 4.32H8l-1.5-6.51z"/></svg>,
+  PowerPoint: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-70 group-hover:opacity-100 group-hover:text-[#d24726] transition-colors"><path d="M4.18 6.48l7.32-1.07v13.2l-7.32-1.07V6.48zm8.32-1.32v13.68l7.32 1.07V4.09L12.5 5.16zM8.38 8.81h2.24c1.17 0 1.95.73 1.95 1.83 0 1.1-.78 1.83-1.95 1.83H9.4v3.23H8.38V8.81zm1.02.83v2.09h1.16c.55 0 .9-.36.9-.99 0-.64-.35-1.1-.9-1.1H9.4z"/></svg>,
+  Excel: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-70 group-hover:opacity-100 group-hover:text-[#217346] transition-colors"><path d="M4.18 6.48l7.32-1.07v13.2l-7.32-1.07V6.48zm8.32-1.32v13.68l7.32 1.07V4.09L12.5 5.16zm-5.74 3.73l1.14.15.82 2.37.89-2.37h1.02l-1.36 3.19 1.48 3.32h-1.14l-1.01-2.43-1 2.43H6.42l1.52-3.32-1.42-3.34z"/></svg>,
+  Notion: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-70 group-hover:opacity-100 group-hover:text-black transition-colors"><path d="M4.459 4.208c-.755 0-1.282.49-1.282 1.17v13.244c0 .679.527 1.17 1.282 1.17h15.082c.755 0 1.282-.491 1.282-1.17V5.378c0-.68-.527-1.17-1.282-1.17H4.459zM2.8 5.378c0-1.27 1.013-2.301 2.261-2.301h13.878C20.187 3.077 21.2 4.108 21.2 5.378v13.244c0 1.27-1.013 2.301-2.261 2.301H5.06A2.28 2.28 0 012.8 18.622V5.378zm5.553 10.603V8.895l4.896 6.945V8.125h1.196v7.856l-4.896-6.945v6.945H8.353z"/></svg>,
+  Figma: <Figma className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 group-hover:text-[#f24e1e] transition-colors" />,
+  Unity: <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current opacity-70 group-hover:opacity-100 group-hover:text-black transition-colors"><path d="M12 1.41l10.59 6.1v12.2L12 25.82 1.41 19.71V7.51zM12 3.8L3.8 8.53v9.42l8.2 4.71 8.2-4.71V8.53zM12 12.35l7-4.04-1.26-2.18-5.38 3.1-6.19-4.88-1.56 1.94 4.86 3.82-4.48 2.58L6.2 14.8l5.8-3.35z"/></svg>,
+};
 
 interface ResumeProps {
   setView: (v: any) => void;
@@ -116,19 +125,18 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
                 </div>
                 
                 {data.tools && data.tools.length > 0 && (
-                  <div className="mt-5 flex flex-wrap gap-1.5">
+                  <div className="mt-5 flex flex-wrap gap-2">
                     {data.tools.map((tool, idx) => (
-                      <div key={idx} className="group relative">
-                        <span className="inline-flex px-2.5 py-1.5 bg-[#0047BB]/5 border border-[#0047BB]/10 text-[#0047BB] font-bold text-[11px] rounded-md cursor-default hover:bg-[#0047BB] hover:text-white transition-all duration-300">
-                          <EditableText value={tool.name} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].name = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                        </span>
-                        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 pointer-events-none">
-                          <div className="bg-[#2C2C2C] text-white text-[11px] p-2.5 rounded-lg shadow-xl border border-white/10 leading-relaxed font-medium text-center">
-                            <EditableText value={tool.description} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].description = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                            <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#2C2C2C] rotate-45 border-t border-l border-white/10"></div>
-                          </div>
+                      <span key={idx} className="group relative px-4 py-2 bg-white rounded-xl text-xs font-bold text-zinc-600 border border-black/5 hover:border-[#0047BB] hover:bg-[#0047BB]/5 hover:text-[#2C2C2C] transition-all cursor-help flex items-center justify-center gap-2 overflow-visible shadow-sm hover:shadow-md">
+                        {TOOL_ICONS[tool.name] || <Wrench className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 group-hover:text-[#0047BB] transition-colors" />}
+                        <EditableText value={tool.name} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].name = v; setData({...data, tools: t}); }} isEditing={isEditing} />
+                        <Info className="w-3 h-3 text-zinc-400 group-hover:text-[#0047BB] transition-colors" />
+                        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#0047BB] to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-50 mb-3 w-max max-w-[320px] bg-[#2C2C2C] border border-white/10 text-white text-xs leading-[1.6] p-3 rounded-xl shadow-xl whitespace-pre-wrap font-medium text-left">
+                          <EditableText value={tool.description} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].description = v; setData({...data, tools: t}); }} isEditing={isEditing} />
+                          <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-[#2C2C2C] border-t-8 border-x-transparent border-x-8 border-b-0 w-0 h-0"></div>
                         </div>
-                      </div>
+                      </span>
                     ))}
                   </div>
                 )}
