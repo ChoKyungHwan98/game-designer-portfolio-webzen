@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Monitor, Smartphone, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Monitor, Smartphone, Gamepad2, Search } from 'lucide-react';
 import { ALL_GAMES } from '../data/games';
 import type { GameHistory } from '../types';
 
@@ -14,8 +14,16 @@ interface GameHistoryViewProps {
 
 export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
   const [activeTab, setActiveTab] = useState<'PC' | 'Mobile' | 'Console'>('PC');
+  const [searchQuery, setSearchQuery] = useState('');
   
-  const currentTabGames = ALL_GAMES.filter(g => g.category === activeTab);
+  const filteredGames = ALL_GAMES.filter(g => {
+    const matchesTab = g.category === activeTab;
+    const matchesSearch = searchQuery === '' || 
+      g.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      (g.company && g.company.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      g.genre.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTab && matchesSearch;
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -94,36 +102,86 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
       <div className="flex flex-col bg-zinc-50 border border-black/5 rounded-3xl p-6 md:p-10 shadow-inner min-h-[600px]">
         
-        <div className="flex flex-wrap gap-4 mb-10 pb-6 border-b border-black/5 justify-center md:justify-start sticky top-[100px] z-20 bg-zinc-50/90 backdrop-blur-md pt-2">
-          {[{id: 'PC', label: 'PC / Mainline', icon: Monitor},
-            {id: 'Console', label: 'Console / Others', icon: Gamepad2},
-            {id: 'Mobile', label: 'Mobile', icon: Smartphone}].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id as 'PC'|'Console'|'Mobile')}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-base tracking-tight transition-all duration-300 \${activeTab === tab.id ? 'bg-[#0047BB] text-white shadow-xl shadow-[#0047BB]/20 -translate-y-1' : 'bg-white text-zinc-500 border border-black/5 hover:border-black/10 hover:bg-zinc-100 hover:-translate-y-0.5'}`}>
-              <tab.icon className={`w-5 h-5 \${activeTab === tab.id ? 'text-white' : 'text-zinc-400'}`} />
-              {tab.label}
-              <span className={`ml-3 px-3 py-1 rounded-full text-[11px] \${activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-zinc-100 text-[#0047BB]'}`}>
-                 {ALL_GAMES.filter(g => g.category === tab.id).length}
-              </span>
-            </button>
-          ))}
+        <div className="flex flex-col xl:flex-row xl:items-center gap-6 mb-10 pb-6 border-b border-black/5 sticky top-[100px] z-20 bg-zinc-50/90 backdrop-blur-md pt-2">
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            {[{id: 'PC', label: 'PC / Mainline', icon: Monitor},
+              {id: 'Console', label: 'Console / Others', icon: Gamepad2},
+              {id: 'Mobile', label: 'Mobile', icon: Smartphone}].map(tab => (
+              <button key={tab.id} onClick={() => { setActiveTab(tab.id as 'PC'|'Console'|'Mobile'); setSearchQuery(''); }}
+                className={`flex items-center gap-2.5 px-5 py-3.5 rounded-2xl font-bold text-[14px] tracking-tight transition-all duration-300 ${activeTab === tab.id ? 'bg-[#0047BB] text-white shadow-xl shadow-[#0047BB]/20 -translate-y-1' : 'bg-white text-zinc-500 border border-black/5 hover:border-black/10 hover:bg-zinc-100 hover:-translate-y-0.5'}`}>
+                <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-white' : 'text-zinc-400'}`} />
+                {tab.label}
+                <span className={`ml-2 px-2 py-0.5 rounded-full text-[10px] ${activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-zinc-100 text-[#0047BB]'}`}>
+                   {ALL_GAMES.filter(g => g.category === tab.id).length}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div className="relative flex-1 max-w-md xl:ml-auto group">
+             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-[#0047BB] transition-colors" />
+             <input 
+               type="text" 
+               placeholder="게임 제목, 장르, 개발사 검색..." 
+               value={searchQuery}
+               onChange={(e) => setSearchQuery(e.target.value)}
+               className="w-full bg-white border border-black/5 rounded-2xl py-3.5 pl-11 pr-4 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0047BB]/10 focus:border-[#0047BB]/30 transition-all placeholder:text-zinc-300 shadow-sm"
+             />
+          </div>
         </div>
 
         <AnimatePresence mode="wait">
-          <motion.div variants={containerVariants} initial="hidden" animate="show" exit="exit" key={activeTab}
-            className="flex flex-wrap gap-3 md:gap-4 content-start">
-            {currentTabGames.map((game, i) => (
-              <motion.div key={game.id + '-' + i} variants={chipVariants}
-                className="flex flex-col group relative bg-white border border-black/5 px-5 py-4 rounded-xl shadow-sm hover:shadow-lg hover:border-[#0047BB]/30 transition-all duration-300">
-                 <span className="text-[10px] font-bold text-[#0047BB] uppercase tracking-widest mb-1.5">{game.genre}</span>
-                 <div className="flex items-center gap-3">
-                    <span className="font-bold text-[#2C2C2C] text-base group-hover:text-[#0047BB] transition-colors">{game.title}</span>
-                    {game.company && <span className="text-[11px] text-zinc-400 font-medium px-2 py-1 bg-zinc-50 rounded border border-black/5">{game.company}</span>}
-                 </div>
+          <motion.div variants={containerVariants} initial="hidden" animate="show" exit="exit" key={activeTab + searchQuery}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 content-start">
+            {filteredGames.slice(0, 500).map((game, i) => (
+              <motion.div 
+                key={game.id + '-' + i} 
+                variants={chipVariants}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="flex flex-col group relative bg-white border border-black/5 px-5 py-4 rounded-2xl shadow-sm hover:shadow-xl hover:bg-[#0047BB]/[0.02] hover:border-[#0047BB]/20 transition-all duration-300 h-[100px] justify-between overflow-hidden"
+              >
+                  <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                      <span className="text-[9px] font-black text-[#0047BB]/60 uppercase tracking-widest block mb-1">{game.genre}</span>
+                      <h4 className="font-bold text-[#2C2C2C] text-[15px] group-hover:text-[#0047BB] transition-colors line-clamp-1">{game.title}</h4>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      {game.company ? (
+                        <span className="text-[10px] text-zinc-400 font-bold px-2 py-0.5 bg-zinc-50 rounded-md border border-black/5 group-hover:bg-white transition-colors truncate max-w-[120px]">
+                          {game.company}
+                        </span>
+                      ) : <div />}
+                      
+                      <AnimatePresence>
+                        {game.playTime && (
+                          <motion.span 
+                            initial={{ opacity: 0, x: 10 }}
+                            whileHover={{ opacity: 1, x: 0 }}
+                            className="absolute right-0 bottom-0 text-[10px] font-mono text-[#0047BB] font-bold opacity-0 group-hover:opacity-100 transition-all bg-white pl-2"
+                          >
+                            {game.playTime}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative background label for hover depth */}
+                  <div className="absolute -bottom-2 -right-2 text-[40px] font-black text-black/[0.02] uppercase pointer-events-none group-hover:text-[#0047BB]/[0.03] transition-colors leading-none">
+                    {game.category}
+                  </div>
               </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
+        
+        {filteredGames.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+             <Search className="w-12 h-12 mb-4 opacity-10" />
+             <p className="text-sm font-medium">검색 결과가 없습니다.</p>
+          </div>
+        )}
         
       </div>
     </motion.section>
