@@ -98,7 +98,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
             <div className="flex items-center bg-zinc-200/50 p-1.5 rounded-[2rem] border border-black/5 shadow-inner relative">
               <button 
                 onClick={() => setActiveTab('resume')}
-                className={`relative px-12 py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative w-[140px] py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'resume' && (
                   <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
@@ -108,7 +108,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
               
               <button 
                 onClick={() => setActiveTab('cover-letter')}
-                className={`relative px-12 py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative w-[140px] py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'cover-letter' && (
                   <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
