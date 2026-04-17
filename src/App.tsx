@@ -93,7 +93,7 @@ function App() {
     <button
       key={label}
       onClick={() => { setView(target); window.scrollTo(0, 0); }}
-      className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-zinc-100 hover:bg-[#0047BB] hover:text-white text-zinc-600 text-[13px] font-bold border border-black/[0.06] transition-all duration-200"
+      className="w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm"
     >
       {icon}
       <span>{label}</span>
@@ -142,9 +142,11 @@ function App() {
 
   // rightActionSlot — 현재 페이지 제외한 이동 버튼
   const rightActionSlot = (() => {
+    const containerClasses = "hidden xl:flex bg-zinc-100/80 p-1.5 rounded-full border border-black/5 shadow-inner gap-0.5";
+    
     if (view === 'resume' || view === 'cover-letter') {
       return (
-        <div className="flex items-center gap-2">
+        <div className={containerClasses}>
           {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
           {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
         </div>
@@ -152,7 +154,7 @@ function App() {
     }
     if (view === 'portfolio') {
       return (
-        <div className="flex items-center gap-2">
+        <div className={containerClasses}>
           {makeNavBtn('이력서', resumeIcon, 'resume')}
           {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
         </div>
@@ -160,7 +162,7 @@ function App() {
     }
     if (view === 'game-history') {
       return (
-        <div className="flex items-center gap-2">
+        <div className={containerClasses}>
           {makeNavBtn('이력서', resumeIcon, 'resume')}
           {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
         </div>
