@@ -145,7 +145,6 @@ function App() {
     if (view === 'resume' || view === 'cover-letter') {
       return (
         <div className="flex items-center gap-2">
-          {pdfButton}
           {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
           {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
         </div>
@@ -193,6 +192,7 @@ function App() {
         onBack={view !== 'home' ? handleBack : undefined}
         centerSlot={centerSlot}
         rightActionSlot={rightActionSlot}
+        pdfSlot={pdfButton}
       />
       <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />
 

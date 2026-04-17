@@ -22,11 +22,13 @@ interface NavbarProps {
   onBack?: () => void;
   /** Resume 탭 전환용 중앙 슬롯 (이력서/자기소개서 탭) */
   centerSlot?: React.ReactNode;
-  /** 우측 액션 슬롯 (PDF 다운로드 등) */
+  /** 우측 액션 슬롯 (각 페이지 다른 페이지로 이동) */
   rightActionSlot?: React.ReactNode;
+  /** PDF 다운로드 버튼 슬롯 */
+  pdfSlot?: React.ReactNode;
 }
 
-export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot, rightActionSlot }: NavbarProps) => {
+export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot, rightActionSlot, pdfSlot }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
@@ -176,15 +178,18 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
               </>
             )}
             
-            <button
-              onClick={handleAdminClick}
-              className="w-11 h-11 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100 text-zinc-500 hover:text-[#2C2C2C]"
-              title="Admin Mode"
-            >
-              <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#0047BB]' : 'opacity-80'}`} />
-            </button>
+            <div className="flex items-center">
+              <button
+                onClick={handleAdminClick}
+                className="w-11 h-11 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100 text-zinc-500 hover:text-[#2C2C2C]"
+                title="Admin Mode"
+              >
+                <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#0047BB]' : 'opacity-80'}`} />
+              </button>
+              {pdfSlot && <div className="ml-1">{pdfSlot}</div>}
+            </div>
 
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden w-11 h-11 flex items-center justify-center rounded-full bg-zinc-100 text-[#2C2C2C]">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden w-11 h-11 ml-1 flex items-center justify-center rounded-full bg-zinc-100 text-[#2C2C2C]">
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>

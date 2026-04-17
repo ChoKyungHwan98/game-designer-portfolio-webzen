@@ -18,9 +18,9 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
   const generateId = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-가-힣]/g, '');
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-[#FAFAFA] pt-32 pb-20 px-4 md:px-8">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-[#FAFAFA] pt-6 pb-20 px-4 md:px-8">
       <div className="max-w-[1200px] mx-auto w-full">
-        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 border-y border-black/5 mb-12 -mx-6 px-6 md:-mx-12 md:px-12">
+        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-3 md:py-4 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
               <span className="text-[11px] font-black tracking-widest text-zinc-300 uppercase truncate">Project Detail</span>
