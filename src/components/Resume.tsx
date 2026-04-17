@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
 import { EditableText } from './EditableText';
 import { CoverLetter } from './CoverLetter';
-import { PageHeader } from './PageHeader';
 import type { ResumeData } from '../types';
 
 const TOOL_ICONS: Record<string, React.ReactNode> = {
@@ -24,12 +23,14 @@ interface ResumeProps {
   isEditing: boolean;
   data: ResumeData;
   setData: (d: ResumeData) => void;
+  activeTab: 'resume' | 'cover-letter';
+  setActiveTab: (tab: 'resume' | 'cover-letter') => void;
+  isGeneratingPdf: boolean;
+  setIsGeneratingPdf: (v: boolean) => void;
 }
 
-export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProps) => {
+export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
   const printRef = useRef<HTMLDivElement>(null);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [activeTab, setActiveTab] = useState<'resume' | 'cover-letter'>('resume');
 
   const handleDownload = async () => {
     if (!printRef.current) return;
@@ -70,46 +71,8 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
   return (
     <>
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-        className="pt-32 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
-        
-        <PageHeader
-          onBack={onBack}
-          label="Resume"
-          centerSlot={
-            <div className="grid grid-cols-2 w-[280px] bg-zinc-200/50 p-1 rounded-[2.5rem] border border-black/5 shadow-inner relative">
-              <button
-                onClick={() => setActiveTab('resume')}
-                className={`relative w-full py-3 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
-              >
-                {activeTab === 'resume' && (
-                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
-                )}
-                <span className="relative z-10">이력서</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('cover-letter')}
-                className={`relative w-full py-3 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
-              >
-                {activeTab === 'cover-letter' && (
-                  <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
-                )}
-                <span className="relative z-10">자기소개서</span>
-              </button>
-            </div>
-          }
-          rightSlot={
-            isEditing ? (
-              <button onClick={handleDownload} disabled={isGeneratingPdf}
-                className="px-5 py-2 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-2 hover:border-[#0047BB] hover:text-[#0047BB] transition-all duration-300 text-xs tracking-widest shadow-sm disabled:opacity-50 group">
-                {isGeneratingPdf ? (
-                  <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#0047BB] border-t-transparent rounded-full" /> ...</>
-                ) : (
-                  <><ScrollText className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#0047BB] transition-colors" /> PDF 저장</>
-                )}
-              </button>
-            ) : undefined
-          }
-        />
+        className="pt-28 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
+
 
         <AnimatePresence mode="wait">
           {activeTab === 'resume' ? (

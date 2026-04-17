@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { RightRail } from './components/RightRail';
 import { ProjectDetail } from './components/ProjectDetail';
 import { GameHistoryView } from './components/GameHistoryView';
+import { motion } from 'motion/react';
 
 import { useEditableContent } from './hooks/useEditableContent';
 import { RESUME_DATA, PROJECTS, PORTFOLIO_PROJECTS, GAME_HISTORY, SKILLS } from './data';
@@ -23,6 +24,8 @@ function App() {
   const [activeSection, setActiveSection] = useState('about');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [targetProjectId, setTargetProjectId] = useState<number | null>(null);
+  const [resumeTab, setResumeTab] = useState<'resume' | 'cover-letter'>('resume');
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   // Supabase Data
   const [resumeData, setResumeData, resumeLoaded] = useEditableContent(RESUME_DATA, 'resume_data');
@@ -77,6 +80,29 @@ function App() {
     }, 100);
   };
 
+  const handleBack = () => {
+    if (view === 'resume') { setResumeTab('resume'); handleNavClick('hero-top'); }
+    else if (view === 'portfolio') { setTargetProjectId(null); handleNavClick('projects'); }
+    else if (view === 'game-history') handleNavClick('play-history');
+    else if (view === 'project-detail') handleNavClick('projects');
+    else handleNavClick('hero-top');
+  };
+
+  // Resume 탭 UI → Navbar centerSlot으로 주입
+  const resumeCenterSlot = view === 'resume' ? (
+    <div className="grid grid-cols-2 w-[260px] bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner relative">
+      {(['resume', 'cover-letter'] as const).map((tab) => (
+        <button key={tab} onClick={() => setResumeTab(tab)}
+          className={`relative w-full py-2.5 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${resumeTab === tab ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}>
+          {resumeTab === tab && (
+            <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
+          )}
+          <span className="relative z-10">{tab === 'resume' ? '이력서' : '자기소개서'}</span>
+        </button>
+      ))}
+    </div>
+  ) : undefined;
+
   if (!isDataLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FDFDFB]">
@@ -90,7 +116,16 @@ function App() {
 
   return (
     <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-[#FAFAFA]">
-      <Navbar setView={setView} currentView={view} onNavClick={handleNavClick} isEditing={isEditing} setIsEditing={setIsEditing} activeSection={activeSection} />
+      <Navbar 
+        setView={setView} 
+        currentView={view} 
+        onNavClick={handleNavClick} 
+        isEditing={isEditing} 
+        setIsEditing={setIsEditing} 
+        activeSection={activeSection} 
+        onBack={view !== 'home' ? handleBack : undefined}
+        centerSlot={resumeCenterSlot}
+      />
       <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />
 
       {view === 'home' && (
@@ -104,14 +139,46 @@ function App() {
         </main>
       )}
 
-      {view === 'resume' && <Resume setView={setView} isEditing={isEditing} data={resumeData} setData={setResumeData} onBack={() => handleNavClick('hero-top')} />}
+      {view === 'resume' && (
+        <Resume 
+          setView={setView} 
+          isEditing={isEditing} 
+          data={resumeData} 
+          setData={setResumeData} 
+          onBack={handleBack}
+          activeTab={resumeTab} 
+          setActiveTab={setResumeTab}
+          isGeneratingPdf={isGeneratingPdf} 
+          setIsGeneratingPdf={setIsGeneratingPdf} 
+        />
+      )}
       {view === 'project-detail' && selectedProject && (
-        <ProjectDetail project={selectedProject} isEditing={isEditing} onBack={() => handleNavClick('projects')} onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }} />
+        <ProjectDetail 
+          project={selectedProject} 
+          isEditing={isEditing} 
+          onBack={handleBack} 
+          onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }} 
+        />
       )}
       {view === 'portfolio' && (
-        <Portfolio onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} isEditing={isEditing} projects={portfolioProjects} setProjects={setPortfolioProjects} setView={setView} onBack={() => { setTargetProjectId(null); handleNavClick('projects'); }} initialProjectId={targetProjectId} />
+        <Portfolio 
+          onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} 
+          isEditing={isEditing} 
+          projects={portfolioProjects} 
+          setProjects={setPortfolioProjects} 
+          setView={setView} 
+          onBack={handleBack} 
+          initialProjectId={targetProjectId} 
+        />
       )}
-      {view === 'game-history' && <GameHistoryView onBack={() => handleNavClick('play-history')} history={gameHistory} setHistory={setGameHistory} isEditing={isEditing} />}
+      {view === 'game-history' && (
+        <GameHistoryView 
+          onBack={handleBack} 
+          history={gameHistory} 
+          setHistory={setGameHistory} 
+          isEditing={isEditing} 
+        />
+      )}
 
       <Footer />
     </div>

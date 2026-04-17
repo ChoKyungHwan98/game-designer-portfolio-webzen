@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, X, MousePointer2 } from 'lucide-react';
 import { EditableText } from './EditableText';
 import { ProjectDetail } from './ProjectDetail';
-import { PageHeader } from './PageHeader';
 import type { Project } from '../types';
 
 interface PortfolioProps {
@@ -40,9 +39,8 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="relative z-10 pt-32 pb-[120px] px-6 md:px-12 max-w-7xl mx-auto"
+        className="relative z-10 pt-28 pb-[120px] px-6 md:px-12 max-w-7xl mx-auto"
       >
-        <PageHeader onBack={onBack} label="Portfolio" />
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 px-0 md:px-0">
