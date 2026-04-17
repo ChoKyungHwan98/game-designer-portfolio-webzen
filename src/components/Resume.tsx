@@ -87,11 +87,18 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
     `);
     printWindow.document.close();
 
-    // 5) 리소스 로드 대기 후 인쇄
-    printWindow.setTimeout(() => {
-      printWindow.focus();
-      printWindow.print();
-    }, 1500);
+    // 5) 리소스 로드(폰트 및 이미지) 대기 후 인쇄
+    printWindow.onload = () => {
+      Promise.all([
+        printWindow.document.fonts.ready,
+        ...Array.from(printWindow.document.images).map(img =>
+          img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; })
+        )
+      ]).then(() => {
+        printWindow.focus();
+        printWindow.print();
+      });
+    };
 
     // 6) 인쇄 후 새 창 닫기
     const handleAfterPrint = () => {
