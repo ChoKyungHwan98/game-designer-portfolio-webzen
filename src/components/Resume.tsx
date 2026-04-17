@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import html2pdf from 'html2pdf.js';
 import { EditableText } from './EditableText';
 import { CoverLetter } from './CoverLetter';
 import type { ResumeData } from '../types';
@@ -38,34 +37,58 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
     setIsGeneratingPdf(true);
 
     try {
-      const filename = '조경환_게임기획자_포트폴리오.pdf';
-
-      // Create an invisible container for the React tree
+      // Create an isolated container for print
       const container = document.createElement('div');
-      container.style.cssText = 'position:absolute;top:0;left:0;width:210mm;z-index:-9999;background:#f8f9fa;pointer-events:none;';
+      container.id = 'print-root';
+      // It is visually hidden from screen but visible in print media
+      container.style.cssText = 'position:absolute;top:0;left:0;width:100%;z-index:-9999;opacity:0;pointer-events:none;';
+      
+      const styleHack = document.createElement('style');
+      styleHack.innerHTML = `
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          #print-root, #print-root * {
+            visibility: visible;
+          }
+          #print-root {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            opacity: 1 !important;
+          }
+          @page {
+            size: A4;
+            margin: 0;
+          }
+          .pdf-page {
+            margin: 0 !important;
+            page-break-after: always;
+            break-after: page;
+          }
+        }
+      `;
+      container.appendChild(styleHack);
       document.body.appendChild(container);
 
       // Render the PdfTemplate into the container
       const root = createRoot(container);
       root.render(<PdfTemplate data={data} />);
 
-      // Wait a tick for React to mount, layout to compute, and fonts to load
-      await new Promise(r => setTimeout(r, 1000));
+      // Wait a tick for React to mount, layout to compute, and images/fonts to load
+      await new Promise(r => setTimeout(r, 600));
 
-      const opt = {
-        margin: [0, 0, 0, 0],
-        filename,
-        image: { type: 'jpeg', quality: 1.0 },
-        html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0, windowWidth: document.documentElement.offsetWidth },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
-        pagebreak: { mode: ['css', 'legacy'] },
-      };
+      // Trigger native print dialog
+      window.print();
 
-      await html2pdf().set(opt).from(container).save();
+      // Clean up after dialog closes
+      setTimeout(() => {
+        root.unmount();
+        document.body.removeChild(container);
+      }, 1000);
 
-      // Clean up
-      root.unmount();
-      document.body.removeChild(container);
     } catch (err) {
       console.error('PDF generation failed', err);
     } finally {
