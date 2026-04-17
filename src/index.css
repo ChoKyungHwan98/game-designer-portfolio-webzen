@@ -246,6 +246,13 @@
    브라우저 네이티브 인쇄 엔진 → oklch / 웹폰트 완벽 지원
    ══════════════════════════════════════════════════════════ */
 
+/* 화면(screen) 모드에서는 인쇄용 Portal 완전 숨김 */
+@media screen {
+  #print-root-wrapper {
+    display: none !important;
+  }
+}
+
 /* 규칙 1: @page — A4 크기, 여백 0, 배율 100% 강제 */
 @page {
   size: A4;
