@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 interface EditableTextProps {
   value: string;
@@ -23,7 +24,7 @@ export const EditableText = ({
     if (markdown) {
       return (
         <div className={`markdown-body !text-inherit !p-0 !bg-transparent !border-none ${className}`}>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{value}</ReactMarkdown>
         </div>
       );
     }
