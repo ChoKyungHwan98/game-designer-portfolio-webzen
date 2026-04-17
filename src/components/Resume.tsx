@@ -6,6 +6,8 @@ import remarkGfm from 'remark-gfm';
 import { EditableText } from './EditableText';
 import { CoverLetter } from './CoverLetter';
 import { PrintTemplate } from './PrintTemplate';
+import { PdfTemplate } from './PdfTemplate';
+import { renderToStaticMarkup } from 'react-dom/server';
 import type { ResumeData } from '../types';
 
 const TOOL_ICONS: Record<string, React.ReactNode> = {
@@ -33,62 +35,72 @@ interface ResumeProps {
 export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
 
   const handleDownload = () => {
-    const wasEditing = isEditing;
+    // 1) React Component를 순수 HTML 문자열로 렌더링
+    const htmlString = renderToStaticMarkup(<PdfTemplate data={data} />);
 
-    // ① 관리자 모드 해제 → EditableText가 <span>으로 전환
-    if (wasEditing) setIsEditing(false);
+    // 2) 새 창 열기 (격리된 환경)
+    const printWindow = window.open('', '_blank', 'width=900,height=1200');
+    if (!printWindow) {
+      alert('팝업 차단이 활성화되어 있습니다. 팝업을 허용해주세요.');
+      return;
+    }
 
-    // ② document.title → 인쇄 대화상자 기본 파일명
-    const prevTitle = document.title;
-    document.title = '조경환_게임기획자_포트폴리오';
+    // 3) 현재 페이지의 스타일시트 복사
+    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+      .map(node => node.outerHTML)
+      .join('\n');
 
-    // ③ React 재렌더 대기 (200ms)
-    setTimeout(() => {
-      // ④ CSS media query에 의존하지 않고 JS로 직접 DOM 조작
-      //    → Tailwind v4 CSS 처리 문제, Framer Motion transform 영향 완전 차단
-      const root = document.getElementById('root');
-      const printWrapper = document.getElementById('print-root-wrapper');
+    // 4) HTML 주입
+    printWindow.document.open();
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="ko">
+        <head>
+          <meta charset="utf-8">
+          <title>조경환_게임기획자_포트폴리오</title>
+          ${styles}
+          <style>
+            @page { 
+              size: A4 portrait; 
+              margin: 0; 
+            }
+            body { 
+              margin: 0; 
+              background: #f8f9fa;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .pdf-page { 
+              page-break-after: always; 
+              break-after: page; 
+            }
+            .pdf-page:last-child { 
+              page-break-after: auto; 
+              break-after: auto; 
+            }
+          </style>
+        </head>
+        <body>
+          ${htmlString}
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
 
-      if (root) {
-        root.dataset.printHidden = 'true';
-        root.style.display = 'none';
-      }
-      if (printWrapper) {
-        printWrapper.style.cssText = [
-          'display:block',
-          'visibility:visible',
-          'position:static',
-          'width:210mm',
-          'max-width:210mm',
-          'margin:0',
-          'padding:0',
-          'overflow:visible',
-        ].join(';');
-      }
+    // 5) 리소스 로드 대기 후 인쇄
+    printWindow.setTimeout(() => {
+      printWindow.focus();
+      printWindow.print();
+    }, 1500);
 
-      // Add printing class to force unset input elements
-      document.body.classList.add('printing');
-
-      // ⑤ 인쇄 실행
-      window.print();
-
-      // ⑥ afterprint: 모든 상태 완전 복원
-      const restore = () => {
-        document.body.classList.remove('printing');
-        document.title = prevTitle;
-        if (wasEditing) setIsEditing(true);
-        if (root) {
-          root.style.display = '';
-          delete root.dataset.printHidden;
-        }
-        if (printWrapper) {
-          printWrapper.style.cssText = 'display:none';
-        }
-        window.removeEventListener('afterprint', restore);
-      };
-      window.addEventListener('afterprint', restore);
-    }, 300);
+    // 6) 인쇄 후 새 창 닫기
+    const handleAfterPrint = () => {
+      printWindow.close();
+      printWindow.removeEventListener('afterprint', handleAfterPrint);
+    };
+    printWindow.addEventListener('afterprint', handleAfterPrint);
   };
+
 
   // Navbar PDF 버튼 → CustomEvent 수신
   React.useEffect(() => {
