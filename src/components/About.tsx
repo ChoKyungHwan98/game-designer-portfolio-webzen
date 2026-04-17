@@ -66,32 +66,46 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
       {/* ── TWO-COLUMN LAYOUT ── */}
       <div className="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-10 lg:gap-16 items-start">
 
-        {/* LEFT: body copy */}
-        <div className="flex flex-col gap-6">
-          {/* p1 — highlighted intro */}
+        {/* LEFT: editorial body copy */}
+        <div className="flex flex-col gap-10">
+
+          {/* P1 — Large editorial intro, no box */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white rounded-2xl border border-black/5 shadow-[0_4px_24px_-8px_rgba(0,71,187,0.07)] p-7 md:p-10"
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
           >
-            <div className="text-lg md:text-xl lg:text-2xl text-zinc-600 leading-[2] font-medium">
+            {/* Left accent line */}
+            <div className="absolute -left-6 top-1 bottom-1 w-[3px] bg-gradient-to-b from-[#0047BB]/40 via-[#0047BB]/15 to-transparent rounded-full" />
+            <div className="text-[17px] md:text-[19px] lg:text-[21px] text-zinc-700 leading-[1.95] font-medium tracking-[-0.01em] break-keep">
               <EditableText value={content.p1} onSave={(v) => setContent({ ...content, p1: v })} isEditing={isEditing} multiline />
             </div>
           </motion.div>
 
-          {/* p2 — secondary */}
+          {/* Divider */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            style={{ transformOrigin: 'left' }}
+            className="h-px bg-gradient-to-r from-[#0047BB]/20 via-black/5 to-transparent"
+          />
+
+          {/* P2 — secondary in smaller, warmer tone */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-[17px] text-zinc-400 leading-[1.95] font-medium pl-1"
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[14px] md:text-[15px] lg:text-[16px] text-zinc-400 leading-[2] font-medium tracking-[-0.005em] break-keep"
           >
             <EditableText value={content.p2} onSave={(v) => setContent({ ...content, p2: v })} isEditing={isEditing} multiline />
           </motion.div>
         </div>
+
 
         {/* RIGHT: stat cards */}
         <div className="flex flex-col gap-3">
