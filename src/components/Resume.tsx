@@ -29,40 +29,183 @@ interface ResumeProps {
   setIsGeneratingPdf: (v: boolean) => void;
 }
 
+/* ================================================================ */
+/*  PDF 인쇄용 HTML 문자열 생성 함수 (이력서 / 자기소개서)            */
+/* ================================================================ */
+function buildResumePdfHtml(data: ResumeData): string {
+  const educationHtml = data.education.map(edu => `
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px">
+        <h3 style="font-size:11.5px;font-weight:700;margin:0">${edu.title}</h3>
+        <span style="font-size:9.5px;color:#666;font-family:monospace;white-space:nowrap;margin-left:8px">${edu.period}</span>
+      </div>
+      <p style="font-size:10px;color:#555;margin:0 0 3px 0">${edu.description}</p>
+      ${edu.details.length ? `<ul style="margin:0;padding-left:14px;font-size:9.5px;color:#444">${edu.details.map(d => `<li style="margin-bottom:1px">${d}</li>`).join('')}</ul>` : ''}
+    </div>
+  `).join('');
+
+  const toolsHtml = (data.tools || []).map(t => `
+    <li style="margin-bottom:4px"><strong>${t.name}</strong> — ${t.description}</li>
+  `).join('');
+
+  const certsHtml = (data.certificates || []).map(c => `
+    <li style="margin-bottom:3px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-weight:600">${c.name}</span>
+        <span style="font-family:monospace;color:#0047BB;font-size:9.5px;font-weight:700">${c.date}</span>
+      </div>
+    </li>
+  `).join('');
+
+  const expHtml = data.experience.map(exp => `
+    <div style="margin-bottom:16px;page-break-inside:avoid">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <h3 style="font-size:13px;font-weight:800;margin:0">${exp.title}</h3>
+        <span style="font-size:10px;color:#666;font-family:monospace;white-space:nowrap;margin-left:8px">${exp.period}</span>
+      </div>
+      <div style="font-size:10.5px;font-weight:700;color:#333;margin-bottom:6px;padding:3px 7px;background:#f5f5f5;border-left:3px solid #0047BB">${exp.description}</div>
+      <ul style="margin:0;padding-left:14px;font-size:10px;color:#444;line-height:1.7">
+        ${exp.details.map(d => `<li style="margin-bottom:3px">${d}</li>`).join('')}
+      </ul>
+    </div>
+  `).join('');
+
+  // Clean summary for plain text (remove markdown bold)
+  const summaryClean = data.summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
+
+  return `
+    <div style="padding:24px 28px 16px;font-family:'Pretendard','Noto Sans KR',sans-serif;font-size:11px;line-height:1.55;color:#000;background:#fff">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid #000;padding-bottom:12px;margin-bottom:16px">
+        <div>
+          <h1 style="font-size:24px;font-weight:900;margin:0;letter-spacing:-0.5px">${data.name}</h1>
+          <p style="font-size:11px;font-weight:700;color:#666;letter-spacing:3px;text-transform:uppercase;margin:3px 0 0">${data.role}</p>
+        </div>
+        <div style="text-align:right;font-size:10px;color:#555">
+          <p style="margin:0 0 2px 0">${data.email}</p>
+          <p style="margin:0">${data.phone}</p>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div style="margin-bottom:14px;font-size:10.5px;line-height:1.6;color:#333;padding:6px 10px;background:#f8f8ff;border-left:3px solid #0047BB;border-radius:0 4px 4px 0">
+        ${summaryClean}
+      </div>
+
+      <!-- Two Column Grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
+        <!-- Left: Education -->
+        <div>
+          <h2 style="font-size:12.5px;font-weight:800;border-bottom:1px solid #ccc;padding-bottom:5px;margin-bottom:8px">학력 및 교육</h2>
+          ${educationHtml}
+        </div>
+        <!-- Right: Tools + Certificates -->
+        <div>
+          <h2 style="font-size:12.5px;font-weight:800;border-bottom:1px solid #ccc;padding-bottom:5px;margin-bottom:8px">핵심 기술 및 도구</h2>
+          <ul style="margin:0;padding-left:14px;font-size:10px;color:#444">${toolsHtml}</ul>
+          <h2 style="font-size:12.5px;font-weight:800;border-bottom:1px solid #ccc;padding-bottom:5px;margin:14px 0 8px 0">자격증</h2>
+          <ul style="margin:0;padding-left:14px;font-size:10px;color:#444;list-style:none">${certsHtml}</ul>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div>
+        <h2 style="font-size:12.5px;font-weight:800;border-bottom:1px solid #ccc;padding-bottom:5px;margin-bottom:12px">프로젝트 경험</h2>
+        ${expHtml}
+      </div>
+    </div>
+  `;
+}
+
+function buildCoverLetterPdfHtml(data: ResumeData): string {
+  const intros = data.selfIntroductions || [];
+
+  const sectionsHtml = intros.map((intro, idx) => {
+    // Convert markdown bold and line breaks in content
+    const contentClean = intro.content
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0047BB">$1</strong>')
+      .replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #ddd;margin:8px 0"/>')
+      .replace(/^\* \*\*(.*?)\*\* \*(.*?)\*$/gm, '<div style="display:flex;gap:6px;margin:3px 0"><strong style="color:#0047BB;min-width:60px">$1</strong><span style="color:#555">$2</span></div>')
+      .replace(/^> (.*)/gm, '<blockquote style="border-left:3px solid #0047BB;padding:4px 10px;margin:6px 0;font-weight:700;color:#0047BB;font-size:12px">$1</blockquote>')
+      .replace(/\n\n/g, '</p><p style="margin:0 0 6px 0">')
+      .replace(/\n/g, '<br/>');
+    const loglineClean = intro.logline
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#0047BB">$1</strong>')
+      .replace(/\n/g, '<br/>');
+
+    return `
+      <div style="margin-bottom:${idx < intros.length - 1 ? '16px' : '0'};page-break-inside:avoid">
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
+          <span style="font-size:10px;font-weight:800;color:#0047BB;font-family:monospace">${String(idx + 1).padStart(2, '0')}</span>
+          <span style="font-size:10px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px">${intro.navTitle || '섹션 ' + (idx + 1)}</span>
+        </div>
+        <h3 style="font-size:14px;font-weight:900;color:#1a1a1a;margin:0 0 8px 0;line-height:1.4">${loglineClean}</h3>
+        <div style="font-size:9.5px;color:#333;line-height:1.75">
+          <p style="margin:0 0 6px 0">${contentClean}</p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div style="padding:24px 28px 16px;font-family:'Pretendard','Noto Sans KR',sans-serif;font-size:11px;line-height:1.55;color:#000;background:#fff">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid #000;padding-bottom:12px;margin-bottom:18px">
+        <div>
+          <h1 style="font-size:24px;font-weight:900;margin:0;letter-spacing:-0.5px">${data.name}</h1>
+          <p style="font-size:11px;font-weight:700;color:#666;letter-spacing:3px;text-transform:uppercase;margin:3px 0 0">자기소개서</p>
+        </div>
+        <div style="text-align:right;font-size:10px;color:#555">
+          <p style="margin:0 0 2px 0">${data.email}</p>
+          <p style="margin:0">${data.phone}</p>
+        </div>
+      </div>
+
+      ${sectionsHtml}
+    </div>
+  `;
+}
+
 export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
-  const printRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
-    if (!printRef.current) return;
     setIsGeneratingPdf(true);
-    const element = printRef.current;
-    
-    const origPosition = element.style.position;
-    const origLeft = element.style.left;
-    const origTop = element.style.top;
-    const origZIndex = element.style.zIndex;
-    
-    element.style.position = 'absolute';
-    element.style.left = '0';
-    element.style.top = '0';
-    element.style.zIndex = '-9999';
-    
+
     try {
+      // Build the correct HTML based on which tab is active
+      const htmlString = activeTab === 'resume'
+        ? buildResumePdfHtml(data)
+        : buildCoverLetterPdfHtml(data);
+
+      const filename = activeTab === 'resume'
+        ? '조경환_이력서.pdf'
+        : '조경환_자기소개서.pdf';
+
+      // Create temp container → attach to body so html2canvas can see it
+      const container = document.createElement('div');
+      container.style.cssText = 'position:absolute;top:0;left:0;width:210mm;z-index:99999;background:#fff;pointer-events:none;';
+      container.innerHTML = htmlString;
+      document.body.appendChild(container);
+
+      // Wait a tick for fonts/DOM to paint
+      await new Promise(r => setTimeout(r, 500));
+
       const opt = {
-        margin: [-8, 0, 0, 0],
-        filename: '조경환_게임기획자_포트폴리오.pdf',
-        image: { type: 'jpeg', quality: 1.0 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin: [0, 0, 0, 0],
+        filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0, windowWidth: document.documentElement.offsetWidth },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' as const },
+        pagebreak: { mode: ['avoid-all'] },
       };
-      await html2pdf().set(opt).from(element).save();
+
+      await html2pdf().set(opt).from(container).save();
+
+      // Remove temp element
+      document.body.removeChild(container);
     } catch (err) {
       console.error('PDF generation failed', err);
     } finally {
-      element.style.position = origPosition;
-      element.style.left = origLeft;
-      element.style.top = origTop;
-      element.style.zIndex = origZIndex;
       setIsGeneratingPdf(false);
     }
   };
@@ -72,7 +215,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
     const handler = () => handleDownload();
     window.addEventListener('triggerPdfDownload', handler);
     return () => window.removeEventListener('triggerPdfDownload', handler);
-  }, [handleDownload]);
+  }, [activeTab, data]);
   return (
     <>
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
@@ -258,87 +401,6 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
         </AnimatePresence>
       </motion.section>
 
-      {/* PDF Generation Print Template */}
-      <div ref={printRef} style={{ position: 'absolute', left: '-99999px', top: 0, width: '210mm', background: '#fff', color: '#000', fontFamily: "'Pretendard', 'Noto Sans KR', sans-serif", fontSize: '12px', lineHeight: '1.6' }}>
-        <div style={{ padding: '28px 32px 16px', minHeight: '290mm' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '2px solid #000', paddingBottom: '14px', marginBottom: '20px' }}>
-            <div>
-              <h1 style={{ fontSize: '26px', fontWeight: 900, margin: 0, letterSpacing: '-0.5px' }}>{data.name}</h1>
-              <p style={{ fontSize: '12px', fontWeight: 700, color: '#666', letterSpacing: '3px', textTransform: 'uppercase', margin: '4px 0 0' }}>{data.role}</p>
-            </div>
-            <div style={{ textAlign: 'right', fontSize: '11px', color: '#555' }}>
-              <p style={{ margin: '0 0 4px 0' }}>{data.email}</p>
-              <p style={{ margin: '0' }}>{data.phone}</p>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: '30px' }}>
-            <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', marginBottom: '10px' }}>소개</h2>
-            <div style={{ fontSize: '11px', lineHeight: '1.6', color: '#444' }}>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{data.summary}</ReactMarkdown>
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '30px' }}>
-            <div>
-              <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', marginBottom: '10px' }}>학력 및 교육</h2>
-              {data.education.map((edu, idx) => (
-                <div key={idx} style={{ marginBottom: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '4px' }}>
-                    <h3 style={{ fontSize: '12px', fontWeight: 700, margin: 0 }}>{edu.title}</h3>
-                    <span style={{ fontSize: '10px', color: '#666', fontFamily: 'monospace' }}>{edu.period}</span>
-                  </div>
-                  <p style={{ fontSize: '11px', color: '#555', margin: '0 0 4px 0' }}>{edu.description}</p>
-                  <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '10.5px', color: '#444' }}>
-                    {edu.details.map((d, i) => <li key={i} style={{ marginBottom: '2px' }}>{d}</li>)}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div>
-              <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', marginBottom: '10px' }}>핵심 기술 및 도구</h2>
-              <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '11px', color: '#444' }}>
-                {data.tools?.map((tool, i) => (
-                  <li key={i} style={{ marginBottom: '6px' }}>
-                    <strong>{tool.name}</strong> - {tool.description}
-                  </li>
-                ))}
-              </ul>
-              <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', margin: '20px 0 10px 0' }}>자격증</h2>
-              <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '11px', color: '#444' }}>
-                {data.certificates?.map((cert, i) => (
-                  <li key={i} style={{ marginBottom: '4px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 600 }}>{cert.name}</span>
-                      <span style={{ fontFamily: 'monospace', color: '#0047BB', fontSize: '10px', fontWeight: 700 }}>취득 연도: {cert.date}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <h2 style={{ fontSize: '14px', fontWeight: 800, borderBottom: '1px solid #ccc', paddingBottom: '6px', marginBottom: '16px' }}>주요 경험 및 성과</h2>
-            {data.experience.map((exp, idx) => (
-              <div key={idx} style={{ marginBottom: '20px', pageBreakInside: 'avoid' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
-                  <h3 style={{ fontSize: '14px', fontWeight: 800, margin: 0 }}>{exp.title}</h3>
-                  <span style={{ fontSize: '11px', color: '#666', fontFamily: 'monospace' }}>{exp.period}</span>
-                </div>
-                <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#333', marginBottom: '8px', padding: '4px 8px', background: '#f5f5f5', borderLeft: '3px solid #666' }}>
-                   {exp.description}
-                </div>
-                <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '11px', color: '#444', lineHeight: '1.7' }}>
-                  {exp.details.map((detail, dIdx) => <li key={dIdx} style={{ marginBottom: '4px' }}>{detail}</li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </div>
     </>
   );
 };
