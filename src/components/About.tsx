@@ -64,47 +64,80 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
       </div>
 
       {/* ── TWO-COLUMN LAYOUT ── */}
-      <div className="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-10 lg:gap-16 items-start">
+      <div className="grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px] gap-10 lg:gap-16 items-stretch">
 
         {/* LEFT: editorial body copy */}
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col justify-between gap-8">
 
-          {/* P1 — Large editorial intro, no box */}
+          <div className="flex flex-col gap-8">
+            {/* P1 — Large editorial intro, no box */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="relative"
+            >
+              {/* Left accent line */}
+              <div className="absolute -left-6 top-1 bottom-1 w-[3px] bg-gradient-to-b from-[#0047BB]/40 via-[#0047BB]/15 to-transparent rounded-full" />
+              <div className="text-[17px] md:text-[19px] lg:text-[21px] text-zinc-700 leading-[1.95] font-medium tracking-[-0.01em] break-keep">
+                <EditableText value={content.p1} onSave={(v) => setContent({ ...content, p1: v })} isEditing={isEditing} multiline />
+              </div>
+            </motion.div>
+
+            {/* Divider */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              style={{ transformOrigin: 'left' }}
+              className="h-px bg-gradient-to-r from-[#0047BB]/20 via-black/5 to-transparent"
+            />
+
+            {/* P2 — secondary in smaller, warmer tone */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[14px] md:text-[15px] lg:text-[16px] text-zinc-400 leading-[2] font-medium tracking-[-0.005em] break-keep"
+            >
+              <EditableText value={content.p2} onSave={(v) => setContent({ ...content, p2: v })} isEditing={isEditing} multiline />
+            </motion.div>
+          </div>
+
+          {/* Bottom: Dark manifesto card — fills remaining height */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="relative bg-[#1A1A1A] rounded-2xl px-8 py-7 overflow-hidden flex-1 flex flex-col justify-center min-h-[140px]"
           >
-            {/* Left accent line */}
-            <div className="absolute -left-6 top-1 bottom-1 w-[3px] bg-gradient-to-b from-[#0047BB]/40 via-[#0047BB]/15 to-transparent rounded-full" />
-            <div className="text-[17px] md:text-[19px] lg:text-[21px] text-zinc-700 leading-[1.95] font-medium tracking-[-0.01em] break-keep">
-              <EditableText value={content.p1} onSave={(v) => setContent({ ...content, p1: v })} isEditing={isEditing} multiline />
+            {/* Subtle dot grid */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+            {/* Blue glow top-left */}
+            <div className="absolute -top-10 -left-10 w-48 h-48 bg-[#0047BB]/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex items-center gap-6">
+              {/* Tight typographic symbol */}
+              <div className="shrink-0 flex items-baseline gap-1 leading-none opacity-90">
+                <span className="text-[44px] font-black text-white/20 leading-none">0</span>
+                <span className="text-[20px] font-black text-white/20 mx-0.5">→</span>
+                <span className="text-[52px] font-black text-[#0047BB] leading-none drop-shadow-[0_0_16px_rgba(0,71,187,0.6)]">+</span>
+              </div>
+              <div>
+                <p className="text-[10px] font-black tracking-[0.22em] text-white/30 uppercase mb-2">핵심 철학</p>
+                <p className="text-[14px] md:text-[15px] text-white/80 font-semibold leading-[1.7] break-keep">
+                  저도 누군가의 하루를 움직이는<br />
+                  <span className="text-white font-black">그 +를 설계하는 기획자</span>가 되겠습니다.
+                </p>
+              </div>
             </div>
           </motion.div>
-
-          {/* Divider */}
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            whileInView={{ scaleX: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            style={{ transformOrigin: 'left' }}
-            className="h-px bg-gradient-to-r from-[#0047BB]/20 via-black/5 to-transparent"
-          />
-
-          {/* P2 — secondary in smaller, warmer tone */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14px] md:text-[15px] lg:text-[16px] text-zinc-400 leading-[2] font-medium tracking-[-0.005em] break-keep"
-          >
-            <EditableText value={content.p2} onSave={(v) => setContent({ ...content, p2: v })} isEditing={isEditing} multiline />
-          </motion.div>
         </div>
+
 
 
         {/* RIGHT: stat cards */}
