@@ -73,8 +73,6 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
         
         {/* Utility Bar (Top Navigation) */}
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 border-y border-black/5 mb-12 -mx-6 px-6 md:-mx-12 md:px-12">
-          {/* Left: Go Back (Polished Capsule) */}
-        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 border-y border-black/5 mb-12 -mx-6 px-6 md:-mx-12 md:px-12">
           {/* Left: Go Back (Polished Capsule - Fixed Width) */}
           <div className="flex items-center gap-4">
             <button 
