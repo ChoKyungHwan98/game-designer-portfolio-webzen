@@ -43,37 +43,31 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
       >
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 px-0 md:px-0">
-          <div className="max-w-2xl">
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="flex items-center gap-4 mb-6"
-            >
-              <span className="text-[#0047BB] font-mono text-sm uppercase tracking-[0.3em] font-black">Archive . 02</span>
-              <div className="w-16 h-px bg-zinc-200"></div>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-5xl lg:text-7xl font-display font-black tracking-tighter text-[#1A1A1A] leading-[0.9] mb-6"
-            >
-              Portfolio <span className="text-zinc-300">Gallery.</span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-zinc-500 text-lg font-medium leading-relaxed max-w-xl"
-            >
-              실전 프로젝트 기반의 시스템 기획, 밸런싱, 레벨 디자인 기록물입니다.
-            </motion.p>
-          </div>
+        <div className="flex flex-col gap-3 mb-20">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="text-[#0047BB] font-bold text-xs tracking-[0.25em] uppercase font-mono"
+          >
+            작업 포트폴리오
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-5xl lg:text-6xl font-black tracking-tighter text-[#1A1A1A] leading-[1] break-keep"
+          >
+            기획 작업물<span className="text-zinc-300">.</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="text-zinc-500 text-[15px] font-medium leading-relaxed max-w-lg"
+          >
+            실전 프로젝트 기반의 시스템 기획, 밸런싱, 레벨 디자인 기록물입니다.
+          </motion.p>
         </div>
 
         {/* Project Categories */}
@@ -92,8 +86,8 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                   {category}
                 </h3>
                 <div className="flex-1 h-px bg-black/5"></div>
-                <span className="text-[10px] font-mono text-zinc-300 font-bold uppercase">
-                  {String(projects.filter(p => p.category === category).length).padStart(2, '0')} Projects
+                <span className="text-[10px] font-mono text-zinc-300 font-bold">
+                  {String(projects.filter(p => p.category === category).length).padStart(2, '0')}개
                 </span>
               </div>
 
