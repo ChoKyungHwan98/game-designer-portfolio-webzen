@@ -26,7 +26,7 @@ export const RESUME_DATA: ResumeData = {
   role: "Game Designer",
   email: "ckh980624@gmail.com",
   phone: "010-4826-6256",
-  summary: "기획 의도를 알고, 그것을 관통하는 목차를 작성할 줄 아는 게임 기획자 지망생입니다.\n법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다.",
+  summary: "기획 의도를 알고, 그것을 관통하는 목차를 작성할 줄 아는 게임 기획자 지망생입니다.\n\n법학에서 단련한 논리적 구조 설계 능력을 게임 기획에 그대로 적용합니다.",
   selfIntroductions: [
     {
       navTitle: "지원 동기",
@@ -74,7 +74,7 @@ export const RESUME_DATA: ResumeData = {
     {
       title: "도로시아 (스팀펑크 판타지 방치형 RPG)",
       period: "2026.02 - 2026.04",
-      description: "팀장 | 핵앤슬래시 방치형 RPG 전투 및 경제 밸런스 총괄 기획",
+      description: "팀장 | 전투 및 경제 밸런스 기획, 방치 시스템 설계",
       details: [
         "전투력 비중 산정(캐릭터 35%, 장비 45%) 등 게임 전체 파워 밸런스 설계",
         "기준 TTK(Time to Kill) 및 PDPS 기반의 스테이지, 몬스터, 장비 성장 지수(1.022배) 설계",
@@ -82,9 +82,9 @@ export const RESUME_DATA: ResumeData = {
       ]
     },
     {
-      title: "2D 탑뷰 던전 크롤러 로그라이트",
+      title: "Digreed (2D 탑뷰 로그라이트)",
       period: "2025.12 - 2026.01",
-      description: "팀장 | 잠입 액션 로그라이트 게임 전체 룰 및 시스템 설계",
+      description: "팀장 | 게임 전체 룰 및 시스템 설계",
       details: [
         "무기 교체 시스템, 맵 프리팹 구조, MVP 사이클 기획"
       ]
@@ -92,7 +92,7 @@ export const RESUME_DATA: ResumeData = {
     {
       title: "침묵의 저택 (메이플월드 호러게임)",
       period: "2025.11",
-      description: "팀장 | 술래잡기 기반 생존 공포 게임 전체 룰 및 시스템 설계",
+      description: "팀장 | 게임 전체 룰 및 시스템 설계",
       details: [
         "유령 AI 행동 패턴, 시야 축소 메카닉, 아이템 획득 및 탈출 구조 기획",
         "플레이어-유령 충돌 처리, 오브젝트 상호작용 규칙 정의"
@@ -113,6 +113,7 @@ export const RESUME_DATA: ResumeData = {
     { name: "Unity", description: "UGUI를 활용한 UI 시스템 구성 및 C# 스크립팅" }
   ]
 };
+
 
 export const PROJECTS: Project[] = [
   {
