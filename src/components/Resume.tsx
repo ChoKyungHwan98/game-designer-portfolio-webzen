@@ -37,7 +37,6 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
     setIsGeneratingPdf(true);
     const element = printRef.current;
     
-    // Temporarily make it visible for PDF generation
     const origPosition = element.style.position;
     const origLeft = element.style.left;
     const origTop = element.style.top;
@@ -67,6 +66,13 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
       setIsGeneratingPdf(false);
     }
   };
+
+  // Navbar PDF 버튼 → CustomEvent 수신
+  React.useEffect(() => {
+    const handler = () => handleDownload();
+    window.addEventListener('triggerPdfDownload', handler);
+    return () => window.removeEventListener('triggerPdfDownload', handler);
+  }, []);
 
   return (
     <>

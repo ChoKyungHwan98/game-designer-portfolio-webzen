@@ -42,26 +42,6 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
         className="relative z-10 pt-28 pb-[120px] px-6 md:px-12 max-w-7xl mx-auto"
       >
 
-        {/* Header */}
-        <div className="flex flex-col gap-3 mb-20">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="text-5xl lg:text-6xl font-black tracking-tighter text-[#1A1A1A] leading-[1] break-keep"
-          >
-            포트폴리오 갤러리
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="text-zinc-500 text-[15px] font-medium leading-relaxed max-w-lg"
-          >
-            실전 프로젝트 기반의 시스템 기획, 밸런싱, 레벨 디자인 기록물입니다.
-          </motion.p>
-        </div>
-
         {/* Project Categories */}
         <div className="space-y-28">
           {categories.map((category, catIdx) => (

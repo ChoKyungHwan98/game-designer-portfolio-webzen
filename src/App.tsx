@@ -13,6 +13,7 @@ import { RightRail } from './components/RightRail';
 import { ProjectDetail } from './components/ProjectDetail';
 import { GameHistoryView } from './components/GameHistoryView';
 import { motion } from 'motion/react';
+import { FileText, FolderOpen, Gamepad2 } from 'lucide-react';
 
 import { useEditableContent } from './hooks/useEditableContent';
 import { RESUME_DATA, PROJECTS, PORTFOLIO_PROJECTS, GAME_HISTORY, SKILLS } from './data';
@@ -45,18 +46,14 @@ function App() {
 
   const isDataLoaded = resumeLoaded && projectsLoaded && portfolioLoaded && gameHistoryLoaded && heroLoaded && aboutLoaded;
 
-
   // Section Observer
   useEffect(() => {
     if (view !== 'home') return;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
+        if (entry.isIntersecting) setActiveSection(entry.target.id);
       });
     }, { threshold: 0.3 });
-    
     ['hero', 'about', 'projects', 'skills', 'play-history', 'contact'].forEach(id => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
@@ -67,41 +64,111 @@ function App() {
   const handleNavClick = (id: string) => {
     setView('home');
     setTimeout(() => {
-      if (id === 'hero-top') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveSection('');
-        return;
-      }
+      if (id === 'hero-top') { window.scrollTo({ top: 0, behavior: 'smooth' }); setActiveSection(''); return; }
       const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        setActiveSection(id);
-      }
+      if (element) { element.scrollIntoView({ behavior: 'smooth' }); setActiveSection(id); }
     }, 100);
   };
 
   const handleBack = () => {
-    if (view === 'resume') { setResumeTab('resume'); handleNavClick('hero-top'); }
+    if (view === 'resume' || view === 'cover-letter') { setResumeTab('resume'); handleNavClick('hero-top'); }
     else if (view === 'portfolio') { setTargetProjectId(null); handleNavClick('projects'); }
     else if (view === 'game-history') handleNavClick('play-history');
     else if (view === 'project-detail') handleNavClick('projects');
     else handleNavClick('hero-top');
   };
 
-  // Resume 탭 UI → Navbar centerSlot으로 주입
-  const resumeCenterSlot = view === 'resume' ? (
-    <div className="grid grid-cols-2 w-[260px] bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner relative">
-      {(['resume', 'cover-letter'] as const).map((tab) => (
-        <button key={tab} onClick={() => setResumeTab(tab)}
-          className={`relative w-full py-2.5 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${resumeTab === tab ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}>
-          {resumeTab === tab && (
-            <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
-          )}
-          <span className="relative z-10">{tab === 'resume' ? '이력서' : '자기소개서'}</span>
-        </button>
-      ))}
+  // ── Navbar Slots ──────────────────────────────────────────────
+  // 공통 pill 단일 탭
+  const makeSinglePillTab = (label: string) => (
+    <div className="flex items-center bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner">
+      <div className="px-6 py-2.5 rounded-full bg-[#0047BB] text-white text-sm font-extrabold tracking-tight shadow-md">
+        {label}
+      </div>
     </div>
-  ) : undefined;
+  );
+
+  // 컨텍스트 이동 버튼
+  const makeNavBtn = (label: string, icon: React.ReactNode, target: typeof view) => (
+    <button
+      key={label}
+      onClick={() => { setView(target); window.scrollTo(0, 0); }}
+      className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-zinc-100 hover:bg-[#0047BB] hover:text-white text-zinc-600 text-[13px] font-bold border border-black/[0.06] transition-all duration-200"
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+
+  const resumeIcon = <FileText className="w-3.5 h-3.5" />;
+  const portfolioIcon = <FolderOpen className="w-3.5 h-3.5" />;
+  const dnaIcon = <Gamepad2 className="w-3.5 h-3.5" />;
+
+  // PDF 버튼 — 이력서/자기소개서 전용
+  const pdfButton = (
+    <button
+      onClick={() => window.dispatchEvent(new CustomEvent('triggerPdfDownload'))}
+      disabled={isGeneratingPdf}
+      className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-zinc-100 hover:bg-[#0047BB] hover:text-white text-zinc-600 text-[13px] font-bold border border-black/[0.06] transition-all duration-200 disabled:opacity-50"
+    >
+      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
+      </svg>
+      <span>{isGeneratingPdf ? '생성 중...' : 'PDF'}</span>
+    </button>
+  );
+
+  // centerSlot
+  const centerSlot = (() => {
+    if (view === 'resume' || view === 'cover-letter') {
+      return (
+        <div className="grid grid-cols-2 w-[260px] bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner relative">
+          {(['resume', 'cover-letter'] as const).map((tab) => (
+            <button key={tab} onClick={() => setResumeTab(tab)}
+              className={`relative w-full py-2.5 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${resumeTab === tab ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}>
+              {resumeTab === tab && (
+                <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
+              )}
+              <span className="relative z-10">{tab === 'resume' ? '이력서' : '자기소개서'}</span>
+            </button>
+          ))}
+        </div>
+      );
+    }
+    if (view === 'portfolio') return makeSinglePillTab('포트폴리오');
+    if (view === 'game-history') return makeSinglePillTab('게이밍 DNA');
+    return undefined;
+  })();
+
+  // rightActionSlot — 현재 페이지 제외한 이동 버튼
+  const rightActionSlot = (() => {
+    if (view === 'resume' || view === 'cover-letter') {
+      return (
+        <div className="flex items-center gap-2">
+          {pdfButton}
+          {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
+          {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
+        </div>
+      );
+    }
+    if (view === 'portfolio') {
+      return (
+        <div className="flex items-center gap-2">
+          {makeNavBtn('이력서', resumeIcon, 'resume')}
+          {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
+        </div>
+      );
+    }
+    if (view === 'game-history') {
+      return (
+        <div className="flex items-center gap-2">
+          {makeNavBtn('이력서', resumeIcon, 'resume')}
+          {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
+        </div>
+      );
+    }
+    return undefined;
+  })();
 
   if (!isDataLoaded) {
     return (
@@ -116,15 +183,16 @@ function App() {
 
   return (
     <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-[#FAFAFA]">
-      <Navbar 
-        setView={setView} 
-        currentView={view} 
-        onNavClick={handleNavClick} 
-        isEditing={isEditing} 
-        setIsEditing={setIsEditing} 
-        activeSection={activeSection} 
+      <Navbar
+        setView={setView}
+        currentView={view}
+        onNavClick={handleNavClick}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        activeSection={activeSection}
         onBack={view !== 'home' ? handleBack : undefined}
-        centerSlot={resumeCenterSlot}
+        centerSlot={centerSlot}
+        rightActionSlot={rightActionSlot}
       />
       <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />
 
@@ -134,49 +202,49 @@ function App() {
           <About isEditing={isEditing} content={aboutContent} setContent={setAboutContent} />
           <Projects onProjectClick={(p) => { setTargetProjectId(p.id); setView('portfolio'); }} isEditing={isEditing} projects={projectsData} setProjects={setProjectsData} limit={3} setView={setView} />
           <Skills isEditing={isEditing} skills={skillsData} setSkills={setSkillsData} />
-          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} onViewAll={() => { setView('game-history'); window.scrollTo(0,0); }} />
+          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} onViewAll={() => { setView('game-history'); window.scrollTo(0, 0); }} />
           <Contact />
         </main>
       )}
 
-      {view === 'resume' && (
-        <Resume 
-          setView={setView} 
-          isEditing={isEditing} 
-          data={resumeData} 
-          setData={setResumeData} 
+      {(view === 'resume' || view === 'cover-letter') && (
+        <Resume
+          setView={setView}
+          isEditing={isEditing}
+          data={resumeData}
+          setData={setResumeData}
           onBack={handleBack}
-          activeTab={resumeTab} 
+          activeTab={resumeTab}
           setActiveTab={setResumeTab}
-          isGeneratingPdf={isGeneratingPdf} 
-          setIsGeneratingPdf={setIsGeneratingPdf} 
+          isGeneratingPdf={isGeneratingPdf}
+          setIsGeneratingPdf={setIsGeneratingPdf}
         />
       )}
       {view === 'project-detail' && selectedProject && (
-        <ProjectDetail 
-          project={selectedProject} 
-          isEditing={isEditing} 
-          onBack={handleBack} 
-          onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }} 
+        <ProjectDetail
+          project={selectedProject}
+          isEditing={isEditing}
+          onBack={handleBack}
+          onSaveContent={(c) => { const p = [...projectsData]; const index = p.findIndex(pp => pp.id === selectedProject.id); if (index !== -1) { p[index].content = c; setProjectsData(p); setSelectedProject(p[index]); } }}
         />
       )}
       {view === 'portfolio' && (
-        <Portfolio 
-          onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }} 
-          isEditing={isEditing} 
-          projects={portfolioProjects} 
-          setProjects={setPortfolioProjects} 
-          setView={setView} 
-          onBack={handleBack} 
-          initialProjectId={targetProjectId} 
+        <Portfolio
+          onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }}
+          isEditing={isEditing}
+          projects={portfolioProjects}
+          setProjects={setPortfolioProjects}
+          setView={setView}
+          onBack={handleBack}
+          initialProjectId={targetProjectId}
         />
       )}
       {view === 'game-history' && (
-        <GameHistoryView 
-          onBack={handleBack} 
-          history={gameHistory} 
-          setHistory={setGameHistory} 
-          isEditing={isEditing} 
+        <GameHistoryView
+          onBack={handleBack}
+          history={gameHistory}
+          setHistory={setGameHistory}
+          isEditing={isEditing}
         />
       )}
 

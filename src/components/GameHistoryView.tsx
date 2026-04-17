@@ -79,14 +79,6 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
       className="min-h-screen bg-[#FDFDFB] pt-28 pb-32">
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col gap-3 mb-16 mt-4">
-          <h1 className="text-5xl lg:text-6xl font-black tracking-tighter text-[#1A1A1A] leading-[1] break-keep">
-            게이밍 DNA
-          </h1>
-          <p className="text-zinc-500 text-[15px] font-medium leading-relaxed max-w-lg">
-            장르별 숙련도와 289종 이상의 게임 플레이 이력입니다.
-          </p>
-        </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
           {/* Radar Chart Section */}
