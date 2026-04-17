@@ -34,22 +34,60 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
 
   const handleDownload = () => {
     const wasEditing = isEditing;
-    // 1) 관리자 모드 강제 해제 → EditableText가 <span>으로 전환 (검은 박스 방지)
+
+    // ① 관리자 모드 해제 → EditableText가 <span>으로 전환
     if (wasEditing) setIsEditing(false);
-    // 2) document.title → 인쇄 대화상자 기본 파일명
+
+    // ② document.title → 인쇄 대화상자 기본 파일명
     const prevTitle = document.title;
     document.title = '조경환_게임기획자_포트폴리오';
-    // 3) React 재렌더 후 인쇄
+
+    // ③ React 재렌더 대기 (200ms)
     setTimeout(() => {
+      // ④ CSS media query에 의존하지 않고 JS로 직접 DOM 조작
+      //    → Tailwind v4 CSS 처리 문제, Framer Motion transform 영향 완전 차단
+      const root = document.getElementById('root');
+      const printWrapper = document.getElementById('print-root-wrapper');
+
+      if (root) {
+        root.dataset.printHidden = 'true';
+        root.style.display = 'none';
+      }
+      if (printWrapper) {
+        printWrapper.style.cssText = [
+          'display:block',
+          'visibility:visible',
+          'position:static',
+          'width:210mm',
+          'max-width:210mm',
+          'margin:0',
+          'padding:0',
+          'overflow:visible',
+        ].join(';');
+      }
+
+      // Add printing class to force unset input elements
+      document.body.classList.add('printing');
+
+      // ⑤ 인쇄 실행
       window.print();
-      // 4) afterprint 이벤트로 원래 상태 복원
+
+      // ⑥ afterprint: 모든 상태 완전 복원
       const restore = () => {
+        document.body.classList.remove('printing');
         document.title = prevTitle;
         if (wasEditing) setIsEditing(true);
+        if (root) {
+          root.style.display = '';
+          delete root.dataset.printHidden;
+        }
+        if (printWrapper) {
+          printWrapper.style.cssText = 'display:none';
+        }
         window.removeEventListener('afterprint', restore);
       };
       window.addEventListener('afterprint', restore);
-    }, 200);
+    }, 300);
   };
 
   // Navbar PDF 버튼 → CustomEvent 수신

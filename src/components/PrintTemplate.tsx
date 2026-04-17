@@ -42,6 +42,20 @@ function Paragraphs({ text }: { text?: string }) {
   );
 }
 
+// 자소서(Cover Letter) 전용 대형 텍스트 단락 렌더러
+function CoverParagraphs({ text }: { text?: string }) {
+  if (!text) return null;
+  return (
+    <>
+      {text.split('\n\n').map((p, i) => (
+        <p key={i} style={{ margin: '0 0 16px', lineHeight: 2, fontSize: '14px', color: '#1A1A1A', wordBreak: 'keep-all' }}>
+          <InlineMd text={p} />
+        </p>
+      ))}
+    </>
+  );
+}
+
 /* ── Page 1: 이력서 ────────────────────────────────────────────── */
 const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
   <div className="pdf-page print-page-resume">
@@ -169,22 +183,23 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
 
   return (
     <div className="pdf-page print-page-cover">
-      <div style={{ padding: '10mm 12mm', height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '15px' }}>
 
         {/* ── 헤더: 페이지 번호 + 로그라인 ── */}
-        <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '20px 24px', display: 'flex', gap: '16px', alignItems: 'flex-start', flexShrink: 0 }}>
-          <div style={{ width: '38px', height: '38px', borderRadius: '10px', border: '2px solid rgba(0,71,187,0.2)', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '14px', color: '#0047BB', flexShrink: 0 }}>
-            {number}
+        <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '24px 30px', display: 'flex', gap: '20px', alignItems: 'flex-start', flexShrink: 0 }}>
+          <div style={{ padding: '8px 4px', width: '40px', borderRadius: '10px', border: '2px solid rgba(0,71,187,0.2)', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '18px', color: '#0047BB', flexShrink: 0 }}>
+            <span style={{ lineHeight: 1 }}>0</span>
+            <span style={{ lineHeight: 1 }}>{idx + 1}</span>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '8px', fontWeight: 700, color: '#0047BB', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '5px' }}>
+            <div style={{ fontSize: '10px', fontWeight: 700, color: '#0047BB', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
               {intro.navTitle || 'SELF INTRODUCTION'}
             </div>
             <div>
               {intro.logline.trim().split(/\s*\n\s*/).map((line, i) => {
                 const isBold = line.startsWith('**') && line.endsWith('**');
                 return (
-                  <div key={i} style={{ fontSize: '26px', fontWeight: 900, lineHeight: 1.15, color: isBold ? '#0047BB' : '#1A1A1A', letterSpacing: '-0.6px', wordBreak: 'keep-all' }}>
+                  <div key={i} style={{ fontSize: '32px', fontWeight: 900, lineHeight: 1.25, color: isBold ? '#0047BB' : '#1A1A1A', letterSpacing: '-0.6px', wordBreak: 'keep-all' }}>
                     {isBold ? line.slice(2, -2) : line}
                   </div>
                 );
@@ -194,18 +209,18 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
         </div>
 
         {/* ── 2컬럼 그리드 ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '10px', flex: 1, minHeight: 0 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '15px', flex: 1, minHeight: 0 }}>
 
           {/* 좌: Highlights + Pull Quote */}
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {intro.highlights && intro.highlights.length > 0 && (
               <div>
-                <div style={{ fontSize: '8px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>KEY HIGHLIGHTS</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px' }}>KEY HIGHLIGHTS</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {intro.highlights.map((hl, j) => (
-                    <div key={j} style={{ background: '#F8F9FF', border: '1px solid rgba(0,71,187,0.15)', borderRadius: '10px', padding: '10px 12px' }}>
-                      <div style={{ fontWeight: 800, fontSize: '10.5px', color: '#0047BB', marginBottom: '3px' }}>{hl.bold}</div>
-                      <div style={{ fontSize: '9.5px', color: '#71717A', lineHeight: 1.5, wordBreak: 'keep-all' }}>{hl.em}</div>
+                    <div key={j} style={{ background: '#F8F9FF', border: '1px solid rgba(0,71,187,0.15)', borderRadius: '10px', padding: '12px 16px' }}>
+                      <div style={{ fontWeight: 800, fontSize: '12px', color: '#0047BB', marginBottom: '4px' }}>{hl.bold}</div>
+                      <div style={{ fontSize: '11px', color: '#71717A', lineHeight: 1.5, wordBreak: 'keep-all' }}>{hl.em}</div>
                     </div>
                   ))}
                 </div>
@@ -214,35 +229,35 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
 
             {intro.pullQuote && (
               <div>
-                <div style={{ fontSize: '8px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>CORE PHILOSOPHY</div>
-                <div style={{ borderLeft: '4px solid #0047BB', background: 'rgba(0,71,187,0.04)', padding: '12px 14px', borderRadius: '0 10px 10px 0' }}>
-                  <span style={{ fontWeight: 800, fontSize: '13px', color: '#0047BB', lineHeight: 1.5 }}>{intro.pullQuote}</span>
+                <div style={{ fontSize: '10px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '14px' }}>CORE PHILOSOPHY</div>
+                <div style={{ borderLeft: '4px solid #0047BB', paddingLeft: '24px' }}>
+                  <span style={{ fontWeight: 700, fontSize: '17px', color: '#0047BB', lineHeight: 1.6 }}>{intro.pullQuote}</span>
                 </div>
               </div>
             )}
 
             {/* 하단: 페이지 서명 */}
-            <div style={{ marginTop: 'auto', paddingTop: '10px', borderTop: '1px solid rgba(0,0,0,0.05)', fontSize: '8px', color: '#A1A1AA' }}>
+            <div style={{ marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid rgba(0,0,0,0.05)', fontSize: '10px', color: '#A1A1AA' }}>
               {data.name} / {data.role}
             </div>
           </div>
 
           {/* 우: Narrative */}
-          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '18px 20px', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: '8px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '10px' }}>NARRATIVE &amp; INSIGHT</div>
+          <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '24px 30px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: '10px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '16px' }}>NARRATIVE &amp; INSIGHT</div>
 
             <div style={{ flex: 1 }}>
-              <Paragraphs text={intro.hook} />
+              <CoverParagraphs text={intro.hook} />
 
               {intro.body && (
-                <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                  <Paragraphs text={intro.body} />
+                <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                  <CoverParagraphs text={intro.body} />
                 </div>
               )}
 
               {intro.closing && (
-                <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-                  <Paragraphs text={intro.closing} />
+                <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+                  <CoverParagraphs text={intro.closing} />
                 </div>
               )}
             </div>
