@@ -32,17 +32,37 @@ const PAGE: React.CSSProperties = {
   overflow: 'hidden',
 };
 
-/* ─── inline markdown: bold renderer ────────────────────────────── */
+/* ─── inline markdown & html renderer ────────────────────────────── */
 function inlineRender(text: string): React.ReactNode {
   const nodes: React.ReactNode[] = [];
   const clean = text.replace(/\n/g, ' ');
-  const rx = /\*\*(.*?)\*\*/g;
+  
+  // Match **bold**, <strong>bold</strong>, and <span...>text</span>
+  const rx = /(\*\*(.*?)\*\*|<strong>(.*?)<\/strong>|<span[^>]*>(.*?)<\/span>)/g;
+  
   let last = 0, m: RegExpExecArray | null, k = 0;
   while ((m = rx.exec(clean))) {
     if (m.index > last) nodes.push(clean.slice(last, m.index));
-    nodes.push(
-      <strong key={k++} style={{ color: BLUE, fontWeight: 800 }}>{m[1]}</strong>
-    );
+    
+    if (m[2] || m[3]) {
+      // Bold
+      nodes.push(<strong key={k++} style={{ color: BLUE, fontWeight: 800 }}>{m[2] || m[3]}</strong>);
+    } else if (m[4]) {
+      // Span (e.g., -, 0, +)
+      const content = m[4];
+      const isPlus = content === '+';
+      nodes.push(
+        <span key={k++} style={{ 
+          fontSize: '16px', 
+          fontWeight: 900, 
+          color: isPlus ? BLUE : '#999',
+          margin: '0 2px'
+        }}>
+          {content}
+        </span>
+      );
+    }
+    
     last = m.index + m[0].length;
   }
   if (last < clean.length) nodes.push(clean.slice(last));
@@ -53,7 +73,7 @@ function inlineRender(text: string): React.ReactNode {
 function renderParagraphs(text: string): React.ReactNode {
   if (!text) return null;
   return text.split('\n\n').map((p, i) => (
-    <p key={i} style={{ margin: '0 0 9px', lineHeight: 1.78, fontSize: '12px', color: BODY, wordBreak: 'keep-all' }}>
+    <p key={i} style={{ margin: '0 0 12px', lineHeight: 1.85, fontSize: '13px', color: BODY, wordBreak: 'keep-all' }}>
       {inlineRender(p)}
     </p>
   ));
@@ -63,23 +83,21 @@ function renderParagraphs(text: string): React.ReactNode {
 function renderPullQuote(text?: string): React.ReactNode {
   if (!text) return null;
   return (
-    <div style={{ borderLeft: `4px solid ${BLUE}`, background: BLUE_FAINT, padding: '14px 20px', margin: '14px 0', borderRadius: '0 10px 10px 0' }}>
-      <span style={{ fontWeight: 800, fontSize: '16px', color: BLUE }}>{text}</span>
+    <div style={{ borderLeft: `3px solid ${BLUE_BORDER}`, background: '#F8F9FF', padding: '16px 24px', margin: '24px 0', borderRadius: '0 12px 12px 0' }}>
+      <span style={{ fontWeight: 700, fontSize: '14px', color: BODY }}>{text}</span>
     </div>
   );
 }
 
-/* ─── highlights renderer ────────────────────────────────────────── */
-/* ─── highlights renderer (Vertical for side column) ──────────────── */
-function renderHighlightsVertical(items?: { bold: string; em: string }[]): React.ReactNode {
+/* ─── highlights renderer (Horizontal for single column) ──────────── */
+function renderHighlightsHorizontal(items?: { bold: string; em: string }[]): React.ReactNode {
   if (!items || items.length === 0) return null;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '14px' }}>
-      <div style={{ fontSize: '9px', fontWeight: 700, color: FAINT, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>KEY HIGHLIGHTS</div>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', margin: '24px 0' }}>
       {items.map((item, j) => (
-        <div key={j} style={{ background: '#F8F9FF', border: `1px solid ${BLUE_BORDER}`, borderRadius: '12px', padding: '12px 14px' }}>
-          <div style={{ fontWeight: 800, fontSize: '11px', color: BLUE, marginBottom: '4px' }}>{item.bold}</div>
-          <div style={{ fontSize: '10px', color: MUTED, lineHeight: 1.5, wordBreak: 'keep-all' }}>{item.em}</div>
+        <div key={j} style={{ background: '#F8F9FF', border: `1px solid ${BLUE_BORDER}`, borderRadius: '12px', padding: '16px 14px' }}>
+          <div style={{ fontWeight: 800, fontSize: '12px', color: BLUE, marginBottom: '6px' }}>{item.bold}</div>
+          <div style={{ fontSize: '11px', color: MUTED, lineHeight: 1.5, wordBreak: 'keep-all' }}>{item.em}</div>
         </div>
       ))}
     </div>
@@ -93,7 +111,7 @@ function renderLogline(logline: string): React.ReactNode {
        {logline.trim().split(/\s*\n\s*/).map((line, i) => {
           const isBold = line.startsWith('**') && line.endsWith('**');
           return (
-            <div key={i} style={{ fontSize: '30px', fontWeight: 950, lineHeight: 1.15, color: isBold ? BLUE : DARK, letterSpacing: '-0.8px', wordBreak: 'keep-all' }}>
+            <div key={i} style={{ fontSize: '26px', fontWeight: 900, lineHeight: 1.25, color: isBold ? BLUE : DARK, letterSpacing: '-0.8px', wordBreak: 'keep-all' }}>
               {isBold ? line.slice(2, -2) : line}
             </div>
           );
@@ -250,77 +268,59 @@ const CoverPage: React.FC<{ intro: IntroItem; idx: number; isLast: boolean; data
   return (
     <div style={{
       ...PAGE,
-      padding: '10mm 12mm',
+      padding: '16mm 20mm',
       display: 'flex',
       flexDirection: 'column',
       pageBreakAfter: isLast ? 'auto' : 'always',
       breakAfter: isLast ? 'auto' : 'page',
+      background: WHITE,
     }} className="pdf-page">
 
-      {/* ── Header: Page Number + Logline ── */}
-      <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginBottom: '18px', background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '24px 28px' }}>
-        <div style={{ width: '40px', height: '40px', borderRadius: '12px', border: `2px solid ${BLUE_BORDER}`, background: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '14px', color: BLUE, flexShrink: 0 }}>
+      {/* Header: Number & Title */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+        <div style={{ width: '36px', height: '36px', borderRadius: '50%', border: `1px solid ${BLUE_BORDER}`, background: BLUE_FAINT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '14px', color: BLUE }}>
           {number}
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '9px', fontWeight: 700, color: BLUE, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '6px' }}>{intro.navTitle || 'SELF INTRODUCTION'}</div>
-          {renderLogline(intro.logline)}
-        </div>
+        <div style={{ flex: 1, height: '1px', background: `linear-gradient(to right, ${BLUE_BORDER}, transparent)` }}></div>
       </div>
 
-      {/* ── 2-Column Grid ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '12px', flex: 1 }}>
+      {/* Logline */}
+      <div style={{ borderLeft: `4px solid ${BLUE}`, paddingLeft: '16px', marginBottom: '36px' }}>
+         {renderLogline(intro.logline)}
+      </div>
+
+      {/* Main Content Area */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {renderParagraphs(intro.hook)}
         
-        {/* Left Column: Highlights & Pull Quote */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-           <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '18px 20px', flex: 1 }}>
-             {renderHighlightsVertical(intro.highlights)}
-             
-             {intro.pullQuote && (
-               <div style={{ marginTop: '24px' }}>
-                 <div style={{ fontSize: '9px', fontWeight: 700, color: FAINT, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>CORE PHILOSOPHY</div>
-                 {renderPullQuote(intro.pullQuote)}
-               </div>
-             )}
-           </div>
+        {intro.highlights && renderHighlightsHorizontal(intro.highlights)}
 
-           {/* Small Footer Branding if not last page */}
-           {!isLast && (
-             <div style={{ padding: '0 10px', fontSize: '8px', color: FAINT, letterSpacing: '0.5px' }}>
-               GAME DESIGNER PORTFOLIO - PAGE {idx + 2}
-             </div>
-           )}
-        </div>
+        {intro.pullQuote && (
+          <div style={{ paddingLeft: '8px', paddingRight: '8px' }}>
+             {renderPullQuote(intro.pullQuote)}
+          </div>
+        )}
 
-        {/* Right Column: Narrative Body */}
-        <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '24px 26px', display: 'flex', flexDirection: 'column' }}>
-           <div style={{ fontSize: '9px', fontWeight: 700, color: FAINT, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '12px' }}>NARRATIVE & INSIGHT</div>
-           
-           <div style={{ flex: 1 }}>
-             {renderParagraphs(intro.hook)}
-             
-             {intro.body && (
-               <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(0,0,0,0.04)' }}>
-                 {renderParagraphs(intro.body)}
-               </div>
-             )}
+        {intro.body && (
+          <div style={{ marginTop: '12px' }}>
+            {renderParagraphs(intro.body)}
+          </div>
+        )}
 
-             {intro.closing && (
-               <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(0,0,0,0.04)' }}>
-                 {renderParagraphs(intro.closing)}
-               </div>
-             )}
-           </div>
-
-           {/* Footer on last page inside the card */}
-           {isLast && (
-             <div style={{ marginTop: '20px', paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <span style={{ fontSize: '9px', fontWeight: 700, color: MUTED }}>📄 {data.name} / {data.role}</span>
-               <span style={{ fontSize: '7px', color: FAINT, letterSpacing: '0.5px' }}>© 2026. ALL RIGHTS RESERVED.</span>
-             </div>
-           )}
-        </div>
+        {intro.closing && (
+          <div style={{ marginTop: '12px' }}>
+            {renderParagraphs(intro.closing)}
+          </div>
+        )}
       </div>
+
+      {/* Footer */}
+      {isLast && (
+        <div style={{ marginTop: '30px', paddingTop: '16px', borderTop: '1px solid rgba(0,0,0,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '10px', fontWeight: 700, color: MUTED }}>{data.name} / {data.role}</span>
+          <span style={{ fontSize: '9px', color: FAINT }}>© 2026. ALL RIGHTS RESERVED.</span>
+        </div>
+      )}
     </div>
   );
 };
