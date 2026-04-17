@@ -329,5 +329,35 @@
     color: #1a1a1a !important;
     -webkit-text-fill-color: #1a1a1a !important;
   }
+
+  /* ── 검은 박스 버그 추가 안전장치 ──
+     EditableText의 <input>/<textarea>가 시스템 다크모드로 렌더되는 것 방지
+     (setIsEditing(false)로 이미 span으로 전환되지만 혹시 모를 경우를 대비) */
+  html { color-scheme: light !important; }
+
+  input, textarea, select {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #1a1a1a !important;
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-text-fill-color: #1a1a1a !important;
+    color-scheme: light !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+  }
+
+  /* ── A4 배율 100% 강제 ──
+     화면용 max-w-[1300px] 등이 인쇄에 적용되어 자동 축소(71%)되는 것 방지.
+     #print-root-wrapper 내부는 이미 210mm 고정이므로 html/body만 리셋하면 됨 */
+  html, body {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+  }
 }
 

@@ -21,6 +21,7 @@ interface ResumeProps {
   setView: (v: any) => void;
   onBack: () => void;
   isEditing: boolean;
+  setIsEditing: (v: boolean) => void;
   data: ResumeData;
   setData: (d: ResumeData) => void;
   activeTab: 'resume' | 'cover-letter';
@@ -29,23 +30,26 @@ interface ResumeProps {
   setIsGeneratingPdf: (v: boolean) => void;
 }
 
-import { createRoot } from 'react-dom/client';
-import html2pdf from 'html2pdf.js';
-import { PdfTemplate } from './PdfTemplate';
-
-export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
+export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
 
   const handleDownload = () => {
-    // document.title을 파일명으로 임시 변경 → 시스템 인쇄 대화상자 기본 파일명이 됨
+    const wasEditing = isEditing;
+    // 1) 관리자 모드 강제 해제 → EditableText가 <span>으로 전환 (검은 박스 방지)
+    if (wasEditing) setIsEditing(false);
+    // 2) document.title → 인쇄 대화상자 기본 파일명
     const prevTitle = document.title;
     document.title = '조경환_게임기획자_포트폴리오';
-    window.print();
-    // afterprint 이벤트로 원래 title 복원
-    const restore = () => {
-      document.title = prevTitle;
-      window.removeEventListener('afterprint', restore);
-    };
-    window.addEventListener('afterprint', restore);
+    // 3) React 재렌더 후 인쇄
+    setTimeout(() => {
+      window.print();
+      // 4) afterprint 이벤트로 원래 상태 복원
+      const restore = () => {
+        document.title = prevTitle;
+        if (wasEditing) setIsEditing(true);
+        window.removeEventListener('afterprint', restore);
+      };
+      window.addEventListener('afterprint', restore);
+    }, 200);
   };
 
   // Navbar PDF 버튼 → CustomEvent 수신

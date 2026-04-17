@@ -173,6 +173,7 @@ function App() {
         <Resume
           setView={setView}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
           data={resumeData}
           setData={setResumeData}
           onBack={handleBack}
