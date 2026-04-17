@@ -171,7 +171,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     <h3 className="text-xs font-bold text-zinc-400 tracking-widest uppercase mb-3 flex items-center gap-2 justify-center lg:justify-start">
                       <User className="w-3.5 h-3.5" /> 한줄 소개
                     </h3>
-                    <div className="text-base lg:text-lg text-[#2C2C2C] leading-relaxed font-bold break-keep text-center lg:text-left mb-6 [&_strong]:text-[#0047BB] [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.1)_40%,transparent_40%)]">
+                    <div className="text-[15px] lg:text-[16.5px] text-[#2C2C2C] leading-[1.75] font-semibold text-center lg:text-left mb-6 [&_strong]:text-[#0047BB] [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.1)_40%,transparent_40%)]">
                       <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                     </div>
 

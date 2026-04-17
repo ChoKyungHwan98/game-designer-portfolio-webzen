@@ -45,8 +45,8 @@ function inlineRender(text: string): React.ReactNode {
     if (m.index > last) nodes.push(clean.slice(last, m.index));
     
     if (m[2] || m[3]) {
-      // Bold
-      nodes.push(<strong key={k++} style={{ color: BLUE, fontWeight: 800 }}>{m[2] || m[3]}</strong>);
+      // Bold (Recursively render to catch nested spans!)
+      nodes.push(<strong key={k++} style={{ color: BLUE, fontWeight: 800 }}>{inlineRender(m[2] || m[3])}</strong>);
     } else if (m[4]) {
       // Span (e.g., -, 0, +)
       const content = m[4];
