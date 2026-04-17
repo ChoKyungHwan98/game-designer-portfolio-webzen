@@ -104,20 +104,7 @@ function App() {
   const portfolioIcon = <FolderOpen className="w-3.5 h-3.5" />;
   const dnaIcon = <Gamepad2 className="w-3.5 h-3.5" />;
 
-  // PDF 버튼 — 이력서/자기소개서 전용
-  const pdfButton = (
-    <button
-      onClick={() => window.dispatchEvent(new CustomEvent('triggerPdfDownload'))}
-      disabled={isGeneratingPdf}
-      className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-zinc-100 hover:bg-[#0047BB] hover:text-white text-zinc-600 text-[13px] font-bold border border-black/[0.06] transition-all duration-200 disabled:opacity-50"
-    >
-      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
-      </svg>
-      <span>{isGeneratingPdf ? '생성 중...' : 'PDF'}</span>
-    </button>
-  );
-
+  // pdfButton 삭제됨
   // centerSlot
   const centerSlot = (() => {
     if (view === 'resume' || view === 'cover-letter') {
@@ -164,7 +151,6 @@ function App() {
         activeSection={activeSection}
         onBack={view !== 'home' ? handleBack : undefined}
         centerSlot={centerSlot}
-        pdfSlot={pdfButton}
       />
       <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />
 

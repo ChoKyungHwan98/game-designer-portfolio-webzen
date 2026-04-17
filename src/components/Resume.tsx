@@ -67,18 +67,27 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
     }
   };
 
-  // Navbar PDF 버튼 → CustomEvent 수신
-  React.useEffect(() => {
-    const handler = () => handleDownload();
-    window.addEventListener('triggerPdfDownload', handler);
-    return () => window.removeEventListener('triggerPdfDownload', handler);
-  }, []);
-
+  // PDF 생성 모달 로직을 내부적으로만 사용하므로 이벤트 수신 제거
   return (
     <>
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-        className="pt-28 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
+        className="pt-28 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col relative">
 
+        {/* PDF Download Button (Admin Only) */}
+        {isEditing && (
+          <div className="absolute top-24 right-6 md:right-12 z-10 print:hidden transform -translate-y-1/2">
+            <button
+              onClick={handleDownload}
+              disabled={isGeneratingPdf}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-black/5 hover:border-[#0047BB]/30 hover:shadow text-zinc-600 hover:text-[#0047BB] text-[13px] font-bold transition-all disabled:opacity-50"
+            >
+              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
+              </svg>
+              <span>{isGeneratingPdf ? '생성 중...' : 'PDF'}</span>
+            </button>
+          </div>
+        )}
 
         <AnimatePresence mode="wait">
           {activeTab === 'resume' ? (

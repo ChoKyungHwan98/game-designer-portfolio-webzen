@@ -22,11 +22,9 @@ interface NavbarProps {
   onBack?: () => void;
   /** Resume 탭 전환용 중앙 슬롯 (이력서/자기소개서 탭) */
   centerSlot?: React.ReactNode;
-  /** PDF 다운로드 버튼 슬롯 */
-  pdfSlot?: React.ReactNode;
 }
 
-export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot, pdfSlot }: NavbarProps) => {
+export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
@@ -174,7 +172,6 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
               >
                 <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#0047BB]' : 'opacity-80'}`} />
               </button>
-              {pdfSlot && <div className="ml-1">{pdfSlot}</div>}
             </div>
 
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden w-11 h-11 ml-1 flex items-center justify-center rounded-full bg-zinc-100 text-[#2C2C2C]">
