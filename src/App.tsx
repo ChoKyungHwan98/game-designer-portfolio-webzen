@@ -140,36 +140,7 @@ function App() {
     return undefined;
   })();
 
-  // rightActionSlot — 현재 페이지 제외한 이동 버튼
-  const rightActionSlot = (() => {
-    const containerClasses = "hidden xl:flex bg-zinc-100/80 p-1.5 rounded-full border border-black/5 shadow-inner gap-0.5";
-    
-    if (view === 'resume' || view === 'cover-letter') {
-      return (
-        <div className={containerClasses}>
-          {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
-          {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
-        </div>
-      );
-    }
-    if (view === 'portfolio') {
-      return (
-        <div className={containerClasses}>
-          {makeNavBtn('이력서', resumeIcon, 'resume')}
-          {makeNavBtn('게이밍 DNA', dnaIcon, 'game-history')}
-        </div>
-      );
-    }
-    if (view === 'game-history') {
-      return (
-        <div className={containerClasses}>
-          {makeNavBtn('이력서', resumeIcon, 'resume')}
-          {makeNavBtn('포트폴리오', portfolioIcon, 'portfolio')}
-        </div>
-      );
-    }
-    return undefined;
-  })();
+  // rightActionSlot은 Navbar 내부에서 모든 화면에 동일하게 보이도록 직접 렌더링되므로 속성을 넘기지 않음
 
   if (!isDataLoaded) {
     return (
@@ -193,7 +164,6 @@ function App() {
         activeSection={activeSection}
         onBack={view !== 'home' ? handleBack : undefined}
         centerSlot={centerSlot}
-        rightActionSlot={rightActionSlot}
         pdfSlot={pdfButton}
       />
       <RightRail view={view} onNavClick={handleNavClick} activeSection={activeSection} />

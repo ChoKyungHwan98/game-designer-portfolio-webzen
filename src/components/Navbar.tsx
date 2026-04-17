@@ -22,13 +22,11 @@ interface NavbarProps {
   onBack?: () => void;
   /** Resume 탭 전환용 중앙 슬롯 (이력서/자기소개서 탭) */
   centerSlot?: React.ReactNode;
-  /** 우측 액션 슬롯 (각 페이지 다른 페이지로 이동) */
-  rightActionSlot?: React.ReactNode;
   /** PDF 다운로드 버튼 슬롯 */
   pdfSlot?: React.ReactNode;
 }
 
-export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot, rightActionSlot, pdfSlot }: NavbarProps) => {
+export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditing, activeSection, onBack, centerSlot, pdfSlot }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
@@ -152,31 +150,21 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
 
           {/* ── RIGHT ── */}
           <div className="flex items-center justify-end gap-3 shrink-0 min-w-[200px]">
-            {isSubView && rightActionSlot ? (
-              /* Sub-view right action (PDF download, etc.) */
-              <>
-                {rightActionSlot}
-                <div className="w-px h-8 bg-black/10 mx-1" />
-              </>
-            ) : !isSubView && (
-              /* Home: Document shortcut pill */
-              <>
-                <div className="hidden xl:flex bg-zinc-100/80 p-1.5 rounded-full border border-black/5 shadow-inner">
-                  {[
-                    { key: 'resume', label: '이력서', icon: React.createElement(FileText, { className: "w-4 h-4" }) },
-                    { key: 'portfolio', label: '포트폴리오', icon: React.createElement(FolderOpen, { className: "w-4 h-4" }) },
-                    { key: 'game-history', label: '플레이 이력', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
-                  ].map(item => (
-                    <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0, 0); }}
-                      className={`w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${currentView === item.key ? 'bg-white text-[#0047BB] shadow-md' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm'}`}>
-                      {item.icon}
-                      <span>{item.label}</span>
-                    </button>
-                  ))}
-                </div>
-                <div className="hidden xl:block w-px h-8 bg-black/10 mx-1.5" />
-              </>
-            )}
+            {/* Document shortcut pill (Always show for both Home and Sub-views) */}
+            <div className="hidden xl:flex bg-zinc-100/80 p-1.5 rounded-full border border-black/5 shadow-inner">
+              {[
+                { key: 'resume', label: '이력서', icon: React.createElement(FileText, { className: "w-4 h-4" }) },
+                { key: 'portfolio', label: '포트폴리오', icon: React.createElement(FolderOpen, { className: "w-4 h-4" }) },
+                { key: 'game-history', label: '플레이 이력', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
+              ].map(item => (
+                <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0, 0); }}
+                  className={`w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${currentView === item.key || (currentView === 'cover-letter' && item.key === 'resume') ? 'bg-white text-[#0047BB] shadow-md pointer-events-none' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm'}`}>
+                  {item.icon}
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className="hidden xl:block w-px h-8 bg-black/10 mx-1.5" />
             
             <div className="flex items-center">
               <button
