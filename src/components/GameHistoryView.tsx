@@ -80,14 +80,11 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex flex-col gap-3 mb-16 mt-4">
-          <p className="text-[#0047BB] font-bold text-xs tracking-[0.25em] uppercase font-mono">
-            플레이 아카이브
-          </p>
           <h1 className="text-5xl lg:text-6xl font-black tracking-tighter text-[#1A1A1A] leading-[1] break-keep">
-            게이밍 DNA<span className="text-zinc-300">.</span>
+            게이밍 DNA
           </h1>
           <p className="text-zinc-500 text-[15px] font-medium leading-relaxed max-w-lg">
-            장르별 숙련도와 289종 이상의 게임 플레이 이력 아카이브입니다.
+            장르별 숙련도와 289종 이상의 게임 플레이 이력입니다.
           </p>
         </div>
 
@@ -185,10 +182,10 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
           </div>
         </div>
 
-        {/* Grid Archive Section */}
+        {/* Grid Section */}
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-black/10">
           <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
-            게임 상세 아카이브 {activeGenre && <span className="text-[#0047BB] before:content-['|'] before:text-zinc-300 before:mr-3 before:font-light">{activeGenre} 검색 결과</span>}
+            게임 상세 플레이 이력 {activeGenre && <span className="text-[#0047BB] before:content-['|'] before:text-zinc-300 before:mr-3 before:font-light">{activeGenre} 검색 결과</span>}
           </h2>
           {activeGenre && (
             <button onClick={() => setActiveGenre(null)} className="text-sm font-bold text-zinc-400 hover:text-red-500 flex items-center gap-1 transition-colors">

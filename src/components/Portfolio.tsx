@@ -44,21 +44,13 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
 
         {/* Header */}
         <div className="flex flex-col gap-3 mb-20">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="text-[#0047BB] font-bold text-xs tracking-[0.25em] uppercase font-mono"
-          >
-            작업 포트폴리오
-          </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
             className="text-5xl lg:text-6xl font-black tracking-tighter text-[#1A1A1A] leading-[1] break-keep"
           >
-            기획 작업물<span className="text-zinc-300">.</span>
+            포트폴리오 갤러리
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }}

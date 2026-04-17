@@ -6,7 +6,7 @@ import { PasswordModal } from './PasswordModal';
 const SUB_VIEW_LABELS: Record<string, string> = {
   'resume': '이력서',
   'cover-letter': '이력서',
-  'portfolio': '포트폴리오',
+  'portfolio': '포트폴리오 갤러리',
   'project-detail': '프로젝트 상세',
   'game-history': '플레이 이력',
   'all-projects': '프로젝트 전체',
