@@ -12,11 +12,22 @@ export interface Project {
   status?: string;
 }
 
+export interface SkillEvidence {
+  value: string;   // e.g. "3건+", "1.022배"
+  label: string;   // e.g. "팀장 완성 프로젝트"
+}
+
+export interface SkillCapability {
+  name: string;
+  tier?: 1 | 2 | 3; // hierarchy depth for indentation
+}
+
 export interface Skill {
   name: string;
-  level: number;
   icon: React.ReactNode;
-  caption?: string;
+  caption: string;
+  capabilities: SkillCapability[];
+  evidences: SkillEvidence[];
 }
 
 export interface GamePlay {
