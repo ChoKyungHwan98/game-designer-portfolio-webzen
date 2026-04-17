@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, Search, Filter } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import { ALL_GAMES } from '../data/games';
+import { PageHeader } from './PageHeader';
 
 interface GameHistoryViewProps {
   onBack: () => void;
@@ -27,7 +28,7 @@ const CHART_DATA = [
   { label: '퍼즐', score: 82, angle: 90 },
   { label: '액션', score: 72, angle: 135 },
   { label: '전략', score: 65, angle: 180 },
-  { label: '시뮬레이션', score: 45, angle: 225 },
+  { label: '시뮬레이션', score: 85, angle: 225 },
   { label: '슈팅', score: 25, angle: 270 },
   { label: '리듬', score: 95, angle: 315 },
 ];
@@ -78,22 +79,20 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
     <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="min-h-screen bg-[#FDFDFB] pt-24 pb-32">
       
-      {/* Header */}
-      <div className="bg-white border-b border-black/5 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
-          <button onClick={onBack} className="flex items-center gap-2 text-zinc-500 hover:text-[#0047BB] transition-colors font-bold text-sm tracking-tight">
-            <ArrowLeft className="w-4 h-4" /> 메인으로 돌아가기
-          </button>
-          <div className="relative w-64 md:w-80 group">
-             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-[#0047BB] transition-colors" />
-             <input type="text" placeholder="게임 상세 검색..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-               className="w-full bg-zinc-50 border border-black/5 rounded-full py-2.5 pl-10 pr-4 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#0047BB]/20 focus:border-[#0047BB]/30 transition-all placeholder:text-zinc-300" />
-          </div>
-        </div>
-      </div>
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <PageHeader
+          onBack={onBack}
+          label="플레이 이력"
+          rightSlot={
+            <div className="relative group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-[#0047BB] transition-colors" />
+              <input type="text" placeholder="게임 상세 검색..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-zinc-50 border border-black/5 rounded-full py-2 pl-10 pr-4 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#0047BB]/20 focus:border-[#0047BB]/30 transition-all placeholder:text-zinc-300" />
+            </div>
+          }
+        />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-12">
-        <h1 className="text-4xl lg:text-5xl font-black text-[#2C2C2C] tracking-tighter mb-10">
+        <h1 className="text-4xl lg:text-5xl font-black text-[#2C2C2C] tracking-tighter mb-10 mt-8">
           게이밍 DNA 대시보드
         </h1>
 

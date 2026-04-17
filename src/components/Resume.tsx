@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, Info, User, Star } from 'lucide-react';
+import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2pdf from 'html2pdf.js';
 import { EditableText } from './EditableText';
 import { CoverLetter } from './CoverLetter';
+import { PageHeader } from './PageHeader';
 import type { ResumeData } from '../types';
 
 const TOOL_ICONS: Record<string, React.ReactNode> = {
@@ -71,67 +72,44 @@ export const Resume = ({ setView, onBack, isEditing, data, setData }: ResumeProp
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
         className="pt-32 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col">
         
-        {/* Utility Bar (Top Navigation) */}
-        <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 md:py-6 border-y border-black/5 mb-12 -mx-6 px-6 md:-mx-12 md:px-12">
-          {/* Left: Go Back (Polished Capsule - Fixed Width) */}
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={onBack} 
-              className="w-[190px] h-[46px] flex items-center justify-center gap-3 bg-zinc-100/80 hover:bg-white hover:shadow-md border border-black/5 rounded-full text-zinc-500 hover:text-[#0047BB] transition-all duration-300 group font-sans tracking-tight text-sm font-bold"
-            >
-              <motion.div
-                whileHover={{ x: -4 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="flex items-center"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </motion.div>
-              <span>메인으로 돌아가기</span>
-            </button>
-            <div className="hidden sm:flex items-center gap-3 w-[110px]">
-              <div className="w-px h-4 bg-black/10 shrink-0"></div>
-              <span className="text-[11px] font-black tracking-widest text-zinc-300 uppercase truncate">Resume</span>
-            </div>
-          </div>
-
-          <div className="flex-1 flex justify-center">
-            <div className="grid grid-cols-2 w-[300px] bg-zinc-200/50 p-1 rounded-[2.5rem] border border-black/5 shadow-inner relative">
-              <button 
+        <PageHeader
+          onBack={onBack}
+          label="Resume"
+          centerSlot={
+            <div className="grid grid-cols-2 w-[280px] bg-zinc-200/50 p-1 rounded-[2.5rem] border border-black/5 shadow-inner relative">
+              <button
                 onClick={() => setActiveTab('resume')}
-                className={`relative w-full py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative w-full py-3 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'resume' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'resume' && (
                   <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
                 )}
-                <span className="relative z-10 flex items-center gap-2">이력서</span>
+                <span className="relative z-10">이력서</span>
               </button>
-              
-              <button 
+              <button
                 onClick={() => setActiveTab('cover-letter')}
-                className={`relative w-full py-3.5 rounded-full text-base font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
+                className={`relative w-full py-3 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${activeTab === 'cover-letter' ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}
               >
                 {activeTab === 'cover-letter' && (
                   <motion.div layoutId="activeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />
                 )}
-                <span className="relative z-10 flex items-center gap-2">자기소개서</span>
+                <span className="relative z-10">자기소개서</span>
               </button>
             </div>
-          </div>
-
-          {/* Right: Actions */}
-          <div className="flex justify-end w-[180px]">
-            {isEditing && (
+          }
+          rightSlot={
+            isEditing ? (
               <button onClick={handleDownload} disabled={isGeneratingPdf}
-                className="px-5 py-2.5 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-2 hover:border-[#0047BB] hover:text-[#0047BB] transition-all duration-300 text-xs tracking-widest shadow-sm disabled:opacity-50 group">
+                className="px-5 py-2 bg-white border border-black/10 rounded-xl text-[#2C2C2C] font-bold flex items-center justify-center gap-2 hover:border-[#0047BB] hover:text-[#0047BB] transition-all duration-300 text-xs tracking-widest shadow-sm disabled:opacity-50 group">
                 {isGeneratingPdf ? (
                   <><span className="animate-spin inline-block w-4 h-4 border-2 border-[#0047BB] border-t-transparent rounded-full" /> ...</>
                 ) : (
                   <><ScrollText className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#0047BB] transition-colors" /> PDF 저장</>
                 )}
               </button>
-            )}
-          </div>
-        </div>
+            ) : undefined
+          }
+        />
 
         <AnimatePresence mode="wait">
           {activeTab === 'resume' ? (
