@@ -36,7 +36,7 @@ function App() {
   const [heroContent, setHeroContent, heroLoaded] = useEditableContent({
     titleLine1: "기획의도를 알고",
     titleLine2: "목차를 쓸줄 아는 기획자",
-    description: "법학의 치밀한 논리 구조를 게임 시스템 기획에 접목합니다.\n기획 의도가 흔들리지 않는 튼튼한 뼈대를 설계하여,\n\n어떤 변수에도 대응할 수 있는 견고한 재미를 구축합니다."
+    description: "법학의 치밀한 논리 구조를 게임 시스템 기획에 적용합니다.\n기획 의도가 흔들리지 않는 튼튼한 뼈대를 설계하여,\n어떤 변수에도 대응할 수 있는 견고한 재미를 구축합니다."
   }, 'hero_content');
   const [aboutContent, setAboutContent, aboutLoaded] = useEditableContent({
     p1: "저는 7년간 법학을 전공하며 '기획 의도를 먼저 세우고 그것을 관통하는 목차를 작성하는 훈련'을 반복했습니다.\n이 능력은 복잡한 시스템 기획과 밸런싱을 설계할 때 그 진가를 발휘합니다.",
