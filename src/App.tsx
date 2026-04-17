@@ -63,6 +63,18 @@ function App() {
     return () => observer.disconnect();
   }, [view, isDataLoaded]);
 
+  const [returnScrollY, setReturnScrollY] = useState<number>(0);
+
+  const changeView = (newView: typeof view) => {
+    if (view === 'home' && newView !== 'home') {
+      setReturnScrollY(window.scrollY);
+    }
+    setView(newView);
+    if (newView !== 'home') {
+      window.scrollTo(0, 0);
+    }
+  };
+
   const handleNavClick = (id: string) => {
     setView('home');
     setTimeout(() => {
@@ -73,11 +85,17 @@ function App() {
   };
 
   const handleBack = () => {
-    if (view === 'resume' || view === 'cover-letter') { setResumeTab('resume'); handleNavClick('hero-top'); }
-    else if (view === 'portfolio') { setTargetProjectId(null); handleNavClick('projects'); }
-    else if (view === 'game-history') handleNavClick('play-history');
-    else if (view === 'project-detail') handleNavClick('projects');
-    else handleNavClick('hero-top');
+    if (view === 'resume' || view === 'cover-letter') setResumeTab('resume');
+    if (view === 'portfolio') setTargetProjectId(null);
+    if (view === 'project-detail') {
+      changeView('portfolio');
+      return;
+    }
+    
+    setView('home');
+    setTimeout(() => {
+      window.scrollTo({ top: returnScrollY, behavior: 'instant' });
+    }, 10);
   };
 
   // ── Navbar Slots ──────────────────────────────────────────────
@@ -94,7 +112,7 @@ function App() {
   const makeNavBtn = (label: string, icon: React.ReactNode, target: typeof view) => (
     <button
       key={label}
-      onClick={() => { setView(target); window.scrollTo(0, 0); }}
+      onClick={() => changeView(target)}
       className="w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm"
     >
       {icon}
@@ -146,7 +164,7 @@ function App() {
     <>
     <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-[#FAFAFA]">
       <Navbar
-        setView={setView}
+        setView={changeView}
         currentView={view}
         onNavClick={handleNavClick}
         isEditing={isEditing}
@@ -160,18 +178,18 @@ function App() {
 
       {view === 'home' && (
         <main>
-          <Hero onPortfolioClick={() => setView('portfolio')} onResumeClick={() => setView('resume')} isEditing={isEditing} content={heroContent} setContent={setHeroContent} aboutContent={aboutContent} setAboutContent={setAboutContent} />
+          <Hero onPortfolioClick={() => changeView('portfolio')} onResumeClick={() => changeView('resume')} isEditing={isEditing} content={heroContent} setContent={setHeroContent} aboutContent={aboutContent} setAboutContent={setAboutContent} />
           <About isEditing={isEditing} content={aboutContent} setContent={setAboutContent} />
-          <Projects onProjectClick={(p) => { setTargetProjectId(p.id); setView('portfolio'); }} isEditing={isEditing} projects={projectsData} setProjects={setProjectsData} limit={3} setView={setView} />
+          <Projects onProjectClick={(p) => { setTargetProjectId(p.id); changeView('portfolio'); }} isEditing={isEditing} projects={projectsData} setProjects={setProjectsData} limit={3} setView={changeView} />
           <Skills isEditing={isEditing} skills={skillsData} setSkills={setSkillsData} />
-          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} onViewAll={() => { setView('game-history'); window.scrollTo(0, 0); }} />
+          <PlayHistory isEditing={isEditing} history={gameHistory} setHistory={setGameHistory} onViewAll={() => changeView('game-history')} />
           <Contact />
         </main>
       )}
 
       {(view === 'resume' || view === 'cover-letter') && (
         <Resume
-          setView={setView}
+          setView={changeView}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
           data={resumeData}
@@ -193,11 +211,11 @@ function App() {
       )}
       {view === 'portfolio' && (
         <Portfolio
-          onProjectClick={(p) => { setSelectedProject(p); setView('project-detail'); }}
+          onProjectClick={(p) => { setSelectedProject(p); changeView('project-detail'); }}
           isEditing={isEditing}
           projects={portfolioProjects}
           setProjects={setPortfolioProjects}
-          setView={setView}
+          setView={changeView}
           onBack={handleBack}
           initialProjectId={targetProjectId}
         />

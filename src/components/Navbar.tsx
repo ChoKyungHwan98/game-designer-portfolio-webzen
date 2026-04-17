@@ -108,7 +108,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </motion.span>
-                <span>메인으로 돌아가기</span>
+                <span>이전 화면으로 돌아가기</span>
               </button>
             ) : (
               /* Home: 로고 */
