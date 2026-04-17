@@ -167,6 +167,43 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
         </div>
       </div>
 
+      {/* ── PHILOSOPHY STATEMENT (full-width, fills bottom breathing space) ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto w-full relative z-10 mt-16 lg:mt-24"
+      >
+        <div className="relative bg-[#0047BB] rounded-3xl px-8 md:px-14 lg:px-20 py-10 md:py-14 lg:py-16 overflow-hidden">
+          {/* Background grid overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+          {/* Blue glow */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-8 md:gap-14">
+            {/* Left: big symbolic number */}
+            <div className="shrink-0 flex items-baseline gap-1 leading-none">
+              <span className="text-[80px] md:text-[100px] lg:text-[120px] font-black text-white/10 leading-none tracking-tighter">0</span>
+              <span className="text-[40px] md:text-[52px] lg:text-[60px] font-black text-white/30 mx-2">→</span>
+              <span className="text-[90px] md:text-[112px] lg:text-[136px] font-black text-white leading-none tracking-tighter drop-shadow-[0_0_40px_rgba(255,255,255,0.3)]">+</span>
+            </div>
+
+            {/* Right: statement */}
+            <div className="flex flex-col gap-4">
+              <p className="text-[11px] font-black tracking-[0.25em] text-white/40 uppercase">핵심 철학</p>
+              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-white leading-[1.6] tracking-tight break-keep">
+                법학이 <span className="text-white/50">−에서 0</span>으로 되돌리는 일이라면,<br className="hidden md:block" />
+                게임은 <span className="font-black text-white">0에서 +</span>가 되는 경험을 만드는 일입니다.
+              </p>
+              <p className="text-[13px] md:text-sm text-white/50 font-medium leading-[1.8] max-w-lg break-keep">
+                탄탄한 시스템의 논리적 뼈대 위에서, 유저의 마음에 즐거움이라는 감성을 채워넣는 기획자가 되겠습니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
     </div>
   </section>
 );
