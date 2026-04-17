@@ -27,6 +27,10 @@ export const EditableText = ({
         </div>
       );
     }
+    if (multiline) {
+      // \n을 실제 줄바꿈으로 렌더링
+      return <span className={className} style={{ whiteSpace: 'pre-line' }}>{value}</span>;
+    }
     return <span className={className}>{value}</span>;
   }
 
