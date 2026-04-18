@@ -78,7 +78,7 @@ export const Skills = ({ skills }: SkillsProps) => {
   return (
     <section
       id="skills"
-      className="py-24 lg:py-32 px-6 md:px-12 relative bg-[#FAFAFA] border-t border-black/5 overflow-hidden"
+      className="py-24 lg:py-32 px-6 md:px-12 relative bg-white/85 backdrop-blur-sm border-t border-black/5 overflow-hidden"
     >
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
@@ -129,7 +129,7 @@ export const Skills = ({ skills }: SkillsProps) => {
                 className="flex flex-col items-center"
               >
                 {/* ── Branch Root Card ── */}
-                <div className="w-full bg-white rounded-2xl border border-black/5 shadow-sm p-7 text-center group hover:shadow-lg hover:border-[#0047BB]/15 transition-all duration-400 mb-0">
+                <div className="w-full bg-white/85 backdrop-blur-md rounded-2xl border border-black/5 shadow-sm p-7 text-center group hover:shadow-lg hover:border-[#0047BB]/15 transition-all duration-400 mb-0">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-[#0047BB]/8 flex items-center justify-center text-[#0047BB] group-hover:bg-[#0047BB] group-hover:text-white transition-all duration-300 mb-4">
                     {skill.icon}
                   </div>
@@ -184,7 +184,7 @@ export const Skills = ({ skills }: SkillsProps) => {
                   {skill.evidences.map((ev, eIdx) => (
                     <div
                       key={eIdx}
-                      className="bg-white rounded-xl border border-black/5 shadow-sm px-2 py-3 text-center hover:border-[#0047BB]/20 hover:shadow-md transition-all duration-300 group/ev"
+                      className="bg-white/85 backdrop-blur-md rounded-xl border border-black/5 shadow-sm px-2 py-3 text-center hover:border-[#0047BB]/20 hover:shadow-md transition-all duration-300 group/ev"
                     >
                       <span className="text-[#0047BB] font-black text-[17px] font-mono leading-none block mb-1 group-hover/ev:scale-110 transition-transform duration-200">{ev.value}</span>
                       <span className="text-zinc-500 text-[10px] font-semibold leading-tight block">{ev.label}</span>

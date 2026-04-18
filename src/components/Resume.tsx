@@ -135,7 +135,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
               className="flex flex-col gap-8"
             >
               {/* TOP PROFILE BOX */}
-              <div className="relative bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 transition-colors">
+              <div className="relative bg-white/85 backdrop-blur-md rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 transition-colors">
                 <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
                   {/* Left: Avatar & Contact */}
                   <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
@@ -198,7 +198,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                 {/* Left Column */}
                 <div className="lg:col-span-5 flex flex-col gap-8">
                   {/* Education */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 h-full">
+                  <section className="bg-white/85 backdrop-blur-md rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 h-full">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
                       <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
                     </h3>
@@ -226,7 +226,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   </section>
 
                   {/* Certificates */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
+                  <section className="bg-white/85 backdrop-blur-md rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
                     <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C]">
                       <Award className="text-[#0047BB] w-5 h-5" /> 자격증
                     </h3>
@@ -250,7 +250,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
 
                 {/* Right Column: Experience */}
                 <div className="lg:col-span-7">
-                  <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 h-full">
+                  <section className="bg-white/85 backdrop-blur-md rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 h-full">
                     <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C]">
                       <Briefcase className="text-[#0047BB] w-5 h-5" /> 프로젝트 경험
                     </h3>

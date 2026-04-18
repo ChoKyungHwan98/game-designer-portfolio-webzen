@@ -68,7 +68,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                   whileInView={{ opacity: 1, y: 0 }} 
                   viewport={{ once: true, margin: "-50px" }} 
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
+                  className="bg-white/85 backdrop-blur-md rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
                 >
 
                   <motion.div 
@@ -196,7 +196,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
         </div>
         </div>
       ) : (
-        <div className="bg-white p-8 md:p-12 rounded-2xl border border-black/5 markdown-body">
+        <div className="bg-white/85 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-black/5 markdown-body">
           {isEditing ? (
             <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#0047BB]"
               value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />
