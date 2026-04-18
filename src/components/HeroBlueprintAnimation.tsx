@@ -57,13 +57,13 @@ export const HeroBlueprintAnimation = () => {
   return (
     <div className="absolute inset-0 bg-transparent overflow-hidden font-mono selection:bg-transparent">
       {/* Blueprint Grid - Light Theme */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,71,187,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,71,187,0.05)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,71,187,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,71,187,0.05)_1px,transparent_1px)] bg-size-[32px_32px]"></div>
       
       {/* Scanning Line Animation */}
       <motion.div 
         animate={{ y: ["-10%", "110%"] }}
         transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        className="absolute left-0 right-0 h-1 bg-gradient-to-b from-transparent via-[#0047BB]/10 to-transparent w-full z-0"
+        className="absolute left-0 right-0 h-1 bg-linear-to-b from-transparent via-[#0047BB]/10 to-transparent w-full z-0"
       />
 
       <motion.div 

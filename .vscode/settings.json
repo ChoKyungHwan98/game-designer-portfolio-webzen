@@ -17,5 +17,9 @@
         "**/dist": true,
         "**/package-lock.json": true,
         "**/.claude/worktrees/**": true
-    }
+    },
+    "css.lint.unknownAtRules": "ignore",
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false
 }

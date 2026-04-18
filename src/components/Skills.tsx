@@ -18,7 +18,7 @@ const TreeLine = ({ height = 28, delay = 0, glow = false }: { height?: number; d
     className="origin-top flex flex-col items-center"
     style={{ height }}
   >
-    <div className={`w-px h-full ${glow ? 'bg-gradient-to-b from-[#0047BB]/40 via-[#0047BB]/20 to-[#0047BB]/5' : 'bg-gradient-to-b from-zinc-300/60 to-zinc-200/40'}`} />
+    <div className={`w-px h-full ${glow ? 'bg-linear-to-b from-[#0047BB]/40 via-[#0047BB]/20 to-[#0047BB]/5' : 'bg-linear-to-b from-zinc-300/60 to-zinc-200/40'}`} />
   </motion.div>
 );
 
@@ -81,7 +81,7 @@ export const Skills = ({ skills }: SkillsProps) => {
       className="py-24 lg:py-32 px-6 md:px-12 relative bg-transparent border-t border-black/5 overflow-hidden"
     >
       {/* Subtle dot grid */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-size-[28px_28px]" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
 

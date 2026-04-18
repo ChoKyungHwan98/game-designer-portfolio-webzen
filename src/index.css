@@ -18,7 +18,7 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  @apply bg-bg-main text-[#111111] font-sans antialiased selection:bg-[#800020] selection:text-[#FDFCF8];
+  @apply bg-bg-main text-[#111111] font-sans antialiased selection:bg-[#800020] selection:text-bg-main;
   background-color: #FDFCF8;
   background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
   background-blend-mode: multiply;

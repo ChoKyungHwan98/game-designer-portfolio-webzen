@@ -99,7 +99,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
             {isSubView && onBack ? (
               <button
                 onClick={onBack}
-                className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-black/[0.06] text-zinc-600 hover:text-[#0047BB] font-bold text-sm transition-all duration-200 group"
+                className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-black/6 text-zinc-600 hover:text-[#0047BB] font-bold text-sm transition-all duration-200 group"
               >
                 <motion.span
                   className="flex items-center"
@@ -113,7 +113,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
             ) : (
               /* Home: 로고 */
               <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleLinkClick(e, 'hero-top')}>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[#0047BB] to-[#500014] text-white flex items-center justify-center font-display font-black tracking-tighter text-base md:text-lg shadow-lg shadow-[#0047BB]/30 transition-transform group-hover:scale-105">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-[#0047BB] to-[#500014] text-white flex items-center justify-center font-display font-black tracking-tighter text-base md:text-lg shadow-lg shadow-[#0047BB]/30 transition-transform group-hover:scale-105">
                   조
                 </div>
                 <div className="flex flex-col justify-center">

@@ -65,15 +65,15 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
               }}
             />
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/50 to-transparent" />
             
             {/* Content */}
             <div className="relative z-10 w-full flex flex-col justify-end">
-              <span className="inline-block px-1.5 md:px-2 py-0.5 md:py-1 bg-[#0047BB] !text-white text-[9px] md:text-[10px] font-bold rounded mb-1.5 md:mb-2 tracking-wider w-fit">
+              <span className="inline-block px-1.5 md:px-2 py-0.5 md:py-1 bg-[#0047BB] text-white! text-[9px] md:text-[10px] font-bold rounded mb-1.5 md:mb-2 tracking-wider w-fit">
                 {item.genre}
               </span>
-              <h4 className="!text-white font-bold text-base md:text-lg mb-0.5 md:mb-1 truncate">{item.title}</h4>
-              <p className="!text-zinc-300 text-xs md:text-sm font-medium flex items-center gap-1.5 md:gap-2">
+              <h4 className="text-white! font-bold text-base md:text-lg mb-0.5 md:mb-1 truncate">{item.title}</h4>
+              <p className="text-zinc-300! text-xs md:text-sm font-medium flex items-center gap-1.5 md:gap-2">
                 <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-yellow-400" />
                 {item.highlight}
               </p>
