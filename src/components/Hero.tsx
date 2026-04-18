@@ -19,20 +19,18 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
     {/* Full-bleed Analog Video Background */}
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden flex justify-end">
       {/* 
-        임시 비디오 URL입니다. 
-        원하시는 '책 넘기는 영상'의 URL(mp4)을 구하셔서 아래 src에 넣어주세요.
+        임시 비디오 URL입니다. (일부 환경에서 차단될 수 있습니다)
+        반드시 본인이 구하신 '책 넘기는 영상'의 URL(mp4)로 교체해주세요.
       */}
       <video 
-        src="https://cdn.pixabay.com/video/2021/08/11/84687-588328639_tiny.mp4" 
+        src="https://videos.pexels.com/video-files/4919736/4919736-uhd_2160_4096_25fps.mp4" 
         autoPlay loop muted playsInline 
-        className="w-[120%] lg:w-[80%] h-full object-cover mix-blend-multiply opacity-20 sepia-[.3] object-right"
+        className="w-full lg:w-[70%] h-full object-cover opacity-60 sepia-[.4] grayscale-[0.5] object-right"
+        onError={(e) => console.log('Video load error', e)}
       />
       
-      {/* Gradient Overlay for Text Readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FDFCF8] via-[#FDFCF8]/90 to-transparent"></div>
-      
-      {/* Subtle Analog Texture overlay */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-40 mix-blend-overlay"></div>
+      {/* Gradient Overlay for Text Readability - Only covers the left side */}
+      <div className="absolute top-0 left-0 bottom-0 w-[80%] bg-gradient-to-r from-[#FDFCF8] via-[#FDFCF8]/90 to-transparent"></div>
     </div>
     
     <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-8 mt-12">

@@ -9,7 +9,7 @@
 
   --color-brand-primary: #a1a1aa; /* Zinc 400 */
   --color-brand-secondary: #d4d4d8; /* Zinc 300 */
-  --color-bg-main: #F6F6F3; /* Light Editorial */
+  --color-bg-main: #FDFCF8; /* Analog Cream Paper */
 }
 
 @custom-variant dark (&:where(
@@ -17,12 +17,22 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-bg-main text-[#2C2C2C] font-sans antialiased selection:bg-[#800020] selection:text-[#F6F6F3];
+    @apply bg-bg-main text-[#2C2C2C] font-sans antialiased selection:bg-[#800020] selection:text-[#FDFCF8];
     transition: background-color 0.5s ease, color 0.5s ease;
     line-height: 1.7;
     letter-spacing: -0.01em;
     word-break: keep-all;
     overflow-wrap: break-word;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    mix-blend-mode: multiply;
+    opacity: 0.5;
+    z-index: 9999;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight text-[#2C2C2C];
