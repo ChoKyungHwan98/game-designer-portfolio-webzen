@@ -35,6 +35,7 @@ const CHART_DATA = [
 export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
 
   const pcConsoleGames = ALL_GAMES.filter(g => g.category === 'PC' || g.category === 'Console');
   const mobileGames = ALL_GAMES.filter(g => g.category === 'Mobile');
@@ -108,8 +109,26 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                 {/* Data Points */}
                 {CHART_DATA.map((d, i) => {
                   const [px, py] = getPt(d.score, d.angle, svgSize).split(',');
+                  const isHovered = hoveredPoint === i;
                   return (
-                    <circle key={i} cx={px} cy={py} r="4" fill="#0047BB" className="hover:r-6 hover:fill-white hover:stroke-[#0047BB] hover:stroke-2 transition-all cursor-pointer" />
+                    <g key={`pt-${i}`}>
+                      <circle 
+                        cx={px} cy={py} 
+                        r={isHovered ? "6" : "4"} 
+                        fill={isHovered ? "white" : "#0047BB"} 
+                        stroke="#0047BB"
+                        strokeWidth={isHovered ? "2" : "0"}
+                        className="transition-all cursor-pointer" 
+                        onMouseEnter={() => setHoveredPoint(i)}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                      />
+                      {isHovered && (
+                        <g className="pointer-events-none">
+                          <rect x={Number(px) - 24} y={Number(py) - 34} width="48" height="24" rx="4" fill="#1A2332" />
+                          <text x={px} y={Number(py) - 21} textAnchor="middle" alignmentBaseline="middle" fill="white" className="text-[12px] font-bold">{d.score}점</text>
+                        </g>
+                      )}
+                    </g>
                   );
                 })}
 
@@ -134,7 +153,24 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                 })}
               </svg>
             </div>
-            <p className="text-xs text-zinc-400 mt-4 text-center font-medium">라벨을 클릭하면 해당 장르의 게임만 필터링됩니다.</p>
+            
+            <div className="flex flex-wrap justify-center gap-2 mt-6 w-full">
+              <button 
+                onClick={() => setActiveGenre(null)}
+                className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all ${!activeGenre ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}
+              >
+                전체
+              </button>
+              {Object.keys(GENRE_MAP).map(genre => (
+                <button 
+                  key={genre}
+                  onClick={() => setActiveGenre(genre)}
+                  className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all ${activeGenre === genre ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}
+                >
+                  {genre.replace('역할수행(RPG)', 'RPG')}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Stats Section */}
