@@ -15,7 +15,7 @@ export const HeroBlueprintAnimation = () => {
     show: { 
       pathLength: 1, 
       opacity: 0.4,
-      transition: { duration: 2, ease: "easeInOut" } 
+      transition: { duration: 2, ease: "easeInOut" as const } 
     }
   };
 
@@ -24,7 +24,7 @@ export const HeroBlueprintAnimation = () => {
     show: { 
       scale: 1, 
       opacity: 1,
-      transition: { type: "spring", stiffness: 100, damping: 15 } 
+      transition: { type: "spring" as const, stiffness: 100, damping: 15 } 
     }
   };
 
