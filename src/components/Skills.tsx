@@ -78,7 +78,7 @@ export const Skills = ({ skills }: SkillsProps) => {
   return (
     <section
       id="skills"
-      className="py-24 lg:py-32 px-6 md:px-12 relative bg-transparent border-t border-black/5 overflow-hidden"
+      className="py-24 lg:py-32 px-6 md:px-12 relative bg-transparent overflow-hidden"
     >
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-size-[28px_28px]" />
