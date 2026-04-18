@@ -1,4 +1,4 @@
-﻿import React, { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -35,29 +35,29 @@ interface ResumeProps {
 export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData, activeTab, isGeneratingPdf, setIsGeneratingPdf }: ResumeProps) => {
 
   const handleDownload = () => {
-    // 1) React Component瑜??쒖닔 HTML 臾몄옄?대줈 ?뚮뜑留?
+    // 1) React Component를 순수 HTML 문자열로 렌더링
     const htmlString = renderToStaticMarkup(<PdfTemplate data={data} />);
 
-    // 2) ??李??닿린 (寃⑸━???섍꼍)
+    // 2) 새 창 열기 (격리된 환경)
     const printWindow = window.open('', '_blank', 'width=900,height=1200');
     if (!printWindow) {
-      alert('?앹뾽 李⑤떒???쒖꽦?붾릺???덉뒿?덈떎. ?앹뾽???덉슜?댁＜?몄슂.');
+      alert('팝업 차단이 활성화되어 있습니다. 팝업을 허용해주세요.');
       return;
     }
 
-    // 3) ?꾩옱 ?섏씠吏???ㅽ??쇱떆??蹂듭궗
+    // 3) 현재 페이지의 스타일시트 복사
     const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
       .map(node => node.outerHTML)
       .join('\n');
 
-    // 4) HTML 二쇱엯
+    // 4) HTML 주입
     printWindow.document.open();
     printWindow.document.write(`
       <!DOCTYPE html>
       <html lang="ko">
         <head>
           <meta charset="utf-8">
-          <title>議곌꼍??寃뚯엫湲고쉷???ы듃?대━??/title>
+          <title>조경환_게임기획자_포트폴리오</title>
           ${styles}
           <style>
             @page { 
@@ -87,7 +87,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
     `);
     printWindow.document.close();
 
-    // 5) 由ъ냼??濡쒕뱶(?고듃 諛??대?吏) ?湲????몄뇙
+    // 5) 리소스 로드(폰트 및 이미지) 대기 후 인쇄
     printWindow.onload = () => {
       Promise.all([
         printWindow.document.fonts.ready,
@@ -100,7 +100,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
       });
     };
 
-    // 6) ?몄뇙 ????李??リ린
+    // 6) 인쇄 후 새 창 닫기
     const handleAfterPrint = () => {
       printWindow.close();
       printWindow.removeEventListener('afterprint', handleAfterPrint);
@@ -109,7 +109,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
   };
 
 
-  // Navbar PDF 踰꾪듉 ??CustomEvent ?섏떊
+  // Navbar PDF 버튼 → CustomEvent 수신
   React.useEffect(() => {
     const handler = () => handleDownload();
     window.addEventListener('triggerPdfDownload', handler);
@@ -169,7 +169,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   {/* Right: Summary & Tools */}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-xs font-bold text-zinc-400 tracking-widest uppercase mb-3 flex items-center gap-2 justify-center lg:justify-start">
-                      <User className="w-3.5 h-3.5" /> ?쒖쨪 ?뚭컻
+                      <User className="w-3.5 h-3.5" /> 한줄 소개
                     </h3>
                     <div className="text-[15px] lg:text-[16.5px] text-[#2C2C2C] leading-[1.75] font-semibold text-center lg:text-left mb-6 [&_strong]:text-[#0047BB] [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.1)_40%,transparent_40%)]">
                       <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
@@ -200,7 +200,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   {/* Education */}
                   <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 h-full">
                     <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
-                      <GraduationCap className="text-[#0047BB] w-5 h-5" /> ?숇젰 諛?援먯쑁
+                      <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
                     </h3>
                     <div className="space-y-6">
                       {data.education.map((edu, idx) => (
@@ -228,7 +228,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   {/* Certificates */}
                   <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
                     <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C]">
-                      <Award className="text-[#0047BB] w-5 h-5" /> ?먭꺽利?
+                      <Award className="text-[#0047BB] w-5 h-5" /> 자격증
                     </h3>
                     <div className="flex flex-col gap-2.5">
                       {data.certificates && data.certificates.map((cert, idx) => (
@@ -237,7 +237,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                             <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
                           </h4>
                           <div className="flex flex-col items-end gap-0.5">
-                            <span className="text-[10px] text-zinc-400 font-medium">痍⑤뱷 ?곕룄</span>
+                            <span className="text-[10px] text-zinc-400 font-medium">취득 연도</span>
                             <span className="text-xs font-mono font-bold text-[#0047BB]">
                               <EditableText value={cert.date} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].date = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
                             </span>
@@ -252,7 +252,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                 <div className="lg:col-span-7">
                   <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 h-full">
                     <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C]">
-                      <Briefcase className="text-[#0047BB] w-5 h-5" /> ?꾨줈?앺듃 寃쏀뿕
+                      <Briefcase className="text-[#0047BB] w-5 h-5" /> 프로젝트 경험
                     </h3>
                     <div className="space-y-10">
                       {data.experience.map((exp, idx) => (
