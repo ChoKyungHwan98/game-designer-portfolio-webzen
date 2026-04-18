@@ -29,7 +29,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
   const categories = Array.from(new Set(projects.map(p => p.category)));
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] relative">
+    <div className="min-h-screen bg-transparent relative">
       {/* Subtle background effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px]" style={{background: 'rgba(0,71,187,0.04)'}}></div>
@@ -162,7 +162,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 40, scale: 0.97 }}
                 transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-                className="w-full h-full max-w-5xl bg-[#FAFAFA] md:rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
+                className="w-full h-full max-w-5xl bg-[#FDFCF8] md:rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
               >
                 {/* Close button */}
                 <button

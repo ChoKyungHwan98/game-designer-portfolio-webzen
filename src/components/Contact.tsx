@@ -2,7 +2,7 @@ import React from 'react';
 import { Mail } from 'lucide-react';
 
 export const Contact = () => (
-  <section id="contact" className="h-[90vh] px-0 flex flex-col justify-center bg-[#FAFAFA] overflow-hidden group/contact border-t border-black/5 relative">
+  <section id="contact" className="h-[90vh] px-0 flex flex-col justify-center bg-transparent overflow-hidden group/contact border-t border-black/5 relative">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/contact:scale-[1.15] group-hover/contact:opacity-0 z-0">
        <span className="text-[14vw] font-display font-black text-black/[0.03] tracking-tighter leading-[0.8] m-0 p-0 text-center uppercase">
          LET'S<br/>WORK.

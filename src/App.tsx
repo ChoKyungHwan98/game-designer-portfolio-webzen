@@ -162,7 +162,7 @@ function App() {
 
   return (
     <>
-    <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-[#FAFAFA]">
+    <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-transparent">
       <Navbar
         setView={changeView}
         currentView={view}

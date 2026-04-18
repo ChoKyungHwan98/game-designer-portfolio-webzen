@@ -18,7 +18,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
   const generateId = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-가-힣]/g, '');
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-[#FAFAFA] pt-6 pb-20 px-4 md:px-8">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-h-screen bg-transparent pt-6 pb-20 px-4 md:px-8">
       <div className="max-w-[1200px] mx-auto w-full">
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-4 py-3 md:py-4 mb-8 -mx-6 px-6 md:-mx-12 md:px-12">
           <div className="flex items-center gap-4">
@@ -51,7 +51,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                       <span className="text-xs text-zinc-500 font-mono">* 지원 문법: # 제목, **강조**, - 목록, [링크](url)</span>
                     </div>
                     <textarea value={project.content} onChange={(e) => onSaveContent(e.target.value)}
-                      className="flex-1 w-full p-6 bg-[#FAFAFA] border border-black/10 rounded-xl focus:outline-none focus:border-[#0047BB] font-mono text-sm leading-relaxed text-[#2C2C2C] resize-y shadow-inner h-[500px]"
+                      className="flex-1 w-full p-6 bg-[#FDFCF8] border border-black/10 rounded-xl focus:outline-none focus:border-[#0047BB] font-mono text-sm leading-relaxed text-[#2C2C2C] resize-y shadow-inner h-[500px]"
                       placeholder="프로젝트 상세 내용을 마크다운으로 입력하세요..." />
                   </div>
                 ) : (
