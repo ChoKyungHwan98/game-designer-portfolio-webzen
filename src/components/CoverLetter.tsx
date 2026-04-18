@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Plus, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -46,14 +46,14 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
         <div className="ml-[6%] xl:ml-[10%] w-full max-w-[1050px]">
         <div className="flex items-start gap-10 xl:gap-14">
 
-          {/* 메인 타임라인 */}
+          {/* 硫붿씤 ??꾨씪??*/}
           <div className="relative border-l-[3px] border-[#0047BB]/15 flex-1 min-w-0">
           {data.selfIntroductions.map((intro, idx) => (
             <React.Fragment key={idx}>
               <article className="relative w-full pl-8 md:pl-16 pb-[80px] md:pb-[120px] scroll-mt-24 md:scroll-mt-[140px]" id={`intro-${idx}`}>
                 {isEditing && (
-                  <button onClick={() => { if (confirm("삭제하시겠습니까?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
-                    className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="삭제">
+                  <button onClick={() => { if (confirm("??젣?섏떆寃좎뒿?덇퉴?")) { const n = [...(data.selfIntroductions || [])]; n.splice(idx, 1); setData({...data, selfIntroductions: n}); }}}
+                    className="absolute -top-4 right-0 z-20 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg" title="??젣">
                     <X className="w-4 h-4" />
                   </button>
                 )}
@@ -62,13 +62,13 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                   {String(idx + 1).padStart(2, '0')}
                 </div>
 
-                {/* 배경 카드 */}
+                {/* 諛곌꼍 移대뱶 */}
                 <motion.div 
                   initial={{ opacity: 0, y: 60 }} 
                   whileInView={{ opacity: 1, y: 0 }} 
                   viewport={{ once: true, margin: "-50px" }} 
                   transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-white/85 backdrop-blur-md rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
+                  className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-12 lg:px-14 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
                 >
 
                   <motion.div 
@@ -91,13 +91,13 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     className="max-w-[800px] mx-auto text-[#333F48] leading-[1.85] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-4 md:[&_p]:mb-5 [&_p]:break-keep [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm"
                   >
                     {/* Hook */}
-                    {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">도입부 (Hook)</div>}
+                    {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">?꾩엯遺 (Hook)</div>}
                     <EditableText value={intro.hook} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].hook = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
 
                     {/* PullQuote */}
                     {(intro.pullQuote || isEditing) && (
                       <div className="my-10 md:my-12">
-                        {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">인용구 (PullQuote)</div>}
+                        {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">?몄슜援?(PullQuote)</div>}
                         <blockquote className="border-l-[3px] border-[#0047BB]/30 bg-[#F8F9FF]/50 py-5 md:py-6 px-6 md:px-8 font-semibold text-[16px] md:text-[18px] leading-[1.8] text-[#333F48] rounded-r-xl tracking-[-0.01em]">
                           <EditableText value={intro.pullQuote || ""} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].pullQuote = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={false} />
                         </blockquote>
@@ -107,7 +107,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     {/* Highlights */}
                     {(intro.highlights || isEditing) && (
                       <div className="my-10 md:my-12">
-                        {isEditing && <div className="text-xs text-blue-500 font-bold mb-2">핵심 강조 수치 (Highlights) - 삭제는 빈칸으로 저장하세요</div>}
+                        {isEditing && <div className="text-xs text-blue-500 font-bold mb-2">?듭떖 媛뺤“ ?섏튂 (Highlights) - ??젣??鍮덉뭏?쇰줈 ??ν븯?몄슂</div>}
                         <ul className="grid md:grid-cols-4 gap-3 md:gap-4 pl-0">
                           {(intro.highlights || Array(4).fill({ bold: "", em: "" })).map((hl, hlIdx) => (
                             <li key={hlIdx} className="list-none relative px-4 md:px-5 py-5 md:py-6 bg-[#F8F9FF] border border-[#0047BB]/15 rounded-2xl shadow-[0_4px_20px_-4px_rgba(0,71,187,0.08)] break-normal md:[&:not(:last-child)]::after:content-[''] md:[&:not(:last-child)]::after:absolute md:[&:not(:last-child)]::after:-right-[14px] md:[&:not(:last-child)]::after:top-1/2 md:[&:not(:last-child)]::after:-translate-y-1/2 md:[&:not(:last-child)]::after:border-t-[2.5px] md:[&:not(:last-child)]::after:border-r-[2.5px] md:[&:not(:last-child)]::after:border-[#0047BB]/40 md:[&:not(:last-child)]::after:w-[10px] md:[&:not(:last-child)]::after:h-[10px] md:[&:not(:last-child)]::after:rotate-45">
@@ -124,13 +124,13 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     )}
 
                     {/* Body */}
-                    {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">본문 (Body)</div>}
+                    {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">蹂몃Ц (Body)</div>}
                     <EditableText value={intro.body} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].body = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
 
                     {/* Closing */}
                     {isEditing ? (
                       <>
-                        <div className="text-xs text-blue-500 font-bold mb-1 mt-6">마무리 (Closing)</div>
+                        <div className="text-xs text-blue-500 font-bold mb-1 mt-6">留덈Т由?(Closing)</div>
                         <EditableText value={intro.closing || ""} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].closing = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
                       </>
                     ) : (
@@ -144,7 +144,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
 
                 </motion.div>
 
-                {/* 섹션 사이 희미한 구분선 (마지막 항목 제외) */}
+                {/* ?뱀뀡 ?ъ씠 ?щ???援щ텇??(留덉?留???ぉ ?쒖쇅) */}
                 {idx < (data.selfIntroductions || []).length - 1 && (
                   <div className="absolute bottom-10 left-8 md:left-16 right-0 h-px bg-gradient-to-r from-[#0047BB]/10 via-[#0047BB]/5 to-transparent" />
                 )}
@@ -156,15 +156,15 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
           ))}
 
           {isEditing && (
-            <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ navTitle: "새 항목", logline: "새로운 항목의 로그라인을 입력하세요.", hook: "도입부를 입력하세요.", body: "본문을 입력하세요." }); setData({...data, selfIntroductions: n}); }}
+            <button onClick={() => { const n = [...(data.selfIntroductions || [])]; n.push({ navTitle: "????ぉ", logline: "?덈줈????ぉ??濡쒓렇?쇱씤???낅젰?섏꽭??", hook: "?꾩엯遺瑜??낅젰?섏꽭??", body: "蹂몃Ц???낅젰?섏꽭??" }); setData({...data, selfIntroductions: n}); }}
               className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-200 bg-zinc-50 hover:bg-zinc-100 transition-colors min-h-[200px] cursor-pointer rounded-3xl w-full">
               <Plus className="w-8 h-8 text-zinc-400 mb-2" />
-              <span className="text-zinc-500 font-bold">새 자기소개 항목 추가</span>
+              <span className="text-zinc-500 font-bold">???먭린?뚭컻 ??ぉ 異붽?</span>
             </button>
           )}
           </div>
 
-          {/* INDEX 사이드바 */}
+          {/* INDEX ?ъ씠?쒕컮 */}
           <motion.aside 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -186,7 +186,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     className={`text-[14px] font-medium transition-colors relative group block ${isActive ? 'text-[#0047BB]' : 'text-zinc-400 hover:text-[#0047BB]'}`}
                   >
                     <span className={`absolute -left-[29px] top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#0047BB] transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}/>
-                    {String(idx + 1).padStart(2, '0')}. {intro.navTitle || '섹션 ' + (idx + 1)}
+                    {String(idx + 1).padStart(2, '0')}. {intro.navTitle || '?뱀뀡 ' + (idx + 1)}
                   </a>
                 );
               })}
@@ -196,7 +196,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
         </div>
         </div>
       ) : (
-        <div className="bg-white/85 backdrop-blur-md p-8 md:p-12 rounded-2xl border border-black/5 markdown-body">
+        <div className="bg-white p-8 md:p-12 rounded-2xl border border-black/5 markdown-body">
           {isEditing ? (
             <textarea className="w-full h-[400px] bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg p-6 text-[#e8e4dc] font-sans text-sm focus:outline-none focus:border-[#0047BB]"
               value={data.selfIntroduction || ''} onChange={(e) => setData({...data, selfIntroduction: e.target.value})} />

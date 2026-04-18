@@ -88,7 +88,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white/85 backdrop-blur-md rounded-2xl border border-[#0047BB]/10 shadow-[0_4px_24px_-8px_rgba(0,71,187,0.08)] px-8 py-7 flex-1 flex items-center gap-6 min-h-[120px]"
+            className="bg-white rounded-2xl border border-[#0047BB]/10 shadow-[0_4px_24px_-8px_rgba(0,71,187,0.08)] px-8 py-7 flex-1 flex items-center gap-6 min-h-[120px]"
           >
             {/* Left blue accent bar */}
             <div className="w-1 self-stretch bg-gradient-to-b from-[#0047BB] to-[#0047BB]/20 rounded-full shrink-0" />
@@ -110,7 +110,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.0, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white/85 backdrop-blur-md rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
+            className="bg-white rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
           >
             <div className="flex items-baseline gap-1 shrink-0 leading-none">
               <span className="text-[58px] font-black text-zinc-400 leading-none group-hover:text-zinc-500 transition-colors duration-300">0</span>
@@ -129,7 +129,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white/85 backdrop-blur-md rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
+            className="bg-white rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
           >
             <div className="flex items-baseline gap-1 shrink-0 leading-none">
               <span className="text-[72px] font-black text-[#111111] leading-none group-hover:text-[#0047BB] transition-colors duration-300">3</span>
@@ -147,7 +147,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white/85 backdrop-blur-md rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
+            className="bg-white rounded-2xl border border-black/5 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.06)] px-8 py-8 flex items-center gap-7 group hover:border-[#0047BB]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,71,187,0.12)] transition-all duration-300 flex-1"
           >
             <div className="flex items-baseline gap-1 shrink-0 leading-none">
               <span className="text-[56px] font-black text-zinc-400 leading-none group-hover:text-zinc-500 transition-colors duration-300">A</span>

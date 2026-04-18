@@ -23,7 +23,10 @@ export const EditableText = ({
   if (!isEditing) {
     if (markdown) {
       return (
-        <div className={`markdown-body !text-inherit !p-0 !bg-transparent !border-none ${className}`}>
+        <div 
+          className={`markdown-body !text-[inherit] !leading-[inherit] !p-0 !bg-transparent !border-none ${className}`}
+          style={{ fontSize: 'inherit', lineHeight: 'inherit' }}
+        >
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{value}</ReactMarkdown>
         </div>
       );

@@ -26,7 +26,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
   }) : displayedProjects;
 
   return (
-    <section id="projects" className="py-[120px] lg:py-[160px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-white/85 backdrop-blur-sm overflow-hidden border-t border-black/5">
+    <section id="projects" className="py-[120px] lg:py-[160px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-transparent overflow-hidden border-t border-black/5">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
       

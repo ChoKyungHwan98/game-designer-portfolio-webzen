@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'motion/react';
 import type { Skill, SkillCapability } from '../types';
 
@@ -8,7 +8,7 @@ interface SkillsProps {
   setSkills: (s: Skill[]) => void;
 }
 
-/* ── Animated connector line ── */
+/* ?? Animated connector line ?? */
 const TreeLine = ({ height = 28, delay = 0, glow = false }: { height?: number; delay?: number; glow?: boolean }) => (
   <motion.div
     initial={{ scaleY: 0 }}
@@ -22,7 +22,7 @@ const TreeLine = ({ height = 28, delay = 0, glow = false }: { height?: number; d
   </motion.div>
 );
 
-/* ── Single tree node ── */
+/* ?? Single tree node ?? */
 const TreeNode = ({ cap, delay = 0 }: { cap: SkillCapability; delay?: number }) => {
   const t = cap.tier;
   const isTier1 = t === 1;
@@ -78,28 +78,28 @@ export const Skills = ({ skills }: SkillsProps) => {
   return (
     <section
       id="skills"
-      className="py-24 lg:py-32 px-6 md:px-12 relative bg-white/85 backdrop-blur-sm border-t border-black/5 overflow-hidden"
+      className="py-24 lg:py-32 px-6 md:px-12 relative bg-transparent border-t border-black/5 overflow-hidden"
     >
       {/* Subtle dot grid */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
 
-        {/* ── HEADER ── */}
+        {/* ?? HEADER ?? */}
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <motion.span
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               className="text-[#0047BB] text-[11px] font-black tracking-[0.22em] uppercase block mb-3"
             >
-              03. 핵심 역량
+              03. ?듭떖 ??웾
             </motion.span>
             <motion.div
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="text-xl md:text-2xl text-zinc-400 font-medium block mb-1">논리와 구조를 AI로 확장하는</span>
-              <h2 className="text-5xl md:text-6xl lg:text-[5rem] font-black text-[#2C2C2C] tracking-tighter leading-none">기획 역량</h2>
+              <span className="text-xl md:text-2xl text-zinc-400 font-medium block mb-1">?쇰━? 援ъ“瑜?AI濡??뺤옣?섎뒗</span>
+              <h2 className="text-5xl md:text-6xl lg:text-[5rem] font-black text-[#2C2C2C] tracking-tighter leading-none">湲고쉷 ??웾</h2>
             </motion.div>
           </div>
           <motion.p
@@ -107,11 +107,11 @@ export const Skills = ({ skills }: SkillsProps) => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="text-zinc-600 text-sm font-medium max-w-xs md:text-right leading-relaxed"
           >
-            추상적인 수치가 아닌,<br className="hidden md:block" />실제 결과물로 증명하는 기획 역량입니다.
+            異붿긽?곸씤 ?섏튂媛 ?꾨땶,<br className="hidden md:block" />?ㅼ젣 寃곌낵臾쇰줈 利앸챸?섎뒗 湲고쉷 ??웾?낅땲??
           </motion.p>
         </div>
 
-        {/* ── SKILL TREE — 3 branches ── */}
+        {/* ?? SKILL TREE ??3 branches ?? */}
         <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
           {skills.map((skill, branchIdx) => {
             // Separate tiered (hierarchical tree) vs non-tiered (leaf tags)
@@ -128,8 +128,8 @@ export const Skills = ({ skills }: SkillsProps) => {
                 transition={{ duration: 0.7, delay: baseDelay, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col items-center"
               >
-                {/* ── Branch Root Card ── */}
-                <div className="w-full bg-white/85 backdrop-blur-md rounded-2xl border border-black/5 shadow-sm p-7 text-center group hover:shadow-lg hover:border-[#0047BB]/15 transition-all duration-400 mb-0">
+                {/* ?? Branch Root Card ?? */}
+                <div className="w-full bg-white rounded-2xl border border-black/5 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.1)] p-7 text-center group hover:shadow-lg hover:border-[#0047BB]/15 transition-all duration-400 mb-0 relative z-10">
                   <div className="w-14 h-14 mx-auto rounded-2xl bg-[#0047BB]/8 flex items-center justify-center text-[#0047BB] group-hover:bg-[#0047BB] group-hover:text-white transition-all duration-300 mb-4">
                     {skill.icon}
                   </div>
@@ -137,10 +137,10 @@ export const Skills = ({ skills }: SkillsProps) => {
                   <p className="text-[13px] text-zinc-600 font-medium leading-snug break-keep">{skill.caption}</p>
                 </div>
 
-                {/* ── Connector into tree ── */}
+                {/* ?? Connector into tree ?? */}
                 <TreeLine height={32} delay={baseDelay + 0.3} glow />
 
-                {/* ── Tiered Nodes (hierarchical chain) ── */}
+                {/* ?? Tiered Nodes (hierarchical chain) ?? */}
                 {tieredCaps.map((cap, nodeIdx) => (
                   <React.Fragment key={nodeIdx}>
                     <TreeNode cap={cap} delay={baseDelay + 0.4 + nodeIdx * 0.12} />
@@ -150,7 +150,7 @@ export const Skills = ({ skills }: SkillsProps) => {
                   </React.Fragment>
                 ))}
 
-                {/* ── Leaf Capabilities (non-tiered, as small tags) ── */}
+                {/* ?? Leaf Capabilities (non-tiered, as small tags) ?? */}
                 {leafCaps.length > 0 && (
                   <>
                     <TreeLine height={20} delay={baseDelay + 0.7} />
@@ -173,7 +173,7 @@ export const Skills = ({ skills }: SkillsProps) => {
                   </>
                 )}
 
-                {/* ── Evidence Metrics ── */}
+                {/* ?? Evidence Metrics ?? */}
                 <motion.div
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -184,7 +184,7 @@ export const Skills = ({ skills }: SkillsProps) => {
                   {skill.evidences.map((ev, eIdx) => (
                     <div
                       key={eIdx}
-                      className="bg-white/85 backdrop-blur-md rounded-xl border border-black/5 shadow-sm px-2 py-3 text-center hover:border-[#0047BB]/20 hover:shadow-md transition-all duration-300 group/ev"
+                      className="bg-white rounded-xl border border-black/5 shadow-sm px-2 py-3 text-center hover:border-[#0047BB]/20 hover:shadow-md transition-all duration-300 group/ev"
                     >
                       <span className="text-[#0047BB] font-black text-[17px] font-mono leading-none block mb-1 group-hover/ev:scale-110 transition-transform duration-200">{ev.value}</span>
                       <span className="text-zinc-500 text-[10px] font-semibold leading-tight block">{ev.label}</span>
