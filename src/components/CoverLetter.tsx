@@ -88,7 +88,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     whileInView={{ opacity: 1, y: 0 }} 
                     viewport={{ once: true }} 
                     transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="max-w-[950px] mx-auto text-[#333F48] leading-[1.85] text-[15px] md:text-[17px] font-medium tracking-[-0.01em] [&_p]:mb-4 md:[&_p]:mb-5 [&_p]:break-keep [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm"
+                    className="max-w-[780px] text-[#2C2C2C] leading-[1.75] text-[16px] md:text-[17.5px] font-medium tracking-[-0.01em] [&_p]:mb-4 md:[&_p]:mb-6 [&_p]:break-keep [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.18)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm"
                   >
                     {/* Hook */}
                     {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">도입부 (Hook)</div>}
