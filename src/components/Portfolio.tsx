@@ -73,14 +73,14 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                     className="group relative flex flex-col bg-white rounded-[1.75rem] overflow-hidden border border-black/5 cursor-pointer hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.1)] transition-shadow duration-500"
                   >
                     {/* Card Image */}
-                    <div className="aspect-[16/11] overflow-hidden relative bg-zinc-100">
+                    <div className="aspect-16/11 overflow-hidden relative bg-zinc-100">
                       <img
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         referrerPolicy="no-referrer"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                       {project.status && (
                         <div className="absolute top-5 left-5 z-10">
@@ -145,7 +145,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
       {/* Detail Overlay */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-[100]">
+          <div className="fixed inset-0 z-100">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -162,12 +162,12 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 40, scale: 0.97 }}
                 transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-                className="w-full h-full max-w-5xl bg-[#FDFCF8] md:rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
+                className="w-full h-full max-w-5xl bg-bg-main md:rounded-4xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
               >
                 {/* Close button */}
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 z-[110] w-11 h-11 rounded-full bg-black/10 hover:bg-[#0047BB] hover:text-white text-[#2C2C2C] flex items-center justify-center transition-all duration-200 group"
+                  className="absolute top-6 right-6 z-110 w-11 h-11 rounded-full bg-black/10 hover:bg-[#0047BB] hover:text-white text-[#2C2C2C] flex items-center justify-center transition-all duration-200 group"
                 >
                   <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                 </button>

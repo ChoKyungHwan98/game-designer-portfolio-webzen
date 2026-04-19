@@ -14,6 +14,7 @@ import { Footer } from './components/Footer';
 import { RightRail } from './components/RightRail';
 import { ProjectDetail } from './components/ProjectDetail';
 import { GameHistoryView } from './components/GameHistoryView';
+import { BackgroundEffects } from './components/BackgroundEffects';
 import { motion } from 'motion/react';
 import { FileText, FolderOpen, Gamepad2 } from 'lucide-react';
 
@@ -163,6 +164,7 @@ function App() {
   return (
     <>
     <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-transparent">
+      <BackgroundEffects />
       <Navbar
         setView={changeView}
         currentView={view}

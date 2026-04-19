@@ -31,10 +31,10 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 flex flex-col gap-10">
             <div className="bg-white border border-black/5 rounded-3xl overflow-hidden shadow-sm relative group">
-              <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-repeat bg-[size:100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
-              <div className="aspect-[21/9] w-full relative border-b border-black/5 bg-zinc-100 overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-repeat bg-size-[100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
+              <div className="aspect-21/9 w-full relative border-b border-black/5 bg-zinc-100 overflow-hidden">
                 <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" referrerPolicy="no-referrer" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10 z-10 w-[80%]">
                   <div className="flex gap-2 mb-3">
                     <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-md text-[11px] font-bold tracking-widest text-white uppercase">{project.category}</span>
@@ -51,7 +51,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                       <span className="text-xs text-zinc-500 font-mono">* 지원 문법: # 제목, **강조**, - 목록, [링크](url)</span>
                     </div>
                     <textarea value={project.content} onChange={(e) => onSaveContent(e.target.value)}
-                      className="flex-1 w-full p-6 bg-[#FDFCF8] border border-black/10 rounded-xl focus:outline-none focus:border-[#0047BB] font-mono text-sm leading-relaxed text-[#2C2C2C] resize-y shadow-inner h-[500px]"
+                      className="flex-1 w-full p-6 bg-bg-main border border-black/10 rounded-xl focus:outline-none focus:border-[#0047BB] font-mono text-sm leading-relaxed text-[#2C2C2C] resize-y shadow-inner h-[500px]"
                       placeholder="프로젝트 상세 내용을 마크다운으로 입력하세요..." />
                   </div>
                 ) : (

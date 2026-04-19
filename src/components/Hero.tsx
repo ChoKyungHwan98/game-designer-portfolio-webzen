@@ -87,7 +87,7 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
     {/* Scroll indicator */}
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
       <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Scroll to explore</span>
-      <div className="w-[1px] h-16 bg-zinc-200 relative overflow-hidden">
+      <div className="w-px h-16 bg-zinc-200 relative overflow-hidden">
         <motion.div animate={{ y: [-64, 64] }} transition={{ repeat: Infinity, duration: 2, ease: 'linear' as const }} className="absolute top-0 left-0 w-full h-1/2 bg-[#0047BB]" />
       </div>
     </motion.div>

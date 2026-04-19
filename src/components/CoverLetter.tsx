@@ -123,7 +123,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                               <strong className="text-[#0047BB] font-black text-[15px] md:text-[18px] block mb-2 px-0 bg-none!">
                                 <EditableText value={hl.bold} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; if(!n[idx].highlights) n[idx].highlights = Array(4).fill({bold:"", em:""}); n[idx].highlights![hlIdx] = { ...n[idx].highlights![hlIdx], bold: v }; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={false} />
                               </strong>
-                              <em className="not-italic text-[13px] md:text-[14px] text-[#555F6B] leading-[1.5] block mt-2 break-keep">
+                              <em className="not-italic text-[13px] md:text-[14px] text-[#555F6B] leading-normal block mt-2 break-keep">
                                 <EditableText value={hl.em} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; if(!n[idx].highlights) n[idx].highlights = Array(4).fill({bold:"", em:""}); n[idx].highlights![hlIdx] = { ...n[idx].highlights![hlIdx], em: v }; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={false} />
                               </em>
                             </li>
@@ -155,7 +155,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
 
                 {/* 섹션 사이 희미한 구분선 (마지막 항목 제외) */}
                 {idx < (data.selfIntroductions || []).length - 1 && (
-                  <div className="absolute bottom-10 left-8 md:left-16 right-0 h-px bg-gradient-to-r from-[#0047BB]/10 via-[#0047BB]/5 to-transparent" />
+                  <div className="absolute bottom-10 left-8 md:left-16 right-0 h-px bg-linear-to-r from-[#0047BB]/10 via-[#0047BB]/5 to-transparent" />
                 )}
               </article>
 
@@ -180,7 +180,7 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
             transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="hidden xl:block sticky top-40 w-44 shrink-0"
           >
-            <div className="flex flex-col gap-6 border-l-[2px] border-[#0047BB]/10 pl-6 py-2">
+            <div className="flex flex-col gap-6 border-l-2 border-[#0047BB]/10 pl-6 py-2">
               <div className="text-xs font-black tracking-[0.2em] text-[#0047BB]/60 mb-2">INDEX</div>
               {data.selfIntroductions.map((intro, idx) => {
                 const isActive = activeIndex === idx;

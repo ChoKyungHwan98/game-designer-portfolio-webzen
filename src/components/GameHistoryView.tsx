@@ -83,7 +83,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
           {/* Radar Chart Section */}
-          <div className="bg-white border border-black/5 rounded-[2rem] p-8 shadow-sm flex flex-col items-center justify-center min-h-[400px]">
+          <div className="bg-white border border-black/5 rounded-4xl p-8 shadow-sm flex flex-col items-center justify-center min-h-[400px]">
             <h3 className="font-bold text-lg text-zinc-500 tracking-tight self-start mb-6">장르별 숙련도 차트</h3>
             <div className="relative" style={{ width: svgSize, height: svgSize }}>
               <svg width={svgSize} height={svgSize} className="overflow-visible">
@@ -185,7 +185,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
           {/* Stats Section */}
           <div className="flex flex-col gap-4">
-            <div className="bg-white border border-black/5 rounded-[2rem] p-8 shadow-sm flex-1 flex flex-col justify-center">
+            <div className="bg-white border border-black/5 rounded-4xl p-8 shadow-sm flex-1 flex flex-col justify-center">
               <h3 className="font-bold text-lg text-zinc-500 tracking-tight mb-8">플레이 요약 통계</h3>
               <ul className="space-y-6">
                 <li className="flex items-center justify-between border-b border-black/5 pb-4">

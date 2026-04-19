@@ -27,8 +27,8 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
 
   return (
     <section id="projects" className="py-[120px] lg:py-[160px] px-6 md:px-12 relative min-h-screen flex flex-col justify-center bg-transparent overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-linear-to-r from-transparent via-black/10 to-transparent" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-size-[32px_32px]"></div>
       
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 border-b border-black/5 pb-6">
@@ -56,7 +56,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
         </div>
 
         {limit ? (
-          <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-4 h-[auto] lg:h-[500px]">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-4 h-auto lg:h-[500px]">
             <AnimatePresence mode="popLayout">
               {topProjects.map((project, index) => {
                 const isMaster = index === 0;
@@ -88,7 +88,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
                     />
                     <motion.div 
                       layout="position" 
-                      className={`absolute inset-0 bg-gradient-to-t pointer-events-none transition-colors duration-500 ${
+                      className={`absolute inset-0 bg-linear-to-t pointer-events-none transition-colors duration-500 ${
                         isMaster ? 'from-black/70 via-black/10 to-transparent' : 'from-black/80 via-black/20 to-transparent'
                       }`} 
                     />

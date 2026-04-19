@@ -14,9 +14,9 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
     className="pt-[100px] lg:pt-[130px] pb-24 lg:pb-32 px-6 md:px-12 relative flex flex-col justify-start bg-transparent overflow-hidden"
   >
     {/* Subtle dot grid */}
-    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-[size:28px_28px]" />
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-size-[28px_28px]" />
     {/* Soft top glow */}
-    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#0047BB]/20 to-transparent" />
+    <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#0047BB]/20 to-transparent" />
 
     <div className="max-w-7xl mx-auto w-full relative z-10">
 
@@ -54,7 +54,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
               transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
-              <div className="absolute -left-6 top-1 bottom-1 w-[3px] bg-gradient-to-b from-[#0047BB]/40 via-[#0047BB]/15 to-transparent rounded-full" />
+              <div className="absolute -left-6 top-1 bottom-1 w-[3px] bg-linear-to-b from-[#0047BB]/40 via-[#0047BB]/15 to-transparent rounded-full" />
               <div className="text-[17px] md:text-[19px] lg:text-[21px] text-[#111111] leading-[1.95] font-semibold tracking-[-0.01em] break-keep">
                 <EditableText value={content.p1} onSave={(v) => setContent({ ...content, p1: v })} isEditing={isEditing} markdown />
               </div>
@@ -67,7 +67,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
               style={{ transformOrigin: 'left' }}
-              className="h-px bg-gradient-to-r from-[#0047BB]/20 via-black/5 to-transparent"
+              className="h-px bg-linear-to-r from-[#0047BB]/20 via-black/5 to-transparent"
             />
 
             {/* P2 */}
@@ -76,7 +76,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[14px] md:text-[15px] lg:text-[16px] text-zinc-600 leading-[2] font-semibold tracking-[-0.005em] break-keep"
+              className="text-[14px] md:text-[15px] lg:text-[16px] text-zinc-600 leading-loose font-semibold tracking-[-0.005em] break-keep"
             >
               <EditableText value={content.p2} onSave={(v) => setContent({ ...content, p2: v })} isEditing={isEditing} markdown />
             </motion.div>
@@ -91,7 +91,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             className="bg-white rounded-2xl border border-[#0047BB]/10 shadow-[0_4px_24px_-8px_rgba(0,71,187,0.08)] px-8 py-7 flex-1 flex items-center gap-6 min-h-[120px]"
           >
             {/* Left blue accent bar */}
-            <div className="w-1 self-stretch bg-gradient-to-b from-[#0047BB] to-[#0047BB]/20 rounded-full shrink-0" />
+            <div className="w-1 self-stretch bg-linear-to-b from-[#0047BB] to-[#0047BB]/20 rounded-full shrink-0" />
             <div>
               <p className="text-[11px] font-black tracking-[0.2em] text-[#0047BB] uppercase mb-2">핵심 철학</p>
               <p className="text-[15px] md:text-[16px] text-[#111111] font-bold leading-[1.75] break-keep">
