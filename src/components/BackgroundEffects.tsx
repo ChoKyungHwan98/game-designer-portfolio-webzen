@@ -45,12 +45,12 @@ export const BackgroundEffects = React.memo(() => {
       id: `dust-${i}`,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      size: Math.random() * 2 + 1, // 1px ~ 3px
-      opacity: Math.random() * 0.2 + 0.1, // 0.1 ~ 0.3 (가시성 증가)
-      duration: Math.random() * 20 + 20, // 20s ~ 40s
-      delay: Math.random() * -40, // 시작 시점 랜덤화 (음수 딜레이)
-      xOffset: (Math.random() - 0.5) * 100, // -50px ~ 50px
-      yOffset: (Math.random() - 0.5) * 100,
+      size: Math.random() * 2 + 1.5, // 1.5px ~ 3.5px
+      opacity: Math.random() * 0.4 + 0.2, // 0.2 ~ 0.6 (더욱 선명하게)
+      duration: Math.random() * 20 + 10, // 10s ~ 30s (조금 더 빠르게 움직임)
+      delay: Math.random() * -40,
+      xOffset: (Math.random() - 0.5) * 150,
+      yOffset: (Math.random() - 0.5) * 150,
     }));
   }, []);
 
@@ -61,25 +61,25 @@ export const BackgroundEffects = React.memo(() => {
       svg: SVGS[Math.floor(Math.random() * SVGS.length)],
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      size: Math.random() * 16 + 12, // 12px ~ 28px
+      size: Math.random() * 24 + 16, // 16px ~ 40px (더 크게)
       rotate: Math.random() * 360,
-      opacity: Math.random() * 0.06 + 0.04, // 0.04 ~ 0.1 (가시성 증가)
-      duration: Math.random() * 30 + 40, // 40s ~ 70s 매우 느리게
+      opacity: Math.random() * 0.25 + 0.15, // 0.15 ~ 0.4 (확실히 보이게)
+      duration: Math.random() * 25 + 20, // 20s ~ 45s (속도 약간 증가)
       delay: Math.random() * -60,
-      xOffset: (Math.random() - 0.5) * 150,
-      yOffset: (Math.random() - 0.5) * 150,
+      xOffset: (Math.random() - 0.5) * 200,
+      yOffset: (Math.random() - 0.5) * 200,
       rotationDir: Math.random() > 0.5 ? 1 : -1,
-      color: Math.random() > 0.8 ? '#0047BB' : '#52525b', // 간혹 브랜드 컬러, 주로 아연색(연필색)
+      color: Math.random() > 0.7 ? '#0047BB' : '#3f3f46', // 로열블루 또는 진한 아연색
     }));
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden print:hidden opacity-80 mix-blend-multiply">
+    <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden print:hidden opacity-100 mix-blend-multiply">
       {/* 1. Dust Motes Layer */}
       {dustParticles.map((dust) => (
         <motion.div
           key={dust.id}
-          className="absolute rounded-full bg-zinc-500"
+          className="absolute rounded-full bg-zinc-400"
           style={{
             left: dust.left,
             top: dust.top,
@@ -90,7 +90,7 @@ export const BackgroundEffects = React.memo(() => {
           animate={{
             x: [0, dust.xOffset, 0],
             y: [0, dust.yOffset, 0],
-            opacity: [dust.opacity, dust.opacity * 2, dust.opacity],
+            opacity: [dust.opacity, dust.opacity * 1.5, dust.opacity],
           }}
           transition={{
             duration: dust.duration,
