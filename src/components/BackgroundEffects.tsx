@@ -1,41 +1,16 @@
 import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 
-const DUST_COUNT = 40;
-const SYMBOL_COUNT = 15;
+const DUST_COUNT = 50;
+const PAPER_COUNT = 12;
 
-const SVGS = [
-  // Cross (X)
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>,
-  // Plus (+)
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 4v16M4 12h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>,
-  // Square
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="5" y="5" width="14" height="14" stroke="currentColor" strokeWidth="1.5" rx="1.5" />
-  </svg>,
-  // Diamond
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 3l9 9-9 9-9-9 9-9z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-  </svg>,
-  // Node Connection
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="6" cy="12" r="2.5" fill="currentColor" />
-    <circle cx="18" cy="12" r="2.5" fill="currentColor" />
-    <path d="M8.5 12h7" stroke="currentColor" strokeWidth="1.5" />
-  </svg>,
-  // Arrow
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>,
-  // Checkbox
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="5" y="5" width="14" height="14" stroke="currentColor" strokeWidth="1.5" rx="1.5" />
-    <path d="M9 12l2.5 2.5L16 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
+const PAPER_STYLES = [
+  // 모눈종이 (Grid Paper)
+  'bg-white border border-black/10 bg-[size:4px_4px] bg-[linear-gradient(to_right,rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.05)_1px,transparent_1px)]',
+  // 줄무늬 노트 (Ruled Paper)
+  'bg-white border border-black/10 bg-[size:100%_8px] bg-[linear-gradient(transparent_7px,rgba(0,71,187,0.1)_1px)]',
+  // 빈 종이 조각 (Plain Paper)
+  'bg-[#FDFCF8] border border-black/10 shadow-sm',
 ];
 
 export const BackgroundEffects = React.memo(() => {
@@ -46,89 +21,90 @@ export const BackgroundEffects = React.memo(() => {
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       size: Math.random() * 2 + 1.5, // 1.5px ~ 3.5px
-      opacity: Math.random() * 0.4 + 0.2, // 0.2 ~ 0.6 (더욱 선명하게)
-      duration: Math.random() * 20 + 10, // 10s ~ 30s (조금 더 빠르게 움직임)
+      opacity: Math.random() * 0.3 + 0.1, // 0.1 ~ 0.4
+      duration: Math.random() * 25 + 15, // 15s ~ 40s
       delay: Math.random() * -40,
       xOffset: (Math.random() - 0.5) * 150,
       yOffset: (Math.random() - 0.5) * 150,
     }));
   }, []);
 
-  // 스케치 기호 파티클 생성
-  const sketchSymbols = useMemo(() => {
-    return Array.from({ length: SYMBOL_COUNT }).map((_, i) => ({
-      id: `symbol-${i}`,
-      svg: SVGS[Math.floor(Math.random() * SVGS.length)],
+  // 흩날리는 기획서 조각 파티클 생성
+  const paperFragments = useMemo(() => {
+    return Array.from({ length: PAPER_COUNT }).map((_, i) => ({
+      id: `paper-${i}`,
+      styleClass: PAPER_STYLES[Math.floor(Math.random() * PAPER_STYLES.length)],
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
-      size: Math.random() * 24 + 16, // 16px ~ 40px (더 크게)
+      width: Math.random() * 40 + 30, // 30px ~ 70px (너비)
+      height: Math.random() * 60 + 40, // 40px ~ 100px (높이)
       rotate: Math.random() * 360,
-      opacity: Math.random() * 0.25 + 0.15, // 0.15 ~ 0.4 (확실히 보이게)
-      duration: Math.random() * 25 + 20, // 20s ~ 45s (속도 약간 증가)
+      opacity: Math.random() * 0.2 + 0.1, // 0.1 ~ 0.3 (은은하게 떠다님)
+      duration: Math.random() * 40 + 30, // 30s ~ 70s 매우 느리게
       delay: Math.random() * -60,
       xOffset: (Math.random() - 0.5) * 200,
-      yOffset: (Math.random() - 0.5) * 200,
+      yOffset: (Math.random() - 0.5) * 300,
       rotationDir: Math.random() > 0.5 ? 1 : -1,
-      color: Math.random() > 0.7 ? '#0047BB' : '#3f3f46', // 로열블루 또는 진한 아연색
     }));
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden print:hidden opacity-100 mix-blend-multiply">
-      {/* 1. Dust Motes Layer */}
-      {dustParticles.map((dust) => (
-        <motion.div
-          key={dust.id}
-          className="absolute rounded-full bg-zinc-400"
-          style={{
-            left: dust.left,
-            top: dust.top,
-            width: dust.size,
-            height: dust.size,
-            opacity: dust.opacity,
-          }}
-          animate={{
-            x: [0, dust.xOffset, 0],
-            y: [0, dust.yOffset, 0],
-            opacity: [dust.opacity, dust.opacity * 1.5, dust.opacity],
-          }}
-          transition={{
-            duration: dust.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: dust.delay,
-          }}
-        />
-      ))}
+    <div className="fixed inset-0 pointer-events-none z-[0] overflow-hidden print:hidden">
+      {/* 1. Dust Motes Layer (mix-blend-multiply 적용하여 배경에 스며들게) */}
+      <div className="absolute inset-0 mix-blend-multiply opacity-80">
+        {dustParticles.map((dust) => (
+          <motion.div
+            key={dust.id}
+            className="absolute rounded-full bg-zinc-400"
+            style={{
+              left: dust.left,
+              top: dust.top,
+              width: dust.size,
+              height: dust.size,
+              opacity: dust.opacity,
+            }}
+            animate={{
+              x: [0, dust.xOffset, 0],
+              y: [0, dust.yOffset, 0],
+              opacity: [dust.opacity, dust.opacity * 1.5, dust.opacity],
+            }}
+            transition={{
+              duration: dust.duration,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: dust.delay,
+            }}
+          />
+        ))}
+      </div>
 
-      {/* 2. Sketch Symbols Layer */}
-      {sketchSymbols.map((symbol) => (
-        <motion.div
-          key={symbol.id}
-          className="absolute flex items-center justify-center"
-          style={{
-            left: symbol.left,
-            top: symbol.top,
-            width: symbol.size,
-            height: symbol.size,
-            opacity: symbol.opacity,
-            color: symbol.color,
-          }}
-          animate={{
-            x: [0, symbol.xOffset, 0],
-            y: [0, symbol.yOffset, 0],
-            rotate: [symbol.rotate, symbol.rotate + (180 * symbol.rotationDir)],
-          }}
-          transition={{
-            duration: symbol.duration,
-            repeat: Infinity,
-            ease: "linear",
-            delay: symbol.delay,
-          }}
-        >
-          {symbol.svg}
-        </motion.div>
-      ))}
+      {/* 2. Paper Fragments Layer */}
+      <div className="absolute inset-0">
+        {paperFragments.map((paper) => (
+          <motion.div
+            key={paper.id}
+            className={`absolute rounded-sm ${paper.styleClass}`}
+            style={{
+              left: paper.left,
+              top: paper.top,
+              width: paper.width,
+              height: paper.height,
+              opacity: paper.opacity,
+            }}
+            animate={{
+              x: [0, paper.xOffset, 0],
+              y: [0, paper.yOffset, 0],
+              rotate: [paper.rotate, paper.rotate + (90 * paper.rotationDir)],
+            }}
+            transition={{
+              duration: paper.duration,
+              repeat: Infinity,
+              ease: "linear",
+              delay: paper.delay,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 });
