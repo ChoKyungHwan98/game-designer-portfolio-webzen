@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User } from 'lucide-react';
+import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User, Calendar } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { EditableText } from './EditableText';
@@ -156,7 +156,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                         </div>
                         {data.birthDate && (
                           <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
-                            <span className="text-zinc-400 text-xs">🎂</span>
+                            <Calendar className="w-4 h-4 text-zinc-400" />
                             <span className="font-medium">{data.birthDate}</span>
                           </div>
                         )}
