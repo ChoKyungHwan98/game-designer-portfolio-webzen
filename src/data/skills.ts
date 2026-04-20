@@ -9,10 +9,10 @@ export const SKILLS: Skill[] = [
     caption: "시스템의 골격을 세우고 수치로 검증하는 게임 기획 역량",
     capabilities: [
       { name: "시스템 기획", tier: 1 },
-      { name: "콘텐츠 기획", tier: 2 },
+      { name: "컨텐츠 기획", tier: 2 },
       { name: "밸런스 기획", tier: 3 },
-      { name: "코어 루프 설계" },
-      { name: "재화 순환 구조 설계" },
+      { name: "코어 루프 설계 경험" },
+      { name: "재화·경제 시스템 설계 경험" },
     ],
     evidences: [
       { value: "3건+", label: "팀장 완성 프로젝트" },
@@ -25,9 +25,10 @@ export const SKILLS: Skill[] = [
     icon: React.createElement(Bot, { className: "w-5 h-5" }),
     caption: "AI를 도구로 기획·검증·자동화까지 실무에 직접 적용",
     capabilities: [
-      { name: "LLM 봇 기획 소프트사클 구현" },
-      { name: "프로토타이핑 & 검증" },
-      { name: "프롬프트 엔지니어링" },
+      { name: "LLM 봇 기획·구현", tier: 1 },
+      { name: "프롬프트 엔지니어링", tier: 2 },
+      { name: "프로토타이핑 & 검증", tier: 3 },
+      { name: "LLM 회의록 자동화 봇 직접 구현" },
       { name: "Unity 기반 구현 테스트" },
     ],
     evidences: [
@@ -43,7 +44,7 @@ export const SKILLS: Skill[] = [
     capabilities: [
       { name: "목차 기반 기획서 작성", tier: 1 },
       { name: "GDD · 사양서 작성", tier: 2 },
-      { name: "논리 구조 시각화" },
+      { name: "논리 구조 시각화", tier: 3 },
       { name: "팀 협업 문서 체계화" },
     ],
     evidences: [

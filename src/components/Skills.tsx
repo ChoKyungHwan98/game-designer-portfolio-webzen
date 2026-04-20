@@ -161,15 +161,18 @@ export const Skills = ({ skills }: SkillsProps) => {
                 >
                   {/* Top: Leaf Capabilities */}
                   {leafCaps.length > 0 && (
-                    <div className="bg-linear-to-b from-[#0047BB]/[0.02] to-transparent px-4 py-4 border-b border-black/5 flex flex-wrap justify-center gap-1.5">
-                      {leafCaps.map((cap, lIdx) => (
-                        <span
-                          key={lIdx}
-                          className="px-2.5 py-1 bg-white text-zinc-600 text-[11px] font-bold rounded-md border border-zinc-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04)]"
-                        >
-                          {cap.name}
-                        </span>
-                      ))}
+                    <div className="bg-linear-to-b from-[#0047BB]/[0.02] to-transparent px-4 pt-3 pb-4 border-b border-black/5">
+                      <p className="text-[9px] font-black tracking-[0.18em] text-[#0047BB]/50 uppercase text-center mb-2">실무 적용 경험</p>
+                      <div className="flex flex-wrap justify-center gap-1.5">
+                        {leafCaps.map((cap, lIdx) => (
+                          <span
+                            key={lIdx}
+                            className="px-2.5 py-1 bg-white text-zinc-600 text-[11px] font-bold rounded-md border border-zinc-200/80 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.04)]"
+                          >
+                            {cap.name}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
 
