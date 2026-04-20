@@ -216,6 +216,18 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     margin: 2.5rem 0;
   }
+
+  /* ── About 섹션 p1: bold → 파란색 강조 ── */
+  .markdown-strong-blue strong {
+    color: #0047BB !important;
+    font-weight: 900 !important;
+  }
+
+  /* ── About 섹션 p2: bold → 진한 회색 강조 ── */
+  .markdown-strong-dark strong {
+    color: #1A1A1A !important;
+    font-weight: 700 !important;
+  }
 }
 
 /* --- Light custom scrollbar --- */
