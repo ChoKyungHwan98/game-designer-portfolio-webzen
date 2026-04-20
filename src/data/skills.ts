@@ -29,7 +29,7 @@ export const SKILLS: Skill[] = [
       { name: "프롬프트 엔지니어링", tier: 2 },
       { name: "프로토타이핑 & 검증", tier: 3 },
       { name: "LLM 회의록 자동화 봇 직접 구현" },
-      { name: "Unity 기반 구현 테스트" },
+      { name: "바이브코딩 기반 프로토타입 제작" },
     ],
     evidences: [
       { value: "20건+", label: "회의록 자동화" },
