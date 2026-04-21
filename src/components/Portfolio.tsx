@@ -33,8 +33,19 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
     ? projects
     : projects.filter(p => p.category === activeCategory);
 
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedProject]);
+
   return (
-    <div className="min-h-screen bg-transparent relative">
+    <div className="relative min-h-screen bg-bg-main overflow-x-hidden pt-32 pb-20">
       {/* Subtle background effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px]" style={{background: 'rgba(0,71,187,0.04)'}}></div>

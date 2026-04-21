@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useAnimation, useMotionValue, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useAnimation, useMotionValue } from 'motion/react';
 import { ChevronLeft, ChevronRight, Search, Move, MousePointer2 } from 'lucide-react';
 
 interface EBookGalleryProps {
@@ -44,8 +44,9 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
   const tutorialControls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Use motion values for smoother tracking during drag
-  const x = useMotionValue(0);
+  // Throttle wheel pagination
+  const lastWheelTime = useRef(0);
+  const wheelCooldown = 500; // ms
 
   if (currentIndex !== page) {
     setPage([currentIndex, currentIndex > page ? 1 : -1]);
@@ -65,14 +66,36 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
     }
   }, [showSwipeTutorial, currentIndex, tutorialControls]);
 
+  const paginate = useCallback((newDirection: number) => {
+    if (zoom > 1) setZoom(1);
+    const next = currentIndex + newDirection;
+    if (next >= 0 && next < images.length) {
+      onPageChange(next);
+      setShowSwipeTutorial(false);
+    }
+  }, [currentIndex, images.length, onPageChange, zoom]);
+
   const handleWheel = useCallback((e: WheelEvent) => {
+    e.preventDefault();
+    
     if (e.ctrlKey) {
-      e.preventDefault();
+      // Zoom logic
       const delta = e.deltaY > 0 ? -0.2 : 0.2;
       setZoom(prev => Math.min(Math.max(1, prev + delta), 4));
       setShowHint(false);
+    } else {
+      // Pagination logic
+      const now = Date.now();
+      if (now - lastWheelTime.current > wheelCooldown && Math.abs(e.deltaY) > 10) {
+        if (e.deltaY > 0) {
+          paginate(1);
+        } else {
+          paginate(-1);
+        }
+        lastWheelTime.current = now;
+      }
     }
-  }, []);
+  }, [paginate]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -85,15 +108,6 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
   }, [handleWheel]);
 
   if (!images || images.length === 0) return null;
-
-  const paginate = (newDirection: number) => {
-    if (zoom > 1) setZoom(1);
-    const next = currentIndex + newDirection;
-    if (next >= 0 && next < images.length) {
-      onPageChange(next);
-      setShowSwipeTutorial(false);
-    }
-  };
 
   const swipeConfidenceThreshold = 10000;
   const swipePower = (offset: number, velocity: number) => {
@@ -129,10 +143,13 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
           >
             <div className="flex items-center gap-2">
               <kbd className="px-2 py-1 bg-white/10 rounded text-[9px] border border-white/10">CTRL</kbd>
-              <span>+ WHEEL</span>
+              <span>+ WHEEL TO ZOOM</span>
             </div>
             <div className="w-px h-3 bg-white/20" />
-            <div className="flex items-center gap-2"><Move className="w-3.5 h-3.5 text-[#0047BB]" /><span>DRAG TO PAN</span></div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded text-[9px] border border-white/10">WHEEL</kbd>
+              <span>TO SLIDE</span>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -190,7 +207,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
                 }}
                 drag={zoom > 1 ? true : "x"}
                 dragConstraints={getDragConstraints()}
-                dragElastic={zoom > 1 ? 0.1 : 0.15} // Increased slightly for better feel
+                dragElastic={zoom > 1 ? 0.1 : 0.15}
                 onDragEnd={(_, { offset, velocity }) => {
                   if (zoom === 1) {
                     const swipe = swipePower(offset.x, velocity.x);
