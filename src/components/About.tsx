@@ -11,56 +11,34 @@ interface AboutProps {
 export const About = ({ isEditing, content, setContent }: AboutProps) => (
   <section
     id="about"
-    className="py-[120px] lg:py-[200px] px-6 md:px-12 relative flex flex-col justify-start bg-transparent overflow-hidden"
+    className="pt-[100px] lg:pt-[130px] pb-24 lg:pb-32 px-6 md:px-12 relative flex flex-col justify-start bg-transparent overflow-hidden"
   >
-    {/* Subtle Background Effects */}
-    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-size-[40px_40px]" />
-    
-    <div className="max-w-[1200px] mx-auto w-full relative z-10">
-      
-      {/* SECTION LABEL - Centered */}
-      <div className="flex justify-center mb-16 lg:mb-24">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          className="inline-flex items-center gap-2 px-5 py-2 border border-black/5 rounded-full bg-white/50 backdrop-blur-sm shadow-sm"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#0047BB] animate-pulse"></span>
-          <span className="text-[#0047BB] font-mono text-[11px] font-black tracking-[0.2em] uppercase">01. About Me</span>
-        </motion.div>
+    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.025)_1px,transparent_1px)] bg-size-[28px_28px]" />
+    <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#0047BB]/20 to-transparent" />
+
+    <div className="max-w-7xl mx-auto w-full relative z-10">
+
+      {/* ── SECTION HEADER ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4 border-b border-black/5 pb-8">
+        <div>
+          <span className="text-[#0047BB] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">01. 소개</span>
+          <h2 className="flex flex-col gap-1 items-start mt-2">
+            <span className="text-2xl md:text-3xl text-zinc-500 font-display font-medium tracking-tight">논리와 감성으로,</span>
+            <span className="flex items-baseline gap-2 leading-none mt-1">
+              <span className="text-[72px] md:text-[90px] lg:text-[110px] font-display font-black tracking-tighter text-zinc-400 leading-none">0</span>
+              <span className="text-3xl md:text-4xl lg:text-5xl font-display font-black text-zinc-500">에서</span>
+              <span className="text-[82px] md:text-[100px] lg:text-[124px] font-display font-black tracking-tighter text-[#0047BB] leading-none drop-shadow-[0_0_32px_rgba(0,71,187,0.22)]">+</span>
+              <span className="text-3xl md:text-4xl lg:text-5xl font-display font-black text-zinc-500">로</span>
+            </span>
+          </h2>
+        </div>
+        <p className="text-zinc-400 text-sm leading-[1.8] md:text-right font-medium max-w-[240px]">
+          프로젝트의 뼈대를 세우고<br />재미의 본질을 설계하는 핵심 철학입니다.
+        </p>
       </div>
 
-      {/* MASSIVE TYPOGRAPHIC HOOK */}
-      <motion.div 
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center relative mb-24 lg:mb-32 w-full mx-auto max-w-5xl"
-      >
-        {/* Background massive decorative text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center opacity-[0.02] pointer-events-none select-none z-0 w-full whitespace-nowrap">
-          <span className="text-[120px] md:text-[200px] lg:text-[300px] font-black leading-[0.8] font-display">0 TO +</span>
-        </div>
-
-        {/* Editable P1 with Cinematic Typography */}
-        <div className="relative z-10 text-[22px] md:text-[32px] lg:text-[42px] leading-[1.6] font-semibold text-zinc-400 tracking-tight break-keep
-          [&_p]:m-0
-          [&_strong]:text-[#1A1A1A] [&_strong]:font-black [&_strong]:relative [&_strong]:inline-block [&_strong]:z-10
-          [&_strong]:after:content-[''] [&_strong]:after:absolute [&_strong]:after:bottom-0 md:[&_strong]:after:bottom-2 [&_strong]:after:left-0 [&_strong]:after:right-0 [&_strong]:after:h-3 md:[&_strong]:after:h-4 [&_strong]:after:bg-[#0047BB]/15 [&_strong]:after:-z-10
-        ">
-          <EditableText
-            value={content.p1}
-            onSave={(v) => setContent({ ...content, p1: v })}
-            isEditing={isEditing}
-            markdown
-          />
-        </div>
-      </motion.div>
-
-      {/* REFINED MESSAGE & BENTO GRID */}
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center">
+      {/* ── TWO-COLUMN LAYOUT ── */}
+      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center pt-8">
         
         {/* Left: Closing Promise */}
         <motion.div 
@@ -145,6 +123,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
         </div>
 
       </div>
+
     </div>
   </section>
 );
