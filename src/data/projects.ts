@@ -34,10 +34,11 @@ export const PROJECTS: Project[] = [
   {
     id: 2,
     title: "Digreed",
-    category: "룰 기획",
+    category: "MVP 기획",
     description: "잠입 액션 로그라이트 게임의 전체 룰 및 시스템을 설계했습니다. 무기 교체 시스템과 맵 프리팹 구조를 기획했습니다.",
     tags: ["로그라이트", "잠입 액션", "시스템 기획"],
     image: "./images/digreed.png",
+    gallery: Array.from({ length: 14 }, (_, i) => `./images/digreed_ebook/page_${(i + 1).toString().padStart(3, '0')}.png`),
     pdfUrl: "./documents/digreed_mvp_plan.pdf",
     color: "from-emerald-500/20 to-teal-500/20",
     status: "미출시",
