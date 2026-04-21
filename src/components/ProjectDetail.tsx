@@ -228,11 +228,11 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
                     </div>
                     <span className="text-[10px] font-black text-[#EC4899] uppercase tracking-[0.3em]">AI 활용 능력</span>
                   </div>
-                  <h3 className="text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tighter">
+                  <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-[1.1] tracking-tighter">
                     빠른 <br />
                     <span className="bg-linear-to-r from-[#EC4899] to-[#8B5CF6] text-transparent bg-clip-text">프로토타이핑</span>
                   </h3>
-                  <p className="text-zinc-400 text-base leading-relaxed font-medium">
+                  <p className="text-zinc-400 text-sm leading-relaxed font-medium max-w-[280px]">
                     Google Gemini를 활용하여 단 수 시간 만에 기획서의 핵심 메카니즘을 플레이어블 버전으로 구현했습니다.
                   </p>
                 </div>
@@ -272,21 +272,23 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
               <div className="flex-1 flex items-center justify-center p-4 lg:p-8 relative">
                 <div className="relative group">
                   {/* Phone Frame Decoration */}
-                  <div className="absolute inset-0 bg-[#EC4899]/10 rounded-[4rem] blur-[100px] group-hover:bg-[#EC4899]/20 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-[#EC4899]/10 rounded-[3rem] blur-[80px] group-hover:bg-[#EC4899]/20 transition-all duration-700" />
                   
-                  <div className="relative w-[480px] h-[800px] bg-[#0a0a0a] rounded-[4rem] shadow-2xl border-[10px] border-zinc-800 ring-1 ring-white/10 overflow-hidden scale-[0.75] sm:scale-90 lg:scale-100 xl:scale-110 origin-center transition-transform duration-700">
+                  <div className="relative w-[380px] h-[640px] bg-[#0a0a0a] rounded-[3.5rem] shadow-2xl border-[8px] border-zinc-800 ring-1 ring-white/10 overflow-hidden transition-transform duration-700">
                     {/* Dynamic Island Look-alike */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-full z-20 flex items-center justify-center gap-2">
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
-                      <div className="w-8 h-1 bg-white/5 rounded-full" />
+                      <div className="w-6 h-1 bg-white/5 rounded-full" />
                     </div>
 
-                    <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
-                      <iframe 
-                        src={project.prototypeUrl}
-                        className="w-[450px] h-[750px] border-0"
-                        title="Prototype Viewer"
-                      />
+                    <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] overflow-hidden">
+                      <div className="scale-[0.8] origin-center">
+                        <iframe 
+                          src={project.prototypeUrl}
+                          className="w-[450px] h-[750px] border-0"
+                          title="Prototype Viewer"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
