@@ -175,7 +175,15 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
               className="h-full w-full flex items-center justify-center absolute inset-0"
             >
               <motion.img
-                animate={{ scale: zoom }}
+                animate={{ 
+                  scale: zoom,
+                  x: zoom === 1 ? 0 : undefined,
+                  y: zoom === 1 ? 0 : undefined
+                }}
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  y: { type: "spring", stiffness: 300, damping: 30 }
+                }}
                 drag={zoom > 1 ? true : "x"}
                 dragConstraints={getDragConstraints()}
                 dragElastic={zoom > 1 ? 0.1 : 0.05}
