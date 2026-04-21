@@ -177,8 +177,8 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                   <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                 </button>
 
-                {/* Scrollable content */}
-                <div className="flex-1 overflow-y-auto">
+                {/* Content - height fills modal, scroll managed per-tab */}
+                <div className="flex-1 overflow-hidden flex flex-col min-h-0">
                   <ProjectDetail
                     project={selectedProject}
                     onBack={() => setSelectedProject(null)}
