@@ -8,7 +8,7 @@ const SUB_VIEW_LABELS: Record<string, string> = {
   'cover-letter': '이력서',
   'portfolio': '포트폴리오 갤러리',
   'project-detail': '프로젝트 상세',
-  'game-history': '플레이 이력',
+  'game-history': '게이밍DNA',
   'all-projects': '프로젝트 전체',
 };
 
@@ -148,7 +148,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                   { id: 'about', label: '소개', num: '01' },
                   { id: 'projects', label: '프로젝트', num: '02' },
                   { id: 'skills', label: '핵심역량', num: '03' },
-                  { id: 'play-history', label: '플레이 이력', num: '04' }
+                  { id: 'play-history', label: '게이밍DNA', num: '04' }
                 ].map(({ id, label, num }) => (
                   <a
                     key={id}
@@ -171,7 +171,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
               {[
                 { key: 'resume', label: '이력서', icon: React.createElement(FileText, { className: "w-4 h-4" }) },
                 { key: 'portfolio', label: '포트폴리오', icon: React.createElement(FolderOpen, { className: "w-4 h-4" }) },
-                { key: 'game-history', label: '플레이 이력', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
+                { key: 'game-history', label: '게이밍DNA', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
               ].map(item => (
                 <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0, 0); }}
                   className={`w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${currentView === item.key || (currentView === 'cover-letter' && item.key === 'resume') ? 'bg-white text-[#0047BB] shadow-md pointer-events-none' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm'}`}>
@@ -214,7 +214,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                 {[
                   { key: 'resume', label: '이력서 보기', icon: React.createElement(FileText, { className: "w-4 h-4" }) },
                   { key: 'portfolio', label: '포트폴리오 갤러리', icon: React.createElement(FolderOpen, { className: "w-4 h-4" }) },
-                  { key: 'game-history', label: '플레이 이력 보기', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
+                  { key: 'game-history', label: '게이밍DNA 보기', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
                 ].map(item => (
                   <button key={item.key} onClick={() => { setView(item.key as any); setIsMenuOpen(false); window.scrollTo(0, 0); }}
                     className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${currentView === item.key ? 'bg-white text-[#0047BB] shadow-sm' : 'text-zinc-600 hover:bg-[#0047BB] hover:text-white'}`}>
