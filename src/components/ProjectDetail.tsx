@@ -62,23 +62,23 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
           <AnimatePresence>
             {activeTab === 'document' && galleryImages.length > 1 && (
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center pt-1"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center pt-0"
               >
-                <div className="flex items-center gap-4">
-                  <div className="text-[10px] font-black tracking-[0.3em] text-zinc-400 flex items-center gap-2">
-                    <span className="text-zinc-900">{String(currentPage + 1).padStart(2, '0')}</span>
-                    <span className="w-4 h-[1px] bg-zinc-200"></span>
-                    <span>{String(galleryImages.length).padStart(2, '0')}</span>
+                <div className="flex items-center gap-6 bg-[#0047BB] px-6 py-2 rounded-full shadow-lg border border-white/20">
+                  <div className="text-[13px] font-black tracking-[0.2em] text-white/90 flex items-center gap-3">
+                    <span className="text-white drop-shadow-md">{String(currentPage + 1).padStart(2, '0')}</span>
+                    <span className="w-6 h-[2px] bg-white/30 rounded-full"></span>
+                    <span className="text-white/60">{String(galleryImages.length).padStart(2, '0')}</span>
                   </div>
                 </div>
-                <div className="flex gap-0.5 mt-1.5 h-0.5">
+                <div className="flex gap-1 mt-2 h-1 w-32 justify-center">
                   {galleryImages.map((_, i) => (
                     <div
                       key={i}
-                      className={`h-full transition-all duration-300 ${i === currentPage ? 'bg-[#0047BB] w-4' : 'bg-zinc-100 w-1'}`}
+                      className={`h-full rounded-full transition-all duration-300 ${i === currentPage ? 'bg-[#0047BB] w-6' : 'bg-zinc-200 w-1.5'}`}
                     />
                   ))}
                 </div>
