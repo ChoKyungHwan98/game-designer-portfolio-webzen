@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, FileText, Layout, Tag, Calendar, ScrollText, Grid, X, LayoutGrid } from 'lucide-react';
+import { Play, FileText, Layout, Tag, Calendar, ScrollText, Grid, X, LayoutGrid, FileDown } from 'lucide-react';
 import type { Project } from '../types';
 import { EBookGallery } from './EBookGallery';
 
@@ -90,6 +90,16 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
 
         {/* Right: Window Controls */}
         <div className="flex items-center gap-2">
+          {project.pdfUrl && (
+            <a 
+              href={project.pdfUrl} 
+              download 
+              className="w-10 h-10 rounded-lg hover:bg-zinc-100 text-zinc-500 flex items-center justify-center transition-all duration-200 group"
+              title="기획서 PDF 다운로드"
+            >
+              <FileDown className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            </a>
+          )}
           {activeTab === 'document' && (
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
