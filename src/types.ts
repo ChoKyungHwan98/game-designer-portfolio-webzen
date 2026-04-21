@@ -14,6 +14,7 @@ export interface Project {
   simulatorUrl?: string;
   simulatorVideoUrl?: string;
   hasSimulator?: boolean;
+  prototypeUrl?: string;
   bookmarks?: { id: string; title: string; type: 'section' | 'link' | 'ebook'; target: string }[];
   color: string;
   content: string;

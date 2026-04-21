@@ -11,7 +11,7 @@ interface ProjectDetailProps {
   onSaveContent?: (content: string) => void;
 }
 
-type TabType = 'overview' | 'document' | 'video' | 'link' | 'simulator';
+type TabType = 'overview' | 'document' | 'video' | 'link' | 'simulator' | 'prototype';
 
 export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: ProjectDetailProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
@@ -21,6 +21,7 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
   const tabs: { id: TabType; label: string; icon: React.ReactNode; show: boolean }[] = [
     { id: 'overview', label: '개요', icon: <LayoutGrid className="w-3.5 h-3.5" />, show: true },
     { id: 'document', label: '기획서', icon: <FileText className="w-3.5 h-3.5" />, show: !!(project.gallery || project.pdfUrl) },
+    { id: 'prototype', label: '프로토타입', icon: <Sparkles className="w-3.5 h-3.5" />, show: !!project.prototypeUrl },
     { id: 'video', label: '플레이 영상', icon: <Play className="w-3.5 h-3.5" />, show: !!project.videoUrl },
     { id: 'link', label: '링크', icon: <ExternalLink className="w-3.5 h-3.5" />, show: !!project.externalUrl },
     { id: 'simulator', label: '시뮬레이터', icon: <Calculator className="w-3.5 h-3.5" />, show: !!(project.simulatorUrl || project.hasSimulator || project.simulatorVideoUrl) },
@@ -37,6 +38,7 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
       case 'video': return { bg: 'bg-[#1A1A1A]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#1A1A1A] text-white', accent: '#0047BB' };
       case 'link': return { bg: 'bg-[#6D28D9]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#6D28D9] text-white', accent: '#ffffff' };
       case 'simulator': return { bg: 'bg-[#059669]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#059669] text-white', accent: '#ffffff' };
+      case 'prototype': return { bg: 'bg-[#EC4899]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#EC4899] text-white', accent: '#ffffff' };
       default: return { bg: 'bg-white', text: 'text-zinc-900', border: 'border-zinc-200', tabActive: 'bg-white', accent: '#0047BB' };
     }
   };
@@ -80,6 +82,9 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
               simulator: isActive 
                 ? 'bg-[#059669] text-white shadow-md shadow-[#059669]/20 border-transparent' 
                 : 'bg-[#059669]/10 text-[#059669] hover:bg-[#059669]/20 border-transparent',
+              prototype: isActive 
+                ? 'bg-[#EC4899] text-white shadow-md shadow-[#EC4899]/20 border-transparent' 
+                : 'bg-[#EC4899]/10 text-[#EC4899] hover:bg-[#EC4899]/20 border-transparent',
             };
 
             return (
@@ -200,6 +205,27 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
                     <p className="mt-8 text-zinc-400 text-sm font-black uppercase tracking-[0.2em]">
                       Link via Gemini Pro
                     </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : activeTab === 'prototype' ? (
+            <motion.div key="tab-prototype" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="flex-1 bg-zinc-900 relative overflow-hidden"
+            >
+              <div className="absolute inset-0 flex items-center justify-center p-8">
+                <div className="w-full h-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl relative">
+                  <iframe 
+                    src={project.prototypeUrl}
+                    className="w-full h-full border-0"
+                    title="Prototype Viewer"
+                  />
+                  <div className="absolute top-4 right-4 flex gap-2">
+                    <div className="px-3 py-1 bg-black/80 backdrop-blur-md rounded-full text-[10px] font-black text-white/80 uppercase tracking-widest border border-white/10">Interactive Prototype</div>
+                    <div className="px-3 py-1 bg-[#EC4899]/80 backdrop-blur-md rounded-full text-[10px] font-black text-white uppercase tracking-widest border border-[#EC4899]/30 flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3" />
+                      AI Assisted
+                    </div>
                   </div>
                 </div>
               </div>
