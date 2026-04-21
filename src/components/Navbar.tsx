@@ -136,11 +136,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
               centerSlot
             ) : isSubView ? (
               /* Sub-view without tabs: page label breadcrumb */
-              <div className="flex items-center gap-2 text-zinc-400">
-                <span className="text-xs font-mono tracking-widest uppercase">
-                  {SUB_VIEW_LABELS[currentView] ?? currentView}
-                </span>
-              </div>
+              <></>
             ) : (
               /* Home: section nav links */
               <div className="flex items-center justify-center gap-2">

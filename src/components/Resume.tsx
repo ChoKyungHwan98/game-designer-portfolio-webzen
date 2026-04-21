@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User, Calendar } from 'lucide-react';
+import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User, Calendar, MapPin } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { EditableText } from './EditableText';
@@ -162,17 +162,33 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   </div>
 
                   {/* Contact Quick List */}
-                  <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-3 text-[13px] text-zinc-500 font-bold uppercase tracking-wider">
-                    <div className="flex items-center gap-2">
+                  <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-3 text-[13px] text-zinc-500 font-bold uppercase tracking-wider">
+                    <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-sm border border-zinc-100/50">
                       <Mail className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
                       <span className="lowercase">
                         <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
                       </span>
                     </div>
+                    {data.phone && (
+                      <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-sm border border-zinc-100/50">
+                        <Phone className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
+                        <span>
+                          <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
+                        </span>
+                      </div>
+                    )}
                     {data.birthDate && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-sm border border-zinc-100/50">
                         <Calendar className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
                         <span>{data.birthDate}</span>
+                      </div>
+                    )}
+                    {data.address && (
+                      <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-sm border border-zinc-100/50 w-full sm:w-auto">
+                        <MapPin className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
+                        <span>
+                          <EditableText value={data.address} onSave={(v) => setData({...data, address: v})} isEditing={isEditing} />
+                        </span>
                       </div>
                     )}
                   </div>
