@@ -36,29 +36,29 @@ export const EBookGallery = ({ images }: EBookGalleryProps) => {
   const hasNext = currentIndex < images.length - 1;
 
   return (
-    <div className="w-full h-full flex flex-col min-h-0 select-none">
-      {/* Counter + dots */}
+    <div className="w-full h-full relative select-none bg-zinc-50/50">
+      {/* Floating Counter + dots */}
       {images.length > 1 && (
-        <div className="shrink-0 flex items-center justify-center gap-3 pb-2">
-          <div className="px-4 py-1.5 bg-[#1A1A1A] rounded-full text-white text-[11px] font-black tracking-[0.25em] flex items-center gap-2 shadow-md">
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none">
+          <div className="px-4 py-1.5 bg-black/80 backdrop-blur-md rounded-full text-white text-[11px] font-black tracking-[0.25em] flex items-center gap-2 shadow-xl border border-white/10">
             <span>{String(currentIndex + 1).padStart(2, '0')}</span>
             <span className="text-white/30">/</span>
             <span className="text-white/60">{String(images.length).padStart(2, '0')}</span>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1 pointer-events-auto">
             {images.map((_, i) => (
               <button
                 key={i}
                 onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); }}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-[#0047BB] w-4' : 'bg-zinc-200 hover:bg-zinc-300 w-1.5'}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentIndex ? 'bg-[#0047BB] w-4' : 'bg-zinc-300/50 hover:bg-zinc-400 w-1.5'}`}
               />
             ))}
           </div>
         </div>
       )}
 
-      {/* Image viewer — fills all remaining height */}
-      <div className="relative flex-1 min-h-0 group/viewer flex items-center justify-center">
+      {/* Image viewer — fills all available space */}
+      <div className="relative w-full h-full group/viewer flex items-center justify-center">
         {/* Left arrow */}
         {images.length > 1 && (
           <button
@@ -95,7 +95,7 @@ export const EBookGallery = ({ images }: EBookGalleryProps) => {
         )}
 
         {/* Image */}
-        <div className="h-full w-full flex items-center justify-center px-16 md:px-20 overflow-hidden rounded-xl border border-black/6 shadow-[0_8px_32px_rgba(0,0,0,0.08)] bg-zinc-50">
+        <div className="h-full w-full flex items-center justify-center overflow-hidden bg-white/40">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.img
               key={currentIndex}
