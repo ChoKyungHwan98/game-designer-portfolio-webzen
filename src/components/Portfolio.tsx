@@ -63,79 +63,86 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 </span>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.filter(p => p.category === category).map((project) => (
-                  <motion.div
-                    key={project.id}
-                    onClick={() => setSelectedProject(project)}
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="group relative flex flex-col bg-white rounded-[1.75rem] overflow-hidden border border-black/5 cursor-pointer hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.1)] transition-shadow duration-500"
-                  >
-                    {/* Card Image */}
-                    <div className="aspect-16/11 overflow-hidden relative bg-zinc-100">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative group/row">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-4 px-2 -mx-2 items-stretch hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                  {projects.filter(p => p.category === category).map((project) => (
+                    <motion.div
+                      key={project.id}
+                      onClick={() => setSelectedProject(project)}
+                      whileHover={{ y: -6 }}
+                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      className="snap-start shrink-0 w-[85vw] sm:w-[320px] md:w-[380px] lg:w-[400px] group relative flex flex-col bg-white rounded-[1.75rem] overflow-hidden border border-black/5 cursor-pointer hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.1)] transition-shadow duration-500"
+                    >
+                      {/* Card Image */}
+                      <div className="aspect-16/11 overflow-hidden relative bg-zinc-100">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {project.status && (
-                        <div className="absolute top-5 left-5 z-10">
-                          <div className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-widest border backdrop-blur-md shadow-sm ${
-                            project.status === '미출시'
-                              ? 'bg-black/20 text-white border-white/20'
-                              : 'bg-[#0047BB] text-white border-[#0047BB]'
-                          }`}>
-                            {project.status}
+                        {project.status && (
+                          <div className="absolute top-5 left-5 z-10">
+                            <div className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-widest border backdrop-blur-md shadow-sm ${
+                              project.status === '미출시'
+                                ? 'bg-black/20 text-white border-white/20'
+                                : 'bg-[#0047BB] text-white border-[#0047BB]'
+                            }`}>
+                              {project.status}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Hover icon */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                          <div className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#0047BB] shadow-2xl scale-50 group-hover:scale-100 transition-transform duration-500">
+                            <MousePointer2 className="w-5 h-5" />
                           </div>
                         </div>
-                      )}
-
-                      {/* Hover icon */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                        <div className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-[#0047BB] shadow-2xl scale-50 group-hover:scale-100 transition-transform duration-500">
-                          <MousePointer2 className="w-5 h-5" />
-                        </div>
                       </div>
-                    </div>
 
-                    {/* Card Content */}
-                    <div className="p-8 flex-1 flex flex-col">
-                      <div className="flex items-start justify-between gap-4 mb-3">
-                        <h4 className="text-xl font-display font-black tracking-tight text-[#1A1A1A] group-hover:text-[#0047BB] transition-colors leading-tight">
+                      {/* Card Content */}
+                      <div className="p-8 flex-1 flex flex-col">
+                        <div className="flex items-start justify-between gap-4 mb-3">
+                          <h4 className="text-xl font-display font-black tracking-tight text-[#1A1A1A] group-hover:text-[#0047BB] transition-colors leading-tight">
+                            <EditableText
+                              value={project.title}
+                              onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }}
+                              isEditing={isEditing}
+                            />
+                          </h4>
+                          <div className="shrink-0 w-9 h-9 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-[#0047BB] group-hover:border-[#0047BB] group-hover:text-white transition-all duration-300 text-zinc-400">
+                            <ArrowUpRight className="w-4 h-4" />
+                          </div>
+                        </div>
+
+                        <p className="text-zinc-500 text-sm leading-relaxed mb-6 flex-1 line-clamp-2 font-medium">
                           <EditableText
-                            value={project.title}
-                            onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].title = v; setProjects(p); }}
+                            value={project.description}
+                            onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }}
                             isEditing={isEditing}
+                            multiline
                           />
-                        </h4>
-                        <div className="shrink-0 w-9 h-9 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-[#0047BB] group-hover:border-[#0047BB] group-hover:text-white transition-all duration-300 text-zinc-400">
-                          <ArrowUpRight className="w-4 h-4" />
+                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.slice(0, 3).map((tag, tIdx) => (
+                            <span key={tIdx} className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider bg-zinc-50 px-2.5 py-1 rounded-md border border-black/5">
+                              #{tag}
+                            </span>
+                          ))}
                         </div>
                       </div>
-
-                      <p className="text-zinc-500 text-sm leading-relaxed mb-6 flex-1 line-clamp-2 font-medium">
-                        <EditableText
-                          value={project.description}
-                          onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }}
-                          isEditing={isEditing}
-                          multiline
-                        />
-                      </p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.slice(0, 3).map((tag, tIdx) => (
-                          <span key={tIdx} className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider bg-zinc-50 px-2.5 py-1 rounded-md border border-black/5">
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                  {/* Spacer for horizontal scroll breathing room */}
+                  <div className="shrink-0 w-[5vw] md:w-[10vw]" />
+                </div>
+                
+                {/* Scroll Hints (Gradients) */}
+                <div className="absolute top-0 bottom-12 right-0 w-32 bg-gradient-to-l from-[#FDFDFB] to-transparent pointer-events-none hidden md:block z-10" />
               </div>
             </motion.div>
           ))}
