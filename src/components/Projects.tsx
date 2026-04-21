@@ -33,18 +33,21 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 border-b border-black/5 pb-6">
           <div>
-            <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="text-[#0047BB] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 프로젝트 이력</motion.span>
+            <motion.div initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+              className="flex items-center gap-2 mb-3">
+              <span className="w-8 h-px bg-[#0047BB]/40" />
+              <span className="text-[#0047BB] font-sans text-[11px] font-black tracking-[0.3em] uppercase">02. 프로젝트 이력</span>
+            </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="flex flex-col gap-1 items-start mt-2">
               <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-tight">실전으로 증명한</span>
-              <span className="text-5xl md:text-6xl lg:text-[5rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none">결과물</span>
+              <span className="text-5xl md:text-6xl lg:text-[5.5rem] font-display font-black tracking-tighter text-[#1A1A1A] leading-[0.9] drop-shadow-sm">결과물</span>
             </motion.h2>
           </div>
-          <div className="flex flex-col items-start md:items-end gap-3">
-            <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-              className="text-zinc-500 text-xs md:text-sm font-medium md:text-right max-w-sm">
-              시스템 기획 및 레벨 디자인, 프로토타입 개발 결과물입니다.
+          <div className="flex flex-col items-start md:items-end gap-3 self-end mb-1">
+            <motion.p initial={{ opacity: 0, x: 10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+              className="text-zinc-500 text-xs md:text-sm font-medium md:text-right max-w-[280px] leading-relaxed border-l-2 md:border-l-0 md:border-r-2 border-[#0047BB]/10 pl-4 md:pl-0 md:pr-4">
+              시스템 기획 및 프로토타입 개발 결과물입니다.
             </motion.p>
             {limit && setView && (
               <button onClick={() => setView('portfolio')}
