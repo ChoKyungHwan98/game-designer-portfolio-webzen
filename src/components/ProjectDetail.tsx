@@ -163,29 +163,42 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
                       </section>
                     </div>
 
-                    <div className="space-y-8">
-                      <div className="bg-white rounded-3xl p-8 border border-black/5 shadow-sm sticky top-0">
-                        <h4 className="text-[12px] font-black text-[#0047BB] uppercase tracking-[0.3em] mb-10 border-b border-zinc-100 pb-4">Project Metadata</h4>
-                        <div className="space-y-8">
-                          <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center shrink-0">
-                              <Tag className="w-5 h-5 text-[#0047BB]" />
+                    <div className="space-y-12">
+                      <div className="bg-white rounded-[2.5rem] p-10 border border-black/5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] sticky top-0 relative overflow-hidden group/meta">
+                        {/* Signature Accent Line */}
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-[#0047BB] opacity-80" />
+                        
+                        <div className="relative z-10">
+                          <h4 className="text-[13px] font-black text-[#0047BB] uppercase tracking-[0.4em] mb-12 flex items-center gap-3">
+                            <span className="w-8 h-px bg-[#0047BB]/20" />
+                            Project Metadata
+                          </h4>
+                          
+                          <div className="space-y-10">
+                            <div className="flex items-start gap-6 group">
+                              <div className="w-12 h-12 rounded-2xl bg-[#0047BB]/5 border border-[#0047BB]/10 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:bg-[#0047BB] group-hover:text-white group-hover:border-transparent">
+                                <Tag className="w-5 h-5 text-[#0047BB] transition-colors duration-500 group-hover:text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1 pt-1">
+                                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-2 leading-none">Category</p>
+                                <p className="text-xl font-black text-[#1A1A1A] tracking-tight leading-tight group-hover:text-[#0047BB] transition-colors duration-300">{project.category}</p>
+                              </div>
                             </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Category</p>
-                              <p className="text-lg font-black text-[#1A1A1A]">{project.category}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-5">
-                            <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center shrink-0">
-                              <Calendar className="w-5 h-5 text-[#0047BB]" />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Status</p>
-                              <p className="text-lg font-black text-[#1A1A1A]">{project.status}</p>
+
+                            <div className="flex items-start gap-6 group">
+                              <div className="w-12 h-12 rounded-2xl bg-[#0047BB]/5 border border-[#0047BB]/10 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:bg-[#0047BB] group-hover:text-white group-hover:border-transparent">
+                                <Calendar className="w-5 h-5 text-[#0047BB] transition-colors duration-500 group-hover:text-white" />
+                              </div>
+                              <div className="min-w-0 flex-1 pt-1">
+                                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-2 leading-none">Status</p>
+                                <p className="text-xl font-black text-[#1A1A1A] tracking-tight leading-tight group-hover:text-[#0047BB] transition-colors duration-300">{project.status}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
+
+                        {/* Subtle tactile detail */}
+                        <div className="absolute top-10 right-10 w-24 h-24 border-r border-t border-black/[0.03] rounded-tr-[2rem] pointer-events-none" />
                       </div>
                     </div>
                   </div>
