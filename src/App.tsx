@@ -31,6 +31,11 @@ function App() {
   const [resumeTab, setResumeTab] = useState<'resume' | 'cover-letter'>('resume');
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
+  const handleSetResumeTab = (tab: 'resume' | 'cover-letter') => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setResumeTab(tab);
+  };
+
   // Supabase Data
   const [resumeData, setResumeData, resumeLoaded] = useEditableContent(RESUME_DATA, 'resume_data');
   const [projectsData, setProjectsData, projectsLoaded] = useEditableContent(PROJECTS, 'projects_data_v2');
@@ -63,6 +68,14 @@ function App() {
     });
     return () => observer.disconnect();
   }, [view, isDataLoaded]);
+
+  // Force scroll to top on initial load (prevent browser from remembering scroll position on refresh)
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   const [returnScrollY, setReturnScrollY] = useState<number>(0);
 
@@ -106,9 +119,6 @@ function App() {
       <div className="px-6 py-2.5 rounded-full bg-[#0047BB] text-white text-sm font-extrabold tracking-tight shadow-md">
         {label}
       </div>
-    </div>
-  );
-
   // 컨텍스트 이동 버튼
   const makeNavBtn = (label: string, icon: React.ReactNode, target: typeof view) => (
     <button
@@ -132,7 +142,7 @@ function App() {
       return (
         <div className="grid grid-cols-2 w-[260px] bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner relative">
           {(['resume', 'cover-letter'] as const).map((tab) => (
-            <button key={tab} onClick={() => setResumeTab(tab)}
+            <button key={tab} onClick={() => handleSetResumeTab(tab)}
               className={`relative w-full py-2.5 rounded-full text-sm font-extrabold transition-colors tracking-tight flex items-center justify-center ${resumeTab === tab ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}>
               {resumeTab === tab && (
                 <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-md" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
@@ -143,8 +153,7 @@ function App() {
         </div>
       );
     }
-    if (view === 'portfolio') return makeSinglePillTab('포트폴리오');
-    if (view === 'game-history') return makeSinglePillTab('게이밍 DNA');
+    return undefined;
     return undefined;
   })();
 
@@ -198,7 +207,7 @@ function App() {
           setData={setResumeData}
           onBack={handleBack}
           activeTab={resumeTab}
-          setActiveTab={setResumeTab}
+          setActiveTab={handleSetResumeTab}
           isGeneratingPdf={isGeneratingPdf}
           setIsGeneratingPdf={setIsGeneratingPdf}
         />

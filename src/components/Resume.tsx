@@ -255,26 +255,24 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                       <h3 className="text-[17px] font-bold mb-5 flex items-center gap-3 text-[#1A1A1A]">
                         <Award className="text-[#0047BB] w-5 h-5" /> 자격증
                       </h3>
-                      <div className="flex flex-col gap-1">
+                      <div className="flex flex-col">
                         {data.certificates && data.certificates.map((cert, idx) => (
-                          <div key={idx} className="py-3 border-b border-zinc-100 last:border-0">
-                            <div className="flex items-start justify-between gap-3">
-                              <span className="font-bold text-[14px] text-[#1A1A1A] leading-snug">
-                                <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3 mt-1.5">
+                          <div key={idx} className="py-3.5 border-b border-zinc-100 last:border-0">
+                            {/* Name */}
+                            <span className="font-semibold text-[14px] text-[#1A1A1A] leading-snug block mb-2">
+                              <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
+                            </span>
+                            {/* Score + Year row */}
+                            <div className="flex items-center gap-4">
                               {cert.score && (
-                                <div className="flex items-center gap-1">
-                                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">점수</span>
-                                  <span className="text-[11px] font-black text-[#0047BB] bg-[#0047BB]/8 px-2 py-0.5 rounded-sm tabular-nums">
-                                    {cert.score}
-                                  </span>
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-[9px] text-zinc-400 uppercase tracking-widest font-medium">점수</span>
+                                  <span className="text-[12px] text-[#0047BB] tabular-nums">{cert.score}</span>
                                 </div>
                               )}
-                              <div className="flex items-center gap-1">
-                                <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">취득</span>
-                                <span className="text-[11px] font-mono font-bold text-zinc-500">{cert.date}</span>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[9px] text-zinc-400 uppercase tracking-widest font-medium">취득</span>
+                                <span className="text-[12px] text-zinc-500">{cert.date}</span>
                               </div>
                             </div>
                           </div>

@@ -34,7 +34,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6 border-b border-black/5 pb-6">
           <div>
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="text-[#0047BB] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 프로젝트</motion.span>
+              className="text-[#0047BB] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">02. 프로젝트 이력</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="flex flex-col gap-1 items-start mt-2">
               <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-tight">실전으로 증명한</span>
