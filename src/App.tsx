@@ -113,12 +113,7 @@ function App() {
   };
 
   // ── Navbar Slots ──────────────────────────────────────────────
-  // 공통 pill 단일 탭
-  const makeSinglePillTab = (label: string) => (
-    <div className="flex items-center bg-zinc-200/50 p-1 rounded-full border border-black/5 shadow-inner">
-      <div className="px-6 py-2.5 rounded-full bg-[#0047BB] text-white text-sm font-extrabold tracking-tight shadow-md">
-        {label}
-      </div>
+
   // 컨텍스트 이동 버튼
   const makeNavBtn = (label: string, icon: React.ReactNode, target: typeof view) => (
     <button
@@ -153,7 +148,6 @@ function App() {
         </div>
       );
     }
-    return undefined;
     return undefined;
   })();
 
