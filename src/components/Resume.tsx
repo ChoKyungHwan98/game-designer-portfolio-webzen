@@ -256,9 +256,15 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                             </span>
                           </div>
 
-                          <div className="text-[15px] text-[#0047BB] font-bold mb-6 bg-[#0047BB]/5 inline-block px-4 py-2 rounded-sm border-l-4 border-[#0047BB]">
+                          <div className="text-[15px] text-[#0047BB] font-bold mb-3 bg-[#0047BB]/5 inline-block px-4 py-2 rounded-sm border-l-4 border-[#0047BB]">
                             <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
                           </div>
+                          {exp.teamSize && (
+                            <div className="flex items-center gap-2 mb-6">
+                              <span className="text-[11px] font-mono font-black text-zinc-400 uppercase tracking-widest">팀 구성</span>
+                              <span className="text-[12px] font-bold text-zinc-500 bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-sm">{exp.teamSize}</span>
+                            </div>
+                          )}
 
                           <ul className="text-[15px] text-[#4A4A4A] space-y-4 list-none leading-relaxed font-medium">
                             {exp.details.map((detail, dIdx) => (

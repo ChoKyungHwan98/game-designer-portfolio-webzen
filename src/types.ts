@@ -87,6 +87,7 @@ export interface ResumeData {
     title: string;
     period: string;
     description: string;
+    teamSize?: string;
     details: string[];
   }[];
   certificates?: {
