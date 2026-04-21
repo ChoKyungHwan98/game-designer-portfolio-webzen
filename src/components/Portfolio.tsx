@@ -161,14 +161,14 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
             />
 
             {/* Panel */}
-            <div className="absolute inset-0 flex items-center justify-center p-0 md:p-8 pointer-events-none">
-              <motion.div
-                initial={{ opacity: 0, y: 40, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 40, scale: 0.97 }}
-                transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-                className="w-full h-full max-w-5xl bg-bg-main md:rounded-4xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
-              >
+              <div className="absolute inset-0 flex items-center justify-center p-0 md:p-6 pointer-events-none">
+                <motion.div
+                  initial={{ opacity: 0, y: 40, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 40, scale: 0.97 }}
+                  transition={{ type: 'spring', damping: 28, stiffness: 220 }}
+                  className="w-[98vw] md:w-[95vw] h-[98vh] md:h-[95vh] max-w-[1600px] bg-bg-main md:rounded-3xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
+                >
                 {/* Close button */}
                 <button
                   onClick={() => setSelectedProject(null)}

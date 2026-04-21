@@ -71,41 +71,45 @@ export const EBookGallery = ({ images }: EBookGalleryProps) => {
         </AnimatePresence>
       </div>
 
-      {/* Navigation Overlays (Invisible but clickable) */}
-      <div className="absolute inset-y-0 left-0 w-1/4 z-30 cursor-pointer" onClick={(e) => { e.stopPropagation(); paginate(-1); }}></div>
-      <div className="absolute inset-y-0 right-0 w-1/4 z-30 cursor-pointer" onClick={(e) => { e.stopPropagation(); paginate(1); }}></div>
-
-      {/* Controls */}
-      <div className="absolute inset-x-0 bottom-8 flex items-center justify-center gap-6 z-40">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={(e) => { e.stopPropagation(); paginate(-1); }}
-          disabled={currentIndex === 0}
-          className="p-3 bg-white/90 backdrop-blur-md rounded-xl text-[#0047BB] shadow-lg border border-black/5 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+      {/* Navigation Areas */}
+      <div 
+        className="absolute inset-y-0 left-0 w-1/3 z-30 cursor-pointer flex items-center justify-start px-4 md:px-8 group/navleft" 
+        onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+      >
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: currentIndex === 0 ? 0 : 1, x: 0 }}
+          className={`w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,71,187,0.2)] border border-black/5 flex items-center justify-center text-[#0047BB] transition-transform duration-300 ${currentIndex === 0 ? 'pointer-events-none' : 'group-hover/navleft:scale-110 group-hover/navleft:-translate-x-2'}`}
         >
-          <ChevronLeft className="w-5 h-5" />
-        </motion.button>
-        
-        <div className="px-6 py-2 bg-black/80 backdrop-blur-xl rounded-full border border-white/20 text-white text-[10px] font-black tracking-[0.3em] uppercase shadow-2xl">
-          {currentIndex + 1} <span className="mx-2 text-white/30">/</span> {images.length}
-        </div>
-
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={(e) => { e.stopPropagation(); paginate(1); }}
-          disabled={currentIndex === images.length - 1}
-          className="p-3 bg-white/90 backdrop-blur-md rounded-xl text-[#0047BB] shadow-lg border border-black/5 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </motion.button>
+          <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 ml-[-2px]" />
+        </motion.div>
       </div>
 
-      {/* Page Hint */}
-      <div className="absolute top-8 right-8 z-40">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/50 backdrop-blur-sm rounded-lg border border-white/50 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
-          <Maximize2 className="w-3 h-3" /> Click to turn
+      <div 
+        className="absolute inset-y-0 right-0 w-1/3 z-30 cursor-pointer flex items-center justify-end px-4 md:px-8 group/navright" 
+        onClick={(e) => { e.stopPropagation(); paginate(1); }}
+      >
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: currentIndex === images.length - 1 ? 0 : 1, x: 0 }}
+          className={`w-14 h-14 md:w-20 md:h-20 rounded-full bg-[#0047BB]/90 backdrop-blur-md shadow-[0_8px_32px_rgba(0,71,187,0.4)] border border-[#0047BB] flex items-center justify-center text-white transition-transform duration-300 ${currentIndex === images.length - 1 ? 'pointer-events-none' : 'group-hover/navright:scale-110 group-hover/navright:translate-x-2'}`}
+        >
+          {/* Animated bounce effect inside the right arrow to draw attention */}
+          <motion.div
+            animate={currentIndex !== images.length - 1 ? { x: [0, 5, 0] } : {}}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          >
+            <ChevronRight className="w-8 h-8 md:w-10 md:h-10 mr-[-2px]" />
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Floating Counter */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+        <div className="px-6 py-2 bg-black/80 backdrop-blur-xl rounded-full border border-white/20 text-white text-xs font-black tracking-[0.3em] uppercase shadow-2xl flex items-center gap-2">
+          <span>{String(currentIndex + 1).padStart(2, '0')}</span>
+          <span className="text-white/30">/</span>
+          <span className="text-white/70">{String(images.length).padStart(2, '0')}</span>
         </div>
       </div>
     </div>

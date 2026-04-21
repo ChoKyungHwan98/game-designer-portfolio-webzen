@@ -86,12 +86,12 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     className="relative w-full bg-[#FDFDFB] p-6 lg:p-12 flex flex-col items-center justify-center"
                     style={{ minHeight: '800px' }}
                   >
-                    <div className="w-full max-w-4xl">
-                      <div className="flex flex-col items-center mb-10 text-center">
+                    <div className="w-full h-full max-w-[1400px] mx-auto flex flex-col">
+                      <div className="flex flex-col items-center mb-6 text-center">
                         <span className="text-[11px] font-black tracking-[0.3em] text-[#0047BB] uppercase mb-2">Interactive Planning Document</span>
-                        <h2 className="text-2xl font-display font-bold text-[#2C2C2C]">{project.title} - 기획서 상세</h2>
+                        <h2 className="text-2xl lg:text-3xl font-display font-bold text-[#2C2C2C]">{project.title}</h2>
                       </div>
-                      <div className="w-full max-w-[800px] mx-auto aspect-[1/1.414] shadow-2xl rounded-lg overflow-hidden border border-black/10 bg-white">
+                      <div className="w-full flex-1 min-h-[60vh] max-h-[85vh] shadow-2xl rounded-2xl overflow-hidden border border-black/10 bg-[#E8E8E8] relative">
                         <EBookGallery images={project.gallery || [project.image]} />
                       </div>
                     </div>
