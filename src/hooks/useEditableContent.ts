@@ -9,6 +9,9 @@ export const useEditableContent = (initialData: any, key: string) => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    // Temporarily bypassing Supabase load for demonstration of new local data features
+    setLoaded(true);
+    /*
     const loadFromSupabase = async () => {
       try {
         const timeoutPromise = new Promise<null>((resolve) =>
@@ -37,6 +40,7 @@ export const useEditableContent = (initialData: any, key: string) => {
       }
     };
     loadFromSupabase();
+    */
   }, [key]);
 
   const saveToSupabase = useCallback(async (newData: any) => {

@@ -143,118 +143,172 @@ const ToolBadge: React.FC<{ name: string }> = ({ name }) => (
 
 /* ─── PAGE 1: RESUME ─────────────────────────────────────────────── */
 const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
-  <div style={{ ...PAGE, padding: '14mm 16mm', display: 'flex', flexDirection: 'column' }} className="pdf-page">
+  <div style={{ ...PAGE, padding: '12mm 14mm', display: 'flex', flexDirection: 'column', background: WHITE }} className="pdf-page">
 
-    {/* ── Profile Card ── */}
-    <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '24px 28px', marginBottom: '16px' }}>
-      <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-
-        {/* Photo */}
-        <div style={{ width: '96px', height: '96px', borderRadius: '16px', overflow: 'hidden', border: `1px solid ${CARD_BORDER}`, flexShrink: 0 }}>
-          <img src="https://picsum.photos/seed/profile/400/400" alt="Profile"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) opacity(0.8)' }} />
+    {/* ── 1. Editorial Header ── */}
+    <header style={{ 
+      display: 'flex', 
+      gap: '32px', 
+      background: '#FAFAFA', 
+      border: '1px solid rgba(0,0,0,0.06)', 
+      borderRadius: '2px', 
+      padding: '32px', 
+      marginBottom: '24px' 
+    }}>
+      {/* Portrait */}
+      <div style={{ position: 'relative', flexShrink: 0 }}>
+        <div style={{ 
+          width: '140px', 
+          height: '180px', 
+          borderRadius: '2px', 
+          overflow: 'hidden', 
+          border: '1px solid rgba(0,0,0,0.1)', 
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)' 
+        }}>
+          <img src="https://picsum.photos/seed/profile/600/800" alt="Profile"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
-
-        {/* Name + contact */}
-        <div style={{ width: '170px', flexShrink: 0 }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 900, color: DARK, letterSpacing: '-0.5px', margin: '0 0 6px' }}>{data.name}</h1>
-          <p style={{ fontSize: '10.5px', fontWeight: 800, color: BLUE, letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 12px' }}>{data.role}</p>
-          <div style={{ fontSize: '11px', color: MUTED, display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            <span>✉ {data.email}</span>
-            {data.birthDate && <span>🗓 {data.birthDate}</span>}
-            <span>☎ {data.phone}</span>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div style={{ width: '1px', background: 'rgba(0,0,0,0.07)', alignSelf: 'stretch', margin: '0 8px' }} />
-
-        {/* Summary + Tools */}
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '10px', fontWeight: 800, color: FAINT, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>한줄 소개</div>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: DARK, lineHeight: 1.6, wordBreak: 'keep-all', marginBottom: '16px' }}>
-            {inlineRender(data.summary)}
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {(data.tools || []).map((t, i) => <ToolBadge key={i} name={t.name} />)}
-          </div>
+        <div style={{ 
+          position: 'absolute', 
+          bottom: '-10px', 
+          right: '-10px', 
+          width: '32px', 
+          height: '32px', 
+          background: BLUE, 
+          color: WHITE, 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          fontSize: '8px', 
+          fontWeight: 900, 
+          fontFamily: 'monospace' 
+        }}>
+          PRFL
         </div>
       </div>
-    </div>
 
-    {/* ── Bottom Grid ── */}
-    <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '16px', flex: 1 }}>
+      {/* Identity & Summary */}
+      <div style={{ flex: 1, paddingTop: '4px' }}>
+        <h1 style={{ fontSize: '48px', fontWeight: 800, color: DARK, letterSpacing: '-2px', margin: '0 0 4px', lineHeight: 1 }}>
+          {data.name}
+        </h1>
+        <p style={{ 
+          fontSize: '10px', 
+          fontWeight: 900, 
+          color: BLUE, 
+          letterSpacing: '4px', 
+          textTransform: 'uppercase', 
+          margin: '0 0 16px', 
+          borderBottom: `2px solid ${BLUE}`, 
+          display: 'inline-block', 
+          paddingBottom: '2px' 
+        }}>
+          {data.role}
+        </p>
+        <div style={{ fontSize: '13.5px', fontWeight: 600, color: BODY, lineHeight: 1.7, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '16px', opacity: 0.9 }}>
+          {data.summary}
+        </div>
+        <div style={{ display: 'flex', gap: '20px', fontSize: '11px', color: MUTED, fontWeight: 700, textTransform: 'uppercase' }}>
+          <span>✉ {data.email.toLowerCase()}</span>
+          <span>☎ {data.phone}</span>
+          {data.birthDate && <span>🗓 {data.birthDate}</span>}
+        </div>
+      </div>
+    </header>
 
-      {/* Left: Education + Certs */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '20px 24px', flex: 1 }}>
-          <h3 style={{ fontSize: '14px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: BLUE, fontSize: '15px' }}>◎</span> 학력 및 교육
+    {/* ── 2. Body Columns ── */}
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '32px', flex: 1 }}>
+      
+      {/* Sidebar: Education + Certs */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <section>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 학력 및 교육
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {data.education.map((edu, i) => (
-              <div key={i} style={{ paddingLeft: '14px', borderLeft: '2px solid rgba(0,0,0,0.09)', position: 'relative' }}>
-                <div style={{ position: 'absolute', left: '-5px', top: '6px', width: '8px', height: '8px', background: LIGHTER, borderRadius: '2px' }} />
-                <div style={{ fontWeight: 800, fontSize: '12.5px', color: DARK, lineHeight: 1.3 }}>{edu.title}</div>
-                <div style={{ fontFamily: 'monospace', fontSize: '10px', color: FAINT, margin: '4px 0' }}>{edu.period}</div>
-                <div style={{ fontSize: '11px', color: MUTED, marginBottom: '6px', lineHeight: 1.5 }}>{edu.description}</div>
-                {edu.details.length > 0 && (
-                  <ul style={{ margin: 0, paddingLeft: '14px', fontSize: '10px', color: MUTED, lineHeight: 1.6 }}>
-                    {edu.details.map((d, j) => <li key={j} style={{ marginBottom: '3px' }}>{d}</li>)}
+              <div key={i} style={{ paddingLeft: '12px', borderLeft: `2px solid ${BLUE_FAINT}` }}>
+                <div style={{ fontWeight: 800, fontSize: '12px', color: DARK, lineHeight: 1.3, marginBottom: '2px' }}>{edu.title}</div>
+                <div style={{ fontFamily: 'monospace', fontSize: '9px', color: FAINT, fontWeight: 700, marginBottom: '6px' }}>{edu.period}</div>
+                <div style={{ fontSize: '10.5px', color: BODY, lineHeight: 1.5, marginBottom: '4px' }}>{edu.description}</div>
+                {edu.details && edu.details.length > 0 && (
+                  <ul style={{ margin: 0, paddingLeft: '12px', listStyleType: 'disc', fontSize: '9.5px', color: MUTED }}>
+                    {edu.details.map((detail, dIdx) => (
+                      <li key={dIdx} style={{ marginBottom: '2px' }}>{detail}</li>
+                    ))}
                   </ul>
                 )}
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {data.certificates && (
-          <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '18px 24px' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: 800, color: DARK, margin: '0 0 14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: BLUE, fontSize: '15px' }}>◎</span> 자격증
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {data.certificates.map((cert, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: '#FAFAFA', borderRadius: '10px', border: `1px solid ${CARD_BORDER}` }}>
-                  <span style={{ fontWeight: 800, fontSize: '12px', color: DARK }}>{cert.name}</span>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '9px', color: FAINT }}>취득 연도</div>
-                    <div style={{ fontFamily: 'monospace', fontSize: '11px', fontWeight: 700, color: BLUE }}>{cert.date}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <section>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 자격증
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {data.certificates && data.certificates.map((cert, i) => (
+              <div key={i} style={{ padding: '10px 12px', background: '#FAFAFA', border: `1px solid ${CARD_BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontWeight: 800, fontSize: '11.5px', color: DARK }}>{cert.name}</span>
+                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: BLUE, fontWeight: 700 }}>{cert.date}</span>
+              </div>
+            ))}
           </div>
-        )}
+        </section>
       </div>
 
-      {/* Right: Experience */}
-      <div style={{ background: WHITE, borderRadius: '20px', border: `1px solid ${CARD_BORDER}`, padding: '20px 24px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 800, color: DARK, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ color: BLUE, fontSize: '15px' }}>◎</span> 프로젝트 경험
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {data.experience.map((exp, i) => (
-            <div key={i} style={{ paddingLeft: '20px', borderLeft: '2px solid rgba(0,71,187,0.2)', position: 'relative' }}>
-              <div style={{ position: 'absolute', left: '-7px', top: '6px', width: '12px', height: '12px', borderRadius: '50%', background: BLUE, border: '2px solid white' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-                <h4 style={{ fontWeight: 800, fontSize: '14px', color: DARK, margin: 0, lineHeight: 1.3 }}>{exp.title}</h4>
-                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: FAINT, background: '#F4F4F5', padding: '3px 8px', borderRadius: '20px', flexShrink: 0, marginLeft: '8px' }}>{exp.period}</span>
+      {/* Main: Experience + Tools */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <section>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 프로젝트 경험
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+            {data.experience.map((exp, i) => (
+              <div key={i} style={{ paddingLeft: '16px', borderLeft: `3px solid ${BLUE_FAINT}` }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
+                  <h4 style={{ fontWeight: 800, fontSize: '14px', color: DARK, margin: 0 }}>{exp.title}</h4>
+                  <span style={{ fontFamily: 'monospace', fontSize: '9px', color: MUTED, background: '#F4F4F5', padding: '2px 6px', borderRadius: '2px' }}>{exp.period}</span>
+                </div>
+                <div style={{ fontSize: '11px', fontWeight: 800, color: BLUE, background: BLUE_FAINT, padding: '4px 8px', borderRadius: '2px', display: 'inline-block', marginBottom: '8px', borderLeft: `3px solid ${BLUE}` }}>
+                  {exp.description}
+                </div>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                  {exp.details.map((d, j) => (
+                    <li key={j} style={{ paddingLeft: '12px', position: 'relative', fontSize: '11px', color: BODY, marginBottom: '5px', lineHeight: 1.6 }}>
+                      <span style={{ position: 'absolute', left: 0, top: '7px', width: '3px', height: '3px', background: FAINT, borderRadius: '50%' }} />
+                      {d}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div style={{ fontSize: '11.5px', fontWeight: 700, color: BLUE, padding: '4px 10px', background: BLUE_FAINT, border: `1px solid ${BLUE_BORDER}`, borderRadius: '6px', display: 'inline-block', marginBottom: '10px' }}>
-                {exp.description}
+            ))}
+          </div>
+        </section>
+
+        {/* Tools Section - Categorized */}
+        <section style={{ borderTop: `1px solid ${CARD_BORDER}`, paddingTop: '24px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 기술 역량 및 도구
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div>
+              <div style={{ fontSize: '8px', fontWeight: 900, color: BLUE, letterSpacing: '2px', borderBottom: `1px solid ${BLUE_FAINT}`, paddingBottom: '4px', marginBottom: '10px' }}>DOCUMENTATION</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {data.tools.filter(t => ["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((t, i) => <ToolBadge key={i} name={t.name} />)}
               </div>
-              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-                {exp.details.map((d, j) => (
-                  <li key={j} style={{ paddingLeft: '12px', position: 'relative', fontSize: '11.5px', color: '#4A5568', marginBottom: '6px', lineHeight: 1.6 }}>
-                    <span style={{ position: 'absolute', left: 0, top: '7px', width: '4px', height: '4px', background: LIGHTER, borderRadius: '50%' }} />
-                    {d}
-                  </li>
-                ))}
-              </ul>
             </div>
-          ))}
-        </div>
+            <div>
+              <div style={{ fontSize: '8px', fontWeight: 900, color: BLUE, letterSpacing: '2px', borderBottom: `1px solid ${BLUE_FAINT}`, paddingBottom: '4px', marginBottom: '10px' }}>AI & CREATIVE</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {data.tools.filter(t => !["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((t, i) => (
+                  <span key={i} style={{ fontSize: '10px', fontWeight: 800, color: DARK }}>• {t.name}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   </div>

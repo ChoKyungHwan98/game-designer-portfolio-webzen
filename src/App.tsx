@@ -33,8 +33,8 @@ function App() {
 
   // Supabase Data
   const [resumeData, setResumeData, resumeLoaded] = useEditableContent(RESUME_DATA, 'resume_data');
-  const [projectsData, setProjectsData, projectsLoaded] = useEditableContent(PROJECTS, 'projects_data');
-  const [portfolioProjects, setPortfolioProjects, portfolioLoaded] = useEditableContent(PROJECTS, 'portfolio_projects');
+  const [projectsData, setProjectsData, projectsLoaded] = useEditableContent(PROJECTS, 'projects_data_v2');
+  const [portfolioProjects, setPortfolioProjects, portfolioLoaded] = useEditableContent(PROJECTS, 'portfolio_projects_v2');
   const [gameHistory, setGameHistory, gameHistoryLoaded] = useEditableContent(GAME_HISTORY, 'game_history');
   const [skillsData, setSkillsData] = useState(SKILLS);
   const [heroContent, setHeroContent, heroLoaded] = useEditableContent({

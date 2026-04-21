@@ -131,154 +131,141 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col gap-8"
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-[1080px] mx-auto bg-white shadow-[0_40px_120px_rgba(0,0,0,0.1)] border border-black/5 rounded-sm overflow-hidden flex flex-col"
             >
-              {/* TOP PROFILE BOX */}
-              <div className="relative bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 transition-colors">
-                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
-                  {/* Left: Avatar & Contact */}
-                  <div className="flex flex-col sm:flex-row items-center gap-6 shrink-0">
-                    <div className="w-28 h-28 lg:w-32 lg:h-32 rounded-2xl overflow-hidden border border-black/5 shadow-sm shrink-0">
-                      <img src="https://picsum.photos/seed/profile/400/400" alt="Profile" className="w-full h-full object-cover grayscale opacity-80" />
-                    </div>
-                    <div className="text-center sm:text-left">
-                      <h1 className="text-3xl lg:text-4xl font-display font-bold text-[#2C2C2C] tracking-tight mb-1">
-                        <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
-                      </h1>
-                      <p className="text-[#0047BB] font-bold font-mono tracking-widest text-xs uppercase mb-4">
-                        <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
-                      </p>
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
-                          <Mail className="w-4 h-4 text-zinc-400" />
-                          <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
-                        </div>
-                        {data.birthDate && (
-                          <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
-                            <Calendar className="w-4 h-4 text-zinc-400" />
-                            <span className="font-medium">{data.birthDate}</span>
-                          </div>
-                        )}
-                        {isEditing && (
-                          <div className="flex items-center gap-3 text-sm text-zinc-600 font-medium justify-center sm:justify-start">
-                            <Phone className="w-4 h-4 text-zinc-400" />
-                            <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
-                          </div>
-                        )}
-                      </div>
-                    </div>
+              {/* 1. EDITORIAL HEADER SECTION */}
+              <header className="flex flex-col md:flex-row items-center md:items-start gap-12 p-10 lg:p-16 bg-[#FAFAFA] border-b border-zinc-100">
+                {/* Vertical Portrait Frame */}
+                <div className="relative shrink-0">
+                  <div className="w-52 h-[260px] lg:w-60 lg:h-[300px] rounded-sm overflow-hidden border border-black/10 shadow-xl">
+                    <img 
+                      src="https://picsum.photos/seed/profile/600/800" 
+                      alt="Profile" 
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                  <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-[#0047BB] rounded-sm flex items-center justify-center text-white font-mono text-[10px] font-black tracking-widest shadow-lg">
+                    PRFL
+                  </div>
+                </div>
+
+                {/* Identity & Summary */}
+                <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left pt-2">
+                  <h1 className="text-5xl lg:text-[68px] font-display font-bold text-[#1A1A1A] tracking-tighter leading-tight mb-4">
+                    <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
+                  </h1>
+                  <p className="text-[#0047BB] font-black font-mono tracking-[0.4em] text-xs md:text-sm uppercase mb-8 pb-1 border-b-2 border-[#0047BB]">
+                    <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
+                  </p>
+                  
+                  <div className="max-w-2xl text-[16px] lg:text-[18px] text-[#2C2C2C] leading-[1.8] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-bold break-keep italic opacity-90">
+                    <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                   </div>
 
-                  <div className="hidden lg:block w-px h-28 bg-black/5 self-center shrink-0"></div>
-
-                  {/* Right: Summary & Tools */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-xs font-bold text-zinc-400 tracking-widest uppercase mb-3 flex items-center gap-2 justify-center lg:justify-start">
-                      <User className="w-3.5 h-3.5" /> 한줄 소개
-                    </h3>
-                    <div className="text-[15px] lg:text-[16.5px] text-[#2C2C2C] leading-[1.75] font-semibold text-center lg:text-left mb-6 [&_strong]:text-[#0047BB] [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.1)_40%,transparent_40%)]">
-                      <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
+                  {/* Contact Quick List */}
+                  <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-3 text-[13px] text-zinc-500 font-bold uppercase tracking-wider">
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
+                      <span className="lowercase">
+                        <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
+                      </span>
                     </div>
-
-                    {data.tools && data.tools.length > 0 && (
-                      <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                        {data.tools.map((tool, idx) => (
-                          <span key={idx} className="group relative px-3 py-1.5 bg-zinc-50 rounded-lg text-[11px] font-bold text-zinc-600 border border-black/5 hover:border-[#0047BB] hover:bg-[#0047BB]/5 hover:text-[#2C2C2C] transition-all cursor-help flex items-center justify-center gap-1.5 overflow-visible shadow-sm">
-                            {TOOL_ICONS[tool.name] || <Wrench className="w-3 h-3 opacity-70 group-hover:opacity-100 group-hover:text-[#0047BB] transition-colors" />}
-                            <EditableText value={tool.name} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].name = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:-translate-y-2 group-hover:opacity-100 transition-all z-[100] mb-2 w-max max-w-[280px] bg-[#2C2C2C] border border-white/10 text-white text-[11px] leading-[1.6] p-2.5 rounded-lg shadow-xl whitespace-pre-wrap font-medium text-left">
-                              <EditableText value={tool.description} onSave={(v) => { const t = [...(data.tools||[])]; t[idx].description = v; setData({...data, tools: t}); }} isEditing={isEditing} />
-                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-solid border-t-[#2C2C2C] border-t-6 border-x-transparent border-x-6 border-b-0 w-0 h-0"></div>
-                            </div>
-                          </span>
-                        ))}
+                    {data.birthDate && (
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-[#0047BB]" strokeWidth={2.5} />
+                        <span>{data.birthDate}</span>
                       </div>
                     )}
                   </div>
                 </div>
-              </div>
+              </header>
 
-              {/* BOTTOM COLUMNS */}
-              <div className="grid lg:grid-cols-12 gap-8">
-                {/* Left Column */}
-                <div className="lg:col-span-5 flex flex-col gap-8">
-                  {/* Education */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5 h-full">
-                    <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#2C2C2C]">
-                      <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
-                    </h3>
-                    <div className="space-y-6">
-                      {data.education.map((edu, idx) => (
-                        <div key={idx} className="relative pl-6 border-l-2 border-black/10">
-                          <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-zinc-300"></div>
-                          <div className="flex flex-col gap-1 mb-2">
-                            <h4 className="font-bold text-[15px] text-[#2C2C2C] leading-snug">
-                              <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                            </h4>
-                            <span className="text-[11px] font-mono text-zinc-400">
-                              <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
-                            </span>
+              {/* 2. MAIN CONTENT GRID (High Legibility) */}
+              <div className="grid lg:grid-cols-12 gap-0">
+                
+                {/* LEFT COLUMN (Sidebar info) */}
+                <aside className="lg:col-span-4 p-10 lg:p-14 border-r border-zinc-100 bg-[#FCFCFC]">
+                  <div className="flex flex-col gap-16">
+                    {/* Education */}
+                    <section>
+                      <h3 className="text-lg font-bold mb-8 flex items-center gap-3 text-[#1A1A1A]">
+                        <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
+                      </h3>
+                      <div className="space-y-10">
+                        {data.education.map((edu, idx) => (
+                          <div key={idx} className="relative pl-6 border-l-2 border-[#0047BB]/20">
+                            <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#0047BB]/40"></div>
+                            <div className="flex flex-col gap-1.5 mb-3">
+                              <h4 className="font-bold text-[16px] text-[#1A1A1A] leading-snug">
+                                <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                              </h4>
+                              <span className="text-[11px] font-mono font-bold text-zinc-400">
+                                <EditableText value={edu.period} onSave={(v) => { const e = [...data.education]; e[idx].period = v; setData({...data, education: e}); }} isEditing={isEditing} />
+                              </span>
+                            </div>
+                            <div className="text-[12px] text-zinc-600 leading-relaxed mb-3 font-medium">
+                              <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
+                            </div>
+                            <ul className="text-[11px] text-zinc-500 space-y-1.5 list-none">
+                              {edu.details.map((detail, dIdx) => <li key={dIdx} className="relative pl-3"><span className="absolute left-0 top-1.5 w-1 h-1 bg-zinc-300 rounded-full"></span>{detail}</li>)}
+                            </ul>
                           </div>
-                          <div className="text-xs text-zinc-500 leading-relaxed mb-2">
-                            <EditableText value={edu.description} onSave={(v) => { const e = [...data.education]; e[idx].description = v; setData({...data, education: e}); }} isEditing={isEditing} markdown={true} />
-                          </div>
-                          <ul className="text-[11px] text-zinc-500 space-y-1 list-none">
-                            {edu.details.map((detail, dIdx) => <li key={dIdx} className="relative pl-3"><span className="absolute left-0 top-1.5 w-1 h-1 bg-zinc-300 rounded-full"></span>{detail}</li>)}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
+                        ))}
+                      </div>
+                    </section>
 
-                  {/* Certificates */}
-                  <section className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-black/5">
-                    <h3 className="text-lg font-bold mb-5 flex items-center gap-3 text-[#2C2C2C]">
-                      <Award className="text-[#0047BB] w-5 h-5" /> 자격증
-                    </h3>
-                    <div className="flex flex-col gap-2.5">
-                      {data.certificates && data.certificates.map((cert, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3.5 bg-zinc-50/50 rounded-xl border border-black/5 hover:border-[#0047BB]/30 hover:bg-[#0047BB]/5 transition-colors">
-                          <h4 className="font-bold text-[14px] text-[#2C2C2C]">
-                            <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
-                          </h4>
-                          <div className="flex flex-col items-end gap-0.5">
-                            <span className="text-[10px] text-zinc-400 font-medium">취득 연도</span>
-                            <span className="text-xs font-mono font-bold text-[#0047BB]">
-                              <EditableText value={cert.date} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].date = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
-                            </span>
+                    {/* Certificates */}
+                    <section>
+                      <h3 className="text-lg font-bold mb-6 flex items-center gap-3 text-[#1A1A1A]">
+                        <Award className="text-[#0047BB] w-5 h-5" /> 자격증
+                      </h3>
+                      <div className="flex flex-col gap-3">
+                        {data.certificates && data.certificates.map((cert, idx) => (
+                          <div key={idx} className="flex items-center justify-between p-4 bg-white border border-zinc-100 rounded-sm shadow-sm">
+                            <div className="flex flex-col gap-0.5">
+                              <h4 className="font-bold text-[14px] text-[#1A1A1A]">
+                                <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
+                              </h4>
+                              <span className="text-[10px] font-mono text-zinc-400 font-bold uppercase tracking-tighter">{cert.date}</span>
+                            </div>
+                            <div className="w-1.5 h-1.5 rounded-full bg-[#0047BB]/30"></div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </div>
+                        ))}
+                      </div>
+                    </section>
+                  </div>
+                </aside>
 
-                {/* Right Column: Experience */}
-                <div className="lg:col-span-7">
-                  <section className="bg-white rounded-3xl p-6 lg:p-10 shadow-sm border border-black/5 h-full">
-                    <h3 className="text-xl font-bold mb-8 flex items-center gap-3 text-[#2C2C2C]">
-                      <Briefcase className="text-[#0047BB] w-5 h-5" /> 프로젝트 경험
+                {/* RIGHT COLUMN (Main details) */}
+                <main className="lg:col-span-8 p-10 lg:p-14 bg-white">
+                  {/* Project Experience */}
+                  <section>
+                    <h3 className="text-xl font-bold mb-10 flex items-center gap-3 text-[#1A1A1A]">
+                      <Briefcase className="text-[#0047BB] w-6 h-6" /> 프로젝트 경험
                     </h3>
-                    <div className="space-y-10">
+                    <div className="space-y-16">
                       {data.experience.map((exp, idx) => (
-                        <div key={idx} className="relative pl-8 border-l-[3px] border-[#0047BB]/20">
-                          <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#0047BB] border-4 border-white shadow-sm"></div>
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                            <h4 className="font-bold text-xl text-[#2C2C2C]">
+                        <div key={idx} className="relative pl-10 border-l-[3px] border-[#0047BB]/10">
+                          <div className="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-white border-4 border-[#0047BB] shadow-sm"></div>
+                          
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <h4 className="font-bold text-2xl text-[#1A1A1A] tracking-tight">
                               <EditableText value={exp.title} onSave={(v) => { const e = [...data.experience]; e[idx].title = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                             </h4>
-                            <span className="text-xs font-mono font-bold text-zinc-400 bg-zinc-100 px-3 py-1 rounded-full shrink-0">
+                            <span className="text-[11px] font-mono font-black text-zinc-400 bg-zinc-50 px-3 py-1 rounded-sm border border-zinc-100">
                               <EditableText value={exp.period} onSave={(v) => { const e = [...data.experience]; e[idx].period = v; setData({...data, experience: e}); }} isEditing={isEditing} />
                             </span>
                           </div>
-                          <div className="text-[15px] text-[#0047BB] font-semibold mb-4 bg-[#0047BB]/5 inline-block px-3 py-1.5 rounded-lg border border-[#0047BB]/10">
+
+                          <div className="text-[15px] text-[#0047BB] font-bold mb-6 bg-[#0047BB]/5 inline-block px-4 py-2 rounded-sm border-l-4 border-[#0047BB]">
                             <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
                           </div>
-                          <ul className="text-[14px] text-zinc-600 space-y-2.5 list-none leading-relaxed">
+
+                          <ul className="text-[15px] text-[#4A4A4A] space-y-4 list-none leading-relaxed font-medium">
                             {exp.details.map((detail, dIdx) => (
-                              <li key={dIdx} className="relative pl-4">
-                                <span className="absolute left-0 top-2 w-1.5 h-1.5 bg-zinc-300 rounded-full"></span>
+                              <li key={dIdx} className="relative pl-6">
+                                <span className="absolute left-0 top-2.5 w-1.5 h-1.5 border border-[#0047BB] rounded-full"></span>
                                 {detail}
                               </li>
                             ))}
@@ -287,7 +274,59 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                       ))}
                     </div>
                   </section>
-                </div>
+
+                  {/* Technical Proficiency - Categorized for Clarity */}
+                  {data.tools && data.tools.length > 0 && (
+                    <section className="mt-12 pt-12 border-t border-zinc-100">
+                      <h3 className="text-xl font-bold mb-10 flex items-center gap-3 text-[#1A1A1A]">
+                        <Wrench className="text-[#0047BB] w-6 h-6" /> 기술 역량 및 도구
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
+                        {/* Group 1: Documentation & Office */}
+                        <div className="space-y-6">
+                          <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-4">DOCUMENTATION & OFFICE</h4>
+                          <div className="space-y-4">
+                            {data.tools.filter(t => ["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((tool, idx) => (
+                              <div key={idx} className="flex flex-col gap-1">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="text-[#1A1A1A]">{TOOL_ICONS[tool.name] || <Wrench className="w-3.5 h-3.5" />}</div>
+                                  <span className="text-[14px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                                </div>
+                                <p className="text-[12px] text-zinc-500 font-medium pl-6 leading-relaxed">{tool.description}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Group 2: Creative & Engine */}
+                        <div className="space-y-6">
+                          <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-4">CREATIVE & ENGINE</h4>
+                          <div className="space-y-4">
+                            {data.tools.filter(t => ["Figma", "Unity"].includes(t.name)).map((tool, idx) => (
+                              <div key={idx} className="flex flex-col gap-1">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="text-[#1A1A1A]">{TOOL_ICONS[tool.name] || <Wrench className="w-3.5 h-3.5" />}</div>
+                                  <span className="text-[14px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                                </div>
+                                <p className="text-[12px] text-zinc-500 font-medium pl-6 leading-relaxed">{tool.description}</p>
+                              </div>
+                            ))}
+                            {/* Remaining tools (like AI) */}
+                            <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-4 mt-8">AI ASSISTANTS</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                              {data.tools.filter(t => ["ChatGPT", "Claude", "Gemini", "Antigravity"].includes(t.name)).map((tool, idx) => (
+                                <div key={idx} className="flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-[#0047BB]/30" />
+                                  <span className="text-[13px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                  )}
+                </main>
               </div>
             </motion.div>
           ) : (
