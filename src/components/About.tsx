@@ -38,7 +38,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
       </div>
 
       {/* ── TWO-COLUMN LAYOUT ── */}
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center pt-8">
+      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center">
         
         {/* Left: Story & Promise */}
         <div className="flex flex-col gap-10 lg:gap-14 justify-center">
@@ -104,9 +104,6 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
                 markdown
               />
             </div>
-            <p className="text-zinc-500 font-medium text-sm md:text-base pl-4 md:pl-6">
-              단순한 상상을 넘어, 실제로 작동하고 유저가 공감할 수 있는 논리적 기반을 제공합니다.
-            </p>
           </motion.div>
         </div>
 
@@ -146,7 +143,7 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
             <div className="relative z-10">
               <span className="text-[32px] font-black leading-none block mb-6">3<span className="text-xl opacity-70">건+</span></span>
               <p className="text-[10px] font-black tracking-widest text-white/60 uppercase mb-2">프로젝트 기획</p>
-              <p className="text-[15px] font-bold leading-snug">시스템 · 밸런스 · 레벨<br/>단독 설계</p>
+              <p className="text-[15px] font-bold leading-snug">시스템 · 콘텐츠 · 밸런스<br/>기획</p>
             </div>
           </motion.div>
 
