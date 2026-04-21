@@ -105,7 +105,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     className="relative w-full bg-black flex flex-col"
                   >
                     {project.videoUrl ? (
-                      <div className="w-full aspect-16/9 bg-black">
+                      <div className="w-full aspect-video bg-black">
                         {project.videoUrl.includes('youtube.com') || project.videoUrl.includes('youtu.be') ? (
                           <iframe
                             src={project.videoUrl.replace('watch?v=', 'embed/').split('&')[0]}
@@ -118,7 +118,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                         )}
                       </div>
                     ) : (
-                      <div className="w-full aspect-16/9 flex flex-col items-center justify-center text-zinc-500 bg-zinc-900">
+                      <div className="w-full aspect-video flex flex-col items-center justify-center text-zinc-500 bg-zinc-900">
                         <Play className="w-12 h-12 mb-4 opacity-20" />
                         <p>등록된 영상이 없습니다.</p>
                       </div>

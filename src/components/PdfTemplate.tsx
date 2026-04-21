@@ -272,15 +272,15 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
           </h3>
           <div className="space-y-6">
             {data.experience.map((exp, idx) => (
-              <div key={idx} className="relative pl-5 border-l-[2px] border-[#0047BB]/10">
-                <div className="absolute -left-[6px] top-1.5 w-2.5 h-2.5 rounded-full bg-white border-[2px] border-[#0047BB] shadow-sm"></div>
+              <div key={idx} className="relative pl-5 border-l-2 border-[#0047BB]/10">
+                <div className="absolute -left-[6px] top-1.5 w-2.5 h-2.5 rounded-full bg-white border-2 border-[#0047BB] shadow-sm"></div>
                 
                 <div className="flex items-center justify-between gap-2 mb-1.5">
                   <h4 className="font-bold text-[13px] text-[#1A1A1A] tracking-tight">{exp.title}</h4>
                   <span className="text-[8px] font-mono font-black text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded-sm border border-zinc-100">{exp.period}</span>
                 </div>
 
-                <div className="text-[10px] text-[#0047BB] font-bold mb-1.5 bg-[#0047BB]/5 inline-block px-2 py-1 rounded-sm border-l-[2px] border-[#0047BB]">
+                <div className="text-[10px] text-[#0047BB] font-bold mb-1.5 bg-[#0047BB]/5 inline-block px-2 py-1 rounded-sm border-l-2 border-[#0047BB]">
                   {inlineRender(exp.description)}
                 </div>
                 {exp.teamSize && (
