@@ -12,6 +12,7 @@ export interface Project {
   pdfUrl?: string;
   externalUrl?: string;
   simulatorUrl?: string;
+  hasSimulator?: boolean;
   bookmarks?: { id: string; title: string; type: 'section' | 'link' | 'ebook'; target: string }[];
   color: string;
   content: string;

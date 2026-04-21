@@ -9,7 +9,7 @@ export const PROJECTS: Project[] = [
     tags: ["밸런싱", "전투 밸런스", "수치 설계", "경제 시스템"],
     image: "./images/dorothia_main.jpg",
     gallery: Array.from({ length: 33 }, (_, i) => `./images/dorothia_ebook/page_${(i + 1).toString().padStart(3, '0')}.png`),
-    simulatorUrl: "https://docs.google.com/spreadsheets/d/1XyXfXfXfXfXfXfXfXfXfXfXfXfXfXfX/edit?usp=sharing",
+    hasSimulator: true,
     color: "from-zinc-500/20 to-zinc-400/20",
     status: "구글플레이스토어 출시",
     content: `# 도로시아 (Dorothia) 밸런스 기획서

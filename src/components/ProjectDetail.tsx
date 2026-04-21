@@ -23,7 +23,7 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
     { id: 'document', label: '기획서', icon: <FileText className="w-3.5 h-3.5" />, show: !!(project.gallery || project.pdfUrl) },
     { id: 'video', label: '플레이 영상', icon: <Play className="w-3.5 h-3.5" />, show: !!project.videoUrl },
     { id: 'link', label: '링크', icon: <ExternalLink className="w-3.5 h-3.5" />, show: !!project.externalUrl },
-    { id: 'simulator', label: '시뮬레이터', icon: <Calculator className="w-3.5 h-3.5" />, show: !!project.simulatorUrl },
+    { id: 'simulator', label: '시뮬레이터', icon: <Calculator className="w-3.5 h-3.5" />, show: !!(project.simulatorUrl || project.hasSimulator) },
   ];
 
   const visibleTabs = tabs.filter(t => t.show);
@@ -262,22 +262,34 @@ def calculate_balance(params):
                       <p className="text-zinc-400 font-medium">37개 파라미터 기반 실시간 수치 검증 시스템</p>
                     </div>
 
-                    <div className="group relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+                    <div className="group relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40">
                       <img 
-                        src="./images/dorothia_simulator.png" 
+                        src="./images/dorothia_simulator_desktop.png" 
                         alt="Simulator Dashboard Mockup"
-                        className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
-                        <a 
-                          href={project.simulatorUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full h-16 bg-[#059669] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#047857] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#059669]/40"
-                        >
-                          <span className="font-black text-sm uppercase tracking-widest">Simulator 실행 (Web v.5)</span>
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
+                      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
+                        <div className="flex flex-col gap-4">
+                          <div className="flex gap-2">
+                            <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black text-white/80 uppercase tracking-widest border border-white/10">Desktop App</span>
+                            <span className="px-3 py-1 bg-[#059669]/20 backdrop-blur-md rounded-full text-[10px] font-black text-[#34D399] uppercase tracking-widest border border-[#059669]/30">Tkinter / Python</span>
+                          </div>
+                          {project.simulatorUrl ? (
+                            <a 
+                              href={project.simulatorUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full h-16 bg-[#059669] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#047857] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#059669]/40"
+                            >
+                              <span className="font-black text-sm uppercase tracking-widest">시뮬레이터 실행하기</span>
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          ) : (
+                            <div className="w-full h-16 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-2xl flex items-center justify-center gap-3">
+                              <span className="font-black text-sm uppercase tracking-widest text-zinc-400">Desktop 전용 소프트웨어</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     
