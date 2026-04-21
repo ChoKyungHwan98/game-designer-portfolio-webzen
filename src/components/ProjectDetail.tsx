@@ -54,36 +54,35 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
           </span>
         </div>
 
-        {/* Center: Fluent Segmented Tabs */}
-        <div className="flex-1 flex justify-start gap-1">
+        {/* Center: Persistent Colored Windows Tabs */}
+        <div className="flex-1 flex justify-start gap-2">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const tabColors = {
-              overview: isActive ? 'text-[#0047BB]' : 'text-zinc-400 hover:text-zinc-600',
-              document: isActive ? 'text-white' : 'text-zinc-400 hover:text-[#0047BB]',
-              video: isActive ? 'text-white' : 'text-zinc-400 hover:text-zinc-900',
+            const tabThemes = {
+              overview: isActive 
+                ? 'bg-white text-zinc-900 shadow-sm border-zinc-300' 
+                : 'bg-white/40 text-zinc-500 hover:bg-white/60 border-transparent',
+              document: isActive 
+                ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20 border-transparent' 
+                : 'bg-[#0047BB]/10 text-[#0047BB] hover:bg-[#0047BB]/20 border-transparent',
+              video: isActive 
+                ? 'bg-[#1A1A1A] text-white shadow-md shadow-black/20 border-transparent' 
+                : 'bg-[#1A1A1A]/10 text-zinc-600 hover:bg-[#1A1A1A]/20 border-transparent',
             };
 
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`h-10 px-6 rounded-xl flex items-center gap-2.5 transition-all duration-500 font-sans font-black text-[10px] uppercase tracking-[0.2em] relative group overflow-hidden ${tabColors[tab.id]}`}
+                className={`h-11 px-6 rounded-xl flex items-center gap-2.5 transition-all duration-300 font-sans font-black text-[10px] uppercase tracking-[0.2em] border ${tabThemes[tab.id]}`}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTabBg"
-                    className={`absolute inset-0 shadow-md ${
-                      tab.id === 'overview' ? 'bg-white' : 
-                      tab.id === 'document' ? 'bg-[#0047BB]' : 'bg-[#1A1A1A]'
-                    }`}
-                    transition={{ type: 'spring', bounce: 0.1, duration: 0.5 }}
-                  />
-                )}
-                <span className={`relative z-10 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+                <span className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                   {tab.icon}
                 </span>
-                <span className="relative z-10">{tab.label}</span>
+                {tab.label}
+                {isActive && (
+                  <motion.div layoutId="activeTabDot" className="w-1.5 h-1.5 rounded-full bg-current absolute -bottom-1 left-1/2 -translate-x-1/2 opacity-20" />
+                )}
               </button>
             );
           })}
