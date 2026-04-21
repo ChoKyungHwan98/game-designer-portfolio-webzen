@@ -143,22 +143,22 @@ const ToolBadge: React.FC<{ name: string }> = ({ name }) => (
 
 /* ─── PAGE 1: RESUME ─────────────────────────────────────────────── */
 const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
-  <div style={{ ...PAGE, padding: '12mm 14mm', display: 'flex', flexDirection: 'column', background: WHITE }} className="pdf-page">
+  <div style={{ ...PAGE, padding: '10mm 14mm', display: 'flex', flexDirection: 'column', background: WHITE }} className="pdf-page">
 
     {/* ── 1. Editorial Header ── */}
     <header style={{ 
       display: 'flex', 
-      gap: '32px', 
+      gap: '24px', 
       background: '#FAFAFA', 
       border: '1px solid rgba(0,0,0,0.06)', 
       borderRadius: '2px', 
-      padding: '32px', 
-      marginBottom: '24px' 
+      padding: '24px', 
+      marginBottom: '20px' 
     }}>
       {/* Portrait */}
       <div style={{ position: 'relative', flexShrink: 0 }}>
         <div style={{ 
-          width: '140px', 
+          width: '115px', 
           borderRadius: '2px', 
           overflow: 'hidden', 
           border: '1px solid rgba(0,0,0,0.1)', 
@@ -188,8 +188,8 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
       </div>
 
       {/* Identity & Summary */}
-      <div style={{ flex: 1, paddingTop: '4px' }}>
-        <h1 style={{ fontSize: '48px', fontWeight: 800, color: DARK, letterSpacing: '-2px', margin: '0 0 4px', lineHeight: 1 }}>
+      <div style={{ flex: 1, paddingTop: '0' }}>
+        <h1 style={{ fontSize: '48px', fontWeight: 800, color: DARK, letterSpacing: '-2px', margin: '0 0 2px', lineHeight: 1 }}>
           {data.name}
         </h1>
         <p style={{ 
@@ -198,14 +198,14 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
           color: BLUE, 
           letterSpacing: '4px', 
           textTransform: 'uppercase', 
-          margin: '0 0 16px', 
+          margin: '0 0 12px', 
           borderBottom: `2px solid ${BLUE}`, 
           display: 'inline-block', 
           paddingBottom: '2px' 
         }}>
           {data.role}
         </p>
-        <div style={{ fontSize: '13.5px', fontWeight: 600, color: BODY, lineHeight: 1.7, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '16px', opacity: 0.9 }}>
+        <div style={{ fontSize: '13px', fontWeight: 600, color: BODY, lineHeight: 1.6, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '12px', opacity: 0.9 }}>
           {data.summary}
         </div>
         <div style={{ display: 'flex', gap: '20px', fontSize: '11px', color: MUTED, fontWeight: 700, textTransform: 'uppercase', flexWrap: 'wrap' }}>
@@ -218,15 +218,15 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
     </header>
 
     {/* ── 2. Body Columns ── */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '32px', flex: 1 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '24px', flex: 1 }}>
       
       {/* Sidebar: Education + Certs */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 학력 및 교육
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {data.education.map((edu, i) => (
               <div key={i} style={{ paddingLeft: '12px', borderLeft: `2px solid ${BLUE_FAINT}` }}>
                 <div style={{ fontWeight: 800, fontSize: '12px', color: DARK, lineHeight: 1.3, marginBottom: '2px' }}>{edu.title}</div>
@@ -245,7 +245,7 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
         </section>
 
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 자격증
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -263,12 +263,12 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
       </div>
 
       {/* Main: Experience + Tools */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 프로젝트 경험
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
             {data.experience.map((exp, i) => (
               <div key={i} style={{ paddingLeft: '16px', borderLeft: `3px solid ${BLUE_FAINT}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
@@ -292,8 +292,8 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
         </section>
 
         {/* Tools Section - Categorized */}
-        <section style={{ borderTop: `1px solid ${CARD_BORDER}`, paddingTop: '24px' }}>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <section style={{ borderTop: `1px solid ${CARD_BORDER}`, paddingTop: '16px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 기술 역량 및 도구
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
