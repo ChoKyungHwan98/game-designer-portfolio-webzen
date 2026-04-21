@@ -157,7 +157,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
                   </p>
                   
-                  <div className="max-w-2xl text-[15px] lg:text-[16px] text-[#2C2C2C] leading-[1.7] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-bold break-keep">
+                  <div className="max-w-2xl text-[16px] lg:text-[17px] text-[#2C2C2C] leading-[1.75] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-black [&_strong]:text-[17px] lg:[&_strong]:text-[18px] [&_strong]:bg-[#0047BB]/5 [&_strong]:px-1.5 [&_strong]:py-0.5 [&_strong]:rounded-md break-keep">
                     <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                   </div>
 

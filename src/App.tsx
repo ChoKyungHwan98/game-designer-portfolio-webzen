@@ -135,12 +135,12 @@ function App() {
   const centerSlot = (() => {
     if (view === 'resume' || view === 'cover-letter') {
       return (
-        <div className="inline-flex bg-white/80 backdrop-blur-md p-1 rounded-full border border-zinc-200 shadow-sm relative">
+        <div className="inline-flex bg-zinc-100/80 backdrop-blur-md p-1 rounded-full border border-black/5 shadow-inner relative">
           {(['resume', 'cover-letter'] as const).map((tab) => (
             <button key={tab} onClick={() => handleSetResumeTab(tab)}
-              className={`relative px-6 py-1.5 rounded-full text-[13px] font-bold transition-colors tracking-tight flex items-center justify-center ${resumeTab === tab ? 'text-white' : 'text-zinc-500 hover:text-[#2C2C2C]'}`}>
+              className={`relative px-6 py-1.5 rounded-full text-[13px] font-bold transition-all tracking-tight flex items-center justify-center w-[100px] ${resumeTab === tab ? 'text-[#0047BB]' : 'text-zinc-500 hover:text-[#1A1A1A]'}`}>
               {resumeTab === tab && (
-                <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-[#0047BB] rounded-full shadow-sm" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
+                <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-white rounded-full shadow-sm border border-black/5" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
               )}
               <span className="relative z-10">{tab === 'resume' ? '이력서' : '자기소개서'}</span>
             </button>
