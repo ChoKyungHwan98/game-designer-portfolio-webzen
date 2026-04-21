@@ -45,16 +45,22 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           const tabColors = {
-            overview: isActive ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:bg-zinc-300/50',
-            document: isActive ? 'bg-[#0047BB] text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-300/50',
-            video: isActive ? 'bg-[#1A1A1A] text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-300/50',
+            overview: isActive 
+              ? 'bg-white text-zinc-900 shadow-sm z-30' 
+              : 'bg-white/40 text-zinc-500 hover:bg-white/60 hover:text-zinc-700 z-10',
+            document: isActive 
+              ? 'bg-[#0047BB] text-white shadow-md z-30' 
+              : 'bg-[#0047BB]/30 text-[#0047BB] hover:bg-[#0047BB]/50 hover:text-white z-10',
+            video: isActive 
+              ? 'bg-[#1A1A1A] text-white shadow-md z-30' 
+              : 'bg-[#1A1A1A]/30 text-zinc-600 hover:bg-[#1A1A1A]/50 hover:text-white z-10',
           };
 
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`h-10 px-6 rounded-lg flex items-center gap-2.5 transition-all duration-300 font-display font-black text-[11px] uppercase tracking-wider relative group ${tabColors[tab.id]}`}
+              className={`h-11 px-6 rounded-t-xl flex items-center gap-2.5 transition-all duration-300 font-display font-black text-[11px] uppercase tracking-wider relative group border-t border-x border-transparent ${isActive ? 'border-zinc-300/30' : ''} ${tabColors[tab.id]}`}
             >
               <span className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                 {tab.icon}
@@ -93,12 +99,14 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
           </AnimatePresence>
         </div>
 
-        {/* Windows Close Button Style */}
+        {/* Windows Close Button Style - Enhanced Visibility */}
         <button 
           onClick={onClose}
-          className="w-10 h-10 rounded-lg hover:bg-red-500 hover:text-white text-zinc-500 flex items-center justify-center transition-all active:scale-90"
+          className="w-12 h-14 bg-transparent hover:bg-[#E81123] hover:text-white text-zinc-600 flex items-center justify-center transition-all duration-200 group relative ml-4"
+          title="닫기"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5 group-hover:scale-110 transition-transform" />
+          {/* Subtle bottom indicator to match Windows 11 style if needed, but keeping it clean */}
         </button>
       </div>
 

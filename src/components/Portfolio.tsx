@@ -180,13 +180,6 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                   transition={{ type: 'spring', damping: 28, stiffness: 220 }}
                   className="w-[98vw] md:w-[95vw] h-[98vh] md:h-[95vh] max-w-[1600px] bg-bg-main md:rounded-3xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
                 >
-                {/* Close button - high visibility red style */}
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-6 right-6 z-110 w-10 h-10 rounded-full bg-[#FF4B4B] hover:bg-[#FF3333] text-white flex items-center justify-center transition-all duration-300 shadow-[0_4px_12px_rgba(255,75,75,0.3)] hover:scale-110 active:scale-95 group"
-                >
-                  <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
-                </button>
 
                 {/* Content - height fills modal, scroll managed per-tab */}
                 <div className="flex-1 overflow-hidden flex flex-col min-h-0">
