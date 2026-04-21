@@ -113,6 +113,6 @@ export const RESUME_DATA: ResumeData = {
     { name: "Word", description: "체계적이고 가독성 높은 기획 문서 및 사양서 작성" },
     { name: "Figma", description: "UI 와이어프레임 작성 및 프로토타입 제작" },
     { name: "Notion", description: "일반적인 문서 작성 및 간트차트를 활용한 일정 관리" },
-    { name: "Unity", description: "UGUI를 활용한 UI 시스템 구성 및 C# 스크립팅" }
+    { name: "Unity", description: "바이브코딩 방식으로 게임 아이디어를 빠르게 플레이어블 프로토타입으로 구현 가능" }
   ]
 };
