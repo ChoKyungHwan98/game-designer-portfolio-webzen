@@ -206,31 +206,91 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
             </motion.div>
           ) : activeTab === 'simulator' ? (
             <motion.div key="tab-simulator" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 flex items-center justify-center p-12 bg-[#FCFCFA]"
+              className="flex-1 flex flex-col min-h-0 bg-[#0B0C10] overflow-hidden"
             >
-              <div className="max-w-2xl w-full">
-                <div className="relative group p-1 bg-linear-to-br from-[#059669] via-[#34D399] to-[#059669] rounded-[3rem] shadow-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl" />
-                  <div className="relative bg-white/80 rounded-[2.8rem] p-12 flex flex-col items-center text-center">
-                    <div className="w-24 h-24 bg-[#059669]/10 rounded-3xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500">
-                      <Calculator className="w-12 h-12 text-[#059669]" />
+              <div className="flex-1 flex flex-col lg:flex-row min-h-0">
+                {/* Left: Code Explorer */}
+                <div className="flex-1 border-r border-white/5 flex flex-col min-h-0 bg-black/20">
+                  <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1.5">
+                        <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
+                        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                        <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
+                      </div>
+                      <span className="text-[11px] font-black text-zinc-500 uppercase tracking-widest ml-2">simulator.py — Python</span>
                     </div>
-                    <h3 className="text-4xl font-black text-zinc-900 mb-6 tracking-tight">수치 밸런스 시뮬레이터</h3>
-                    <p className="text-zinc-600 text-lg leading-relaxed mb-12 max-w-md font-medium">
-                      전투 공식과 성장 곡선이 적용된 실제 밸런싱 도구를 통해 정밀한 수치 설계 프로세스를 확인하실 수 있습니다.
-                    </p>
-                    <a 
-                      href={project.simulatorUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full h-20 bg-[#059669] text-white rounded-[2rem] flex items-center justify-center gap-4 hover:bg-[#047857] hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-xl shadow-[#059669]/30 group/btn"
-                    >
-                      <span className="text-xl font-black tracking-tight">시뮬레이터 도구 열기</span>
-                      <ExternalLink className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                    </a>
-                    <p className="mt-8 text-zinc-400 text-sm font-black uppercase tracking-[0.2em]">
-                      Interactive Balancing Tool
-                    </p>
+                    <div className="text-[10px] text-zinc-600 font-mono">v5.2.0</div>
+                  </div>
+                  <div className="flex-1 overflow-auto p-8 font-mono text-[13px] leading-relaxed text-zinc-400">
+                    <pre className="whitespace-pre">
+{`# ── 밸런스 검증 로직 (Monte Carlo) ────────────────
+def calculate_balance(params):
+    # DPS 체인 계산
+    atk_spd = (agi0 + upg_agi) * (1 + eq_agi_bonus)
+    crit_m = 1 + (crit_tot / 100) * (cd0 + cdmg_upg - 1)
+    
+    # 몬스터 HP 역산 (TTK 목표 1.35s)
+    nhp = tdps * 1.35 * dmg_rate(mnd)
+    bhp = tdps * 35.0 * dmg_rate(bsd)
+    
+    # 지수 성장 곡선 시뮬레이션
+    for stage in range(1, 2000):
+        hp = nhp * (hpg ** (stage - 1))
+        dps = dps_at(stage)
+        ttk = hp / dps
+        
+        # 병목 구간(Bottleneck) 감지
+        if ttk > 3.0: 
+            return FAIL, "Stage " + stage`}
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Right: Dashboard Preview */}
+                <div className="flex-1 flex flex-col p-8 lg:p-12 items-center justify-center relative overflow-hidden bg-linear-to-br from-[#0B0C10] to-[#16213E]">
+                  <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,#059669_0%,transparent_70%)]" />
+                  </div>
+                  
+                  <div className="relative z-10 w-full max-w-lg">
+                    <div className="mb-8 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-[#059669]/20 rounded-2xl flex items-center justify-center mb-6 border border-[#059669]/30">
+                        <Calculator className="w-8 h-8 text-[#059669]" />
+                      </div>
+                      <h3 className="text-3xl font-black text-white mb-4">Balancing Tool Preview</h3>
+                      <p className="text-zinc-400 font-medium">37개 파라미터 기반 실시간 수치 검증 시스템</p>
+                    </div>
+
+                    <div className="group relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+                      <img 
+                        src="./images/dorothia_simulator.png" 
+                        alt="Simulator Dashboard Mockup"
+                        className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
+                        <a 
+                          href={project.simulatorUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full h-16 bg-[#059669] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#047857] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#059669]/40"
+                        >
+                          <span className="font-black text-sm uppercase tracking-widest">Simulator 실행 (Web v.5)</span>
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-8 grid grid-cols-2 gap-4">
+                      <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">Pass Rate</div>
+                        <div className="text-xl font-black text-[#059669]">82.4%</div>
+                      </div>
+                      <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                        <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">Iterations</div>
+                        <div className="text-xl font-black text-white">2,000+</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
