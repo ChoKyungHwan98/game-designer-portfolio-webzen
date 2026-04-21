@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, FileText, Layout, Tag, Calendar, ScrollText } from 'lucide-react';
+import { Play, FileText, Layout, Tag, Calendar, ScrollText, Grid, X } from 'lucide-react';
 import type { Project } from '../types';
 import { EBookGallery } from './EBookGallery';
 
@@ -14,6 +14,7 @@ type TabType = 'overview' | 'document' | 'video';
 export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [currentPage, setCurrentPage] = useState(0);
+  const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: '개요', icon: <Layout className="w-3.5 h-3.5" /> },
@@ -81,21 +82,31 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
               initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
               className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center pt-0"
             >
-              <div className={`flex items-center gap-8 ${theme.bg} px-10 py-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] border-2 ${theme.border} backdrop-blur-md transition-all duration-500`}>
-                <div className={`text-[16px] font-black tracking-[0.3em] ${theme.text} flex items-center gap-4`}>
-                  {activeTab === 'document' ? (
-                    <>
-                      <span className="drop-shadow-md">{String(currentPage + 1).padStart(2, '0')}</span>
-                      <span className="w-8 h-[2px] bg-white/40 rounded-full"></span>
-                      <span className="text-white/50">{String(galleryImages.length).padStart(2, '0')}</span>
-                    </>
-                  ) : activeTab === 'overview' ? (
-                    <span className="text-[12px] uppercase tracking-[0.5em]">Project Overview</span>
-                  ) : (
-                    <span className="text-[12px] uppercase tracking-[0.5em]">Video Content</span>
+                <div className={`flex items-center gap-6 ${theme.bg} pl-10 pr-6 py-3 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] border-2 ${theme.border} backdrop-blur-md transition-all duration-500`}>
+                  <div className={`text-[16px] font-black tracking-[0.3em] ${theme.text} flex items-center gap-4`}>
+                    {activeTab === 'document' ? (
+                      <>
+                        <span className="drop-shadow-md">{String(currentPage + 1).padStart(2, '0')}</span>
+                        <span className="w-8 h-[2px] bg-white/40 rounded-full"></span>
+                        <span className="text-white/50">{String(galleryImages.length).padStart(2, '0')}</span>
+                      </>
+                    ) : activeTab === 'overview' ? (
+                      <span className="text-[12px] uppercase tracking-[0.5em]">Project Overview</span>
+                    ) : (
+                      <span className="text-[12px] uppercase tracking-[0.5em]">Video Content</span>
+                    )}
+                  </div>
+                  
+                  {activeTab === 'document' && (
+                    <button 
+                      onClick={() => setShowThumbnailGrid(true)}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${activeTab === 'document' ? 'bg-white/10 hover:bg-white/20' : 'bg-zinc-100 hover:bg-zinc-200'}`}
+                      title="전체 페이지 보기"
+                    >
+                      <Grid className={`w-4 h-4 ${theme.text}`} />
+                    </button>
                   )}
                 </div>
-              </div>
               
               {activeTab === 'document' && galleryImages.length > 1 && (
                 <div className="flex gap-1.5 mt-3 h-2 w-64 justify-center items-center group/dots">
@@ -208,6 +219,59 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Thumbnail Grid Overlay */}
+      <AnimatePresence>
+        {showThumbnailGrid && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-120 bg-[#1A1A1A]/95 backdrop-blur-2xl p-12 flex flex-col"
+          >
+            <div className="flex items-center justify-between mb-12">
+              <div className="flex flex-col">
+                <span className="text-[#0047BB] text-[11px] font-black tracking-[0.4em] uppercase mb-2">Navigation</span>
+                <h3 className="text-white text-3xl font-black tracking-tight">전체 페이지 개요</h3>
+              </div>
+              <button 
+                onClick={() => setShowThumbnailGrid(false)}
+                className="w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all hover:rotate-90"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto pr-4 custom-scrollbar">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                {galleryImages.map((img, i) => (
+                  <motion.button
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.02 }}
+                    onClick={() => {
+                      setCurrentPage(i);
+                      setShowThumbnailGrid(false);
+                    }}
+                    className={`group relative aspect-[3/4] rounded-xl overflow-hidden border-2 transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] ${i === currentPage ? 'border-[#0047BB] shadow-[0_0_20px_rgba(0,71,187,0.4)]' : 'border-white/5 hover:border-white/20'}`}
+                  >
+                    <img src={img} alt={`Page ${i+1}`} className="w-full h-full object-cover" />
+                    <div className={`absolute inset-0 transition-opacity duration-300 ${i === currentPage ? 'bg-[#0047BB]/20' : 'bg-black/40 opacity-0 group-hover:opacity-100'}`} />
+                    <div className="absolute bottom-4 left-4 flex items-center justify-center w-8 h-8 rounded-lg bg-black/60 backdrop-blur-md text-white text-[11px] font-black border border-white/10">
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+            
+            <div className="shrink-0 mt-8 text-center text-white/30 text-[10px] font-bold tracking-[0.3em] uppercase">
+              총 {galleryImages.length} 페이지 중 {currentPage + 1} 페이지 선택됨
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
