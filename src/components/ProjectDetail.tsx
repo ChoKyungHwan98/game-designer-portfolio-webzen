@@ -32,15 +32,15 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="flex-1 flex flex-col min-h-0 bg-transparent"
     >
-      {/* Header breadcrumb - minimized */}
-      <div className="shrink-0 px-6 pt-4 pb-2">
-        <span className="text-[10px] font-black tracking-widest text-zinc-300 uppercase">Project Detail</span>
+      {/* Minimized Header - integrated breadcrumb with tabs to save space */}
+      <div className="shrink-0 flex items-center justify-between px-6 pt-3 pb-1 border-b border-black/5 bg-zinc-50/50">
+        <span className="text-[9px] font-black tracking-[0.2em] text-zinc-400 uppercase">Project Detail</span>
       </div>
 
-      {/* Tabs + Content - removed side padding to maximize width */}
+      {/* Tabs + Content */}
       <div className="flex-1 flex flex-col min-h-0 px-0 pb-0">
-        {/* Tab bar - kept slight padding for buttons */}
-        <div className="shrink-0 flex flex-wrap gap-1 px-6 relative z-20">
+        {/* Tab bar - compact */}
+        <div className="shrink-0 flex flex-wrap gap-1 px-4 pt-2 relative z-20">
           {tabs.map((tab, idx) => {
             const isActive = activeTab === tab.id;
             const colorSchemes = [
@@ -58,7 +58,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
               >
                 <button
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 rounded-t-xl border-t border-x font-display font-bold text-[12px] uppercase tracking-widest transition-all shadow-sm flex items-center gap-2 mb-[-1px] relative z-10 ${scheme} ${isActive ? 'translate-y-[-2px] shadow-lg pb-4' : 'hover:translate-y-[-1px]'}`}
+                  className={`px-5 py-2 rounded-t-lg border-t border-x font-display font-bold text-[11px] uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 mb-[-1px] relative z-10 ${scheme} ${isActive ? 'translate-y-[-1px] shadow-md pb-3' : 'hover:translate-y-[-1px]'}`}
                 >
                   {tab.label}
                   {tab.id === 'document' && <ScrollText className="w-3.5 h-3.5 opacity-50" />}
@@ -82,9 +82,9 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#FDFDFB]"
+                className="flex-1 flex flex-col min-h-0 overflow-hidden bg-white"
               >
-                <div className="w-full flex-1 flex items-center justify-center min-h-0">
+                <div className="w-full flex-1 min-h-0">
                   <EBookGallery images={project.gallery || [project.image]} />
                 </div>
               </motion.div>
