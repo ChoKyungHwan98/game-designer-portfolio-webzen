@@ -19,9 +19,9 @@ const slideVariants = {
     opacity: 1, 
     scale: 1,
     transition: {
-      x: { type: "spring", stiffness: 300, damping: 30, mass: 0.8 },
-      opacity: { duration: 0.3 },
-      scale: { duration: 0.4, ease: "easeOut" }
+      x: { type: "spring", stiffness: 500, damping: 40, mass: 0.5 },
+      opacity: { duration: 0.15 },
+      scale: { duration: 0.2, ease: "easeOut" }
     }
   },
   exit: (direction: number) => ({
@@ -29,9 +29,9 @@ const slideVariants = {
     opacity: 0,
     scale: 0.95,
     transition: {
-      x: { type: "spring", stiffness: 300, damping: 30, mass: 0.8 },
-      opacity: { duration: 0.2 },
-      scale: { duration: 0.3 }
+      x: { type: "spring", stiffness: 500, damping: 40, mass: 0.5 },
+      opacity: { duration: 0.1 },
+      scale: { duration: 0.15 }
     }
   }),
 };
@@ -46,7 +46,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
   
   // Throttle wheel pagination
   const lastWheelTime = useRef(0);
-  const wheelCooldown = 500; // ms
+  const wheelCooldown = 150; // ms
 
   if (currentIndex !== page) {
     setPage([currentIndex, currentIndex > page ? 1 : -1]);
