@@ -63,7 +63,6 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-5 py-2.5 rounded-t-lg border-t border-x font-display font-bold text-[11px] uppercase tracking-wider transition-all shadow-sm flex items-center gap-2.5 mb-[-1px] relative z-10 ${colorSchemes[tab.id]} ${isActive ? 'translate-y-[-1px] shadow-md pb-4' : 'hover:translate-y-[-1px]'}`}
-                 Polished Header Icon at the front */}
                 >
                   {tab.icon}
                   {tab.label}
@@ -126,39 +125,57 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
               </motion.div>
             ) : (
               <motion.div key="tab-overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="flex-1 overflow-y-auto"
+                className="flex-1 overflow-y-auto bg-[#FCFCFA]"
               >
-                <div className="max-w-4xl mx-auto p-8 md:p-12">
-                  <div className="relative h-64 md:h-80 rounded-3xl overflow-hidden mb-12 shadow-xl group">
-                    <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-8 left-8 right-8">
-                      <div className="flex flex-wrap gap-2 mb-4">
+                <div className="max-w-4xl mx-auto p-10 md:p-16">
+                  <div className="relative h-[400px] rounded-[2rem] overflow-hidden mb-16 shadow-2xl group border border-black/5">
+                    <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                    <div className="absolute bottom-10 left-10 right-10">
+                      <div className="flex flex-wrap gap-2.5 mb-6">
                         {project.tags.map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-[10px] font-bold uppercase tracking-wider">#{tag}</span>
+                          <span key={tag} className="px-4 py-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white text-[11px] font-black uppercase tracking-wider shadow-sm">#{tag}</span>
                         ))}
                       </div>
-                      <h2 className="text-4xl md:text-5xl font-black text-white mb-2 leading-tight">{project.title}</h2>
+                      <h2 className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight tracking-tighter drop-shadow-lg">{project.title}</h2>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                    <div className="md:col-span-2 space-y-8">
-                      <section>
-                        <h3 className="text-lg font-black text-zinc-900 mb-4 flex items-center gap-2"><FileText className="w-5 h-5 text-[#0047BB]" /> 기획 의도 및 핵심 내용</h3>
-                        <div className="prose prose-zinc max-w-none text-zinc-600 leading-relaxed whitespace-pre-wrap">{project.content}</div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+                    <div className="md:col-span-2 space-y-12">
+                      <section className="relative">
+                        <div className="absolute -left-6 top-0 w-1 h-full bg-[#0047BB]/10 rounded-full" />
+                        <h3 className="text-2xl font-black text-[#1A1A1A] mb-8 flex items-center gap-3 tracking-tight">
+                          <FileText className="w-6 h-6 text-[#0047BB]" /> 
+                          기획 의도 및 핵심 내용
+                        </h3>
+                        <div className="prose prose-zinc prose-lg max-w-none text-zinc-800 leading-[1.8] whitespace-pre-wrap font-medium">
+                          {project.content}
+                        </div>
                       </section>
                     </div>
-                    <div className="space-y-6">
-                      <div className="bg-zinc-50 rounded-2xl p-6 border border-zinc-100">
-                        <h4 className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mb-6">Project Metadata</h4>
-                        <div className="space-y-5">
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center shrink-0"><Tag className="w-4 h-4 text-[#0047BB]" /></div>
-                            <div><p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Category</p><p className="text-sm font-bold text-zinc-900">{project.category}</p></div>
+
+                    <div className="space-y-8">
+                      <div className="bg-white rounded-3xl p-8 border border-black/5 shadow-sm sticky top-0">
+                        <h4 className="text-[12px] font-black text-[#0047BB] uppercase tracking-[0.3em] mb-10 border-b border-zinc-100 pb-4">Project Metadata</h4>
+                        <div className="space-y-8">
+                          <div className="flex items-start gap-5">
+                            <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center shrink-0">
+                              <Tag className="w-5 h-5 text-[#0047BB]" />
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Category</p>
+                              <p className="text-lg font-black text-[#1A1A1A]">{project.category}</p>
+                            </div>
                           </div>
-                          <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center shrink-0"><Calendar className="w-4 h-4 text-[#0047BB]" /></div>
-                            <div><p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-0.5">Status</p><p className="text-sm font-bold text-zinc-900">{project.status}</p></div>
+                          <div className="flex items-start gap-5">
+                            <div className="w-10 h-10 rounded-xl bg-zinc-50 border border-zinc-100 flex items-center justify-center shrink-0">
+                              <Calendar className="w-5 h-5 text-[#0047BB]" />
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Status</p>
+                              <p className="text-lg font-black text-[#1A1A1A]">{project.status}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
