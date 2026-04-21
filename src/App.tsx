@@ -135,7 +135,7 @@ function App() {
   const centerSlot = (() => {
     if (view === 'resume' || view === 'cover-letter') {
       return (
-        <div className="inline-flex bg-zinc-100/80 backdrop-blur-md p-1 rounded-full border border-black/5 shadow-inner relative">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex bg-zinc-100/80 backdrop-blur-md p-1 rounded-full border border-black/5 shadow-inner">
           {(['resume', 'cover-letter'] as const).map((tab) => (
             <button key={tab} onClick={() => handleSetResumeTab(tab)}
               className={`relative px-6 py-1.5 rounded-full text-[13px] font-bold transition-all tracking-tight flex items-center justify-center w-[100px] ${resumeTab === tab ? 'text-[#0047BB]' : 'text-zinc-500 hover:text-[#1A1A1A]'}`}>
