@@ -99,14 +99,13 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
           </AnimatePresence>
         </div>
 
-        {/* Windows Close Button Style - Enhanced Visibility */}
+        {/* Windows Close Button Style - Circular Hover */}
         <button 
           onClick={onClose}
-          className="w-12 h-14 bg-transparent hover:bg-[#E81123] hover:text-white text-zinc-600 flex items-center justify-center transition-all duration-200 group relative ml-4"
+          className="w-12 h-12 rounded-full bg-transparent hover:bg-[#FF4B4B] hover:text-white text-zinc-600 flex items-center justify-center transition-all duration-300 group ml-4 relative z-130"
           title="닫기"
         >
-          <X className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          {/* Subtle bottom indicator to match Windows 11 style if needed, but keeping it clean */}
+          <X className="w-5 h-5 group-hover:scale-110 group-hover:rotate-90 transition-transform duration-300" />
         </button>
       </div>
 
