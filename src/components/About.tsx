@@ -40,28 +40,75 @@ export const About = ({ isEditing, content, setContent }: AboutProps) => (
       {/* ── TWO-COLUMN LAYOUT ── */}
       <div className="grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-center pt-8">
         
-        {/* Left: Closing Promise */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col gap-8 justify-center"
-        >
-          <div className="text-[20px] md:text-[26px] lg:text-[32px] leading-[1.6] font-bold text-[#1A1A1A] break-keep border-l-4 border-[#0047BB] pl-6 md:pl-8 py-2
-            [&_p]:m-0 [&_strong]:text-[#0047BB]
-          ">
-            <EditableText
-              value={content.p2} 
-              onSave={(v) => setContent({ ...content, p2: v })}
-              isEditing={isEditing}
-              markdown
-            />
+        {/* Left: Story & Promise */}
+        <div className="flex flex-col gap-10 lg:gap-14 justify-center">
+          
+          {/* P1: Core Philosophy (Polished Typography) */}
+          <div className="flex flex-col gap-5">
+            {/* Sentence 1 & 2: Contrast (Law vs Game) */}
+            <div className="text-[20px] md:text-[24px] lg:text-[28px] font-semibold leading-[1.6] tracking-tight flex flex-col gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-zinc-400 break-keep"
+              >
+                법학이 <span className="font-black text-zinc-500">'-'</span>에서 <span className="font-black text-zinc-500">'0'</span>으로 되돌리는 일이었다면,
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-[#1A1A1A] break-keep"
+              >
+                게임은 누군가의 하루를 <br className="hidden lg:block"/>
+                <span className="relative inline-block mt-1 md:mt-0">
+                  <span className="font-black text-[#0047BB]">'0'</span>에서 <span className="font-black text-[#0047BB] drop-shadow-[0_0_8px_rgba(0,71,187,0.3)]">'+'</span>가 되는 경험
+                  <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }} className="absolute -bottom-1 left-0 right-0 h-1.5 md:h-2 bg-[#0047BB]/20 origin-left" />
+                </span>으로 만드는 일입니다.
+              </motion.div>
+            </div>
+
+            {/* Sentence 3: Explanation */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-[15px] md:text-[17px] text-zinc-500 leading-[1.8] font-medium break-keep border-l-2 border-black/10 pl-4 md:pl-5 mt-2"
+            >
+              탄탄한 시스템의 논리적 뼈대 위에서,<br />
+              유저의 마음에 즐거움이라는 <strong className="text-[#0047BB] font-black">감성을 채워넣는 것</strong> —<br />
+              그것이 제가 생각하는 게임 기획의 본질입니다.
+            </motion.div>
           </div>
-          <p className="text-zinc-500 font-medium text-sm md:text-base pl-6 md:pl-8">
-            단순한 상상을 넘어, 실제로 작동하고 유저가 공감할 수 있는 논리적 기반을 제공합니다.
-          </p>
-        </motion.div>
+
+          {/* P2: The Closing Promise */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col gap-3"
+          >
+            <div className="text-[18px] md:text-[22px] lg:text-[24px] leading-[1.6] font-bold text-[#1A1A1A] break-keep border-l-4 border-[#0047BB] pl-4 md:pl-6 py-1
+              [&_p]:m-0 [&_strong]:text-[#0047BB]
+            ">
+              <EditableText
+                value={content.p2} 
+                onSave={(v) => setContent({ ...content, p2: v })}
+                isEditing={isEditing}
+                markdown
+              />
+            </div>
+            <p className="text-zinc-500 font-medium text-sm md:text-base pl-4 md:pl-6">
+              단순한 상상을 넘어, 실제로 작동하고 유저가 공감할 수 있는 논리적 기반을 제공합니다.
+            </p>
+          </motion.div>
+        </div>
 
         {/* Right: Bento Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
