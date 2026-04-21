@@ -32,15 +32,15 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="flex-1 flex flex-col min-h-0 bg-transparent"
     >
-      {/* Header breadcrumb */}
-      <div className="shrink-0 px-6 md:px-10 pt-6 pb-3">
-        <span className="text-[11px] font-black tracking-widest text-zinc-300 uppercase">Project Detail</span>
+      {/* Header breadcrumb - minimized */}
+      <div className="shrink-0 px-6 pt-4 pb-2">
+        <span className="text-[10px] font-black tracking-widest text-zinc-300 uppercase">Project Detail</span>
       </div>
 
-      {/* Tabs + Content */}
-      <div className="flex-1 flex flex-col min-h-0 px-4 md:px-8 pb-6">
-        {/* Tab bar */}
-        <div className="shrink-0 flex flex-wrap gap-1.5 px-2 relative z-20">
+      {/* Tabs + Content - removed side padding to maximize width */}
+      <div className="flex-1 flex flex-col min-h-0 px-0 pb-0">
+        {/* Tab bar - kept slight padding for buttons */}
+        <div className="shrink-0 flex flex-wrap gap-1 px-6 relative z-20">
           {tabs.map((tab, idx) => {
             const isActive = activeTab === tab.id;
             const colorSchemes = [
@@ -69,8 +69,8 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
           })}
         </div>
 
-        {/* Tab card - fills remaining height */}
-        <div className="flex-1 flex flex-col min-h-0 bg-white border border-black/5 rounded-b-3xl rounded-tr-3xl overflow-hidden shadow-sm relative z-10">
+        {/* Tab card - fills remaining height - removed rounded corners on bottom to gain space if needed */}
+        <div className="flex-1 flex flex-col min-h-0 bg-white border-t border-black/5 shadow-sm relative z-10">
           {/* Paper texture */}
           <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
 
