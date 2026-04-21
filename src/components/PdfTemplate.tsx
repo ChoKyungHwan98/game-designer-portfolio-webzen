@@ -6,6 +6,7 @@
  */
 import React from 'react';
 import type { ResumeData } from '../types';
+import { ScrollText, Mail, Phone, GraduationCap, Award, Briefcase, Wrench, Figma, User, Calendar, MapPin, Shield } from 'lucide-react';
 
 /* ─── design tokens ─────────────────────────────────────────────── */
 const BLUE        = '#0047BB';
@@ -141,148 +142,153 @@ const ToolBadge: React.FC<{ name: string }> = ({ name }) => (
   </span>
 );
 
+const renderToolIcon = (name: string) => {
+  if (name === 'Figma') return <Figma className="w-3 h-3" />;
+  if (TOOL_PATHS[name]) return (
+    <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current">
+      <path d={TOOL_PATHS[name]} />
+    </svg>
+  );
+  return <Wrench className="w-3 h-3" />;
+};
+
 /* ─── PAGE 1: RESUME ─────────────────────────────────────────────── */
 const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
-  <div style={{ ...PAGE, padding: '10mm 14mm', display: 'flex', flexDirection: 'column', background: WHITE }} className="pdf-page">
-
-    {/* ── 1. Editorial Header ── */}
-    <header style={{ 
-      display: 'flex', 
-      gap: '20px', 
-      background: '#FAFAFA', 
-      border: '1px solid rgba(0,0,0,0.06)', 
-      borderRadius: '2px', 
-      padding: '20px 24px', 
-      marginBottom: '16px' 
-    }}>
+  <div className="pdf-page bg-white mx-auto flex flex-col font-sans" style={{ width: '210mm', height: '297mm', overflow: 'hidden' }}>
+    
+    {/* 1. EDITORIAL HEADER SECTION */}
+    <header className="flex items-start gap-6 p-8 bg-[#FAFAFA] border-b border-zinc-100">
       {/* Portrait */}
-      <div style={{ position: 'relative', flexShrink: 0 }}>
-        <div style={{ 
-          width: '120px', 
-          borderRadius: '2px', 
-          overflow: 'hidden', 
-          border: '1px solid rgba(0,0,0,0.1)', 
-          boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
-          background: WHITE
-        }}>
-          <img src={data.image || "https://picsum.photos/seed/profile/600/800"} alt="Profile"
-            style={{ width: '100%', height: 'auto', display: 'block' }} />
-        </div>
-        <div style={{ 
-          position: 'absolute', 
-          bottom: '-6px', 
-          right: '-6px', 
-          width: '26px', 
-          height: '26px', 
-          background: BLUE, 
-          color: WHITE, 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          fontSize: '7px', 
-          fontWeight: 900, 
-          fontFamily: 'monospace' 
-        }}>
-          PRFL
+      <div className="relative shrink-0">
+        <div className="w-[120px] rounded-sm overflow-hidden border border-black/10 shadow-xl bg-white">
+          <img 
+            src={data.image || "https://picsum.photos/seed/profile/600/800"} 
+            alt="Profile" 
+            className="w-full h-auto object-contain block" 
+          />
         </div>
       </div>
 
       {/* Identity & Summary */}
-      <div style={{ flex: 1, paddingTop: '0' }}>
-        <h1 style={{ fontSize: '42px', fontWeight: 800, color: DARK, letterSpacing: '-1.5px', margin: '0 0 4px', lineHeight: 1 }}>
+      <div className="flex-1 flex flex-col items-start pt-1">
+        <h1 className="text-[36px] font-bold text-[#1A1A1A] tracking-tighter leading-none mb-2">
           {data.name}
         </h1>
-        <p style={{ 
-          fontSize: '9.5px', 
-          fontWeight: 900, 
-          color: BLUE, 
-          letterSpacing: '3px', 
-          textTransform: 'uppercase', 
-          margin: '0 0 10px', 
-          borderBottom: `2px solid ${BLUE}`, 
-          display: 'inline-block', 
-          paddingBottom: '2px' 
-        }}>
+        <p className="text-[#0047BB] font-black font-mono tracking-[0.4em] text-[10px] uppercase mb-4 pb-1 border-b-2 border-[#0047BB]">
           {data.role}
         </p>
-        <div style={{ fontSize: '12.5px', fontWeight: 600, color: BODY, lineHeight: 1.55, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '10px', opacity: 0.9 }}>
-          {data.summary}
+        
+        <div className="max-w-2xl text-[12px] text-[#2C2C2C] leading-relaxed font-medium [&_strong]:text-[#0047BB] [&_strong]:font-bold break-keep italic opacity-90 mb-4">
+          {inlineRender(data.summary || '')}
         </div>
-        <div style={{ display: 'flex', gap: '16px', fontSize: '10.5px', color: MUTED, fontWeight: 700, textTransform: 'uppercase', flexWrap: 'wrap' }}>
-          <span>✉ {data.email.toLowerCase()}</span>
-          <span>☎ {data.phone}</span>
-          {data.birthDate && <span>🗓 {data.birthDate}</span>}
-          {data.military && <span>🛡 {data.military.branch} {data.military.rank} {data.military.status}</span>}
+
+        {/* Contact Quick List */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100/50">
+            <Mail className="w-3.5 h-3.5 text-[#0047BB]" strokeWidth={2.5} />
+            <span className="lowercase">{data.email}</span>
+          </div>
+          {data.phone && (
+            <div className="flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100/50">
+              <Phone className="w-3.5 h-3.5 text-[#0047BB]" strokeWidth={2.5} />
+              <span>{data.phone}</span>
+            </div>
+          )}
+          {data.birthDate && (
+            <div className="flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100/50">
+              <Calendar className="w-3.5 h-3.5 text-[#0047BB]" strokeWidth={2.5} />
+              <span>{data.birthDate}</span>
+            </div>
+          )}
+          {data.military && (
+            <div className="flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100/50">
+              <Shield className="w-3.5 h-3.5 text-[#0047BB]" strokeWidth={2.5} />
+              <span>{data.military.branch} {data.military.rank} {data.military.status}</span>
+            </div>
+          )}
         </div>
       </div>
     </header>
 
-    {/* ── 2. Body Columns ── */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', flex: 1 }}>
-      
-      {/* Sidebar: Education + Certs */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    {/* 2. MAIN CONTENT GRID */}
+    <div className="grid grid-cols-12 gap-0 flex-1">
+      {/* LEFT COLUMN */}
+      <aside className="col-span-4 p-8 border-r border-zinc-100 bg-[#FCFCFC] flex flex-col gap-8">
+        {/* Education */}
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 학력 및 교육
+          <h3 className="text-[13px] font-bold mb-4 flex items-center gap-2 text-[#1A1A1A]">
+            <GraduationCap className="text-[#0047BB] w-4 h-4" /> 학력 및 교육
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {data.education.map((edu, i) => (
-              <div key={i} style={{ paddingLeft: '12px', borderLeft: `2px solid ${BLUE_FAINT}` }}>
-                <div style={{ fontWeight: 800, fontSize: '12px', color: DARK, lineHeight: 1.3, marginBottom: '2px' }}>{edu.title}</div>
-                <div style={{ fontFamily: 'monospace', fontSize: '9px', color: FAINT, fontWeight: 700, marginBottom: '6px' }}>{edu.period}</div>
-                <div style={{ fontSize: '10.5px', color: BODY, lineHeight: 1.5, marginBottom: '4px' }}>{edu.description}</div>
-                {edu.details && edu.details.length > 0 && (
-                  <ul style={{ margin: 0, paddingLeft: '12px', listStyleType: 'disc', fontSize: '9.5px', color: MUTED }}>
-                    {edu.details.map((detail, dIdx) => (
-                      <li key={dIdx} style={{ marginBottom: '2px' }}>{detail}</li>
-                    ))}
-                  </ul>
+          <div className="space-y-5">
+            {data.education.map((edu, idx) => (
+              <div key={idx} className="relative pl-4 border-l-2 border-[#0047BB]/20">
+                <div className="absolute -left-[5px] top-1 w-2 h-2 rounded-none bg-[#0047BB]/40"></div>
+                <div className="flex flex-col gap-1 mb-1.5">
+                  <h4 className="font-bold text-[12px] text-[#1A1A1A] leading-snug">{edu.title}</h4>
+                  <span className="text-[9px] font-mono font-bold text-zinc-400">{edu.period}</span>
+                </div>
+                <div className="text-[10px] text-zinc-600 leading-relaxed mb-1.5 font-medium">{edu.description}</div>
+                <ul className="text-[9px] text-zinc-500 space-y-1 list-none">
+                  {edu.details.map((detail, dIdx) => <li key={dIdx} className="relative pl-2.5"><span className="absolute left-0 top-1 w-1 h-1 bg-zinc-300 rounded-full"></span>{detail}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Certificates */}
+        <section>
+          <h3 className="text-[13px] font-bold mb-3 flex items-center gap-2 text-[#1A1A1A]">
+            <Award className="text-[#0047BB] w-4 h-4" /> 자격증
+          </h3>
+          <div className="flex flex-col">
+            {data.certificates && data.certificates.map((cert, idx) => (
+              <div key={idx} className="flex items-center justify-between py-2 border-b border-zinc-100 last:border-0">
+                <div className="flex flex-col gap-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-[11px] text-[#1A1A1A] tracking-tight">{cert.name}</span>
+                    {cert.score && <span className="text-[9px] font-black text-[#0047BB] bg-[#0047BB]/5 px-1.5 py-0.5 rounded-sm leading-none tabular-nums mt-0.5">{cert.score}</span>}
+                  </div>
+                  <span className="text-[9px] font-mono text-zinc-400 font-bold">{cert.date}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </aside>
+
+      {/* RIGHT COLUMN */}
+      <main className="col-span-8 p-8 bg-white flex flex-col gap-8">
+        {/* Project Experience */}
+        <section>
+          <h3 className="text-[14px] font-bold mb-6 flex items-center gap-2.5 text-[#1A1A1A]">
+            <Briefcase className="text-[#0047BB] w-4.5 h-4.5" /> 프로젝트 경험
+          </h3>
+          <div className="space-y-8">
+            {data.experience.map((exp, idx) => (
+              <div key={idx} className="relative pl-6 border-l-[3px] border-[#0047BB]/10">
+                <div className="absolute -left-[7.5px] top-1.5 w-3 h-3 rounded-full bg-white border-[2px] border-[#0047BB] shadow-sm"></div>
+                
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <h4 className="font-bold text-[14px] text-[#1A1A1A] tracking-tight">{exp.title}</h4>
+                  <span className="text-[9px] font-mono font-black text-zinc-400 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100">{exp.period}</span>
+                </div>
+
+                <div className="text-[11px] text-[#0047BB] font-bold mb-2 bg-[#0047BB]/5 inline-block px-2.5 py-1.5 rounded-sm border-l-[3px] border-[#0047BB]">
+                  {inlineRender(exp.description)}
+                </div>
+                {exp.teamSize && (
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <span className="text-[9px] font-mono font-black text-zinc-400 uppercase tracking-widest">팀 구성</span>
+                    <span className="text-[10px] font-bold text-zinc-500 bg-zinc-50 border border-zinc-200 px-1.5 py-0.5 rounded-sm">{exp.teamSize}</span>
+                  </div>
                 )}
-              </div>
-            ))}
-          </div>
-        </section>
 
-        <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 자격증
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {data.certificates && data.certificates.map((cert, i) => (
-              <div key={i} style={{ padding: '6px 0', borderBottom: `1px solid ${CARD_BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontWeight: 800, fontSize: '11px', color: DARK }}>{cert.name}</span>
-                  {cert.score && <span style={{ fontWeight: 800, fontSize: '9px', color: BLUE, background: BLUE_FAINT, padding: '2px 4px', borderRadius: '2px' }}>{cert.score}</span>}
-                </div>
-                <span style={{ fontFamily: 'monospace', fontSize: '9.5px', color: MUTED }}>{cert.date}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
-
-      {/* Main: Experience + Tools */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 프로젝트 경험
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            {data.experience.map((exp, i) => (
-              <div key={i} style={{ paddingLeft: '16px', borderLeft: `3px solid ${BLUE_FAINT}` }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-                  <h4 style={{ fontWeight: 800, fontSize: '14px', color: DARK, margin: 0 }}>{exp.title}</h4>
-                  <span style={{ fontFamily: 'monospace', fontSize: '9px', color: MUTED, background: '#F4F4F5', padding: '2px 6px', borderRadius: '2px' }}>{exp.period}</span>
-                </div>
-                <div style={{ fontSize: '11px', fontWeight: 800, color: BLUE, background: BLUE_FAINT, padding: '4px 8px', borderRadius: '2px', display: 'inline-block', marginBottom: '8px', borderLeft: `3px solid ${BLUE}` }}>
-                  {exp.description}
-                </div>
-                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-                  {exp.details.map((d, j) => (
-                    <li key={j} style={{ paddingLeft: '12px', position: 'relative', fontSize: '10.5px', color: BODY, marginBottom: '4px', lineHeight: 1.5 }}>
-                      <span style={{ position: 'absolute', left: 0, top: '6px', width: '3px', height: '3px', background: FAINT, borderRadius: '50%' }} />
-                      {d}
+                <ul className="text-[10.5px] text-[#4A4A4A] space-y-2 list-none leading-relaxed font-medium">
+                  {exp.details.map((detail, dIdx) => (
+                    <li key={dIdx} className="relative pl-4">
+                      <span className="absolute left-0 top-1.5 w-1 h-1 border border-[#0047BB] rounded-full"></span>
+                      {detail}
                     </li>
                   ))}
                 </ul>
@@ -291,29 +297,57 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
           </div>
         </section>
 
-        {/* Tools Section - Categorized */}
-        <section style={{ borderTop: `1px solid ${CARD_BORDER}`, paddingTop: '16px' }}>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 기술 역량 및 도구
-          </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <div>
-              <div style={{ fontSize: '8px', fontWeight: 900, color: BLUE, letterSpacing: '2px', borderBottom: `1px solid ${BLUE_FAINT}`, paddingBottom: '4px', marginBottom: '10px' }}>DOCUMENTATION</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {data.tools.filter(t => ["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((t, i) => <ToolBadge key={i} name={t.name} />)}
+        {/* Technical Proficiency */}
+        {data.tools && data.tools.length > 0 && (
+          <section className="pt-6 border-t border-zinc-100 mt-auto">
+            <h3 className="text-[14px] font-bold mb-5 flex items-center gap-2 text-[#1A1A1A]">
+              <Wrench className="text-[#0047BB] w-4.5 h-4.5" /> 기술 역량 및 도구
+            </h3>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-5">
+              {/* Group 1 */}
+              <div className="space-y-3">
+                <h4 className="text-[8px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-1.5 mb-2">DOCUMENTATION & OFFICE</h4>
+                <div className="space-y-2">
+                  {data.tools.filter(t => ["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((tool, idx) => (
+                    <div key={idx} className="flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <div className="text-[#1A1A1A]">{renderToolIcon(tool.name)}</div>
+                        <span className="text-[11px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                      </div>
+                      <p className="text-[9.5px] text-zinc-500 font-medium pl-4 leading-snug">{tool.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Group 2 */}
+              <div className="space-y-3">
+                <h4 className="text-[8px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-1.5 mb-2">CREATIVE & ENGINE</h4>
+                <div className="space-y-2">
+                  {data.tools.filter(t => ["Figma", "Unity"].includes(t.name)).map((tool, idx) => (
+                    <div key={idx} className="flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <div className="text-[#1A1A1A]">{renderToolIcon(tool.name)}</div>
+                        <span className="text-[11px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                      </div>
+                      <p className="text-[9.5px] text-zinc-500 font-medium pl-4 leading-snug">{tool.description}</p>
+                    </div>
+                  ))}
+                  <h4 className="text-[8px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-1.5 mb-2 mt-4">AI ASSISTANTS</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {data.tools.filter(t => ["ChatGPT", "Claude", "Gemini", "Antigravity"].includes(t.name)).map((tool, idx) => (
+                      <div key={idx} className="flex items-center gap-1.5">
+                        <div className="w-1 h-1 rounded-full bg-[#0047BB]/30" />
+                        <span className="text-[10px] font-bold text-[#1A1A1A]">{tool.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
-            <div>
-              <div style={{ fontSize: '8px', fontWeight: 900, color: BLUE, letterSpacing: '2px', borderBottom: `1px solid ${BLUE_FAINT}`, paddingBottom: '4px', marginBottom: '10px' }}>AI & CREATIVE</div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {data.tools.filter(t => !["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((t, i) => (
-                  <span key={i} style={{ fontSize: '10px', fontWeight: 800, color: DARK }}>• {t.name}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+          </section>
+        )}
+      </main>
     </div>
   </div>
 );
