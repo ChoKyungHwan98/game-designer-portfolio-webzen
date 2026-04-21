@@ -12,7 +12,7 @@ interface ProjectDetailProps {
 type TabType = 'overview' | 'document' | 'video';
 
 export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
-  const [activeTab, setActiveTab] = useState<TabType>('document');
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [currentPage, setCurrentPage] = useState(0);
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
@@ -59,25 +59,26 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
             })}
           </div>
 
-          {/* Center Counter - Only for document tab */}
           <AnimatePresence>
             {activeTab === 'document' && galleryImages.length > 1 && (
               <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center pt-1"
               >
-                <div className="px-3 py-1 bg-black rounded-full text-white text-[10px] font-black tracking-[0.2em] flex items-center gap-2 shadow-lg">
-                  <span>{String(currentPage + 1).padStart(2, '0')}</span>
-                  <span className="text-white/30">/</span>
-                  <span className="text-white/60">{String(galleryImages.length).padStart(2, '0')}</span>
+                <div className="flex items-center gap-4">
+                  <div className="text-[10px] font-black tracking-[0.3em] text-zinc-400 flex items-center gap-2">
+                    <span className="text-zinc-900">{String(currentPage + 1).padStart(2, '0')}</span>
+                    <span className="w-4 h-[1px] bg-zinc-200"></span>
+                    <span>{String(galleryImages.length).padStart(2, '0')}</span>
+                  </div>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-0.5 mt-1.5 h-0.5">
                   {galleryImages.map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1 rounded-full transition-all duration-300 ${i === currentPage ? 'bg-[#0047BB] w-3' : 'bg-zinc-200 w-1'}`}
+                      className={`h-full transition-all duration-300 ${i === currentPage ? 'bg-[#0047BB] w-4' : 'bg-zinc-100 w-1'}`}
                     />
                   ))}
                 </div>
