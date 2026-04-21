@@ -148,21 +148,21 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
     {/* ── 1. Editorial Header ── */}
     <header style={{ 
       display: 'flex', 
-      gap: '24px', 
+      gap: '20px', 
       background: '#FAFAFA', 
       border: '1px solid rgba(0,0,0,0.06)', 
       borderRadius: '2px', 
-      padding: '24px', 
-      marginBottom: '20px' 
+      padding: '20px 24px', 
+      marginBottom: '16px' 
     }}>
       {/* Portrait */}
       <div style={{ position: 'relative', flexShrink: 0 }}>
         <div style={{ 
-          width: '115px', 
+          width: '120px', 
           borderRadius: '2px', 
           overflow: 'hidden', 
           border: '1px solid rgba(0,0,0,0.1)', 
-          boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
           background: WHITE
         }}>
           <img src={data.image || "https://picsum.photos/seed/profile/600/800"} alt="Profile"
@@ -170,16 +170,16 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
         </div>
         <div style={{ 
           position: 'absolute', 
-          bottom: '-10px', 
-          right: '-10px', 
-          width: '32px', 
-          height: '32px', 
+          bottom: '-6px', 
+          right: '-6px', 
+          width: '26px', 
+          height: '26px', 
           background: BLUE, 
           color: WHITE, 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          fontSize: '8px', 
+          fontSize: '7px', 
           fontWeight: 900, 
           fontFamily: 'monospace' 
         }}>
@@ -189,26 +189,26 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
 
       {/* Identity & Summary */}
       <div style={{ flex: 1, paddingTop: '0' }}>
-        <h1 style={{ fontSize: '48px', fontWeight: 800, color: DARK, letterSpacing: '-2px', margin: '0 0 2px', lineHeight: 1 }}>
+        <h1 style={{ fontSize: '42px', fontWeight: 800, color: DARK, letterSpacing: '-1.5px', margin: '0 0 4px', lineHeight: 1 }}>
           {data.name}
         </h1>
         <p style={{ 
-          fontSize: '10px', 
+          fontSize: '9.5px', 
           fontWeight: 900, 
           color: BLUE, 
-          letterSpacing: '4px', 
+          letterSpacing: '3px', 
           textTransform: 'uppercase', 
-          margin: '0 0 12px', 
+          margin: '0 0 10px', 
           borderBottom: `2px solid ${BLUE}`, 
           display: 'inline-block', 
           paddingBottom: '2px' 
         }}>
           {data.role}
         </p>
-        <div style={{ fontSize: '13px', fontWeight: 600, color: BODY, lineHeight: 1.6, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '12px', opacity: 0.9 }}>
+        <div style={{ fontSize: '12.5px', fontWeight: 600, color: BODY, lineHeight: 1.55, fontStyle: 'italic', wordBreak: 'keep-all', marginBottom: '10px', opacity: 0.9 }}>
           {data.summary}
         </div>
-        <div style={{ display: 'flex', gap: '20px', fontSize: '11px', color: MUTED, fontWeight: 700, textTransform: 'uppercase', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '16px', fontSize: '10.5px', color: MUTED, fontWeight: 700, textTransform: 'uppercase', flexWrap: 'wrap' }}>
           <span>✉ {data.email.toLowerCase()}</span>
           <span>☎ {data.phone}</span>
           {data.birthDate && <span>🗓 {data.birthDate}</span>}
@@ -218,15 +218,15 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
     </header>
 
     {/* ── 2. Body Columns ── */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '24px', flex: 1 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '20px', flex: 1 }}>
       
       {/* Sidebar: Education + Certs */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 학력 및 교육
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {data.education.map((edu, i) => (
               <div key={i} style={{ paddingLeft: '12px', borderLeft: `2px solid ${BLUE_FAINT}` }}>
                 <div style={{ fontWeight: 800, fontSize: '12px', color: DARK, lineHeight: 1.3, marginBottom: '2px' }}>{edu.title}</div>
@@ -245,17 +245,17 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
         </section>
 
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 자격증
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
             {data.certificates && data.certificates.map((cert, i) => (
-              <div key={i} style={{ padding: '8px 12px', background: '#FAFAFA', border: `1px solid ${CARD_BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div key={i} style={{ padding: '6px 0', borderBottom: `1px solid ${CARD_BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={{ fontWeight: 800, fontSize: '11px', color: DARK }}>{cert.name}</span>
-                  {cert.score && <span style={{ fontWeight: 800, fontSize: '9.5px', color: BLUE, background: BLUE_FAINT, padding: '2px 4px', borderRadius: '2px' }}>{cert.score}</span>}
+                  {cert.score && <span style={{ fontWeight: 800, fontSize: '9px', color: BLUE, background: BLUE_FAINT, padding: '2px 4px', borderRadius: '2px' }}>{cert.score}</span>}
                 </div>
-                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: BLUE, fontWeight: 700 }}>{cert.date}</span>
+                <span style={{ fontFamily: 'monospace', fontSize: '9.5px', color: MUTED }}>{cert.date}</span>
               </div>
             ))}
           </div>
@@ -263,12 +263,12 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
       </div>
 
       {/* Main: Experience + Tools */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <section>
-          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontSize: '13px', fontWeight: 800, color: DARK, margin: '0 0 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ width: '8px', height: '8px', background: BLUE }}></span> 프로젝트 경험
           </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
             {data.experience.map((exp, i) => (
               <div key={i} style={{ paddingLeft: '16px', borderLeft: `3px solid ${BLUE_FAINT}` }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
@@ -280,8 +280,8 @@ const ResumePage: React.FC<{ data: ResumeData }> = ({ data }) => (
                 </div>
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
                   {exp.details.map((d, j) => (
-                    <li key={j} style={{ paddingLeft: '12px', position: 'relative', fontSize: '11px', color: BODY, marginBottom: '5px', lineHeight: 1.6 }}>
-                      <span style={{ position: 'absolute', left: 0, top: '7px', width: '3px', height: '3px', background: FAINT, borderRadius: '50%' }} />
+                    <li key={j} style={{ paddingLeft: '12px', position: 'relative', fontSize: '10.5px', color: BODY, marginBottom: '4px', lineHeight: 1.5 }}>
+                      <span style={{ position: 'absolute', left: 0, top: '6px', width: '3px', height: '3px', background: FAINT, borderRadius: '50%' }} />
                       {d}
                     </li>
                   ))}
