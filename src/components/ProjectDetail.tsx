@@ -7,11 +7,13 @@ import { EBookGallery } from './EBookGallery';
 interface ProjectDetailProps {
   project: Project;
   onClose: () => void;
+  isEditing?: boolean;
+  onSaveContent?: (content: string) => void;
 }
 
 type TabType = 'overview' | 'document' | 'video';
 
-export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
+export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: ProjectDetailProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [currentPage, setCurrentPage] = useState(0);
   const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
@@ -38,7 +40,7 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="flex-1 flex flex-col min-h-0 bg-zinc-100 overflow-hidden rounded-[2rem]"
+      className="flex-1 flex flex-col min-h-0 bg-zinc-100 overflow-hidden rounded-4xl"
     >
       {/* Windows-style Tab Bar Header */}
       <div className="shrink-0 h-14 bg-zinc-200/50 backdrop-blur-md flex items-center px-4 border-b border-zinc-300 gap-1">
@@ -133,7 +135,7 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
               <div className="max-w-5xl mx-auto p-12 md:p-20">
                 <div className="relative h-[450px] rounded-[3rem] overflow-hidden mb-20 shadow-2xl group border border-black/5">
                   <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-transparent" />
                   <div className="absolute bottom-12 left-12 right-12">
                     <div className="flex flex-wrap gap-3 mb-6">
                       {project.tags.map(tag => (
@@ -158,7 +160,7 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
                   </div>
 
                   <div className="space-y-12">
-                    <div className="bg-white rounded-[3rem] p-12 border border-black/5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.1)] sticky top-10 relative overflow-hidden group/meta">
+                    <div className="bg-white rounded-[3rem] p-12 border border-black/5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.1)] sticky top-10 overflow-hidden group/meta">
                       <div className="absolute top-0 left-0 w-2 h-full bg-[#0047BB]" />
                       <div className="relative z-10">
                         <h4 className="text-[14px] font-black text-[#0047BB] uppercase tracking-[0.4em] mb-14 flex items-center gap-3">
@@ -225,7 +227,7 @@ export const ProjectDetail = ({ project, onClose }: ProjectDetailProps) => {
                       setCurrentPage(i);
                       setShowThumbnailGrid(false);
                     }}
-                    className={`group relative aspect-[3/4] rounded-2xl overflow-hidden border-2 transition-all duration-500 hover:scale-110 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)] ${i === currentPage ? 'border-[#0047BB] shadow-[0_0_40px_rgba(0,71,187,0.5)]' : 'border-white/5 hover:border-white/20'}`}
+                    className={`group relative aspect-3/4 rounded-2xl overflow-hidden border-2 transition-all duration-500 hover:scale-110 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)] ${i === currentPage ? 'border-[#0047BB] shadow-[0_0_40px_rgba(0,71,187,0.5)]' : 'border-white/5 hover:border-white/20'}`}
                   >
                     <img src={img} alt={`Page ${i+1}`} className="w-full h-full object-cover" />
                     <div className={`absolute inset-0 transition-opacity duration-500 ${i === currentPage ? 'bg-[#0047BB]/20' : 'bg-black/60 opacity-0 group-hover:opacity-100'}`} />
