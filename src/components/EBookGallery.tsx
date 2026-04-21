@@ -72,6 +72,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
     if (next >= 0 && next < images.length) {
       onPageChange(next);
       setShowSwipeTutorial(false);
+      setShowHint(false);
     }
   }, [currentIndex, images.length, onPageChange, zoom]);
 
@@ -215,6 +216,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
                     if (swipe < -swipeConfidenceThreshold && hasNext) paginate(1);
                     else if (swipe > swipeConfidenceThreshold && hasPrev) paginate(-1);
                   }
+                  setShowHint(false);
                 }}
                 src={images[currentIndex]}
                 alt={`기획서 ${currentIndex + 1}페이지`}

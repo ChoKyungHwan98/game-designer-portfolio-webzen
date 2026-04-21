@@ -9,7 +9,6 @@ export interface Project {
   image: string;
   gallery?: string[];
   videoUrl?: string;
-  pdfUrl?: string;
   bookmarks?: { id: string; title: string; type: 'section' | 'link' | 'ebook'; target: string }[];
   color: string;
   content: string;

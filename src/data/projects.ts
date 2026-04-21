@@ -38,7 +38,6 @@ export const PROJECTS: Project[] = [
     description: "잠입 액션 로그라이트 게임의 전체 룰 및 시스템을 설계했습니다. 무기 교체 시스템과 맵 프리팹 구조를 기획했습니다.",
     tags: ["로그라이트", "잠입 액션", "시스템 기획"],
     image: "./images/digreed.png",
-    pdfUrl: "./documents/digreed_mvp_plan.pdf",
     color: "from-emerald-500/20 to-teal-500/20",
     status: "미출시",
     content: `# Digreed 시스템 기획서
@@ -61,7 +60,6 @@ export const PROJECTS: Project[] = [
     tags: ["공포 생존", "메이플월드", "시스템 설계"],
     image: "./images/silence.png",
     gallery: Array.from({ length: 22 }, (_, i) => `./images/silence_ebook/page_${(i + 1).toString().padStart(3, '0')}.png`),
-    pdfUrl: "./documents/silent_mansion_system_plan.pdf",
     color: "from-orange-500/20 to-zinc-500/20",
     status: "메이플월드 출시",
     content: `# 침묵의 저택 기획서
