@@ -35,7 +35,6 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
           <div>
             <motion.div initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="flex items-center gap-2 mb-3">
-              <span className="w-8 h-px bg-[#0047BB]/40" />
               <span className="text-[#0047BB] font-sans text-[11px] font-black tracking-[0.3em] uppercase">02. 프로젝트 이력</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
