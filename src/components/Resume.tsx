@@ -157,45 +157,59 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
                   </p>
                   
-                  <div className="max-w-2xl text-[15px] lg:text-[16px] text-[#2C2C2C] leading-[1.7] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-bold break-keep italic opacity-90">
+                  <div className="max-w-2xl text-[15px] lg:text-[16px] text-[#2C2C2C] leading-[1.7] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-bold break-keep">
                     <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                   </div>
 
-                  {/* Contact Quick List */}
-                  <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-3 text-[14px] text-zinc-600 font-medium tracking-wide">
-                    <div className="flex items-center gap-2 group">
-                      <Mail className="w-4 h-4 text-[#0047BB]/70 group-hover:text-[#0047BB] transition-colors" strokeWidth={2} />
-                      <span className="group-hover:text-[#0047BB] transition-colors">
-                        <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
-                      </span>
-                    </div>
-                    {(isEditing || isGeneratingPdf) && data.phone && (
-                      <div className="flex items-center gap-2 group relative">
-                        {!isEditing && <span className="absolute -top-6 left-0 text-[10px] text-[#0047BB] font-bold bg-[#0047BB]/10 px-2 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">PDF 인쇄 전용</span>}
-                        <Phone className="w-4 h-4 text-[#0047BB]/70 group-hover:text-[#0047BB] transition-colors" strokeWidth={2} />
-                        <span className="group-hover:text-[#0047BB] transition-colors">
-                          <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
+                  {/* Contact Info Grid - 2×N layout */}
+                  <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
+                    <div className="flex items-center gap-2.5 group">
+                      <Mail className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">EMAIL</span>
+                        <span className="text-[13px] text-[#1A1A1A] font-semibold lowercase">
+                          <EditableText value={data.email} onSave={(v) => setData({...data, email: v})} isEditing={isEditing} />
                         </span>
                       </div>
-                    )}
+                    </div>
                     {data.birthDate && (
-                      <div className="flex items-center gap-2 group">
-                        <Calendar className="w-4 h-4 text-[#0047BB]/70 group-hover:text-[#0047BB] transition-colors" strokeWidth={2} />
-                        <span className="group-hover:text-[#0047BB] transition-colors">{data.birthDate}</span>
+                      <div className="flex items-center gap-2.5 group">
+                        <Calendar className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">생년월일</span>
+                          <span className="text-[13px] text-[#1A1A1A] font-semibold">{data.birthDate}</span>
+                        </div>
+                      </div>
+                    )}
+                    {(isEditing || isGeneratingPdf) && data.phone && (
+                      <div className="flex items-center gap-2.5 group">
+                        <Phone className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">연락처</span>
+                          <span className="text-[13px] text-[#1A1A1A] font-semibold">
+                            <EditableText value={data.phone} onSave={(v) => setData({...data, phone: v})} isEditing={isEditing} />
+                          </span>
+                        </div>
                       </div>
                     )}
                     {data.address && (
-                      <div className="flex items-center gap-2 group">
-                        <MapPin className="w-4 h-4 text-[#0047BB]/70 group-hover:text-[#0047BB] transition-colors" strokeWidth={2} />
-                        <span className="group-hover:text-[#0047BB] transition-colors">
-                          <EditableText value={data.address} onSave={(v) => setData({...data, address: v})} isEditing={isEditing} />
-                        </span>
+                      <div className="flex items-center gap-2.5 group">
+                        <MapPin className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">주소</span>
+                          <span className="text-[13px] text-[#1A1A1A] font-semibold">
+                            <EditableText value={data.address} onSave={(v) => setData({...data, address: v})} isEditing={isEditing} />
+                          </span>
+                        </div>
                       </div>
                     )}
                     {data.military && (
-                      <div className="flex items-center gap-2 group">
-                        <Shield className="w-4 h-4 text-[#0047BB]/70 group-hover:text-[#0047BB] transition-colors" strokeWidth={2} />
-                        <span className="group-hover:text-[#0047BB] transition-colors">{data.military.branch} {data.military.rank} {data.military.status}</span>
+                      <div className="flex items-center gap-2.5 group">
+                        <Shield className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <div className="flex flex-col">
+                          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">병역</span>
+                          <span className="text-[13px] text-[#1A1A1A] font-semibold">{data.military.branch} {data.military.rank} {data.military.status}</span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -241,21 +255,27 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                       <h3 className="text-[17px] font-bold mb-5 flex items-center gap-3 text-[#1A1A1A]">
                         <Award className="text-[#0047BB] w-5 h-5" /> 자격증
                       </h3>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col gap-1">
                         {data.certificates && data.certificates.map((cert, idx) => (
-                          <div key={idx} className="flex items-center justify-between py-3.5 border-b border-zinc-100 last:border-0 group">
-                            <div className="flex flex-col gap-1.5">
-                              <div className="flex items-center gap-2">
-                                <span className="font-bold text-[13px] text-[#1A1A1A] tracking-tight">
-                                  <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
-                                </span>
-                                {cert.score && (
-                                  <span className="text-[10px] font-black text-[#0047BB] bg-[#0047BB]/5 px-2 py-0.5 rounded-sm leading-none tabular-nums mt-0.5">
+                          <div key={idx} className="py-3 border-b border-zinc-100 last:border-0">
+                            <div className="flex items-start justify-between gap-3">
+                              <span className="font-bold text-[14px] text-[#1A1A1A] leading-snug">
+                                <EditableText value={cert.name} onSave={(v) => { const c = [...(data.certificates||[])]; c[idx].name = v; setData({...data, certificates: c}); }} isEditing={isEditing} />
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3 mt-1.5">
+                              {cert.score && (
+                                <div className="flex items-center gap-1">
+                                  <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">점수</span>
+                                  <span className="text-[11px] font-black text-[#0047BB] bg-[#0047BB]/8 px-2 py-0.5 rounded-sm tabular-nums">
                                     {cert.score}
                                   </span>
-                                )}
+                                </div>
+                              )}
+                              <div className="flex items-center gap-1">
+                                <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">취득</span>
+                                <span className="text-[11px] font-mono font-bold text-zinc-500">{cert.date}</span>
                               </div>
-                              <span className="text-[11px] font-mono text-zinc-400 font-bold">{cert.date}</span>
                             </div>
                           </div>
                         ))}
@@ -290,8 +310,8 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                           </div>
                           {exp.teamSize && (
                             <div className="flex items-center gap-2 mb-4">
-                              <span className="text-[10px] font-mono font-black text-zinc-400 uppercase tracking-widest">팀 구성</span>
-                              <span className="text-[11px] font-bold text-zinc-500 bg-zinc-50 border border-zinc-200 px-3 py-1 rounded-sm">{exp.teamSize}</span>
+                              <span className="text-[10px] font-bold text-white bg-zinc-500 uppercase tracking-widest px-2 py-0.5 rounded-sm">팀 구성</span>
+                              <span className="text-[12px] font-bold text-[#1A1A1A] bg-zinc-100 border border-zinc-200 px-3 py-1 rounded-sm">{exp.teamSize}</span>
                             </div>
                           )}
 

@@ -111,21 +111,20 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                 <span>이전 화면으로 돌아가기</span>
               </button>
             ) : (
-              /* Home: 로고 */
-              <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleLinkClick(e, 'hero-top')}>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-[#0047BB] to-[#500014] text-white flex items-center justify-center shadow-lg shadow-[#0047BB]/30 transition-transform group-hover:scale-105">
-                  <Gamepad2 className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
+              /* Home: 로고 - HOME BUTTON */
+              <button
+                onClick={() => setView('home')}
+                title="홈으로 돌아가기"
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-[#0047BB] to-[#003080] text-white flex items-center justify-center shadow-lg shadow-[#0047BB]/25 transition-all group-hover:scale-105 group-hover:shadow-[#0047BB]/40 group-hover:shadow-xl">
+                  <Gamepad2 className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:rotate-[-8deg]" strokeWidth={2} />
                 </div>
                 <div className="flex flex-col justify-center">
                   <span className="font-display font-bold tracking-tight text-[16px] md:text-[18px] text-[#2C2C2C] group-hover:text-[#0047BB] transition-colors leading-none">조경환</span>
-                  <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-500 mt-1.5 leading-none hidden sm:block">Game Designer</span>
+                  <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-400 mt-1.5 leading-none hidden sm:block group-hover:text-[#0047BB]/60 transition-colors">Game Designer</span>
                 </div>
-                {isEditing && (
-                  <span className="ml-2 px-2 py-1 bg-[#0047BB]/10 border border-[#0047BB]/30 rounded text-[10px] text-[#0047BB] font-bold uppercase tracking-wider">
-                    Edit
-                  </span>
-                )}
-              </div>
+              </button>
             )}
           </div>
 
