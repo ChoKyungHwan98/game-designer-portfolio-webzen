@@ -185,7 +185,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 <div className="flex-1 overflow-hidden flex flex-col min-h-0">
                   <ProjectDetail
                     project={selectedProject}
-                    onBack={() => setSelectedProject(null)}
+                    onClose={() => setSelectedProject(null)}
                     isEditing={isEditing}
                     onSaveContent={(c) => {
                       const p = [...projects];
