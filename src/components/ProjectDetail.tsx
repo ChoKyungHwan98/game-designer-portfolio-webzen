@@ -193,7 +193,14 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                       className="w-full h-20 bg-[#6D28D9] text-white rounded-4xl flex items-center justify-center gap-4 hover:bg-[#5B21B6] hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-xl shadow-[#6D28D9]/30 group/btn"
                     >
                       <span className="text-xl font-black tracking-tight">시나리오 체험하러 가기</span>
-                             <motion.div key="tab-prototype" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                      <ExternalLink className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : activeTab === 'prototype' ? (
+            <motion.div key="tab-prototype" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex-1 bg-[#0a0a0a] relative overflow-hidden flex flex-col lg:flex-row"
             >
               {/* Subtle dot grid */}
@@ -229,7 +236,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.1 * i }}
-                      className="p-4 rounded-2xl bg-white/5 border border-white/8 hover:border-white/15 transition-colors"
+                      className="p-4 rounded-2xl bg-white/5 border border-white/[0.08] hover:border-white/[0.15] transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-1 h-7 ${item.color} rounded-full`} />
@@ -242,7 +249,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                   ))}
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/5 border border-white/8 text-center">
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/[0.08] text-center">
                   <div className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em] mb-1">제작 소요 시간</div>
                   <div className="text-xl font-black text-white tracking-tighter">아이디어에서 실행까지</div>
                   <div className="text-sm font-black text-[#EC4899] mt-0.5">24시간 이내</div>
@@ -255,7 +262,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                   {/* Phone glow */}
                   <div className="absolute inset-0 bg-[#EC4899]/10 rounded-[3rem] blur-[60px] group-hover:bg-[#EC4899]/20 transition-all duration-700" />
                   
-                  <div className="relative w-[360px] h-[620px] bg-[#0a0a0a] rounded-[3.5rem] shadow-2xl border-[8px] border-zinc-800 ring-1 ring-white/10 overflow-hidden">
+                  <div className="relative w-[360px] h-[620px] bg-[#0a0a0a] rounded-[3.5rem] shadow-2xl border-8 border-zinc-800 ring-1 ring-white/10 overflow-hidden">
                     {/* Dynamic Island */}
                     <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
