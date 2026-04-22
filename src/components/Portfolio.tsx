@@ -57,49 +57,11 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
         animate={{ opacity: 1, y: 0 }}
         className="relative z-10 pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto"
       >
-        <div className="bg-white/80 backdrop-blur-sm rounded-[2.5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-black/5 p-8 md:p-16 min-h-[80vh]">
-
-
-        {/* Premium Editorial Filter Bar */}
-        <div className="flex flex-col items-center mb-16 relative">
-          <div className="inline-flex flex-wrap items-center justify-center p-2 bg-zinc-100/50 rounded-4xl border border-black/5">
-            {categories.map((category) => {
-              const count = category === '전체' 
-                ? projects.length 
-                : projects.filter(p => p.roles && p.roles.includes(category)).length;
-              const isActive = activeCategory === category;
-
-              return (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`relative px-8 py-3 rounded-[1.75rem] transition-all duration-500 group flex items-center gap-3 overflow-hidden ${
-                    isActive ? 'text-white' : 'text-zinc-500 hover:text-[#1A1A1A]'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeCategoryBg"
-                      className="absolute inset-0 bg-[#0047BB] shadow-[0_10px_25px_-5px_rgba(0,71,187,0.4)]"
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  <span className="relative z-10 text-[13px] font-black uppercase tracking-[0.15em] leading-none transition-transform duration-500 group-hover:scale-105">
-                    {category}
-                  </span>
-                  <span className={`relative z-10 text-[10px] font-black px-2 py-0.5 rounded-md transition-all duration-500 ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-black/5 text-zinc-400 group-hover:bg-[#0047BB]/10 group-hover:text-[#0047BB]'
-                  }`}>
-                    {String(count).padStart(2, '0')}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Project Grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-[2.5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-black/5 p-8 md:p-12 lg:p-16 min-h-[80vh] flex flex-col lg:flex-row gap-12 lg:gap-16">
+          
+          {/* Main Project Grid (Left Area) */}
+          <div className="flex-1 order-2 lg:order-1 min-w-0">
+            <motion.div layout className="grid md:grid-cols-2 xl:grid-cols-2 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
               <motion.div
@@ -179,6 +141,56 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
             ))}
           </AnimatePresence>
         </motion.div>
+        </div>
+
+        {/* Right Sidebar Filters */}
+        <div className="w-full lg:w-[260px] shrink-0 order-1 lg:order-2">
+          <div className="sticky top-32">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-200">
+              <div className="w-1.5 h-5 bg-[#0047BB] rounded-full" />
+              <span className="text-xs font-black text-zinc-400 uppercase tracking-widest">태그별 탐색</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              {categories.map((category) => {
+                const count = category === '전체' 
+                  ? projects.length 
+                  : projects.filter(p => p.roles && p.roles.includes(category)).length;
+                const isActive = activeCategory === category;
+
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`relative w-full px-5 py-3.5 rounded-2xl transition-all duration-300 group flex items-center justify-between overflow-hidden border ${
+                      isActive 
+                        ? 'border-[#0047BB]/20 bg-[#0047BB]/5 shadow-sm' 
+                        : 'border-transparent hover:bg-black/5 hover:border-black/5'
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeCategoryBg"
+                        className="absolute inset-0 bg-[#0047BB]"
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    <span className={`relative z-10 text-[13px] font-black uppercase tracking-[0.1em] transition-colors duration-300 ${isActive ? 'text-white' : 'text-zinc-600 group-hover:text-zinc-900'}`}>
+                      {category}
+                    </span>
+                    <span className={`relative z-10 text-[11px] font-black px-2.5 py-1 rounded-lg transition-colors duration-300 ${
+                      isActive 
+                        ? 'bg-white/20 text-white' 
+                        : 'bg-zinc-200/50 text-zinc-400 group-hover:bg-zinc-200 group-hover:text-zinc-600'
+                    }`}>
+                      {String(count).padStart(2, '0')}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
         </div>
       </motion.section>
 
