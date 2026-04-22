@@ -22,14 +22,14 @@ const GENRE_MAP: Record<string, string[]> = {
 };
 
 const CHART_DATA = [
-  { label: '역할수행(RPG)', score: 98, angle: 0 },
-  { label: '어드벤처', score: 88, angle: 45 },
-  { label: '퍼즐', score: 82, angle: 90 },
-  { label: '액션', score: 72, angle: 135 },
-  { label: '전략', score: 65, angle: 180 },
-  { label: '시뮬레이션', score: 85, angle: 225 },
-  { label: '슈팅', score: 25, angle: 270 },
-  { label: '리듬', score: 95, angle: 315 },
+  { label: '역할수행(RPG)', score: 99, angle: 0 },
+  { label: '어드벤처', score: 92, angle: 45 },
+  { label: '퍼즐', score: 88, angle: 90 },
+  { label: '액션', score: 85, angle: 135 },
+  { label: '전략', score: 82, angle: 180 },
+  { label: '시뮬레이션', score: 87, angle: 225 },
+  { label: '슈팅', score: 45, angle: 270 },
+  { label: '리듬', score: 98, angle: 315 },
 ];
 
 export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
@@ -234,7 +234,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           <AnimatePresence mode="popLayout">
-            {filteredGames.slice(0, 100).map((game) => (
+            {filteredGames.map((game) => (
               <motion.div 
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -277,9 +277,9 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
           </div>
         )}
         
-        {filteredGames.length > 100 && (
+        {filteredGames.length > 300 && (
           <div className="py-8 text-center mt-4">
-             <p className="text-zinc-400 font-bold text-sm tracking-tight">상위 100개의 결과만 표시됩니다.</p>
+             <p className="text-[#0047BB] font-black text-sm tracking-widest uppercase opacity-50">End of Records</p>
           </div>
         )}
 
