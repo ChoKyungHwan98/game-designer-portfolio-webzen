@@ -151,8 +151,15 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
               
               {project.gallery && (
                 <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-50">
-                  <div className="pointer-events-auto flex items-center gap-4">
-                    {/* View All Pages Button */}
+                  <div className="pointer-events-auto flex flex-col items-start gap-3">
+                    {/* Page Counter Pill (Top) */}
+                    <div className="flex items-center gap-4 px-5 py-2.5 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-xl shadow-2xl text-white cursor-default transition-all hover:bg-black/50">
+                      <span className="text-sm font-black tracking-widest">{String(currentPage + 1).padStart(2, '0')}</span>
+                      <div className="w-px h-3.5 bg-white/20" />
+                      <span className="text-[11px] font-bold text-white/50 tracking-widest">{String(galleryImages.length).padStart(2, '0')} Pages</span>
+                    </div>
+
+                    {/* View All Pages Button (Bottom) */}
                     <button
                       onClick={() => setShowThumbnailGrid(true)}
                       className="flex items-center gap-3 px-6 py-3.5 bg-[#0047BB] text-white rounded-2xl shadow-2xl shadow-[#0047BB]/30 hover:scale-105 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
@@ -160,13 +167,6 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                       <LayoutGrid className="w-4 h-4" />
                       전체 페이지 보기
                     </button>
-
-                    {/* Page Counter Pill */}
-                    <div className="flex items-center gap-4 px-6 py-3.5 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl text-white cursor-default transition-all hover:bg-black/50">
-                      <span className="text-base font-black tracking-widest">{String(currentPage + 1).padStart(2, '0')}</span>
-                      <div className="w-px h-4 bg-white/20" />
-                      <span className="text-xs font-bold text-white/50 tracking-widest">{String(galleryImages.length).padStart(2, '0')}</span>
-                    </div>
                   </div>
 
                   <div className="pointer-events-auto flex flex-col items-end gap-4">
@@ -189,7 +189,6 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     </div>
                   </div>
                 </div>
-                </>
               )}
             </motion.div>
           ) : activeTab === 'link' ? (
