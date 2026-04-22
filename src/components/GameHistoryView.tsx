@@ -234,39 +234,78 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           <AnimatePresence mode="popLayout">
-            {filteredGames.map((game) => (
-              <motion.div 
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                key={game.id} 
-                className="bg-white border border-black/5 rounded-2xl p-5 hover:border-[#0047BB]/20 hover:shadow-lg transition-all group flex flex-col justify-between min-h-[140px]"
-              >
-                <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-[10px] font-bold text-[#0047BB] bg-[#0047BB]/10 px-2 py-0.5 rounded tracking-wide line-clamp-1 max-w-[70%]">
-                      {game.genre}
-                    </span>
-                    <span className="text-[10px] font-bold text-zinc-400 border border-zinc-200 px-1.5 py-0.5 rounded">
-                      {game.category === 'PC' || game.category === 'Console' ? 'PC/콘솔' : '모바일'}
-                    </span>
+            {filteredGames.map((game) => {
+              // Genre-based Fallback Colors (Tier 3)
+              const getFallbackGradient = (genre: string) => {
+                const g = genre.toLowerCase();
+                if (g.includes('rpg')) return 'from-blue-600/40 to-indigo-900/80';
+                if (g.includes('액션') || g.includes('난투')) return 'from-red-600/40 to-rose-900/80';
+                if (g.includes('전략') || g.includes('aos') || g.includes('rts')) return 'from-emerald-600/40 to-teal-900/80';
+                if (g.includes('슈팅') || g.includes('fps')) return 'from-zinc-600/40 to-slate-900/80';
+                if (g.includes('리듬')) return 'from-purple-600/40 to-fuchsia-900/80';
+                if (g.includes('퍼즐') || g.includes('캐주얼')) return 'from-amber-500/40 to-orange-800/80';
+                if (g.includes('레이싱') || g.includes('스포츠')) return 'from-cyan-600/40 to-blue-800/80';
+                return 'from-zinc-400/40 to-zinc-800/80';
+              };
+
+              return (
+                <motion.div 
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  key={game.id} 
+                  className="relative group h-[140px] rounded-2xl overflow-hidden border border-black/5 shadow-sm hover:shadow-xl transition-all"
+                >
+                  {/* Background Layer (Image or Fallback) */}
+                  <div className={`absolute inset-0 transition-transform duration-500 group-hover:scale-110 ${game.image ? 'bg-zinc-900' : `bg-linear-to-br ${getFallbackGradient(game.genre)}`}`}>
+                    {game.image && (
+                      <img 
+                        src={game.image} 
+                        alt={game.title} 
+                        className="w-full h-full object-cover opacity-60"
+                        loading="lazy"
+                        style={{ 
+                          objectPosition: game.position || 'center',
+                          objectFit: (game.size as any) || 'cover'
+                        }}
+                      />
+                    )}
                   </div>
-                  <h4 className="font-bold text-[#2C2C2C] text-lg leading-tight mb-3 group-hover:text-[#0047BB] transition-colors">{game.title}</h4>
-                </div>
-                
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="text-[11px] font-bold text-zinc-500 truncate max-w-[60%]">
-                    {game.company}
-                  </span>
-                  {game.playTime && (
-                    <span className="text-[11px] font-bold text-[#0047BB] truncate">
-                      {game.playTime}
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Gradient Overlay for Readability */}
+                  <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
+
+                  {/* Content Layer */}
+                  <div className="relative h-full z-10 p-5 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-[9px] font-black text-white bg-white/20 backdrop-blur-md px-2 py-0.5 rounded tracking-widest uppercase">
+                          {game.genre}
+                        </span>
+                        <span className="text-[9px] font-bold text-white/50 border border-white/20 px-1.5 py-0.5 rounded">
+                          {game.category === 'PC' || game.category === 'Console' ? 'PC/CONSOLE' : 'MOBILE'}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-white text-base md:text-lg leading-tight mb-1 group-hover:text-blue-400 transition-colors drop-shadow-sm line-clamp-2">
+                        {game.title}
+                      </h4>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-auto pt-2">
+                      <span className="text-[10px] font-bold text-white/60 truncate max-w-[60%]">
+                        {game.company}
+                      </span>
+                      {game.playTime && (
+                        <span className="text-[10px] font-black text-yellow-400 drop-shadow-md">
+                          {game.playTime}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </div>
 

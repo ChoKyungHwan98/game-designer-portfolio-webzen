@@ -57,6 +57,9 @@ export interface GameHistoryItem {
   title: string;
   company: string;
   playTime?: string;
+  image?: string;
+  position?: string;
+  size?: string;
 }
 
 export interface GameHistory {
