@@ -89,7 +89,7 @@ export const RESUME_DATA: ResumeData = {
       description: "팀장 | 게임 전체 룰 및 시스템 기획",
       teamSize: "기획 5명 / 프로그래밍 4명",
       details: [
-        "무기 교체 시스템, 맵 프리팹 구조, MVP 사이클 기획"
+        "무기 교체 시스템, 맵 프리팹 구조, 코어 룰 기획"
       ]
     },
     {
