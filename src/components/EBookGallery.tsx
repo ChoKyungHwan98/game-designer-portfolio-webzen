@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useAnimation, useMotionValue } from 'motion/react';
+import { motion, AnimatePresence, useAnimation, useMotionValue, Variants } from 'motion/react';
 import { ChevronLeft, ChevronRight, Search, Move, MousePointer2 } from 'lucide-react';
 
 interface EBookGalleryProps {
@@ -8,7 +8,7 @@ interface EBookGalleryProps {
   onPageChange: (index: number) => void;
 }
 
-const slideVariants = {
+const slideVariants: Variants = {
   enter: (direction: number) => ({
     x: direction > 0 ? '100%' : '-100%',
     opacity: 0,

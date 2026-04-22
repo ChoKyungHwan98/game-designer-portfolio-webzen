@@ -6,14 +6,14 @@ import { EBookGallery } from './EBookGallery';
 
 interface ProjectDetailProps {
   project: Project;
-  onClose: () => void;
+  onBack: () => void;
   isEditing?: boolean;
   onSaveContent?: (content: string) => void;
 }
 
 type TabType = 'overview' | 'document' | 'video' | 'link' | 'simulator' | 'prototype';
 
-export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: ProjectDetailProps) => {
+export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: ProjectDetailProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('overview');
   const [currentPage, setCurrentPage] = useState(0);
   const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
@@ -31,74 +31,63 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
 
   const galleryImages = project.gallery || [project.image];
 
-  const getTheme = () => {
-    switch (activeTab) {
-      case 'overview': return { bg: 'bg-white', text: 'text-zinc-900', border: 'border-zinc-200', tabActive: 'bg-white text-zinc-900', accent: '#0047BB' };
-      case 'document': return { bg: 'bg-[#0047BB]', text: 'text-white', border: 'border-white/30', tabActive: 'bg-[#0047BB] text-white', accent: '#ffffff' };
-      case 'video': return { bg: 'bg-[#1A1A1A]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#1A1A1A] text-white', accent: '#0047BB' };
-      case 'link': return { bg: 'bg-[#6D28D9]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#6D28D9] text-white', accent: '#ffffff' };
-      case 'simulator': return { bg: 'bg-[#059669]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#059669] text-white', accent: '#ffffff' };
-      case 'prototype': return { bg: 'bg-[#EC4899]', text: 'text-white', border: 'border-white/20', tabActive: 'bg-[#EC4899] text-white', accent: '#ffffff' };
-      default: return { bg: 'bg-white', text: 'text-zinc-900', border: 'border-zinc-200', tabActive: 'bg-white', accent: '#0047BB' };
-    }
+  const theme = {
+    bg: 'bg-white',
+    text: 'text-zinc-900',
+    border: 'border-zinc-200',
+    accent: '#0047BB'
   };
-
-  const theme = getTheme();
 
   return (
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="flex-1 flex flex-col min-h-0 bg-zinc-100 overflow-hidden rounded-4xl"
     >
-      {/* Premium Windows 11-style Header */}
-      <div className="shrink-0 h-14 bg-white/80 backdrop-blur-xl flex items-center px-5 border-b border-black/5 gap-6 relative z-50">
+      {/* Premium Editorial Header */}
+      <div className="shrink-0 h-16 bg-white border-b border-zinc-100 flex items-center px-8 gap-8 relative z-50">
         {/* Left: Project Identity */}
-        <div className="flex items-center gap-3 min-w-[140px]">
-          <div className="w-6 h-6 rounded-md bg-[#0047BB]/10 flex items-center justify-center">
-            <LayoutGrid className="w-3.5 h-3.5 text-[#0047BB]" />
+        <div className="flex items-center gap-4 min-w-[160px]">
+          <div className="w-8 h-8 rounded-xl bg-zinc-900 flex items-center justify-center">
+            <LayoutGrid className="w-4 h-4 text-white" />
           </div>
-          <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest truncate max-w-[120px]">
-            {project.title}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] leading-none mb-1">Project</span>
+            <span className="text-xs font-bold text-zinc-900 truncate max-w-[120px]">
+              {project.title}
+            </span>
+          </div>
         </div>
 
-        {/* Center: Persistent Colored Windows Tabs */}
-        <div className="flex-1 flex justify-start gap-2">
+        {/* Center: Unified Professional Tabs */}
+        <div className="flex-1 flex justify-start gap-1">
           {visibleTabs.map((tab) => {
             const isActive = activeTab === tab.id;
-            const tabThemes = {
-              overview: isActive 
-                ? 'bg-white text-zinc-900 shadow-sm border-zinc-300' 
-                : 'bg-white/40 text-zinc-500 hover:bg-white/60 border-transparent',
-              document: isActive 
-                ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20 border-transparent' 
-                : 'bg-[#0047BB]/10 text-[#0047BB] hover:bg-[#0047BB]/20 border-transparent',
-              video: isActive 
-                ? 'bg-[#1A1A1A] text-white shadow-md shadow-black/20 border-transparent' 
-                : 'bg-[#1A1A1A]/10 text-zinc-600 hover:bg-[#1A1A1A]/20 border-transparent',
-              link: isActive 
-                ? 'bg-[#6D28D9] text-white shadow-md shadow-[#6D28D9]/20 border-transparent' 
-                : 'bg-[#6D28D9]/10 text-[#6D28D9] hover:bg-[#6D28D9]/20 border-transparent',
-              simulator: isActive 
-                ? 'bg-[#059669] text-white shadow-md shadow-[#059669]/20 border-transparent' 
-                : 'bg-[#059669]/10 text-[#059669] hover:bg-[#059669]/20 border-transparent',
-              prototype: isActive 
-                ? 'bg-[#EC4899] text-white shadow-md shadow-[#EC4899]/20 border-transparent' 
-                : 'bg-[#EC4899]/10 text-[#EC4899] hover:bg-[#EC4899]/20 border-transparent',
-            };
-
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`h-11 px-6 rounded-xl flex items-center gap-2.5 transition-all duration-300 font-sans font-black text-[10px] uppercase tracking-[0.2em] border ${tabThemes[tab.id]}`}
+                className={`relative h-10 px-5 rounded-full flex items-center gap-2.5 transition-all duration-300 font-sans font-bold text-[11px] uppercase tracking-wider group ${
+                  isActive 
+                    ? 'text-[#0047BB]' 
+                    : 'text-zinc-400 hover:text-zinc-900 hover:bg-zinc-50'
+                }`}
               >
+                {isActive && (
+                  <motion.div 
+                    layoutId="activeTabPill" 
+                    className="absolute inset-0 bg-[#0047BB]/5 rounded-full"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
                 <span className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                   {tab.icon}
                 </span>
-                {tab.label}
+                <span className="relative z-10">{tab.label}</span>
                 {isActive && (
-                  <motion.div layoutId="activeTabDot" className="w-1.5 h-1.5 rounded-full bg-current absolute -bottom-1 left-1/2 -translate-x-1/2 opacity-20" />
+                  <motion.div 
+                    layoutId="activeTabDot" 
+                    className="w-1 h-1 rounded-full bg-[#0047BB] absolute -bottom-1 left-1/2 -translate-x-1/2" 
+                  />
                 )}
               </button>
             );
@@ -106,19 +95,20 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
         </div>
 
         {/* Right: Window Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           {activeTab === 'document' && (
-            <div className="flex items-center gap-3 px-3 py-1.5 bg-zinc-100 rounded-lg border border-black/5 mr-2">
-              <span className="text-[10px] font-black text-zinc-500 tracking-widest">
+            <div className="flex items-center gap-3 px-3 py-1.5 bg-zinc-50 rounded-lg border border-zinc-200">
+              <span className="text-[10px] font-bold text-zinc-500 tracking-widest">
                 {String(currentPage + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
               </span>
             </div>
           )}
+          <div className="w-px h-6 bg-zinc-200 mx-2" />
           <button 
-            onClick={onClose}
-            className="w-10 h-10 rounded-lg hover:bg-[#E81123] hover:text-white text-zinc-500 flex items-center justify-center transition-all duration-200 group"
+            onClick={onBack}
+            className="w-10 h-10 rounded-xl hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 flex items-center justify-center transition-all duration-200 group"
           >
-            <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" />
+            <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
           </button>
         </div>
       </div>
@@ -159,7 +149,7 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
                   <div className="pointer-events-auto flex flex-col items-end gap-4">
                     {/* Help Tooltip */}
                     <div className="group relative">
-                      <div className="absolute bottom-full right-0 mb-6 w-72 p-6 bg-black/95 backdrop-blur-2xl rounded-[2rem] text-white text-[12px] leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] translate-y-2 group-hover:translate-y-0">
+                      <div className="absolute bottom-full right-0 mb-6 w-72 p-6 bg-black/95 backdrop-blur-2xl rounded-4xl text-white text-[12px] leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] translate-y-2 group-hover:translate-y-0">
                         <div className="flex items-center gap-3 mb-4 text-[#0047BB] font-black tracking-widest uppercase text-[10px]">
                           <div className="w-1.5 h-1.5 rounded-full bg-current" />
                           조작 가이드
@@ -197,95 +187,93 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
                       href={project.externalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full h-20 bg-[#6D28D9] text-white rounded-[2rem] flex items-center justify-center gap-4 hover:bg-[#5B21B6] hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-xl shadow-[#6D28D9]/30 group/btn"
+                      className="w-full h-20 bg-[#6D28D9] text-white rounded-4xl flex items-center justify-center gap-4 hover:bg-[#5B21B6] hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-xl shadow-[#6D28D9]/30 group/btn"
                     >
                       <span className="text-xl font-black tracking-tight">시나리오 체험하러 가기</span>
                       <ExternalLink className="w-6 h-6 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                     </a>
-                    <p className="mt-8 text-zinc-400 text-sm font-black uppercase tracking-[0.2em]">
-                      Link via Gemini Pro
-                    </p>
                   </div>
                 </div>
               </div>
             </motion.div>
           ) : activeTab === 'prototype' ? (
             <motion.div key="tab-prototype" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 bg-[#050608] relative overflow-hidden flex flex-col lg:flex-row"
+              className="flex-1 bg-white relative overflow-hidden flex flex-col lg:flex-row"
             >
-              {/* Animated Background */}
-              <div className="absolute inset-0 opacity-30 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-pink-500/20 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-              </div>
+              {/* Subtle Architectural Grid */}
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '32px 32px' }} 
+              />
 
-              {/* Left Side: Info & AI Emphasis */}
-              <div className="w-full lg:w-96 p-8 lg:p-12 relative z-10 flex flex-col justify-center gap-8 border-r border-white/5 bg-black/20 backdrop-blur-3xl">
+              {/* Left Side: Editorial Info */}
+              <div className="w-full lg:w-[420px] p-12 lg:p-16 relative z-10 flex flex-col justify-center gap-10 border-r border-zinc-100 bg-white/80 backdrop-blur-md">
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-[#EC4899]/20 rounded-lg border border-[#EC4899]/30">
-                      <Sparkles className="w-5 h-5 text-[#EC4899]" />
-                    </div>
-                    <span className="text-[10px] font-black text-[#EC4899] uppercase tracking-[0.3em]">AI 활용 능력</span>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-2 h-2 rounded-full bg-[#0047BB]" />
+                    <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em]">Development Efficiency</span>
                   </div>
-                  <h3 className="text-4xl lg:text-5xl font-black text-white mb-6 leading-[1.1] tracking-tighter">
-                    빠른 <br />
-                    <span className="bg-linear-to-r from-[#EC4899] to-[#8B5CF6] text-transparent bg-clip-text">프로토타이핑</span>
+                  <h3 className="text-5xl font-black text-zinc-900 mb-8 leading-[1.05] tracking-tighter">
+                    Rapid <br />
+                    <span className="text-[#0047BB]">Prototyping</span>
                   </h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed font-medium max-w-[280px]">
-                    Google Gemini를 활용하여 단 수 시간 만에 기획서의 핵심 메카니즘을 플레이어블 버전으로 구현했습니다.
+                  <p className="text-zinc-500 text-base leading-relaxed font-medium">
+                    기획의 핵심 메카니즘을 플레이어블 버전으로 신속하게 구현하여, <br/>
+                    <strong>수치 밸런스와 조작감</strong>을 즉각적으로 검증합니다.
                   </p>
                 </div>
 
-                <div className="grid gap-4">
+                <div className="space-y-6">
                   {[
-                    { title: "바이브 코딩", desc: "자연어 기반 신속 구현", color: "bg-blue-500" },
-                    { title: "높은 완성도", desc: "실제와 유사한 플레이 경험", color: "bg-emerald-500" },
-                    { title: "로직 검증", desc: "복잡한 수치 공식 즉시 확인", color: "bg-[#EC4899]" }
+                    { title: "Logic Validation", desc: "복잡한 수치 공식의 실시간 계산 검증", icon: <Calculator className="w-4 h-4" /> },
+                    { title: "User Experience", desc: "실제 유저 환경과 동일한 조작 피드백", icon: <MousePointer2 className="w-4 h-4" /> },
+                    { title: "Iteration", desc: "아이디어에서 실행까지 24시간 이내 구현", icon: <Sparkles className="w-4 h-4" /> }
                   ].map((item, i) => (
                     <motion.div 
                       key={i}
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.1 * i }}
-                      className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors group"
+                      className="group"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-1 h-8 ${item.color} rounded-full`} />
+                      <div className="flex gap-5">
+                        <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-[#0047BB]/5 group-hover:text-[#0047BB] transition-colors">
+                          {item.icon}
+                        </div>
                         <div>
-                          <div className="text-xs font-black text-white mb-1 uppercase tracking-wider">{item.title}</div>
-                          <div className="text-[11px] text-zinc-500 font-medium">{item.desc}</div>
+                          <div className="text-xs font-black text-zinc-900 mb-1 uppercase tracking-wider">{item.title}</div>
+                          <div className="text-xs text-zinc-500 font-medium leading-normal">{item.desc}</div>
                         </div>
                       </div>
                     </motion.div>
                   ))}
                 </div>
 
-                <div className="mt-4 p-6 rounded-3xl bg-linear-to-br from-white/5 to-white/[0.02] border border-white/10 text-center">
-                  <div className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em] mb-2">제작 소요 시간</div>
-                  <div className="text-3xl font-black text-white tracking-tighter">아이디어에서 실행까지</div>
-                  <div className="text-sm font-black text-[#EC4899] mt-1">24시간 이내</div>
+                <div className="mt-4 pt-10 border-t border-zinc-100">
+                  <div className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] mb-2">Build Status</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-sm font-bold text-zinc-900">Stable Prototype v1.2.0</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Right Side: Prototype Viewer */}
-              <div className="flex-1 flex items-center justify-center p-4 lg:p-8 relative">
-                <div className="relative group">
-                  {/* Phone Frame Decoration */}
-                  <div className="absolute inset-0 bg-[#EC4899]/10 rounded-[3rem] blur-[80px] group-hover:bg-[#EC4899]/20 transition-all duration-700" />
+              {/* Right Side: Device Showcase */}
+              <div className="flex-1 flex items-center justify-center p-8 lg:p-12 bg-zinc-50 relative">
+                <div className="relative">
+                  {/* Premium Device Shadow */}
+                  <div className="absolute inset-x-10 -bottom-10 h-20 bg-black/10 blur-3xl rounded-full" />
                   
-                  <div className="relative w-[380px] h-[640px] bg-[#0a0a0a] rounded-[3.5rem] shadow-2xl border-[8px] border-zinc-800 ring-1 ring-white/10 overflow-hidden transition-transform duration-700">
-                    {/* Dynamic Island Look-alike */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-20 flex items-center justify-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
-                      <div className="w-6 h-1 bg-white/5 rounded-full" />
+                  <div className="relative w-[340px] h-[680px] bg-white rounded-[3rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] border-12 border-zinc-900 overflow-hidden">
+                    {/* Device Hardware Details */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-zinc-900 rounded-b-3xl z-20 flex items-center justify-center">
+                      <div className="w-10 h-1 bg-zinc-800 rounded-full" />
                     </div>
 
-                    <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] overflow-hidden">
-                      <div className="scale-[0.8] origin-center">
+                    <div className="w-full h-full bg-white overflow-hidden relative">
+                      <div className="absolute inset-0 scale-[0.8] origin-center">
                         <iframe 
                           src={project.prototypeUrl}
-                          className="w-[450px] h-[750px] border-0"
+                          className="w-[425px] h-[850px] border-0"
                           title="Prototype Viewer"
                         />
                       </div>
@@ -293,32 +281,31 @@ export const ProjectDetail = ({ project, onClose, isEditing, onSaveContent }: Pr
                   </div>
                 </div>
 
-                {/* Floating Hint */}
-                <div className="absolute bottom-12 right-12 flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-2xl rounded-full border border-white/10 animate-bounce">
-                  <MousePointer2 className="w-4 h-4 text-white" />
-                  <span className="text-xs font-black text-white uppercase tracking-widest text-[10px]">화면을 직접 조작해보세요</span>
+                {/* Interaction Hint */}
+                <div className="absolute bottom-12 right-12 flex items-center gap-4 px-6 py-3 bg-white shadow-xl rounded-full border border-zinc-100 animate-bounce">
+                  <div className="w-2 h-2 rounded-full bg-[#0047BB]" />
+                  <span className="text-[10px] font-black text-zinc-900 uppercase tracking-widest">Interactive View</span>
                 </div>
               </div>
             </motion.div>
           ) : activeTab === 'simulator' ? (
             <motion.div key="tab-simulator" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 flex flex-col min-h-0 bg-[#0B0C10] overflow-hidden"
+              className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden"
             >
               <div className="flex-1 flex flex-col lg:flex-row min-h-0">
-                {/* Left: Code Explorer */}
-                <div className="flex-1 border-r border-white/5 flex flex-col min-h-0 bg-black/20">
-                  <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/5">
+                {/* Left: Calculation Engine (Editor) */}
+                <div className="flex-1 border-r border-zinc-100 flex flex-col min-h-0 bg-zinc-50/50">
+                  <div className="px-8 py-5 border-b border-zinc-100 flex items-center justify-between bg-white">
                     <div className="flex items-center gap-3">
                       <div className="flex gap-1.5">
-                        <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
-                        <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                        <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-zinc-200" />
                       </div>
-                      <span className="text-[11px] font-black text-zinc-500 uppercase tracking-widest ml-2">simulator.py — Python</span>
+                      <span className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] ml-4">Core Engine — Python</span>
                     </div>
-                    <div className="text-[10px] text-zinc-600 font-mono">v5.2.0</div>
                   </div>
-                  <div className="flex-1 overflow-auto p-8 font-mono text-[13px] leading-relaxed text-zinc-400">
+                  <div className="flex-1 overflow-auto p-12 font-mono text-[13px] leading-loose text-zinc-500">
                     <pre className="whitespace-pre">
 {`# ── 밸런스 검증 로직 (Monte Carlo) ────────────────
 def calculate_balance(params):
@@ -343,22 +330,18 @@ def calculate_balance(params):
                   </div>
                 </div>
 
-                {/* Right: Dashboard Preview */}
-                <div className="flex-1 flex flex-col p-8 lg:p-12 items-center justify-center relative overflow-hidden bg-linear-to-br from-[#0B0C10] to-[#16213E]">
-                  <div className="absolute inset-0 opacity-20 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,#059669_0%,transparent_70%)]" />
-                  </div>
-                  
+                {/* Right: Analytical Dashboard */}
+                <div className="flex-1 flex flex-col p-12 lg:p-16 items-center justify-center relative overflow-hidden bg-white">
                   <div className="relative z-10 w-full max-w-lg">
-                    <div className="mb-8 flex flex-col items-center text-center">
-                      <div className="w-16 h-16 bg-[#059669]/20 rounded-2xl flex items-center justify-center mb-6 border border-[#059669]/30">
-                        <Calculator className="w-8 h-8 text-[#059669]" />
+                    <div className="mb-12">
+                      <div className="w-12 h-12 bg-zinc-900 rounded-2xl flex items-center justify-center mb-8">
+                        <Calculator className="w-6 h-6 text-white" />
                       </div>
-                      <h3 className="text-3xl font-black text-white mb-4">Balancing Tool Preview</h3>
-                      <p className="text-zinc-400 font-medium">37개 파라미터 기반 실시간 수치 검증 시스템</p>
+                      <h3 className="text-4xl font-black text-zinc-900 mb-4 tracking-tighter">Analytical Tool</h3>
+                      <p className="text-zinc-500 font-medium text-lg">37개 파라미터 기반의 정교한 실시간 수치 시뮬레이션</p>
                     </div>
 
-                    <div className="group relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40">
+                    <div className="group relative rounded-3xl overflow-hidden shadow-[0_30px_60px_-12px_rgba(0,0,0,0.12)] border border-zinc-100 bg-zinc-50">
                       {project.simulatorVideoUrl ? (
                         <div className="aspect-video w-full">
                           <iframe
@@ -370,47 +353,37 @@ def calculate_balance(params):
                           />
                         </div>
                       ) : (
-                        <>
+                        <div className="relative">
                           <img 
                             src="./images/dorothia_simulator_desktop.png" 
-                            alt="Simulator Dashboard Mockup"
-                            className="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+                            alt="Simulator Mockup"
+                            className="w-full aspect-video object-cover opacity-90"
                           />
-                          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-8">
-                            <div className="flex flex-col gap-4">
-                              <div className="flex gap-2">
-                                <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black text-white/80 uppercase tracking-widest border border-white/10">Desktop App</span>
-                                <span className="px-3 py-1 bg-[#059669]/20 backdrop-blur-md rounded-full text-[10px] font-black text-[#34D399] uppercase tracking-widest border border-[#059669]/30">Tkinter / Python</span>
-                              </div>
-                              {project.simulatorUrl ? (
-                                <a 
-                                  href={project.simulatorUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="w-full h-16 bg-[#059669] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#047857] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#059669]/40"
-                                >
-                                  <span className="font-black text-sm uppercase tracking-widest">시뮬레이터 실행하기</span>
-                                  <ExternalLink className="w-4 h-4" />
-                                </a>
-                              ) : (
-                                <div className="w-full h-16 bg-white/5 backdrop-blur-xl border border-white/10 text-white rounded-2xl flex items-center justify-center gap-3">
-                                  <span className="font-black text-sm uppercase tracking-widest text-zinc-400">Desktop 전용 소프트웨어</span>
-                                </div>
-                              )}
-                            </div>
+                          <div className="absolute inset-0 bg-linear-to-t from-zinc-900/40 to-transparent flex flex-col justify-end p-10">
+                            {project.simulatorUrl && (
+                              <a 
+                                href={project.simulatorUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full h-16 bg-[#0047BB] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#003799] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#0047BB]/20"
+                              >
+                                <span className="font-black text-sm uppercase tracking-widest">Launch Simulator</span>
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            )}
                           </div>
-                        </>
+                        </div>
                       )}
                     </div>
                     
-                    <div className="mt-8 grid grid-cols-2 gap-4">
-                      <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">Pass Rate</div>
-                        <div className="text-xl font-black text-[#059669]">82.4%</div>
+                    <div className="mt-10 grid grid-cols-2 gap-6">
+                      <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <div className="text-[10px] text-zinc-400 font-black uppercase tracking-widest mb-2">Sim Accuracy</div>
+                        <div className="text-2xl font-black text-[#0047BB]">99.8%</div>
                       </div>
-                      <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <div className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">Iterations</div>
-                        <div className="text-xl font-black text-white">2,000+</div>
+                      <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <div className="text-[10px] text-zinc-400 font-black uppercase tracking-widest mb-2">Total Iterations</div>
+                        <div className="text-2xl font-black text-zinc-900">2,000+</div>
                       </div>
                     </div>
                   </div>

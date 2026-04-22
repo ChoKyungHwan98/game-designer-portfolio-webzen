@@ -62,7 +62,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
 
         {/* Premium Editorial Filter Bar */}
         <div className="flex flex-col items-center mb-16 relative">
-          <div className="inline-flex flex-wrap items-center justify-center p-2 bg-zinc-100/50 rounded-[2rem] border border-black/5">
+          <div className="inline-flex flex-wrap items-center justify-center p-2 bg-zinc-100/50 rounded-4xl border border-black/5">
             {categories.map((category) => {
               const count = category === '전체' 
                 ? projects.length 
@@ -209,7 +209,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 <div className="flex-1 overflow-hidden flex flex-col min-h-0">
                   <ProjectDetail
                     project={selectedProject}
-                    onClose={() => setSelectedProject(null)}
+                    onBack={() => setSelectedProject(null)}
                     isEditing={isEditing}
                     onSaveContent={(c) => {
                       const p = [...projects];
