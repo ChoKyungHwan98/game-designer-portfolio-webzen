@@ -114,11 +114,6 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
             <span className="text-[12px] text-zinc-800 font-medium font-sans flex-1 truncate">
               portfolio.local <span className="text-zinc-400">/</span> {project.category.toLowerCase().replace(/ /g, '-')} <span className="text-zinc-400">/</span> {project.title.toLowerCase().replace(/ /g, '-')}
             </span>
-            {activeTab === 'document' && galleryImages.length > 0 && (
-              <div className="px-2 py-0.5 bg-white rounded-md border border-zinc-200 text-[10px] font-mono text-zinc-500 shrink-0 shadow-sm flex items-center h-5">
-                {String(currentPage + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
-              </div>
-            )}
           </div>
 
           {/* Extensions/Profile */}
@@ -155,8 +150,18 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
               )}
               
               {project.gallery && (
-                <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-50">
-                  <div className="pointer-events-auto">
+                <>
+                  {/* Floating Page Counter (UX/UI Centered & Pronounced) */}
+                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-auto z-50">
+                    <div className="flex items-center gap-4 px-6 py-3 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl text-white transition-transform hover:scale-105 cursor-default">
+                      <span className="text-base font-black tracking-widest">{String(currentPage + 1).padStart(2, '0')}</span>
+                      <div className="w-px h-4 bg-white/20" />
+                      <span className="text-xs font-bold text-white/50 tracking-widest">{String(galleryImages.length).padStart(2, '0')}</span>
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-40">
+                    <div className="pointer-events-auto">
                     <button
                       onClick={() => setShowThumbnailGrid(true)}
                       className="flex items-center gap-3 px-6 py-3.5 bg-[#0047BB] text-white rounded-2xl shadow-2xl shadow-[#0047BB]/30 hover:scale-110 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
@@ -186,6 +191,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     </div>
                   </div>
                 </div>
+                </>
               )}
             </motion.div>
           ) : activeTab === 'link' ? (
