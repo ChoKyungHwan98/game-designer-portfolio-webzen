@@ -66,7 +66,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
             {categories.map((category) => {
               const count = category === '전체' 
                 ? projects.length 
-                : projects.filter(p => p.category === category).length;
+                : projects.filter(p => p.roles && p.roles.includes(category)).length;
               const isActive = activeCategory === category;
 
               return (
