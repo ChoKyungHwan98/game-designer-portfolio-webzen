@@ -118,7 +118,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
                             initial={{ opacity: 0, y: 10, height: 0 }}
                             animate={{ opacity: 1, y: 0, height: 'auto' }}
                             transition={{ duration: 0.4, delay: 0.2 }}
-                            className="overflow-hidden w-full"
+                            className="aspect-video relative overflow-hidden bg-zinc-100"
                           >
                             <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed drop-shadow-md line-clamp-2 w-full mt-2">
                               <EditableText value={project.description || ""} onSave={(v) => { const p = [...projects]; const i = p.findIndex(pp => pp.id === project.id); p[i].description = v; setProjects(p); }} isEditing={isEditing} />

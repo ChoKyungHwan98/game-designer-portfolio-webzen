@@ -57,11 +57,11 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
         animate={{ opacity: 1, y: 0 }}
         className="relative z-10 pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto"
       >
-        <div className="bg-white/80 backdrop-blur-sm rounded-[2.5rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-black/5 p-8 md:p-12 lg:p-16 min-h-[80vh]">
+        <div className="bg-white rounded-4xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-black/5 p-8 md:p-12 lg:p-16 min-h-[80vh]">
 
-        {/* Minimalist Editorial Filter Bar */}
+        {/* High-Visibility Bold Filter Bar */}
         <div className="flex flex-col items-center mb-16 relative">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 border-b border-zinc-100 pb-4 w-full max-w-4xl">
+          <div className="flex flex-wrap items-center justify-center gap-3 p-3 bg-zinc-100/80 rounded-[2rem] border border-black/5">
             {categories.map((category) => {
               const count = category === '전체' 
                 ? projects.length 
@@ -72,32 +72,27 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`relative py-2 transition-all duration-300 group flex items-center gap-2.5 ${
-                    isActive ? 'text-[#0047BB]' : 'text-zinc-400 hover:text-zinc-900'
+                  className={`relative px-6 py-3 rounded-2xl transition-all duration-300 group flex items-center gap-3 overflow-hidden shadow-sm ${
+                    isActive 
+                      ? 'bg-[#0047BB] text-white shadow-[#0047BB]/30' 
+                      : 'bg-white text-zinc-600 hover:bg-zinc-50 border border-black/5'
                   }`}
                 >
-                  <span className="relative z-10 text-[12px] font-black uppercase tracking-[0.2em] leading-none transition-transform duration-500">
+                  <span className="relative z-10 text-[15px] font-black uppercase tracking-wider leading-none">
                     {category}
                   </span>
-                  <span className={`relative z-10 text-[10px] font-black transition-colors duration-300 ${
-                    isActive ? 'text-[#0047BB]/50' : 'text-zinc-300 group-hover:text-zinc-500'
+                  <span className={`relative z-10 text-[10px] font-black px-2 py-0.5 rounded-md transition-colors duration-300 ${
+                    isActive ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-400'
                   }`}>
                     {String(count).padStart(2, '0')}
                   </span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeCategoryLine"
-                      className="absolute bottom-[-17px] left-0 right-0 h-[3px] bg-[#0047BB] rounded-full"
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Polished Project Grid */}
+        {/* High-Contrast Project Grid */}
         <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
@@ -109,54 +104,43 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className="group relative flex flex-col bg-white rounded-[2rem] overflow-hidden border border-zinc-100 cursor-pointer shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)] transition-all duration-500"
+                className="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden border-2 border-zinc-100 cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#0047BB]/30 hover:shadow-[0_32px_64px_-16px_rgba(0,71,187,0.15)] transition-all duration-500"
               >
                 {/* Card Image */}
-                <div className="aspect-[16/10] overflow-hidden relative bg-zinc-50">
+                <div className="aspect-16/10 overflow-hidden relative bg-zinc-50 border-b border-zinc-100">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
-
-                  <div className="absolute top-5 left-5 z-10 flex flex-wrap gap-1.5">
-                    {project.roles.map(role => (
-                      <span key={role} className="px-2.5 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white text-[9px] font-black uppercase tracking-[0.1em]">{role}</span>
-                    ))}
-                  </div>
-
-                  {/* Hover icon Overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <div className="w-14 h-14 rounded-2xl bg-white/95 backdrop-blur-md flex items-center justify-center text-[#0047BB] shadow-2xl scale-50 group-hover:scale-100 transition-transform duration-500">
-                      <ArrowUpRight className="w-6 h-6" />
-                    </div>
-                  </div>
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
                 </div>
 
                 {/* Card Content */}
                 <div className="p-8 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <h4 className="text-xl lg:text-2xl font-display font-black tracking-tight text-zinc-900 group-hover:text-[#0047BB] transition-colors leading-tight">
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <h4 className="text-2xl font-display font-black tracking-tight text-zinc-900 group-hover:text-[#0047BB] transition-colors leading-tight">
                       {project.title}
                     </h4>
                     {project.status && (
-                       <span className={`text-[9px] font-black px-2 py-0.5 rounded-md border tracking-tighter ${
-                         project.status === '미출시' ? 'bg-zinc-50 text-zinc-400 border-zinc-100' : 'bg-blue-50 text-[#0047BB] border-blue-100'
+                       <span className={`text-[10px] font-black px-3 py-1 rounded-lg border-2 shadow-sm ${
+                         project.status === '미출시' 
+                           ? 'bg-zinc-100 text-zinc-500 border-zinc-200' 
+                           : 'bg-blue-600 text-white border-blue-700'
                        }`}>
                          {project.status}
                        </span>
                     )}
                   </div>
 
-                  <p className="text-zinc-500 text-[14px] leading-relaxed mb-8 line-clamp-2 font-medium">
+                  <p className="text-zinc-500 text-[15px] leading-relaxed mb-8 line-clamp-2 font-medium">
                     {project.description}
                   </p>
 
                   <div className="flex flex-wrap gap-2 mt-auto">
                     {project.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest bg-zinc-50 border border-zinc-100 px-3 py-1 rounded-lg">
+                      <span key={tIdx} className="text-[11px] font-bold text-zinc-600 uppercase tracking-widest bg-zinc-100 px-3 py-1.5 rounded-xl border border-zinc-200">
                         #{tag}
                       </span>
                     ))}
