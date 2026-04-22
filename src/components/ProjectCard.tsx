@@ -23,7 +23,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
       <div className="relative w-full h-full flex flex-col justify-end p-6 lg:p-8">
         <div className={`absolute inset-0 ${isActive ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'} transition-opacity duration-500`}>
           <img src={project.image} alt={project.title} className={`w-full h-full object-cover ${isInactive ? 'object-top' : ''}`} referrerPolicy="no-referrer" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"></div>
         </div>
         
         {isEditing && (
@@ -72,7 +72,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
           <X className="w-4 h-4" />
         </button>
       )}
-      <div className="overflow-hidden relative bg-zinc-100 shrink-0 aspect-[16/10] border-b border-black/5">
+      <div className="overflow-hidden relative bg-zinc-100 shrink-0 aspect-16/10 border-b border-black/5">
         <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 absolute inset-0" referrerPolicy="no-referrer" />
         <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
           <div className="bg-white/90 backdrop-blur-sm border border-black/10 rounded-md px-3 py-1.5 text-[11px] font-sans font-bold text-[#2C2C2C] tracking-tight shadow-sm w-fit">
