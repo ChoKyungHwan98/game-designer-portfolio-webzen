@@ -55,23 +55,22 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`relative h-8 px-4 flex items-center gap-2 rounded-t-lg transition-colors min-w-[140px] max-w-[200px] border border-transparent ${
+                  style={{
+                    boxShadow: isActive ? `inset 0 2px 0 0 ${tab.color}` : undefined
+                  }}
+                  className={`relative h-8 px-4 flex items-center gap-2 rounded-t-[8px] transition-colors min-w-[140px] max-w-[200px] border-x border-t ${
                     isActive
-                      ? 'bg-white text-zinc-800 z-20'
-                      : 'bg-transparent text-zinc-600 hover:bg-black/5'
+                      ? 'bg-white text-zinc-800 z-20 border-zinc-200'
+                      : 'bg-transparent text-zinc-600 border-transparent hover:bg-black/5'
                   }`}
                 >
                   <span style={{ color: isActive ? tab.color : 'inherit' }} className="flex shrink-0">
                     {tab.icon}
                   </span>
                   <span className="text-[11px] font-semibold truncate">{tab.label}</span>
-                  {/* Subtle active indicator top line */}
-                  {isActive && (
-                    <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-lg" style={{ backgroundColor: tab.color }} />
-                  )}
                   {/* Right side shadow/border blend for active tab */}
                   {isActive && (
-                    <div className="absolute -bottom-px left-0 right-0 h-px bg-white" />
+                    <div className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-white" />
                   )}
                 </button>
               );
