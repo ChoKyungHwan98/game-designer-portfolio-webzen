@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, FileText, Tag, Calendar, X, LayoutGrid, HelpCircle, ExternalLink, Sparkles, Calculator, MousePointer2, ChevronRight } from 'lucide-react';
+import { Play, FileText, Tag, Calendar, X, LayoutGrid, HelpCircle, ExternalLink, Sparkles, Calculator, MousePointer2, ChevronRight, ArrowLeft, ArrowRight, RotateCw, Lock, MoreVertical, Minus, Square } from 'lucide-react';
 import type { Project } from '../types';
 import { EBookGallery } from './EBookGallery';
 
@@ -43,49 +43,88 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
       initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
       className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden rounded-xl shadow-2xl border border-zinc-200"
     >
-      {/* Browser Window Chrome */}
-      <div className="shrink-0 bg-[#F2F3F5] border-b border-zinc-200">
-        {/* Title / Address Bar */}
-        <div className="h-11 flex items-center px-4 gap-3">
-          <div className="flex gap-1.5 shrink-0">
-            <button onClick={onBack} className="w-3.5 h-3.5 rounded-full bg-[#FF5F57] hover:opacity-80 transition-opacity flex items-center justify-center group">
-              <X className="w-2 h-2 text-red-900 opacity-0 group-hover:opacity-100" />
-            </button>
-            <div className="w-3.5 h-3.5 rounded-full bg-[#FFBD2E]" />
-            <div className="w-3.5 h-3.5 rounded-full bg-[#28C840]" />
+      {/* Windows 11 Edge/Chrome Style Browser Window Chrome */}
+      <div className="shrink-0 flex flex-col bg-[#DFE1E5] border-b border-zinc-300 relative z-50">
+        {/* Tab Bar & Window Controls Layer */}
+        <div className="h-10 flex items-end px-2 pt-2 relative">
+          {/* Tabs */}
+          <div className="flex items-end gap-1 z-10 overflow-x-auto no-scrollbar">
+            {visibleTabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative h-8 px-4 flex items-center gap-2 rounded-t-lg transition-colors min-w-[140px] max-w-[200px] border border-transparent ${
+                    isActive
+                      ? 'bg-white text-zinc-800 z-20'
+                      : 'bg-transparent text-zinc-600 hover:bg-black/5'
+                  }`}
+                >
+                  <span style={{ color: isActive ? tab.color : 'inherit' }} className="flex shrink-0">
+                    {tab.icon}
+                  </span>
+                  <span className="text-[11px] font-semibold truncate">{tab.label}</span>
+                  {/* Subtle active indicator top line */}
+                  {isActive && (
+                    <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-lg" style={{ backgroundColor: tab.color }} />
+                  )}
+                  {/* Right side shadow/border blend for active tab */}
+                  {isActive && (
+                    <div className="absolute -bottom-px left-0 right-0 h-px bg-white" />
+                  )}
+                </button>
+              );
+            })}
           </div>
-          <div className="flex-1 max-w-sm mx-auto h-6 bg-white rounded-md border border-zinc-200 flex items-center px-3 gap-1.5">
-            <LayoutGrid className="w-3 h-3 text-zinc-400 shrink-0" />
-            <span className="text-[11px] text-zinc-500 truncate">
-              portfolio / <span className="text-zinc-400">{project.category}</span> / <span className="text-zinc-700 font-semibold">{project.title}</span>
+          
+          <div className="flex-1" />
+          
+          {/* Windows Window Controls */}
+          <div className="absolute top-0 right-0 h-8 flex items-start z-20">
+            <button className="w-11 h-8 flex items-center justify-center hover:bg-black/5 transition-colors text-zinc-700">
+              <Minus className="w-4 h-4" />
+            </button>
+            <button className="w-11 h-8 flex items-center justify-center hover:bg-black/5 transition-colors text-zinc-700">
+              <Square className="w-3.5 h-3.5" />
+            </button>
+            <button onClick={onBack} className="w-11 h-8 flex items-center justify-center hover:bg-[#E81123] hover:text-white transition-colors text-zinc-700">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Address Bar Layer */}
+        <div className="h-10 bg-white flex items-center px-2 gap-2 border-b border-zinc-200">
+          <div className="flex items-center gap-1">
+            <button onClick={onBack} className="w-7 h-7 rounded-md hover:bg-black/5 flex items-center justify-center text-zinc-600 transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <button className="w-7 h-7 rounded-md hover:bg-black/5 flex items-center justify-center text-zinc-400 transition-colors cursor-not-allowed">
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button className="w-7 h-7 rounded-md hover:bg-black/5 flex items-center justify-center text-zinc-600 transition-colors">
+              <RotateCw className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* URL Input */}
+          <div className="flex-1 h-7 bg-[#F1F3F4] rounded-full flex items-center px-3 gap-2 border border-transparent hover:border-zinc-300 transition-colors group cursor-text">
+            <Lock className="w-3 h-3 text-zinc-500" />
+            <span className="text-[12px] text-zinc-800 font-medium font-sans">
+              portfolio.local <span className="text-zinc-400">/</span> {project.category.toLowerCase().replace(/ /g, '-')} <span className="text-zinc-400">/</span> {project.title.toLowerCase().replace(/ /g, '-')}
             </span>
           </div>
-          {activeTab === 'document' && (
-            <div className="px-2.5 py-1 bg-white rounded-md border border-zinc-200 text-[10px] font-mono text-zinc-500 shrink-0">
-              {String(currentPage + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
+
+          {/* Extensions/Profile */}
+          <div className="flex items-center gap-1 px-1">
+            <div className="w-7 h-7 rounded-full bg-zinc-200 flex items-center justify-center border border-zinc-300 overflow-hidden shrink-0">
+              <div className="w-3 h-3 bg-zinc-400 rounded-full mt-1" />
             </div>
-          )}
-        </div>
-        {/* Tab Strip */}
-        <div className="flex items-end px-3 gap-0.5">
-          {visibleTabs.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`relative h-8 px-4 text-[11px] font-bold flex items-center gap-1.5 rounded-t-lg border-x border-t transition-all duration-200 ${
-                  isActive
-                    ? 'bg-white border-zinc-200 text-zinc-800 shadow-[0_2px_0_#fff]'
-                    : 'bg-transparent border-transparent text-zinc-500 hover:text-zinc-700 hover:bg-white/60'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: isActive ? tab.color : '#d1d5db' }} />
-                {tab.label}
-              </button>
-            );
-          })}
-          <div className="flex-1 self-end border-b border-zinc-200" />
+            <button className="w-7 h-7 rounded-md hover:bg-black/5 flex items-center justify-center text-zinc-600 transition-colors">
+              <MoreVertical className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
