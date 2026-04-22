@@ -150,25 +150,23 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
               )}
               
               {project.gallery && (
-                <>
-                  {/* Floating Page Counter (UX/UI Centered & Pronounced) */}
-                  <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-auto z-50">
-                    <div className="flex items-center gap-4 px-6 py-3 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl text-white transition-transform hover:scale-105 cursor-default">
-                      <span className="text-base font-black tracking-widest">{String(currentPage + 1).padStart(2, '0')}</span>
-                      <div className="w-px h-4 bg-white/20" />
-                      <span className="text-xs font-bold text-white/50 tracking-widest">{String(galleryImages.length).padStart(2, '0')}</span>
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-40">
-                    <div className="pointer-events-auto">
+                <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end pointer-events-none z-50">
+                  <div className="pointer-events-auto flex items-center gap-4">
+                    {/* View All Pages Button */}
                     <button
                       onClick={() => setShowThumbnailGrid(true)}
-                      className="flex items-center gap-3 px-6 py-3.5 bg-[#0047BB] text-white rounded-2xl shadow-2xl shadow-[#0047BB]/30 hover:scale-110 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
+                      className="flex items-center gap-3 px-6 py-3.5 bg-[#0047BB] text-white rounded-2xl shadow-2xl shadow-[#0047BB]/30 hover:scale-105 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
                     >
                       <LayoutGrid className="w-4 h-4" />
                       전체 페이지 보기
                     </button>
+
+                    {/* Page Counter Pill */}
+                    <div className="flex items-center gap-4 px-6 py-3.5 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl text-white cursor-default transition-all hover:bg-black/50">
+                      <span className="text-base font-black tracking-widest">{String(currentPage + 1).padStart(2, '0')}</span>
+                      <div className="w-px h-4 bg-white/20" />
+                      <span className="text-xs font-bold text-white/50 tracking-widest">{String(galleryImages.length).padStart(2, '0')}</span>
+                    </div>
                   </div>
 
                   <div className="pointer-events-auto flex flex-col items-end gap-4">
