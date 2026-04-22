@@ -19,12 +19,10 @@ import { motion } from 'motion/react';
 import { FileText, FolderOpen, Gamepad2 } from 'lucide-react';
 
 import { useEditableContent } from './hooks/useEditableContent';
-import { useSecurity } from './hooks/useSecurity';
 import { RESUME_DATA, PROJECTS, GAME_HISTORY, SKILLS } from './data';
 import type { Project, ResumeData, GameHistory, Skill } from './types';
 
 function App() {
-  useSecurity();
   const [view, setView] = useState<'home' | 'resume' | 'project-detail' | 'portfolio' | 'all-projects' | 'game-history' | 'cover-letter'>('home');
   const [isEditing, setIsEditing] = useState(false);
   const [activeSection, setActiveSection] = useState('about');

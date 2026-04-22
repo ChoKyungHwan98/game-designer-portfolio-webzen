@@ -117,11 +117,11 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
       </div>
 
       {/* Main Content Area - Maximized Space */}
-      <div className="flex-1 flex flex-col min-h-0 bg-[#F8F8F6] relative">
+      <div className="flex-1 flex flex-col min-h-0 bg-white relative">
         <AnimatePresence mode="wait">
           {activeTab === 'document' ? (
             <motion.div key="tab-document" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#F8F8F6] relative"
+              className="flex-1 flex flex-col min-h-0 overflow-hidden bg-zinc-50 relative"
             >
               {project.gallery ? (
                 <EBookGallery images={galleryImages} currentIndex={currentPage} onPageChange={setCurrentPage} />
@@ -173,7 +173,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
             </motion.div>
           ) : activeTab === 'link' ? (
             <motion.div key="tab-link" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 flex items-center justify-center p-12 bg-[#F8F8F6]"
+              className="flex-1 flex items-center justify-center p-12 bg-white"
             >
               <div className="max-w-2xl w-full">
                 <div className="relative group p-1 bg-linear-to-br from-[#6D28D9] via-[#C084FC] to-[#6D28D9] rounded-[3rem] shadow-2xl overflow-hidden">
@@ -403,7 +403,7 @@ def calculate_balance(params):
             </motion.div>
           ) : (
             <motion.div key="tab-overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="flex-1 overflow-y-auto bg-[#F8F8F6] custom-scrollbar"
+              className="flex-1 overflow-y-auto bg-white custom-scrollbar"
             >
               <div className="max-w-5xl mx-auto p-12 md:p-20">
                 <div className="relative h-[450px] rounded-[3rem] overflow-hidden mb-20 shadow-2xl group border border-black/5">
