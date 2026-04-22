@@ -209,7 +209,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
               />
 
               {/* Left Side: Editorial Info */}
-              <div className="w-full lg:w-[460px] p-12 lg:p-16 relative z-10 flex flex-col justify-center gap-10 border-r border-zinc-200/60 bg-white">
+              <div className="w-full lg:w-[420px] p-12 lg:p-16 relative z-10 flex flex-col justify-center gap-10 border-r border-zinc-100 bg-white/80 backdrop-blur-md">
                 <div>
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-2 h-2 rounded-full bg-[#0047BB]" />
