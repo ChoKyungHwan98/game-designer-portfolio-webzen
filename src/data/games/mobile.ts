@@ -84,7 +84,7 @@ export const MOBILE_GAMES: GameHistoryItem[] = [
   {"id": "mobile-80", "category": "Mobile", "genre": "시뮬레이션", "title": "우마무스메 프리티 더비", "company": "사이게임즈", "image": "./images/games/complete/우마무스메_프리티_더비.webp"},
   {"id": "mobile-81", "category": "Mobile", "genre": "RPG", "title": "원펀맨: 최강의 남자", "company": "GAMENOW TECHNOLOGY", "image": "./images/games/complete/원펀맨_최강의_남자.jpg"},
   {"id": "mobile-82", "category": "Mobile", "genre": "CCG", "title": "Yu-Gi-Oh! Duel Links", "company": "코나미", "image": ""},
-  {"id": "mobile-83", "category": "Mobile", "genre": "CCG", "title": "Yu-Gi-Oh! Master Duel", "company": "코나미", "image": ""},
+  {"id": "mobile-83", "category": "Mobile", "genre": "CCG", "title": "Yu-Gi-Oh! Master Duel", "company": "코나미", "image": "./images/games/complete/유희왕_마스터_듀얼.avif"},
   {"id": "mobile-84", "category": "Mobile", "genre": "RPG", "title": "이노티아 4", "company": "컴투스", "image": "./images/games/complete/이노티아_4.jpg"},
   {"id": "mobile-85", "category": "Mobile", "genre": "RPG", "title": "제노니아 3", "company": "게임빌", "image": "./images/games/complete/제노니아_3.avif"},
   {"id": "mobile-86", "category": "Mobile", "genre": "RPG", "title": "제노니아 4", "company": "게임빌", "image": "./images/games/complete/제노니아_4.webp"},
@@ -116,5 +116,4 @@ export const MOBILE_GAMES: GameHistoryItem[] = [
   {"id": "mobile-122", "category": "Mobile", "genre": "리듬", "title": "러브라이브! 스쿨 아이돌 페스티벌", "company": "KLab", "image": "./images/games/complete/러브라이브_스쿨_아이돌_페스티벌.webp"},
   {"id": "mobile-123", "category": "Mobile", "genre": "레이싱", "title": "Jet Car Stunts", "company": "GRIP Digital s.r.o.", "image": ""},
   {"id": "mobile-124", "category": "Mobile", "genre": "레이싱", "title": "Speed Demons 2", "company": "Radiangames", "image": ""},
-  {"id": "mobile-125", "category": "Mobile", "genre": "CCG", "title": "유희왕 마스터 듀얼", "company": "코나미", "image": "./images/games/complete/유희왕_마스터_듀얼.avif"},
 ];
