@@ -257,5 +257,6 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
