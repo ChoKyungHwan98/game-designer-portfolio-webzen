@@ -64,7 +64,6 @@ export const PC_GAMES: GameHistoryItem[] = [
   {"id": "pc-61", "category": "PC", "genre": "RPG", "title": "마법학교 아르피아", "company": "엔씨소프트", "image": "./images/games/complete/마법학교_아르피아.jpg"},
   {"id": "pc-62", "category": "PC", "genre": "RPG", "title": "마법학교 아스티넬", "company": "엔씨소프트", "image": "./images/games/complete/마법학교_아스티넬.webp"},
   {"id": "pc-63", "category": "PC", "genre": "MMORPG", "title": "믹스마스터", "company": "싸이미디어", "image": ""},
-  {"id": "pc-64", "category": "PC", "genre": "액션", "title": "바우트", "company": "엔로그소프트", "image": ""},
   {"id": "pc-65", "category": "PC", "genre": "MMORPG", "title": "라테일", "company": "Actoz Soft", "image": "./images/games/complete/라테일.jpg"},
   {"id": "pc-66", "category": "PC", "genre": "MMORPG", "title": "디지몬 RPG", "company": "Move Games", "image": "./images/games/complete/디지몬_rpg.jpg"},
   {"id": "pc-67", "category": "PC", "genre": "MMORPG", "title": "디지몬 온라인", "company": "Bandai", "image": "./images/games/complete/디지몬_온라인.webp"},
