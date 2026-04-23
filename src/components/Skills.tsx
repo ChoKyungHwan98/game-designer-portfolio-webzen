@@ -18,7 +18,7 @@ const TreeLine = ({ height = 28, delay = 0, glow = false }: { height?: number; d
     className="origin-top flex flex-col items-center"
     style={{ height }}
   >
-    <div className={`w-px h-full ${glow ? 'bg-linear-to-b from-[#CC0000]/40 via-[#CC0000]/20 to-[#CC0000]/5' : 'bg-linear-to-b from-zinc-300/60 to-zinc-200/40'}`} />
+    <div className={`w-px h-full ${glow ? 'bg-linear-to-b from-[#B91C1C]/40 via-[#B91C1C]/20 to-[#B91C1C]/5' : 'bg-linear-to-b from-zinc-300/60 to-zinc-200/40'}`} />
   </motion.div>
 );
 
@@ -31,19 +31,19 @@ const TreeNode = ({ cap, delay = 0 }: { cap: SkillCapability; delay?: number }) 
 
   // Different visual for each tier
   const nodeClasses = isTier1
-    ? 'bg-[#CC0000] text-white shadow-[0_4px_24px_-4px_rgba(0,71,187,0.4)] px-6 py-3.5 w-[90%]'
+    ? 'bg-[#B91C1C] text-white shadow-[0_4px_24px_-4px_rgba(0,71,187,0.4)] px-6 py-3.5 w-[90%]'
     : isTier2
-    ? 'bg-[#CC0000]/10 text-[#CC0000] border border-[#CC0000]/15 px-5 py-3 w-[82%]'
+    ? 'bg-[#B91C1C]/10 text-[#B91C1C] border border-[#B91C1C]/15 px-5 py-3 w-[82%]'
     : isTier3
-    ? 'bg-[#CC0000]/5 text-[#2C2C2C] border border-[#CC0000]/10 px-5 py-2.5 w-[74%]'
+    ? 'bg-[#B91C1C]/5 text-[#2C2C2C] border border-[#B91C1C]/10 px-5 py-2.5 w-[74%]'
     : 'bg-zinc-50 text-zinc-600 border border-zinc-200/80 px-4 py-2 w-[78%]';
 
   const dotClasses = isTier1
     ? 'w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.6)]'
     : isTier2
-    ? 'w-2 h-2 bg-[#CC0000]/60 rounded-full'
+    ? 'w-2 h-2 bg-[#B91C1C]/60 rounded-full'
     : isTier3
-    ? 'w-1.5 h-1.5 bg-[#CC0000]/30 rounded-full'
+    ? 'w-1.5 h-1.5 bg-[#B91C1C]/30 rounded-full'
     : 'w-1.5 h-1.5 bg-zinc-400 rounded-full';
 
   const textClasses = isTier1
@@ -68,7 +68,7 @@ const TreeNode = ({ cap, delay = 0 }: { cap: SkillCapability; delay?: number }) 
 
       {/* Glow ring on tier 1 */}
       {isTier1 && (
-        <div className="absolute -inset-[2px] rounded-xl bg-[#CC0000]/20 blur-md -z-10 animate-pulse" />
+        <div className="absolute -inset-[2px] rounded-xl bg-[#B91C1C]/20 blur-md -z-10 animate-pulse" />
       )}
     </motion.div>
   );
@@ -90,7 +90,7 @@ export const Skills = ({ skills }: SkillsProps) => {
           <div>
             <motion.span
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="text-[#CC0000] text-[11px] font-black tracking-[0.22em] uppercase block mb-3"
+              className="text-[#B91C1C] text-[11px] font-black tracking-[0.22em] uppercase block mb-3"
             >
               03. 핵심 역량
             </motion.span>
@@ -129,8 +129,8 @@ export const Skills = ({ skills }: SkillsProps) => {
                 className="flex flex-col items-center"
               >
                 {/* ── Branch Root Card ── */}
-                <div className="w-full bg-white rounded-2xl border border-black/5 shadow-sm p-7 text-center group hover:shadow-lg hover:border-[#CC0000]/15 transition-all duration-400 mb-0">
-                  <div className="w-14 h-14 mx-auto rounded-2xl bg-[#CC0000]/8 flex items-center justify-center text-[#CC0000] group-hover:bg-[#CC0000] group-hover:text-white transition-all duration-300 mb-4">
+                <div className="w-full bg-white rounded-2xl border border-black/5 shadow-sm p-7 text-center group hover:shadow-lg hover:border-[#B91C1C]/15 transition-all duration-400 mb-0">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-[#B91C1C]/8 flex items-center justify-center text-[#B91C1C] group-hover:bg-[#B91C1C] group-hover:text-white transition-all duration-300 mb-4">
                     {skill.icon}
                   </div>
                   <h3 className="text-2xl font-black text-[#2C2C2C] tracking-tight mb-1.5">{skill.name}</h3>
@@ -157,12 +157,12 @@ export const Skills = ({ skills }: SkillsProps) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: baseDelay + 0.8 }}
-                  className="w-full bg-white rounded-2xl border border-[#CC0000]/15 shadow-[0_8px_32px_-8px_rgba(0,71,187,0.1)] overflow-hidden flex flex-col group/result hover:border-[#CC0000]/30 hover:shadow-[0_12px_40px_-8px_rgba(0,71,187,0.15)] transition-all duration-400"
+                  className="w-full bg-white rounded-2xl border border-[#B91C1C]/15 shadow-[0_8px_32px_-8px_rgba(0,71,187,0.1)] overflow-hidden flex flex-col group/result hover:border-[#B91C1C]/30 hover:shadow-[0_12px_40px_-8px_rgba(0,71,187,0.15)] transition-all duration-400"
                 >
                   {/* Top: Leaf Capabilities */}
                   {leafCaps.length > 0 && (
-                    <div className="bg-linear-to-b from-[#CC0000]/[0.02] to-transparent px-4 pt-3 pb-4 border-b border-black/5">
-                      <p className="text-[9px] font-black tracking-[0.18em] text-[#CC0000]/50 uppercase text-center mb-2">실무 적용 경험</p>
+                    <div className="bg-linear-to-b from-[#B91C1C]/[0.02] to-transparent px-4 pt-3 pb-4 border-b border-black/5">
+                      <p className="text-[9px] font-black tracking-[0.18em] text-[#B91C1C]/50 uppercase text-center mb-2">실무 적용 경험</p>
                       <div className="flex flex-wrap justify-center gap-1.5">
                         {leafCaps.map((cap, lIdx) => (
                           <span
@@ -179,8 +179,8 @@ export const Skills = ({ skills }: SkillsProps) => {
                   {/* Bottom: Evidence Metrics Dashboard */}
                   <div className="grid grid-cols-3 divide-x divide-black/5 bg-white relative">
                     {skill.evidences.map((ev, eIdx) => (
-                      <div key={eIdx} className="px-1.5 py-4 text-center group/ev hover:bg-[#CC0000]/[0.02] transition-colors flex flex-col justify-center min-h-[76px]">
-                        <span className="text-[#CC0000] font-black text-[16px] xl:text-[18px] font-mono leading-none block mb-1.5 group-hover/ev:scale-105 transition-transform duration-300">
+                      <div key={eIdx} className="px-1.5 py-4 text-center group/ev hover:bg-[#B91C1C]/[0.02] transition-colors flex flex-col justify-center min-h-[76px]">
+                        <span className="text-[#B91C1C] font-black text-[16px] xl:text-[18px] font-mono leading-none block mb-1.5 group-hover/ev:scale-105 transition-transform duration-300">
                           {ev.value}
                         </span>
                         <span className="text-zinc-500 text-[10px] xl:text-[11px] font-bold leading-tight block break-keep">

@@ -35,7 +35,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
           <div>
             <motion.div initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               className="flex items-center gap-2 mb-3">
-              <span className="text-[#CC0000] font-sans text-[11px] font-black tracking-[0.3em] uppercase">02. 프로젝트 이력</span>
+              <span className="text-[#B91C1C] font-sans text-[11px] font-black tracking-[0.3em] uppercase">02. 프로젝트 이력</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="flex flex-col gap-1 items-start mt-2">
@@ -45,12 +45,12 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
           </div>
           <div className="flex flex-col items-start md:items-end gap-3 self-end mb-1">
             <motion.p initial={{ opacity: 0, x: 10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-              className="text-zinc-500 text-xs md:text-sm font-medium md:text-right max-w-[280px] leading-relaxed border-l-2 md:border-l-0 md:border-r-2 border-[#CC0000]/10 pl-4 md:pl-0 md:pr-4">
+              className="text-zinc-500 text-xs md:text-sm font-medium md:text-right max-w-[280px] leading-relaxed border-l-2 md:border-l-0 md:border-r-2 border-[#B91C1C]/10 pl-4 md:pl-0 md:pr-4">
               시스템 기획 및 프로토타입 개발 결과물입니다.
             </motion.p>
             {limit && setView && (
               <button onClick={() => setView('portfolio')}
-                className="group flex items-center gap-2 text-[#CC0000] font-bold text-[10px] uppercase tracking-[0.2em] hover:text-[#1A1A1A] transition-colors bg-[#CC0000]/5 hover:bg-[#CC0000]/10 px-4 py-2.5 rounded-full mt-2">
+                className="group flex items-center gap-2 text-[#B91C1C] font-bold text-[10px] uppercase tracking-[0.2em] hover:text-[#1A1A1A] transition-colors bg-[#B91C1C]/5 hover:bg-[#B91C1C]/10 px-4 py-2.5 rounded-full mt-2">
                 전체 찾아보기 <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </button>
             )}
@@ -100,7 +100,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
                       {project.status && (
                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] uppercase shadow-xl leading-none transition-all duration-500 ${
                           isMaster 
-                            ? 'bg-[#CC0000] text-white border border-white/10' 
+                            ? 'bg-[#B91C1C] text-white border border-white/10' 
                             : 'bg-white/10 backdrop-blur-md text-white border border-white/10'
                         }`}>
                           {project.status}
@@ -139,7 +139,7 @@ export const Projects = ({ onProjectClick, isEditing, projects, setProjects, lim
                         <motion.button 
                           initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }}
                           onClick={(e) => { e.stopPropagation(); onProjectClick(project); }} 
-                          className="pointer-events-auto shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white hover:bg-[#CC0000] text-[#2C2C2C] hover:text-white rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] group border border-white/20 hover:scale-110 active:scale-95">
+                          className="pointer-events-auto shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white hover:bg-[#B91C1C] text-[#2C2C2C] hover:text-white rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] group border border-white/20 hover:scale-110 active:scale-95">
                           <ArrowRight className="w-6 h-6 md:w-8 md:h-8 group-hover:translate-x-1 transition-transform" />
                         </motion.button>
                       ) : (

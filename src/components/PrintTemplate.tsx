@@ -21,7 +21,7 @@ function InlineMd({ text }: { text: string }) {
     <>
       {parts.map((p, i) =>
         p.startsWith('**') && p.endsWith('**')
-          ? <strong key={i} style={{ color: '#CC0000' }}>{p.slice(2, -2)}</strong>
+          ? <strong key={i} style={{ color: '#B91C1C' }}>{p.slice(2, -2)}</strong>
           : p
       )}
     </>
@@ -71,7 +71,7 @@ const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
         {/* 이름/연락처 */}
         <div style={{ width: '150px', flexShrink: 0 }}>
           <h1 style={{ fontSize: '24px', fontWeight: 900, color: '#1A1A1A', margin: '0 0 2px', letterSpacing: '-0.5px' }}>{data.name}</h1>
-          <p style={{ fontSize: '9px', fontWeight: 700, color: '#CC0000', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 8px' }}>{data.role}</p>
+          <p style={{ fontSize: '9px', fontWeight: 700, color: '#B91C1C', letterSpacing: '2px', textTransform: 'uppercase', margin: '0 0 8px' }}>{data.role}</p>
           <div style={{ fontSize: '10px', color: '#71717A', display: 'flex', flexDirection: 'column', gap: '2px' }}>
             <span>✉ {data.email}</span>
             {data.birthDate && <span>🗓 {data.birthDate}</span>}
@@ -103,7 +103,7 @@ const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
           {/* 학력 */}
           <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '14px 16px', flex: 1 }}>
             <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#1A1A1A', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: '#CC0000' }}>◎</span> 학력 및 교육
+              <span style={{ color: '#B91C1C' }}>◎</span> 학력 및 교육
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {data.education.map((edu, i) => (
@@ -126,7 +126,7 @@ const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
           {data.certificates && (
             <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '14px 16px' }}>
               <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#1A1A1A', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ color: '#CC0000' }}>◎</span> 자격증
+                <span style={{ color: '#B91C1C' }}>◎</span> 자격증
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {data.certificates.map((cert, i) => (
@@ -134,7 +134,7 @@ const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
                     <span style={{ fontWeight: 700, fontSize: '10.5px', color: '#1A1A1A' }}>{cert.name}</span>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontSize: '8px', color: '#A1A1AA' }}>취득 연도</div>
-                      <div style={{ fontFamily: 'monospace', fontSize: '9.5px', fontWeight: 700, color: '#CC0000' }}>{cert.date}</div>
+                      <div style={{ fontFamily: 'monospace', fontSize: '9.5px', fontWeight: 700, color: '#B91C1C' }}>{cert.date}</div>
                     </div>
                   </div>
                 ))}
@@ -146,17 +146,17 @@ const ResumePrintPage: React.FC<{ data: ResumeData }> = ({ data }) => (
         {/* 우: 프로젝트 경험 */}
         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '14px 16px' }}>
           <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#1A1A1A', margin: '0 0 14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ color: '#CC0000' }}>◎</span> 프로젝트 경험
+            <span style={{ color: '#B91C1C' }}>◎</span> 프로젝트 경험
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {data.experience.map((exp, i) => (
               <div key={i} style={{ paddingLeft: '16px', borderLeft: '2px solid rgba(0,71,187,0.2)', position: 'relative' }}>
-                <div style={{ position: 'absolute', left: '-6px', top: '4px', width: '11px', height: '11px', borderRadius: '50%', background: '#CC0000', border: '2px solid white' }} />
+                <div style={{ position: 'absolute', left: '-6px', top: '4px', width: '11px', height: '11px', borderRadius: '50%', background: '#B91C1C', border: '2px solid white' }} />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '5px' }}>
                   <h4 style={{ fontWeight: 800, fontSize: '12px', color: '#1A1A1A', margin: 0, lineHeight: 1.3 }}>{exp.title}</h4>
                   <span style={{ fontFamily: 'monospace', fontSize: '8.5px', color: '#A1A1AA', background: '#F4F4F5', padding: '2px 6px', borderRadius: '20px', flexShrink: 0, marginLeft: '8px' }}>{exp.period}</span>
                 </div>
-                <div style={{ fontSize: '9.5px', fontWeight: 600, color: '#CC0000', padding: '3px 8px', background: 'rgba(0,71,187,0.06)', border: '1px solid rgba(0,71,187,0.15)', borderRadius: '5px', display: 'inline-block', marginBottom: '6px' }}>
+                <div style={{ fontSize: '9.5px', fontWeight: 600, color: '#B91C1C', padding: '3px 8px', background: 'rgba(0,71,187,0.06)', border: '1px solid rgba(0,71,187,0.15)', borderRadius: '5px', display: 'inline-block', marginBottom: '6px' }}>
                   {exp.description}
                 </div>
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
@@ -188,19 +188,19 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
 
         {/* ── 헤더: 페이지 번호 + 로그라인 ── */}
         <div style={{ background: '#fff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.07)', padding: '24px 30px', display: 'flex', gap: '20px', alignItems: 'flex-start', flexShrink: 0 }}>
-          <div style={{ padding: '8px 4px', width: '40px', borderRadius: '10px', border: '2px solid rgba(0,71,187,0.2)', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '18px', color: '#CC0000', flexShrink: 0 }}>
+          <div style={{ padding: '8px 4px', width: '40px', borderRadius: '10px', border: '2px solid rgba(0,71,187,0.2)', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'monospace', fontWeight: 900, fontSize: '18px', color: '#B91C1C', flexShrink: 0 }}>
             <span style={{ lineHeight: 1 }}>0</span>
             <span style={{ lineHeight: 1 }}>{idx + 1}</span>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '10px', fontWeight: 700, color: '#CC0000', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+            <div style={{ fontSize: '10px', fontWeight: 700, color: '#B91C1C', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
               {intro.navTitle || 'SELF INTRODUCTION'}
             </div>
             <div>
               {intro.logline.trim().split(/\s*\n\s*/).map((line, i) => {
                 const isBold = line.startsWith('**') && line.endsWith('**');
                 return (
-                  <div key={i} style={{ fontSize: '32px', fontWeight: 900, lineHeight: 1.25, color: isBold ? '#CC0000' : '#1A1A1A', letterSpacing: '-0.6px', wordBreak: 'keep-all' }}>
+                  <div key={i} style={{ fontSize: '32px', fontWeight: 900, lineHeight: 1.25, color: isBold ? '#B91C1C' : '#1A1A1A', letterSpacing: '-0.6px', wordBreak: 'keep-all' }}>
                     {isBold ? line.slice(2, -2) : line}
                   </div>
                 );
@@ -220,7 +220,7 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {intro.highlights.map((hl, j) => (
                     <div key={j} style={{ background: '#F8F9FF', border: '1px solid rgba(0,71,187,0.15)', borderRadius: '10px', padding: '12px 16px' }}>
-                      <div style={{ fontWeight: 800, fontSize: '12px', color: '#CC0000', marginBottom: '4px' }}>{hl.bold}</div>
+                      <div style={{ fontWeight: 800, fontSize: '12px', color: '#B91C1C', marginBottom: '4px' }}>{hl.bold}</div>
                       <div style={{ fontSize: '11px', color: '#71717A', lineHeight: 1.5, wordBreak: 'keep-all' }}>{hl.em}</div>
                     </div>
                   ))}
@@ -231,8 +231,8 @@ const CoverPrintPage: React.FC<{ intro: IntroItem; idx: number; data: ResumeData
             {intro.pullQuote && (
               <div>
                 <div style={{ fontSize: '10px', fontWeight: 700, color: '#A1A1AA', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '14px' }}>CORE PHILOSOPHY</div>
-                <div style={{ borderLeft: '4px solid #CC0000', paddingLeft: '24px' }}>
-                  <span style={{ fontWeight: 700, fontSize: '17px', color: '#CC0000', lineHeight: 1.6 }}>{intro.pullQuote}</span>
+                <div style={{ borderLeft: '4px solid #B91C1C', paddingLeft: '24px' }}>
+                  <span style={{ fontWeight: 700, fontSize: '17px', color: '#B91C1C', lineHeight: 1.6 }}>{intro.pullQuote}</span>
                 </div>
               </div>
             )}

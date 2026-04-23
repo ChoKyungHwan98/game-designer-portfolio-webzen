@@ -146,7 +146,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                   initial={{ strokeDasharray: "0, 2000" }}
                   animate={{ strokeDasharray: "2000, 0" }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                  points={polygonPoints} fill="rgba(204, 0, 0, 0.15)" stroke="#CC0000" strokeWidth="2.5"
+                  points={polygonPoints} fill="rgba(185, 28, 28, 0.15)" stroke="#B91C1C" strokeWidth="2.5"
                 />
 
                 {CHART_DATA.map((d, i) => {
@@ -157,8 +157,8 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                       <circle
                         cx={px} cy={py}
                         r={isHovered ? "6" : "4"}
-                        fill={isHovered ? "white" : "#CC0000"}
-                        stroke="#CC0000"
+                        fill={isHovered ? "white" : "#B91C1C"}
+                        stroke="#B91C1C"
                         strokeWidth={isHovered ? "2" : "0"}
                         className="transition-all cursor-pointer"
                         onMouseEnter={() => setHoveredPoint(i)}
@@ -173,7 +173,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                   const isActive = activeGenre === d.label;
                   return (
                     <g key={i} onClick={() => setActiveGenre(isActive ? null : d.label)} className="cursor-pointer group" transform={`translate(${lx}, ${ly})`}>
-                      <text x="0" y="0" textAnchor="middle" alignmentBaseline="middle" className={`font-bold transition-all text-[13px] tracking-tight ${isActive ? 'fill-[#CC0000] text-[15px]' : 'fill-zinc-400 group-hover:fill-zinc-700'}`}>{d.label}</text>
+                      <text x="0" y="0" textAnchor="middle" alignmentBaseline="middle" className={`font-bold transition-all text-[13px] tracking-tight ${isActive ? 'fill-[#B91C1C] text-[15px]' : 'fill-zinc-400 group-hover:fill-zinc-700'}`}>{d.label}</text>
                     </g>
                   );
                 })}
@@ -201,14 +201,14 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
             <div className="bg-white border border-black/5 rounded-4xl p-10 md:p-12 shadow-sm flex-1 flex flex-col justify-center">
               <h3 className="font-bold text-xl text-zinc-500 tracking-tight mb-10">플레이 요약 통계</h3>
               <ul className="space-y-8">
-                <li className="flex items-center justify-between border-b border-black/5 pb-5"><span className="font-bold text-lg text-[#2C2C2C]">총 플레이</span><span className="font-black text-[#CC0000] text-2xl md:text-3xl">{ALL_GAMES.length}종 이상</span></li>
+                <li className="flex items-center justify-between border-b border-black/5 pb-5"><span className="font-bold text-lg text-[#2C2C2C]">총 플레이</span><span className="font-black text-[#B91C1C] text-2xl md:text-3xl">{ALL_GAMES.length}종 이상</span></li>
                 <li className="flex items-center justify-between border-b border-black/5 pb-5"><span className="font-bold text-lg text-[#2C2C2C]">주력 플랫폼</span><span className="font-bold text-zinc-600 text-xl">PC / 콘솔</span></li>
                 <li className="flex items-center justify-between border-b border-black/5 pb-5"><span className="font-bold text-lg text-[#2C2C2C]">최장 플레이</span><span className="font-bold text-zinc-600 text-xl">메이플스토리 (15년)</span></li>
-                <li className="flex items-center justify-between"><span className="font-bold text-lg text-[#2C2C2C]">전문 분야</span><span className="font-bold text-[#CC0000] text-xl bg-[#CC0000]/10 px-4 py-1.5 rounded-md">RPG / 리듬</span></li>
+                <li className="flex items-center justify-between"><span className="font-bold text-lg text-[#2C2C2C]">전문 분야</span><span className="font-bold text-[#B91C1C] text-xl bg-[#B91C1C]/10 px-4 py-1.5 rounded-md">RPG / 리듬</span></li>
               </ul>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              <div className="bg-[#CC0000] text-white border border-[#CC0000] rounded-3xl p-8 md:p-10 shadow-sm"><span className="block font-bold text-red-200 text-lg mb-3">PC/콘솔</span><span className="text-4xl md:text-5xl font-black">{pcConsoleGames.length}종</span></div>
+              <div className="bg-[#B91C1C] text-white border border-[#B91C1C] rounded-3xl p-8 md:p-10 shadow-sm"><span className="block font-bold text-red-200 text-lg mb-3">PC/콘솔</span><span className="text-4xl md:text-5xl font-black">{pcConsoleGames.length}종</span></div>
               <div className="bg-white border border-black/5 rounded-3xl p-8 md:p-10 shadow-sm"><span className="block font-bold text-zinc-400 text-lg mb-3">모바일</span><span className="text-4xl md:text-5xl font-black text-[#2C2C2C]">{mobileGames.length}종</span></div>
             </div>
           </div>
@@ -217,7 +217,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
         {/* Grid Section */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-black/10 gap-4">
           <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
-            게임 상세 플레이 이력 {activeGenre && <span className="text-[#CC0000] before:content-['|'] before:text-zinc-300 before:mr-3 before:font-light">{activeGenre} 검색 결과</span>}
+            게임 상세 플레이 이력 {activeGenre && <span className="text-[#B91C1C] before:content-['|'] before:text-zinc-300 before:mr-3 before:font-light">{activeGenre} 검색 결과</span>}
           </h2>
           {activeGenre && (
             <button onClick={() => setActiveGenre(null)} className="text-sm font-bold text-zinc-400 hover:text-red-500 flex items-center gap-1 transition-colors"><Filter className="w-4 h-4" /> 필터 해제</button>
@@ -225,9 +225,9 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 mb-8">
-          <button onClick={() => setActiveGenre(null)} className={`px-4 py-2 rounded-full text-[13px] font-bold transition-all ${!activeGenre ? 'bg-[#CC0000] text-white shadow-md' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'}`}>전체</button>
+          <button onClick={() => setActiveGenre(null)} className={`px-4 py-2 rounded-full text-[13px] font-bold transition-all ${!activeGenre ? 'bg-[#B91C1C] text-white shadow-md' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'}`}>전체</button>
           {Object.keys(GENRE_MAP).map(genre => (
-            <button key={genre} onClick={() => setActiveGenre(genre)} className={`px-4 py-2 rounded-full text-[13px] font-bold transition-all ${activeGenre === genre ? 'bg-[#CC0000] text-white shadow-md' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'}`}>{genre}</button>
+            <button key={genre} onClick={() => setActiveGenre(genre)} className={`px-4 py-2 rounded-full text-[13px] font-bold transition-all ${activeGenre === genre ? 'bg-[#B91C1C] text-white shadow-md' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200'}`}>{genre}</button>
           ))}
         </div>
 
@@ -274,7 +274,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
           <div className="mt-12 text-center">
             <button
               onClick={() => setDisplayLimit(prev => prev + 32)}
-              className="px-10 py-4 bg-[#CC0000] text-white font-black text-sm tracking-[0.2em] rounded-full hover:bg-[#AA0000] transition-all shadow-xl shadow-[#CC0000]/20 active:scale-95"
+              className="px-10 py-4 bg-[#B91C1C] text-white font-black text-sm tracking-[0.2em] rounded-full hover:bg-[#991B1B] transition-all shadow-xl shadow-[#B91C1C]/20 active:scale-95"
             >
               LOAD MORE RECORDS ({filteredGames.length - displayLimit} REMAINING)
             </button>

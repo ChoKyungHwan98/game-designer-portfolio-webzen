@@ -65,8 +65,8 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
             <svg width={SVG} height={SVG} className="overflow-visible block mx-auto">
               {bgLvls.map((p, i) => <polygon key={i} points={p} fill="none" stroke="#E5E7EB" strokeWidth="1" />)}
               {CHART_DATA.map((d, i) => { const p = pt(100, d.angle); return <line key={i} x1={C} y1={C} x2={p.x} y2={p.y} stroke="#E5E7EB" strokeWidth="1" />; })}
-              <polygon points={polyPts} fill="rgba(204,0,0,0.15)" stroke="#CC0000" strokeWidth="2.5" />
-              {CHART_DATA.map((d, i) => { const p = pt(d.score, d.angle); return <circle key={i} cx={p.x} cy={p.y} r="4" fill="#CC0000" />; })}
+              <polygon points={polyPts} fill="rgba(185,28,28,0.15)" stroke="#B91C1C" strokeWidth="2.5" />
+              {CHART_DATA.map((d, i) => { const p = pt(d.score, d.angle); return <circle key={i} cx={p.x} cy={p.y} r="4" fill="#B91C1C" />; })}
               {CHART_DATA.map((d, i) => { const lp = pt(115, d.angle); return <text key={i} x={lp.x} y={lp.y} textAnchor="middle" dominantBaseline="middle" className="text-[13px] font-bold tracking-tight fill-zinc-400">{d.label}</text>; })}
             </svg>
           </div>
@@ -83,15 +83,15 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                   <li key={label} className={`flex items-center justify-between ${label !== '전문 분야' ? 'border-b border-black/5 pb-5' : ''}`}>
                     <span className="font-bold text-lg text-[#2C2C2C]">{label}</span>
                     {chip
-                      ? <span className="font-bold text-[#CC0000] text-xl bg-[#CC0000]/10 px-4 py-1.5 rounded-md">{val}</span>
-                      : <span className={`font-bold text-xl ${red ? 'text-[#CC0000] text-2xl md:text-3xl font-black' : 'text-zinc-600'}`}>{val}</span>
+                      ? <span className="font-bold text-[#B91C1C] text-xl bg-[#B91C1C]/10 px-4 py-1.5 rounded-md">{val}</span>
+                      : <span className={`font-bold text-xl ${red ? 'text-[#B91C1C] text-2xl md:text-3xl font-black' : 'text-zinc-600'}`}>{val}</span>
                     }
                   </li>
                 ))}
               </ul>
             </div>
             <div className="grid grid-cols-2 gap-6">
-              <div className="bg-[#CC0000] text-white border border-[#CC0000] rounded-3xl p-8 md:p-10 shadow-sm">
+              <div className="bg-[#B91C1C] text-white border border-[#B91C1C] rounded-3xl p-8 md:p-10 shadow-sm">
                 <span className="block font-bold text-red-200 text-lg mb-3">PC/콘솔</span>
                 <span className="text-4xl md:text-5xl font-black">{pcCount}종</span>
               </div>
@@ -108,7 +108,7 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 mb-8 opacity-60 pointer-events-none">
-          <button className="px-4 py-2 rounded-full text-[13px] font-bold transition-all bg-[#CC0000] text-white shadow-md">전체</button>
+          <button className="px-4 py-2 rounded-full text-[13px] font-bold transition-all bg-[#B91C1C] text-white shadow-md">전체</button>
           {['RPG', '어드벤처', '퍼즐', '액션', '전략', '시뮬레이션', '슈팅', '리듬'].map(genre => (
             <button key={genre} className="px-4 py-2 rounded-full text-[13px] font-bold transition-all bg-zinc-100 text-zinc-500">{genre}</button>
           ))}

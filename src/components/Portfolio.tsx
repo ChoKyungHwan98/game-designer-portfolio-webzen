@@ -74,7 +74,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                   onClick={() => setActiveCategory(category)}
                   className={`relative px-6 py-3 rounded-2xl transition-all duration-300 group flex items-center gap-3 overflow-hidden shadow-sm ${
                     isActive 
-                      ? 'bg-[#CC0000] text-white shadow-[#CC0000]/30' 
+                      ? 'bg-[#B91C1C] text-white shadow-[#B91C1C]/30' 
                       : 'bg-white text-zinc-600 hover:bg-zinc-50 border border-black/5'
                   }`}
                 >
@@ -104,7 +104,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden border-2 border-zinc-100 cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#CC0000]/30 hover:shadow-[0_32px_64px_-16px_rgba(0,71,187,0.15)] transition-all duration-500"
+                className="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden border-2 border-zinc-100 cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-[#B91C1C]/30 hover:shadow-[0_32px_64px_-16px_rgba(0,71,187,0.15)] transition-all duration-500"
               >
                 {/* Card Image Container - Ensure it doesn't collapse */}
                 <div className="relative aspect-16/10 w-full overflow-hidden bg-zinc-50 border-b border-zinc-100 shrink-0">
@@ -120,14 +120,14 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                 {/* Card Content Container - Strictly below the image */}
                 <div className="p-8 flex-1 flex flex-col bg-white relative z-10">
                   <div className="flex items-start justify-between gap-4 mb-4">
-                    <h4 className="text-2xl font-display font-black tracking-tight text-zinc-900 group-hover:text-[#CC0000] transition-colors leading-tight">
+                    <h4 className="text-2xl font-display font-black tracking-tight text-zinc-900 group-hover:text-[#B91C1C] transition-colors leading-tight">
                       {project.title}
                     </h4>
                     {project.status && (
                        <span className={`text-[11px] font-black px-4 py-2 rounded-xl border-2 shadow-lg leading-tight text-center min-w-[80px] shrink-0 ${
                          project.status === '미출시' 
                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200 shadow-none' 
-                           : 'bg-[#CC0000] text-white border-white/20 shadow-[#CC0000]/20'
+                           : 'bg-[#B91C1C] text-white border-white/20 shadow-[#B91C1C]/20'
                        }`}>
                          {project.status}
                        </span>

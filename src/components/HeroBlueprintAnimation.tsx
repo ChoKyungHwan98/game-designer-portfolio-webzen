@@ -63,7 +63,7 @@ export const HeroBlueprintAnimation = () => {
       <motion.div 
         animate={{ y: ["-10%", "110%"] }}
         transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        className="absolute left-0 right-0 h-1 bg-linear-to-b from-transparent via-[#CC0000]/10 to-transparent w-full z-0"
+        className="absolute left-0 right-0 h-1 bg-linear-to-b from-transparent via-[#B91C1C]/10 to-transparent w-full z-0"
       />
 
       <motion.div 
@@ -95,7 +95,7 @@ export const HeroBlueprintAnimation = () => {
                 key={`path-${i}`}
                 d={pathData}
                 fill="none"
-                stroke="#CC0000"
+                stroke="#B91C1C"
                 strokeWidth="1.5"
                 variants={lineVariants}
               />
@@ -106,8 +106,8 @@ export const HeroBlueprintAnimation = () => {
           {startPoints.map((pt, i) => (
             <motion.g key={`start-${i}`} variants={nodeVariants}>
               <rect x="290" y={pt.y - 14} width="140" height="28" rx="6" fill="#FDFDFB" stroke="rgba(0,71,187,0.2)" strokeWidth="1" />
-              <text x="305" y={pt.y + 4} fill="#CC0000" fontSize="12" fontWeight="bold" letterSpacing="1" fontFamily="monospace">{pt.label}</text>
-              <circle cx="450" cy={pt.y} r="4" fill="#CC0000" />
+              <text x="305" y={pt.y + 4} fill="#B91C1C" fontSize="12" fontWeight="bold" letterSpacing="1" fontFamily="monospace">{pt.label}</text>
+              <circle cx="450" cy={pt.y} r="4" fill="#B91C1C" />
               <circle cx="450" cy={pt.y} r="10" fill="rgba(0,71,187,0.15)" />
             </motion.g>
           ))}
@@ -115,7 +115,7 @@ export const HeroBlueprintAnimation = () => {
           {/* End Nodes */}
           {endNodes.map((node, i) => (
             <motion.g key={`node-${i}`} variants={nodeVariants}>
-              <circle cx={node.x} cy={node.y} r="4" fill="#CC0000" />
+              <circle cx={node.x} cy={node.y} r="4" fill="#B91C1C" />
               <circle cx={node.x} cy={node.y} r="12" fill="none" stroke="rgba(0,71,187,0.1)" strokeWidth="1" />
               <text x={node.x + 16} y={node.y + 4} fill="#2C2C2C" fontSize="11" letterSpacing="1" fontFamily="monospace" fontWeight="bold">{node.label}</text>
             </motion.g>
@@ -125,7 +125,7 @@ export const HeroBlueprintAnimation = () => {
           {endNodes.map((node, i) => (
             <motion.circle
               key={`pulse-${i}`}
-              cx={node.x} cy={node.y} r="4" fill="none" stroke="#CC0000" strokeWidth="1"
+              cx={node.x} cy={node.y} r="4" fill="none" stroke="#B91C1C" strokeWidth="1"
               animate={{ r: [4, 20, 4], opacity: [0.6, 0, 0.6] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
             />
