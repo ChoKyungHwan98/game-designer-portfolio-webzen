@@ -13,7 +13,7 @@ export const Contact = () => (
       <div className="absolute inset-0 pointer-events-none opacity-[0.10] object-cover bg-repeat bg-size-[100px_100px]" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
       
       <div className="text-center relative z-10 w-full px-6 max-w-4xl mx-auto flex flex-col items-center">
-        <span className="text-[#0047BB] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. 문의하기</span>
+        <span className="text-[#CC0000] font-mono text-xs uppercase tracking-[0.4em] font-bold mb-8 block">05. 문의하기</span>
         <h2 className="flex flex-col items-center justify-center mb-16">
           <span className="text-xl md:text-2xl text-zinc-400 font-display font-medium tracking-[0.3em] mb-4">저는</span>
           <span className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[9rem] font-display font-black tracking-tighter text-[#2C2C2C] leading-none drop-shadow-sm">준비되었습니다</span>
@@ -23,7 +23,7 @@ export const Contact = () => (
         </p>
         
         <a href="mailto:ckh980624@gmail.com" 
-          className="group/btn inline-flex items-center justify-center gap-4 px-12 py-6 bg-white border border-black/10 text-[#2C2C2C] font-bold hover:bg-[#0047BB] hover:text-white hover:border-[#0047BB] transition-all duration-500 rounded-full tracking-widest text-lg md:text-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(128,0,32,0.2)] hover:-translate-y-1">
+          className="group/btn inline-flex items-center justify-center gap-4 px-12 py-6 bg-white border border-black/10 text-[#2C2C2C] font-bold hover:bg-[#CC0000] hover:text-white hover:border-[#CC0000] transition-all duration-500 rounded-full tracking-widest text-lg md:text-xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(128,0,32,0.2)] hover:-translate-y-1">
           <Mail className="w-6 h-6 md:w-7 md:h-7 group-hover/btn:scale-110 transition-transform" /> ckh980624@gmail.com
         </a>
       </div>

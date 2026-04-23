@@ -128,7 +128,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
   return (
     <>
       {/* ── 1. 시네마틱 스플래시 스크린 (진입 시 몰입감 극대화) ── */}
-      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0047BB] text-white transition-all duration-700 ease-in-out ${introPhase === 'splash' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#CC0000] text-white transition-all duration-700 ease-in-out ${introPhase === 'splash' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay"></div>
         <div className="overflow-hidden relative z-10">
           <h1 className={`text-6xl md:text-8xl font-black tracking-tighter transform transition-transform duration-1000 delay-100 ${introPhase === 'splash' ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
@@ -148,9 +148,9 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
           <div className={`flex flex-col justify-center mb-16 transform transition-all duration-1000 ease-out ${introPhase === 'done' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}`}>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-white border border-black/5 rounded-4xl p-8 shadow-sm hover:shadow-md transition-shadow duration-500 flex flex-col items-center justify-center min-h-[480px] relative overflow-hidden">
-              <div className="absolute inset-0 bg-linear-to-br from-[#0047BB]/[0.02] to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-br from-[#CC0000]/[0.02] to-transparent pointer-events-none" />
               <h3 className="font-bold text-lg text-zinc-500 tracking-tight self-start mb-6 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0047BB]"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#CC0000]"></span>
                 장르별 숙련도 차트
               </h3>
               <div className="relative" style={{ width: svgSize, height: svgSize }}>
@@ -163,54 +163,54 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                   ))}
                   {/* 정적 폴리곤 (애니메이션 제거됨) */}
                   <polygon 
-                    points={polygonPoints} fill="rgba(0, 71, 187, 0.15)" stroke="#0047BB" strokeWidth="2.5" 
+                    points={polygonPoints} fill="rgba(0, 71, 187, 0.15)" stroke="#CC0000" strokeWidth="2.5" 
                   />
                   {CHART_DATA.map((d, i) => {
                     const [px, py] = getPt(d.score, d.angle, svgSize).split(',');
-                    return <circle key={i} cx={px} cy={py} r="4" fill="#0047BB" />;
+                    return <circle key={i} cx={px} cy={py} r="4" fill="#CC0000" />;
                   })}
                   {CHART_DATA.map((d, i) => {
                     const [lx, ly] = getPt(115, d.angle, svgSize).split(',');
                     const isActive = activeGenre === d.label;
                     return (
                       <g key={i} onClick={() => setActiveGenre(isActive ? null : d.label)} className="cursor-pointer group" transform={`translate(${lx}, ${ly})`}>
-                        <text x="0" y="0" textAnchor="middle" alignmentBaseline="middle" className={`font-bold transition-all text-[13px] tracking-tight ${isActive ? 'fill-[#0047BB] text-[15px]' : 'fill-zinc-400 group-hover:fill-zinc-700'}`}>{d.label}</text>
+                        <text x="0" y="0" textAnchor="middle" alignmentBaseline="middle" className={`font-bold transition-all text-[13px] tracking-tight ${isActive ? 'fill-[#CC0000] text-[15px]' : 'fill-zinc-400 group-hover:fill-zinc-700'}`}>{d.label}</text>
                       </g>
                     );
                   })}
                 </svg>
               </div>
               <div className="flex flex-wrap justify-center gap-2 mt-6 w-full">
-                <button onClick={() => setActiveGenre(null)} className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 ${!activeGenre ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}>전체</button>
+                <button onClick={() => setActiveGenre(null)} className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 ${!activeGenre ? 'bg-[#CC0000] text-white shadow-md shadow-[#CC0000]/20 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}>전체</button>
                 {Object.keys(GENRE_MAP).map(genre => (
-                  <button key={genre} onClick={() => setActiveGenre(genre)} className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 ${activeGenre === genre ? 'bg-[#0047BB] text-white shadow-md shadow-[#0047BB]/20 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}>{genre}</button>
+                  <button key={genre} onClick={() => setActiveGenre(genre)} className={`px-4 py-2 rounded-full text-[12px] font-bold transition-all duration-300 ${activeGenre === genre ? 'bg-[#CC0000] text-white shadow-md shadow-[#CC0000]/20 scale-105' : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 hover:text-zinc-700'}`}>{genre}</button>
                 ))}
               </div>
             </div>
 
             <div className="flex flex-col gap-4">
               <div className="bg-white border border-black/5 rounded-4xl p-8 shadow-sm hover:shadow-md transition-shadow duration-500 flex-1 flex flex-col justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-bl from-[#0047BB]/[0.02] to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-bl from-[#CC0000]/[0.02] to-transparent pointer-events-none" />
                 <h3 className="font-bold text-lg text-zinc-500 tracking-tight mb-8 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0047BB]"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#CC0000]"></span>
                   플레이 요약 통계
                 </h3>
                 <ul className="space-y-6">
-                  <li className="flex items-center justify-between border-b border-black/5 pb-4"><span className="font-bold text-[#2C2C2C]">총 플레이</span><span className="font-black text-[#0047BB] text-xl">{ALL_GAMES.length}종 이상</span></li>
+                  <li className="flex items-center justify-between border-b border-black/5 pb-4"><span className="font-bold text-[#2C2C2C]">총 플레이</span><span className="font-black text-[#CC0000] text-xl">{ALL_GAMES.length}종 이상</span></li>
                   <li className="flex items-center justify-between border-b border-black/5 pb-4"><span className="font-bold text-[#2C2C2C]">주력 플랫폼</span><span className="font-bold text-zinc-600 text-lg">PC / 콘솔</span></li>
                   <li className="flex items-center justify-between border-b border-black/5 pb-4"><span className="font-bold text-[#2C2C2C]">최장 플레이</span><span className="font-bold text-zinc-600 text-lg">메이플스토리 (15년)</span></li>
-                  <li className="flex items-center justify-between"><span className="font-bold text-[#2C2C2C]">전문 분야</span><span className="font-bold text-[#0047BB] text-lg bg-[#0047BB]/10 px-3 py-1 rounded-md">RPG / 리듬</span></li>
+                  <li className="flex items-center justify-between"><span className="font-bold text-[#2C2C2C]">전문 분야</span><span className="font-bold text-[#CC0000] text-lg bg-[#CC0000]/10 px-3 py-1 rounded-md">RPG / 리듬</span></li>
                 </ul>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gradient-to-br from-[#0047BB] to-[#003388] text-white border border-[#0047BB] rounded-2xl p-6 shadow-md shadow-[#0047BB]/20 relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-[#CC0000] to-[#003388] text-white border border-[#CC0000] rounded-2xl p-6 shadow-md shadow-[#CC0000]/20 relative overflow-hidden group">
                   <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
                   <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <span className="block font-bold text-blue-200 mb-2 relative z-10">PC/콘솔</span>
                   <span className="text-3xl font-black relative z-10">{pcConsoleGames.length}종</span>
                 </div>
                 <div className="bg-white border border-black/5 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden group">
-                  <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#0047BB]/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                  <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#CC0000]/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <span className="block font-bold text-zinc-400 mb-2 relative z-10">모바일</span>
                   <span className="text-3xl font-black text-[#2C2C2C] relative z-10">{mobileGames.length}종</span>
                 </div>

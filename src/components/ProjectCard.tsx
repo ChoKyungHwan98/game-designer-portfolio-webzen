@@ -39,7 +39,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
               <EditableText value={project.roles ? project.roles.join(', ') : ''} onSave={(v) => { const p = [...projects]; p[idx].roles = v.split(',').map(s=>s.trim()); setProjects(p); }} isEditing={isEditing} />
             </div>
             {project.status && (
-              <div className={`px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight rounded-md w-fit border backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-800/80 text-zinc-300 border-zinc-600' : 'bg-[#0047BB] text-white border-[#0047BB] shadow-lg shadow-[#0047BB]/30'}`}>
+              <div className={`px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight rounded-md w-fit border backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-800/80 text-zinc-300 border-zinc-600' : 'bg-[#CC0000] text-white border-[#CC0000] shadow-lg shadow-[#CC0000]/30'}`}>
                 <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
               </div>
             )}
@@ -54,7 +54,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
                 <EditableText value={project.description} onSave={(v) => { const p = [...projects]; p[idx].description = v; setProjects(p); }} isEditing={isEditing} multiline />
               </p>
               <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }}
-                className="px-6 py-3 bg-white text-[#2C2C2C] font-bold text-xs tracking-widest hover:bg-[#0047BB] hover:text-white transition-colors flex items-center gap-2 rounded-full uppercase w-fit">
+                className="px-6 py-3 bg-white text-[#2C2C2C] font-bold text-xs tracking-widest hover:bg-[#CC0000] hover:text-white transition-colors flex items-center gap-2 rounded-full uppercase w-fit">
                 기획서 보기 <ArrowRight className="w-4 h-4" />
               </button>
             </motion.div>
@@ -79,7 +79,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
             <EditableText value={project.roles ? project.roles.join(', ') : ''} onSave={(v) => { const p = [...projects]; p[idx].roles = v.split(',').map(s=>s.trim()); setProjects(p); }} isEditing={isEditing} />
           </div>
           {project.status && (
-            <div className={`border rounded-md px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight shadow-sm w-fit backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-100/90 text-zinc-500 border-zinc-200' : 'bg-[#0047BB] text-white border-[#0047BB] shadow-md shadow-[#0047BB]/20'}`}>
+            <div className={`border rounded-md px-3 py-1.5 text-[11px] font-sans font-bold tracking-tight shadow-sm w-fit backdrop-blur-sm ${project.status === '미출시' ? 'bg-zinc-100/90 text-zinc-500 border-zinc-200' : 'bg-[#CC0000] text-white border-[#CC0000] shadow-md shadow-[#CC0000]/20'}`}>
               <EditableText value={project.status} onSave={(v) => { const p = [...projects]; p[idx].status = v; setProjects(p); }} isEditing={isEditing} />
             </div>
           )}
@@ -87,7 +87,7 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
       </div>
       <div className="flex-1 flex flex-col justify-between p-8">
         <div>
-          <h3 className="text-xl font-bold mb-3 text-[#2C2C2C] group-hover:text-[#0047BB] transition-colors line-clamp-1">
+          <h3 className="text-xl font-bold mb-3 text-[#2C2C2C] group-hover:text-[#CC0000] transition-colors line-clamp-1">
             <EditableText value={project.title} onSave={(v) => { const p = [...projects]; p[idx].title = v; setProjects(p); }} isEditing={isEditing} />
           </h3>
           <p className="text-zinc-500 text-sm leading-relaxed mb-6 line-clamp-2">
@@ -102,9 +102,9 @@ export const ProjectCard = ({ project, idx, isEditing, projects, setProjects, on
           </div>
         </div>
         <button onClick={(e) => { e.stopPropagation(); onProjectClick(project); }}
-          className="w-full relative overflow-hidden group/btn py-4 bg-white border border-black/10 text-[#2C2C2C] font-bold text-xs tracking-widest transition-all duration-500 flex items-center justify-center gap-2 uppercase rounded-xl hover:shadow-[0_4px_16px_rgba(128,0,32,0.15)] hover:border-[#0047BB]">
+          className="w-full relative overflow-hidden group/btn py-4 bg-white border border-black/10 text-[#2C2C2C] font-bold text-xs tracking-widest transition-all duration-500 flex items-center justify-center gap-2 uppercase rounded-xl hover:shadow-[0_4px_16px_rgba(128,0,32,0.15)] hover:border-[#CC0000]">
           <span className="relative z-10 flex items-center gap-2 transition-colors duration-500 group-hover/btn:text-white">기획서 보기 <ArrowRight className="w-4 h-4" /></span>
-          <div className="absolute inset-0 bg-[#0047BB] scale-x-0 origin-left group-hover/btn:scale-x-100 transition-transform duration-500" />
+          <div className="absolute inset-0 bg-[#CC0000] scale-x-0 origin-left group-hover/btn:scale-x-100 transition-transform duration-500" />
         </button>
       </div>
     </motion.div>

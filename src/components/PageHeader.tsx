@@ -26,7 +26,7 @@ export const PageHeader = ({ onBack, label, centerSlot, rightSlot }: PageHeaderP
       <div className="flex items-center gap-3 w-[220px] shrink-0">
         <button
           onClick={onBack}
-          className="w-[170px] h-[40px] flex items-center justify-center gap-2.5 bg-zinc-100 hover:bg-white hover:shadow-sm border border-black/[0.06] rounded-full text-zinc-500 hover:text-[#0047BB] transition-all duration-300 font-bold text-sm"
+          className="w-[170px] h-[40px] flex items-center justify-center gap-2.5 bg-zinc-100 hover:bg-white hover:shadow-sm border border-black/[0.06] rounded-full text-zinc-500 hover:text-[#CC0000] transition-all duration-300 font-bold text-sm"
         >
           <motion.span
             className="flex items-center"

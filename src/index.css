@@ -219,7 +219,7 @@ h1, h2, h3, h4, h5, h6 {
 
   /* ── About 섹션 p1: bold → 파란색 강조 ── */
   .markdown-strong-blue strong {
-    color: #0047BB !important;
+    color: #CC0000 !important;
     font-weight: 900 !important;
   }
 

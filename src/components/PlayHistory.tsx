@@ -35,7 +35,7 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
   const renderSection = (category: string, items: any[], icon: React.ReactNode) => (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-[#0047BB]/10 rounded-xl flex items-center justify-center text-[#0047BB] shrink-0">
+        <div className="w-10 h-10 bg-[#CC0000]/10 rounded-xl flex items-center justify-center text-[#CC0000] shrink-0">
           {icon}
         </div>
         <h3 className="font-display font-bold text-lg md:text-xl text-[#2C2C2C]">{category}</h3>
@@ -69,7 +69,7 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
             
             {/* Content */}
             <div className="relative z-10 w-full flex flex-col justify-end">
-              <span className="inline-block px-1.5 md:px-2 py-0.5 md:py-1 bg-[#0047BB] text-white! text-[9px] md:text-[10px] font-bold rounded mb-1.5 md:mb-2 tracking-wider w-fit">
+              <span className="inline-block px-1.5 md:px-2 py-0.5 md:py-1 bg-[#CC0000] text-white! text-[9px] md:text-[10px] font-bold rounded mb-1.5 md:mb-2 tracking-wider w-fit">
                 {item.genre}
               </span>
               <h4 className="text-white! font-bold text-base md:text-lg mb-0.5 md:mb-1 truncate">{item.title}</h4>
@@ -90,11 +90,11 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
         <div className="mb-12 flex flex-col lg:flex-row justify-between lg:items-end gap-6 border-b border-black/10 pb-8">
           <div>
             <motion.span initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-              className="text-[#0047BB] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</motion.span>
+              className="text-[#CC0000] font-sans text-[11px] font-bold tracking-widest uppercase mb-3 block">04. 플레이 이력</motion.span>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="flex flex-col gap-1 items-start mt-2">
               <span className="text-xl md:text-2xl text-zinc-500 font-display font-medium tracking-tight">{allGamesCount}종 이상의</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tighter text-[#0047BB] leading-none mt-1">인사이트</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tighter text-[#CC0000] leading-none mt-1">인사이트</span>
             </motion.h2>
           </div>
           <p className="text-zinc-500 text-sm leading-[1.6] lg:text-right font-medium max-w-md break-keep">
@@ -110,7 +110,7 @@ export const PlayHistory = ({ onViewAll }: PlayHistoryProps) => {
 
         <div className="flex flex-col items-center justify-center mt-4">
           <button onClick={onViewAll}
-            className="group py-5 px-10 bg-[#0047BB] text-white rounded-2xl font-bold tracking-widest text-sm hover:bg-[#003399] transition-all duration-300 shadow-xl shadow-[#0047BB]/20 flex items-center gap-4 hover:-translate-y-1">
+            className="group py-5 px-10 bg-[#CC0000] text-white rounded-2xl font-bold tracking-widest text-sm hover:bg-[#AA0000] transition-all duration-300 shadow-xl shadow-[#CC0000]/20 flex items-center gap-4 hover:-translate-y-1">
             전체 목록 보기 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>

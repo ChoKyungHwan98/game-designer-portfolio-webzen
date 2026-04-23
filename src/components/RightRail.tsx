@@ -36,12 +36,12 @@ export const RightRail = ({ view, onNavClick, activeSection }: RightRailProps) =
             return (
               <button key={section.id} onClick={() => onNavClick(section.id)} className="group relative flex items-center justify-center w-6 h-6" aria-label={`Scroll to ${section.id}`}>
                 {/* Dot / Active Pill Indicator */}
-                <div className={`rounded-full transition-all duration-300 ease-out ${isActive ? 'w-2 h-6 bg-[#0047BB] shadow-[0_2px_8px_rgba(0,71,187,0.3)]' : 'w-1.5 h-1.5 bg-zinc-300 group-hover:bg-zinc-400 group-hover:scale-125'}`}></div>
+                <div className={`rounded-full transition-all duration-300 ease-out ${isActive ? 'w-2 h-6 bg-[#CC0000] shadow-[0_2px_8px_rgba(0,71,187,0.3)]' : 'w-1.5 h-1.5 bg-zinc-300 group-hover:bg-zinc-400 group-hover:scale-125'}`}></div>
                 
                 {/* Floating Tooltip */}
                 <div className={`absolute right-10 flex items-center transition-all duration-300 ${isActive ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 translate-x-2 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0'}`}>
                   <div className="bg-white border border-black/5 shadow-sm px-3 py-1.5 rounded-xl text-[12px] font-bold text-[#2C2C2C] whitespace-nowrap flex items-center gap-2">
-                    <span className="text-[10px] font-mono tracking-widest text-[#0047BB]/70">{section.label}</span>
+                    <span className="text-[10px] font-mono tracking-widest text-[#CC0000]/70">{section.label}</span>
                     <span>{section.name}</span>
                   </div>
                 </div>
@@ -55,7 +55,7 @@ export const RightRail = ({ view, onNavClick, activeSection }: RightRailProps) =
         {isVisible && (
           <motion.button initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white/90 backdrop-blur-md border border-black/10 rounded-xl flex items-center justify-center text-[#2C2C2C] hover:bg-zinc-50 hover:border-[#0047BB] transition-all shadow-md print:hidden">
+            className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white/90 backdrop-blur-md border border-black/10 rounded-xl flex items-center justify-center text-[#2C2C2C] hover:bg-zinc-50 hover:border-[#CC0000] transition-all shadow-md print:hidden">
             <ArrowUp className="w-6 h-6" />
           </motion.button>
         )}

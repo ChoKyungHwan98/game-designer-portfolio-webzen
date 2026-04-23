@@ -20,13 +20,13 @@ export const PasswordModal = ({ isOpen, onClose, onConfirm }: PasswordModalProps
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') onConfirm(password); }}
-          className="w-full bg-[#0a0a0a] border border-[#2a2a2a] p-3 text-[#e8e4dc] focus:outline-none focus:border-[#0047BB] mb-6 font-mono rounded-lg"
+          className="w-full bg-[#0a0a0a] border border-[#2a2a2a] p-3 text-[#e8e4dc] focus:outline-none focus:border-[#CC0000] mb-6 font-mono rounded-lg"
           placeholder="••••"
           autoFocus
         />
         <div className="flex gap-4">
           <button onClick={onClose} className="flex-1 py-3 text-[#888] font-medium hover:text-[#e8e4dc] transition-colors rounded-xl">취소</button>
-          <button onClick={() => onConfirm(password)} className="flex-1 py-3 bg-[#0047BB] text-[#e8e4dc] font-bold hover:bg-[#9a0028] transition-colors rounded-xl">확인</button>
+          <button onClick={() => onConfirm(password)} className="flex-1 py-3 bg-[#CC0000] text-[#e8e4dc] font-bold hover:bg-[#9a0028] transition-colors rounded-xl">확인</button>
         </div>
       </div>
     </div>

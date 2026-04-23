@@ -153,18 +153,18 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   <h1 className="text-4xl lg:text-[56px] font-display font-bold text-[#1A1A1A] tracking-tighter leading-tight mb-2">
                     <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
                   </h1>
-                  <p className="text-[#0047BB] font-black font-mono tracking-[0.4em] text-[11px] lg:text-xs uppercase mb-6 pb-1 border-b-2 border-[#0047BB]">
+                  <p className="text-[#CC0000] font-black font-mono tracking-[0.4em] text-[11px] lg:text-xs uppercase mb-6 pb-1 border-b-2 border-[#CC0000]">
                     <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
                   </p>
                   
-                  <div className="max-w-2xl text-[16px] lg:text-[17px] text-[#2C2C2C] leading-[1.75] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-black [&_strong]:text-[17px] lg:[&_strong]:text-[18px] [&_strong]:bg-[#0047BB]/5 [&_strong]:px-1.5 [&_strong]:py-0.5 [&_strong]:rounded-md break-keep">
+                  <div className="max-w-2xl text-[16px] lg:text-[17px] text-[#2C2C2C] leading-[1.75] font-medium [&_strong]:text-[#CC0000] [&_strong]:font-black [&_strong]:text-[17px] lg:[&_strong]:text-[18px] [&_strong]:bg-[#CC0000]/5 [&_strong]:px-1.5 [&_strong]:py-0.5 [&_strong]:rounded-md break-keep">
                     <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
                   </div>
 
                   {/* Contact Info Grid - 2×N layout */}
                   <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
                     <div className="flex items-center gap-2.5 group">
-                      <Mail className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                      <Mail className="w-4 h-4 text-[#CC0000] shrink-0" strokeWidth={2} />
                       <div className="flex flex-col">
                         <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">EMAIL</span>
                         <span className="text-[13px] text-[#1A1A1A] font-semibold lowercase">
@@ -174,7 +174,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     </div>
                     {data.birthDate && (
                       <div className="flex items-center gap-2.5 group">
-                        <Calendar className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <Calendar className="w-4 h-4 text-[#CC0000] shrink-0" strokeWidth={2} />
                         <div className="flex flex-col">
                           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">생년월일</span>
                           <span className="text-[13px] text-[#1A1A1A] font-semibold">{data.birthDate}</span>
@@ -183,7 +183,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     )}
                     {(isEditing || isGeneratingPdf) && data.phone && (
                       <div className="flex items-center gap-2.5 group">
-                        <Phone className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <Phone className="w-4 h-4 text-[#CC0000] shrink-0" strokeWidth={2} />
                         <div className="flex flex-col">
                           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">연락처</span>
                           <span className="text-[13px] text-[#1A1A1A] font-semibold">
@@ -194,7 +194,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     )}
                     {data.address && (
                       <div className="flex items-center gap-2.5 group">
-                        <MapPin className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <MapPin className="w-4 h-4 text-[#CC0000] shrink-0" strokeWidth={2} />
                         <div className="flex flex-col">
                           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">주소</span>
                           <span className="text-[13px] text-[#1A1A1A] font-semibold">
@@ -205,7 +205,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     )}
                     {data.military && (
                       <div className="flex items-center gap-2.5 group">
-                        <Shield className="w-4 h-4 text-[#0047BB] shrink-0" strokeWidth={2} />
+                        <Shield className="w-4 h-4 text-[#CC0000] shrink-0" strokeWidth={2} />
                         <div className="flex flex-col">
                           <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">병역</span>
                           <span className="text-[13px] text-[#1A1A1A] font-semibold">{data.military.branch} {data.military.rank} {data.military.status}</span>
@@ -225,12 +225,12 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     {/* Education */}
                     <section>
                       <h3 className="text-[17px] font-bold mb-6 flex items-center gap-3 text-[#1A1A1A]">
-                        <GraduationCap className="text-[#0047BB] w-5 h-5" /> 학력 및 교육
+                        <GraduationCap className="text-[#CC0000] w-5 h-5" /> 학력 및 교육
                       </h3>
                       <div className="space-y-8">
                         {data.education.map((edu, idx) => (
-                          <div key={idx} className="relative pl-6 border-l-2 border-[#0047BB]/20">
-                            <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#0047BB]/40"></div>
+                          <div key={idx} className="relative pl-6 border-l-2 border-[#CC0000]/20">
+                            <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-none bg-[#CC0000]/40"></div>
                             <div className="flex flex-col gap-1.5 mb-3">
                               <h4 className="font-bold text-[16px] text-[#1A1A1A] leading-snug">
                                 <EditableText value={edu.title} onSave={(v) => { const e = [...data.education]; e[idx].title = v; setData({...data, education: e}); }} isEditing={isEditing} />
@@ -253,7 +253,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                     {/* Certificates */}
                     <section>
                       <h3 className="text-[17px] font-bold mb-5 flex items-center gap-3 text-[#1A1A1A]">
-                        <Award className="text-[#0047BB] w-5 h-5" /> 자격증
+                        <Award className="text-[#CC0000] w-5 h-5" /> 자격증
                       </h3>
                       <div className="flex flex-col">
                         {data.certificates && data.certificates.map((cert, idx) => (
@@ -267,7 +267,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                               {cert.score && (
                                 <div className="flex items-center gap-1.5">
                                   <span className="text-[9px] text-zinc-400 uppercase tracking-widest font-medium">점수</span>
-                                  <span className="text-[12px] text-[#0047BB] tabular-nums">{cert.score}</span>
+                                  <span className="text-[12px] text-[#CC0000] tabular-nums">{cert.score}</span>
                                 </div>
                               )}
                               <div className="flex items-center gap-1.5">
@@ -287,12 +287,12 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   {/* Project Experience */}
                   <section>
                     <h3 className="text-[19px] font-bold mb-8 flex items-center gap-3 text-[#1A1A1A]">
-                      <Briefcase className="text-[#0047BB] w-6 h-6" /> 프로젝트 경험
+                      <Briefcase className="text-[#CC0000] w-6 h-6" /> 프로젝트 경험
                     </h3>
                     <div className="space-y-12">
                       {data.experience.map((exp, idx) => (
-                        <div key={idx} className="relative pl-10 border-l-[3px] border-[#0047BB]/10">
-                          <div className="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-white border-4 border-[#0047BB] shadow-sm"></div>
+                        <div key={idx} className="relative pl-10 border-l-[3px] border-[#CC0000]/10">
+                          <div className="absolute -left-[10px] top-1.5 w-5 h-5 rounded-full bg-white border-4 border-[#CC0000] shadow-sm"></div>
                           
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
                             <h4 className="font-bold text-[22px] text-[#1A1A1A] tracking-tight">
@@ -303,7 +303,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                             </span>
                           </div>
 
-                          <div className="text-[14px] text-[#0047BB] font-bold mb-3 bg-[#0047BB]/5 inline-block px-4 py-2 rounded-sm border-l-4 border-[#0047BB]">
+                          <div className="text-[14px] text-[#CC0000] font-bold mb-3 bg-[#CC0000]/5 inline-block px-4 py-2 rounded-sm border-l-4 border-[#CC0000]">
                             <EditableText value={exp.description} onSave={(v) => { const e = [...data.experience]; e[idx].description = v; setData({...data, experience: e}); }} isEditing={isEditing} markdown={true} />
                           </div>
                           {exp.teamSize && (
@@ -316,7 +316,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                           <ul className="text-[14px] text-[#4A4A4A] space-y-3 list-none leading-relaxed font-medium">
                             {exp.details.map((detail, dIdx) => (
                               <li key={dIdx} className="relative pl-6">
-                                <span className="absolute left-0 top-2 w-1.5 h-1.5 border border-[#0047BB] rounded-full"></span>
+                                <span className="absolute left-0 top-2 w-1.5 h-1.5 border border-[#CC0000] rounded-full"></span>
                                 {detail}
                               </li>
                             ))}
@@ -330,12 +330,12 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                   {data.tools && data.tools.length > 0 && (
                     <section className="mt-10 pt-10 border-t border-zinc-100">
                       <h3 className="text-[19px] font-bold mb-8 flex items-center gap-3 text-[#1A1A1A]">
-                        <Wrench className="text-[#0047BB] w-6 h-6" /> 기술 역량 및 도구
+                        <Wrench className="text-[#CC0000] w-6 h-6" /> 기술 역량 및 도구
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
                         {/* Group 1: Documentation & Office */}
                         <div className="space-y-5">
-                          <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-3">DOCUMENTATION & OFFICE</h4>
+                          <h4 className="text-[10px] font-black text-[#CC0000] tracking-[0.4em] uppercase border-b border-[#CC0000]/10 pb-2 mb-3">DOCUMENTATION & OFFICE</h4>
                           <div className="space-y-3">
                             {data.tools.filter(t => ["Excel", "PowerPoint", "Word", "Notion"].includes(t.name)).map((tool, idx) => (
                               <div key={idx} className="flex flex-col gap-1">
@@ -351,7 +351,7 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
 
                         {/* Group 2: Creative & Engine */}
                         <div className="space-y-6">
-                          <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-4">CREATIVE & ENGINE</h4>
+                          <h4 className="text-[10px] font-black text-[#CC0000] tracking-[0.4em] uppercase border-b border-[#CC0000]/10 pb-2 mb-4">CREATIVE & ENGINE</h4>
                           <div className="space-y-4">
                             {data.tools.filter(t => ["Figma", "Unity"].includes(t.name)).map((tool, idx) => (
                               <div key={idx} className="flex flex-col gap-1">
@@ -363,11 +363,11 @@ export const Resume = ({ setView, onBack, isEditing, setIsEditing, data, setData
                               </div>
                             ))}
                             {/* Remaining tools (like AI) */}
-                            <h4 className="text-[10px] font-black text-[#0047BB] tracking-[0.4em] uppercase border-b border-[#0047BB]/10 pb-2 mb-4 mt-8">AI ASSISTANTS</h4>
+                            <h4 className="text-[10px] font-black text-[#CC0000] tracking-[0.4em] uppercase border-b border-[#CC0000]/10 pb-2 mb-4 mt-8">AI ASSISTANTS</h4>
                             <div className="grid grid-cols-2 gap-4">
                               {data.tools.filter(t => ["ChatGPT", "Claude", "Gemini", "Antigravity"].includes(t.name)).map((tool, idx) => (
                                 <div key={idx} className="flex items-center gap-2">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-[#0047BB]/30" />
+                                  <div className="w-1.5 h-1.5 rounded-full bg-[#CC0000]/30" />
                                   <span className="text-[13px] font-bold text-[#1A1A1A]">{tool.name}</span>
                                 </div>
                               ))}

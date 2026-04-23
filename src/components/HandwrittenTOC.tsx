@@ -55,7 +55,7 @@ export const HandwrittenTOC = () => {
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
           <div
             key={i}
-            className="w-full border-b border-[#0047BB]/6"
+            className="w-full border-b border-[#CC0000]/6"
             style={{ height: '44px' }}
           />
         ))}
@@ -67,7 +67,7 @@ export const HandwrittenTOC = () => {
         <div className="absolute top-[14px] left-14 right-4">
           <motion.p
             variants={fadeIn(0.1)}
-            className="text-[11px] font-bold tracking-[0.25em] text-[#0047BB] uppercase mb-1"
+            className="text-[11px] font-bold tracking-[0.25em] text-[#CC0000] uppercase mb-1"
           >
             Table of Contents
           </motion.p>
@@ -77,7 +77,7 @@ export const HandwrittenTOC = () => {
           >
             <motion.path
               d="M 0 6 C 40 2, 80 10, 160 4"
-              stroke="#0047BB"
+              stroke="#CC0000"
               strokeWidth="1.5"
               fill="none"
               strokeLinecap="round"
@@ -97,7 +97,7 @@ export const HandwrittenTOC = () => {
             {/* 번호 */}
             <motion.span
               variants={fadeIn(item.delay)}
-              className="text-[10px] font-black text-[#0047BB]/50 tracking-widest block mb-0.5"
+              className="text-[10px] font-black text-[#CC0000]/50 tracking-widest block mb-0.5"
             >
               {item.num}
             </motion.span>
@@ -126,7 +126,7 @@ export const HandwrittenTOC = () => {
             >
               <motion.path
                 d={`M 0 4 C 50 ${idx % 2 === 0 ? '1' : '7'}, 120 ${idx % 2 === 0 ? '7' : '1'}, 200 4`}
-                stroke="#0047BB"
+                stroke="#CC0000"
                 strokeWidth="1"
                 strokeOpacity="0.2"
                 fill="none"
@@ -144,7 +144,7 @@ export const HandwrittenTOC = () => {
               >
                 <motion.path
                   d="M 2 7 L 6 11 L 16 2"
-                  stroke="#0047BB"
+                  stroke="#CC0000"
                   strokeWidth="2"
                   fill="none"
                   strokeLinecap="round"
@@ -159,7 +159,7 @@ export const HandwrittenTOC = () => {
               <motion.div
                 animate={{ opacity: [1, 0, 1] }}
                 transition={{ repeat: Infinity, duration: 1, ease: 'linear' as const }}
-                className="absolute -left-8 top-[22px] w-3 h-[2px] bg-[#0047BB] rounded-full"
+                className="absolute -left-8 top-[22px] w-3 h-[2px] bg-[#CC0000] rounded-full"
               />
             )}
           </div>

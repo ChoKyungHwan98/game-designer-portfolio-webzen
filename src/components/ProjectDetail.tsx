@@ -19,7 +19,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
   const [showThumbnailGrid, setShowThumbnailGrid] = useState(false);
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode; show: boolean; color: string }[] = [
-    { id: 'overview', label: '개요', icon: <LayoutGrid className="w-3.5 h-3.5" />, show: true, color: '#0047BB' },
+    { id: 'overview', label: '개요', icon: <LayoutGrid className="w-3.5 h-3.5" />, show: true, color: '#CC0000' },
     { id: 'document', label: '기획서', icon: <FileText className="w-3.5 h-3.5" />, show: !!(project.gallery || project.pdfUrl), color: '#059669' },
     { id: 'prototype', label: '프로토타입', icon: <Sparkles className="w-3.5 h-3.5" />, show: !!project.prototypeUrl, color: '#7C3AED' },
     { id: 'video', label: '플레이 영상', icon: <Play className="w-3.5 h-3.5" />, show: !!project.videoUrl, color: '#EA580C' },
@@ -35,7 +35,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
     bg: 'bg-white',
     text: 'text-zinc-900',
     border: 'border-zinc-200',
-    accent: '#0047BB'
+    accent: '#CC0000'
   };
 
   return (
@@ -161,7 +161,7 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     {/* View All Pages Button (Bottom) */}
                     <button
                       onClick={() => setShowThumbnailGrid(true)}
-                      className="flex items-center gap-3 px-6 py-3.5 bg-[#0047BB] text-white rounded-2xl shadow-2xl shadow-[#0047BB]/30 hover:scale-105 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
+                      className="flex items-center gap-3 px-6 py-3.5 bg-[#CC0000] text-white rounded-2xl shadow-2xl shadow-[#CC0000]/30 hover:scale-105 active:scale-95 transition-all font-sans font-black text-[11px] uppercase tracking-[0.3em]"
                     >
                       <LayoutGrid className="w-4 h-4" />
                       전체 페이지 보기
@@ -172,17 +172,17 @@ export const ProjectDetail = ({ project, onBack, isEditing, onSaveContent }: Pro
                     {/* Help Tooltip */}
                     <div className="group relative">
                       <div className="absolute bottom-full right-0 mb-6 w-72 p-6 bg-black/95 backdrop-blur-2xl rounded-4xl text-white text-[12px] leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none border border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] translate-y-2 group-hover:translate-y-0">
-                        <div className="flex items-center gap-3 mb-4 text-[#0047BB] font-black tracking-widest uppercase text-[10px]">
+                        <div className="flex items-center gap-3 mb-4 text-[#CC0000] font-black tracking-widest uppercase text-[10px]">
                           <div className="w-1.5 h-1.5 rounded-full bg-current" />
                           조작 가이드
                         </div>
                         <ul className="space-y-2.5 text-zinc-300 font-medium">
                           <li className="flex justify-between items-center bg-white/5 p-2 rounded-lg"><span>마우스 휠</span> <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white">이동</span></li>
-                          <li className="flex justify-between items-center bg-white/5 p-2 rounded-lg"><span>Ctrl + 휠</span> <span className="text-[10px] bg-[#0047BB] px-1.5 py-0.5 rounded text-white">확대/축소</span></li>
+                          <li className="flex justify-between items-center bg-white/5 p-2 rounded-lg"><span>Ctrl + 휠</span> <span className="text-[10px] bg-[#CC0000] px-1.5 py-0.5 rounded text-white">확대/축소</span></li>
                           <li className="flex justify-between items-center bg-white/5 p-2 rounded-lg"><span>드래그</span> <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white">화면 이동</span></li>
                         </ul>
                       </div>
-                      <button className="w-14 h-14 rounded-full bg-white text-[#0047BB] shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-black/5">
+                      <button className="w-14 h-14 rounded-full bg-white text-[#CC0000] shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-black/5">
                         <HelpCircle className="w-7 h-7" />
                       </button>
                     </div>
@@ -389,7 +389,7 @@ def calculate_balance(params):
                                 href={project.simulatorUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-full h-16 bg-[#0047BB] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#003799] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#0047BB]/20"
+                                className="w-full h-16 bg-[#CC0000] text-white rounded-2xl flex items-center justify-center gap-3 hover:bg-[#003799] hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#CC0000]/20"
                               >
                                 <span className="font-black text-sm uppercase tracking-widest">Launch Simulator</span>
                                 <ExternalLink className="w-4 h-4" />
@@ -451,7 +451,7 @@ def calculate_balance(params):
                   {/* Main Content 2/3 */}
                   <div className="col-span-2">
                     <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-100">
-                      <div className="w-1 h-5 bg-[#0047BB] rounded-full" />
+                      <div className="w-1 h-5 bg-[#CC0000] rounded-full" />
                       <span className="text-xs font-black text-zinc-400 uppercase tracking-widest">기획 의도 및 핵심 내용</span>
                     </div>
                     <div className="text-zinc-600 leading-[1.9] text-[15px] whitespace-pre-wrap font-medium">{project.content}</div>
@@ -466,7 +466,7 @@ def calculate_balance(params):
                       <div className="p-5 space-y-4">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                            <Tag className="w-4 h-4 text-[#0047BB]" />
+                            <Tag className="w-4 h-4 text-[#CC0000]" />
                           </div>
                           <div>
                             <p className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider mb-1.5">Roles</p>
@@ -492,7 +492,7 @@ def calculate_balance(params):
 
                     {project.externalUrl && (
                       <a href={project.externalUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-4 bg-[#0047BB] rounded-2xl text-white hover:bg-[#003799] transition-colors group"
+                        className="flex items-center gap-3 p-4 bg-[#CC0000] rounded-2xl text-white hover:bg-[#003799] transition-colors group"
                       >
                         <ExternalLink className="w-4 h-4 shrink-0" />
                         <span className="text-sm font-bold flex-1">Live Demo</span>
@@ -537,7 +537,7 @@ def calculate_balance(params):
           >
             <div className="flex items-center justify-between mb-16">
               <div className="flex flex-col">
-                <span className="text-[#0047BB] text-[12px] font-black tracking-[0.5em] uppercase mb-3">Navigation</span>
+                <span className="text-[#CC0000] text-[12px] font-black tracking-[0.5em] uppercase mb-3">Navigation</span>
                 <h3 className="text-white text-5xl font-black tracking-tighter">전체 페이지 개요</h3>
               </div>
               <button
@@ -558,10 +558,10 @@ def calculate_balance(params):
                       setCurrentPage(i);
                       setShowThumbnailGrid(false);
                     }}
-                    className={`group relative aspect-3/4 rounded-2xl overflow-hidden border-2 transition-all duration-500 hover:scale-110 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)] ${i === currentPage ? 'border-[#0047BB] shadow-[0_0_40px_rgba(0,71,187,0.5)]' : 'border-white/5 hover:border-white/20'}`}
+                    className={`group relative aspect-3/4 rounded-2xl overflow-hidden border-2 transition-all duration-500 hover:scale-110 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)] ${i === currentPage ? 'border-[#CC0000] shadow-[0_0_40px_rgba(0,71,187,0.5)]' : 'border-white/5 hover:border-white/20'}`}
                   >
                     <img src={img} alt={`Page ${i + 1}`} className="w-full h-full object-cover" />
-                    <div className={`absolute inset-0 transition-opacity duration-500 ${i === currentPage ? 'bg-[#0047BB]/20' : 'bg-black/60 opacity-0 group-hover:opacity-100'}`} />
+                    <div className={`absolute inset-0 transition-opacity duration-500 ${i === currentPage ? 'bg-[#CC0000]/20' : 'bg-black/60 opacity-0 group-hover:opacity-100'}`} />
                     <div className="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-xl bg-black/80 backdrop-blur-md text-white text-[12px] font-black border border-white/10">
                       {String(i + 1).padStart(2, '0')}
                     </div>
