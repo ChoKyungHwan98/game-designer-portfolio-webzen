@@ -35,62 +35,66 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
   const [activeGenre, setActiveGenre] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
-  const [displayLimit, setDisplayLimit] = useState(ALL_GAMES.length); // 전체 게임을 한 번에 렌더링하여 압도적인 양을 보여줌
+  const [displayLimit, setDisplayLimit] = useState(ALL_GAMES.length);
 
-  // ── 30년 경력 디자이너/개발자를 위한 최적화된 네이티브 스크롤 연출 ──
+  // UX 연출 페이즈: splash(도입부) -> scrolling(쾌속 스크롤) -> done(차트 등장)
+  const [introPhase, setIntroPhase] = useState<'splash' | 'scrolling' | 'done'>('splash');
+
+  // ── 30년 경력 디자이너/개발자를 위한 시네마틱 스크롤 연출 ──
   useEffect(() => {
     let animationFrameId: number;
     let isCancelled = false;
 
-    // 렌더링이 완료된 후 실행하기 위해 약간의 딜레이
-    const initTimer = setTimeout(() => {
+    // 1. 강렬한 Splash Screen (1.2초)
+    const splashTimer = setTimeout(() => {
       if (isCancelled) return;
+      setIntroPhase('scrolling');
       
-      // 1. 화면 최하단으로 즉시 점프 (수백 개의 게임 그리드 끝)
+      // 화면 최하단으로 즉시 셋업
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       window.scrollTo({ top: maxScroll, behavior: 'instant' });
       
-      // 2. 잠시 대기 후 상단(차트)으로 슈우욱 스크롤
-      const scrollTimer = setTimeout(() => {
+      // 2. 쾌속 상향 스크롤 (초광속으로 아카이브를 훑고 지나가는 느낌)
+      const startY = window.scrollY;
+      const targetY = 0;
+      const duration = 2400; // 2.4초로 약간 단축하여 텐션 증가
+      const startTime = performance.now();
+
+      const animateScroll = (currentTime: number) => {
         if (isCancelled) return;
         
-        const startY = window.scrollY;
-        const targetY = 0;
-        const duration = 2800; // 2.8초: 너무 빠르지도, 너무 길지도 않은 최적의 시간
-        const startTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing: easeInOutQuart (폭발적으로 가속하다가 끝에서 극도로 부드럽게 감속)
+        const ease = progress < 0.5 
+          ? 8 * progress * progress * progress * progress 
+          : 1 - Math.pow(-2 * progress + 2, 4) / 2;
+        
+        window.scrollTo(0, startY + (targetY - startY) * ease);
 
-        const animateScroll = (currentTime: number) => {
-          if (isCancelled) return;
-          
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          
-          // Easing: easeInOutCubic (부드럽게 가속했다가 차트에서 부드럽게 정지)
-          const ease = progress < 0.5 
-            ? 4 * progress * progress * progress 
-            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-          
-          window.scrollTo(0, startY + (targetY - startY) * ease);
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animateScroll);
+        } else {
+          // 3. 스크롤 완료 후 차트 웅장하게 등장
+          setIntroPhase('done');
+        }
+      };
 
-          if (progress < 1) {
-            animationFrameId = requestAnimationFrame(animateScroll);
-          }
-        };
+      animationFrameId = requestAnimationFrame(animateScroll);
+    }, 1200);
 
-        animationFrameId = requestAnimationFrame(animateScroll);
-      }, 400); // 0.4초 대기 (유저가 방대한 양의 끝을 잠시 인식할 시간)
-
-      return () => clearTimeout(scrollTimer);
-    }, 100);
-
-    // 유저가 강제로 스크롤하면 연출 중단 (UX 고려)
-    const handleWheel = () => { isCancelled = true; };
+    // 유저 개입 시 즉시 스크롤 중단 및 화면 정상화
+    const handleWheel = () => { 
+      isCancelled = true; 
+      setIntroPhase(prev => prev === 'splash' ? 'splash' : 'done');
+    };
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleWheel, { passive: true });
 
     return () => {
       isCancelled = true;
-      clearTimeout(initTimer);
+      clearTimeout(splashTimer);
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleWheel);
@@ -132,10 +136,26 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
   const bgPolygons = [20, 40, 60, 80, 100].map(level => CHART_DATA.map(d => getPt(level, d.angle, svgSize)).join(' '));
 
   return (
-    <div className="min-h-screen bg-[#FDFCF8] pt-28 pb-32">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Radar Chart & Stats Section */}
-        <div className="flex flex-col justify-center mb-16">
+    <>
+      {/* ── 1. 시네마틱 스플래시 스크린 (진입 시 몰입감 극대화) ── */}
+      <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0047BB] text-white transition-all duration-700 ease-in-out ${introPhase === 'splash' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay"></div>
+        <div className="overflow-hidden relative z-10">
+          <h1 className={`text-6xl md:text-8xl font-black tracking-tighter transform transition-transform duration-1000 delay-100 ${introPhase === 'splash' ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+            GAMING DNA
+          </h1>
+        </div>
+        <div className={`mt-8 flex items-center gap-3 opacity-80 transform transition-all duration-1000 delay-300 ${introPhase === 'splash' ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          <p className="font-mono text-sm tracking-widest uppercase">Extracting {ALL_GAMES.length}+ Records...</p>
+        </div>
+      </div>
+
+      <div className="min-h-screen bg-[#FDFCF8] pt-28 pb-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          
+          {/* ── 2. 레이더 차트 & 통계 (스크롤이 끝나면 웅장하게 등장) ── */}
+          <div className={`flex flex-col justify-center mb-16 transform transition-all duration-1000 ease-out ${introPhase === 'done' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'}`}>
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-white border border-black/5 rounded-4xl p-8 shadow-sm hover:shadow-md transition-shadow duration-500 flex flex-col items-center justify-center min-h-[480px] relative overflow-hidden">
               <div className="absolute inset-0 bg-linear-to-br from-[#0047BB]/[0.02] to-transparent pointer-events-none" />
