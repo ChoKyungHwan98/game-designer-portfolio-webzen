@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-1. 기존 이미지 파일 리네임
-2. pc.ts / mobile.ts / console.ts image 필드 전체 업데이트
+1. pc.ts / mobile.ts / console.ts image 필드 전체 업데이트
+2. public/images/games/complete 폴더의 파일들과 매칭 (확장자 jpg, png, webp, jpeg 지원)
 3. 다운로드 필요 목록 CSV 저장
 """
 import re, unicodedata, os, csv
@@ -28,7 +28,13 @@ def to_filename(title):
     result = re.sub(r'_+', '_', result)
     return result.strip('_')
 
-existing_files = {f.lower(): f for f in os.listdir(IMG_DIR) if f.endswith(('.jpg','.png','.webp','.jpeg'))}
+# 확장자 무관하게 파일명(소문자) -> 실제파일명 매핑
+existing_files = {}
+if os.path.exists(IMG_DIR):
+    for f in os.listdir(IMG_DIR):
+        if f.lower().endswith(('.jpg','.png','.webp','.jpeg')):
+            base = os.path.splitext(f)[0].lower()
+            existing_files[base] = f
 
 def parse_and_update(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -37,11 +43,15 @@ def parse_and_update(filepath):
     def replacer(m):
         full = m.group(0)
         title = m.group(1)
-        new_base = to_filename(title) + '.jpg'
-        new_path = IMAGE_PREFIX + new_base
-        # Replace image field
-        updated = re.sub(r'"image":\s*"[^"]*"', f'"image": "{new_path}"', full)
-        return updated
+        base_name = to_filename(title).lower()
+        
+        if base_name in existing_files:
+            actual_file = existing_files[base_name]
+            new_path = IMAGE_PREFIX + actual_file
+            # Replace image field
+            updated = re.sub(r'"image":\s*"[^"]*"', f'"image": "{new_path}"', full)
+            return updated
+        return full
 
     pattern = r'\{[^}]*"title":\s*"([^"]+)"[^}]*\}'
     new_content = re.sub(pattern, replacer, content)
@@ -50,59 +60,26 @@ def parse_and_update(filepath):
         f.write(new_content)
     print(f'Updated: {os.path.basename(filepath)}')
 
-# Step 1: 기존 파일 리네임
-print('=== STEP 1: 파일 리네임 ===')
-renamed = 0
-# old_path -> new_name 매핑: 데이터에서 old image 읽어서 생성
+print('=== 데이터 파일 이미지 경로 업데이트 ===')
 all_files = ['pc.ts', 'mobile.ts', 'console.ts']
 for fname in all_files:
     fpath = os.path.join(DATA_DIR, fname)
-    with open(fpath, 'r', encoding='utf-8') as f:
-        content = f.read()
-    pattern = r'"title":\s*"([^"]+)"[^}]*"image":\s*"([^"]*)"'
-    for m in re.finditer(pattern, content):
-        title, old_img = m.group(1), m.group(2)
-        if not old_img:
-            continue
-        old_base = old_img.replace(IMAGE_PREFIX, '')
-        new_base = to_filename(title) + '.jpg'
-        if old_base == new_base:
-            continue
-        old_lower = old_base.lower()
-        if old_lower in existing_files:
-            actual = existing_files[old_lower]
-            old_path = os.path.join(IMG_DIR, actual)
-            new_path = os.path.join(IMG_DIR, new_base)
-            if not os.path.exists(new_path):
-                os.rename(old_path, new_path)
-                print(f'  {actual} -> {new_base}')
-                # Update existing_files dict
-                del existing_files[old_lower]
-                existing_files[new_base.lower()] = new_base
-                renamed += 1
-print(f'  총 {renamed}개 리네임 완료\n')
-
-# Step 2: 데이터 파일 image 필드 업데이트
-print('=== STEP 2: 데이터 파일 업데이트 ===')
-for fname in all_files:
-    parse_and_update(os.path.join(DATA_DIR, fname))
+    if os.path.exists(fpath):
+        parse_and_update(fpath)
 
 # Step 3: 다운로드 필요 목록 CSV 생성
-print('\n=== STEP 3: 다운로드 목록 CSV 생성 ===')
-# Reload existing files after rename
-existing_files2 = {f.lower() for f in os.listdir(IMG_DIR) if f.endswith(('.jpg','.png','.webp','.jpeg'))}
-
+print('\n=== 다운로드 필요 목록 CSV 생성 ===')
 rows = []
 for fname in all_files:
     fpath = os.path.join(DATA_DIR, fname)
+    if not os.path.exists(fpath): continue
     with open(fpath, 'r', encoding='utf-8') as f:
         content = f.read()
     pattern = r'"id":\s*"([^"]+)".*?"category":\s*"([^"]+)".*?"title":\s*"([^"]+)".*?"company":\s*"([^"]+)".*?"image":\s*"([^"]*)"'
     for m in re.finditer(pattern, content):
         gid, cat, title, company, img = m.groups()
-        new_base = to_filename(title) + '.jpg'
-        if new_base.lower() not in existing_files2:
-            rows.append([gid, cat, title, company, new_base])
+        if not img or img == IMAGE_PREFIX:
+            rows.append([gid, cat, title, company, to_filename(title) + '.jpg'])
 
 csv_path = r'C:\Users\Admin\Desktop\게임기획\포트폴리오\게임-기획자-포트폴리오-개선버전\scripts\images_to_download.csv'
 with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
@@ -111,5 +88,4 @@ with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
     w.writerows(rows)
 
 print(f'  저장: scripts/images_to_download.csv')
-print(f'  다운로드 필요: {len(rows)}개')
-print(f'  이미 보유: {355 - len(rows)}개')
+print(f'  이미지 없음: {len(rows)}개')
