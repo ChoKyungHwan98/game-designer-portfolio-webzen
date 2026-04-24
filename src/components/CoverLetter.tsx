@@ -115,17 +115,17 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
 
                     {/* Steps Flow */}
                     {intro.steps && intro.steps.length > 0 && (
-                      <div className="my-8 md:my-10 flex flex-wrap items-start gap-2 md:gap-3">
+                      <div className="my-8 md:my-10 flex flex-wrap items-start gap-3 md:gap-4">
                         {intro.steps.map((step, i) => {
                           const hasDesc = !!step.desc;
                           return (
                             <React.Fragment key={i}>
-                              <div className={`flex flex-col px-4 py-3 bg-[#0047BB]/5 border border-[#0047BB]/15 rounded-xl ${hasDesc ? 'flex-1 min-w-[120px] max-w-[200px]' : 'items-center'}`}>
-                                <span className="text-[#0047BB] font-bold text-[13px] md:text-[14px] tracking-tight break-keep">{step.title}</span>
-                                {step.desc && <span className="text-zinc-500 text-[12px] leading-relaxed mt-2 break-keep">{step.desc}</span>}
+                              <div className={`flex flex-col px-5 md:px-6 py-4 md:py-5 bg-[#0047BB]/5 border border-[#0047BB]/15 rounded-xl ${hasDesc ? 'flex-1 min-w-[140px] max-w-[220px]' : 'items-center'}`}>
+                                <span className="text-[#0047BB] font-bold text-[14px] md:text-[15px] tracking-tight break-keep">{step.title}</span>
+                                {step.desc && <span className="text-zinc-500 text-[12px] md:text-[13px] leading-relaxed mt-2 break-keep">{step.desc}</span>}
                               </div>
                               {i < intro.steps!.length - 1 && (
-                                <span className={`text-[#0047BB]/40 font-black text-lg select-none shrink-0 ${hasDesc ? 'mt-3' : 'self-center'}`}>→</span>
+                                <span className={`text-[#0047BB]/40 font-black text-xl select-none shrink-0 ${hasDesc ? 'mt-4' : 'self-center'}`}>→</span>
                               )}
                             </React.Fragment>
                           );
