@@ -16,16 +16,15 @@ interface PortfolioProps {
   initialProjectId?: number | null;
 }
 
-export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialProjectId }: PortfolioProps) => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+export const Portfolio = ({ onProjectClick, isEditing, projects, setProjects, onBack, initialProjectId }: PortfolioProps) => {
 
   useEffect(() => {
     if (initialProjectId != null) {
       const target = projects.find(p => p.id === initialProjectId);
-      if (target) setSelectedProject(target);
+      if (target) onProjectClick(target);
     }
     window.scrollTo(0, 0);
-  }, [initialProjectId, projects]);
+  }, [initialProjectId, projects, onProjectClick]);
 
   const categories = ['전체', ...Array.from(new Set(projects.flatMap(p => p.roles || []).filter(Boolean)))];
   const [activeCategory, setActiveCategory] = useState('전체');
@@ -34,16 +33,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
     ? projects
     : projects.filter(p => p.roles && p.roles.includes(activeCategory));
 
-  useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedProject]);
+
 
   return (
     <div className="min-h-screen bg-transparent relative">
@@ -98,7 +88,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
           </div>
         </div>
         {/* Polished Project Grid with Refined Hierarchy */}
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.div 
             key={activeCategory}
             initial={{ opacity: 0 }}
@@ -110,11 +100,12 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
                 transition={{ 
-                  duration: 0.4, 
-                  delay: Math.min(index * 0.03, 0.45),
+                  duration: 0.3, 
+                  delay: Math.min(index * 0.02, 0.3),
                   ease: [0.16, 1, 0.3, 1] 
                 }}
               >
@@ -124,7 +115,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
                   isEditing={isEditing}
                   projects={projects}
                   setProjects={setProjects}
-                  onProjectClick={setSelectedProject}
+                  onProjectClick={onProjectClick}
                 />
               </motion.div>
             ))}
@@ -133,47 +124,7 @@ export const Portfolio = ({ isEditing, projects, setProjects, onBack, initialPro
         </div>
       </motion.section>
 
-      {/* Detail Overlay */}
-      <AnimatePresence>
-        {selectedProject && (
-          <div className="fixed inset-0 z-[100]">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            />
 
-            {/* Panel */}
-              <div className="absolute inset-0 flex items-center justify-center p-0 md:p-6 pointer-events-none">
-                <motion.div
-                  initial={{ opacity: 0, y: 40, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 40, scale: 0.97 }}
-                  transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-                  className="w-[98vw] md:w-[95vw] h-[98vh] md:h-[95vh] max-w-[1600px] bg-bg-main md:rounded-3xl shadow-[0_40px_80px_-20px_rgba(0,0,0,0.35)] overflow-hidden relative pointer-events-auto flex flex-col"
-                >
-
-                {/* Content - height fills modal, scroll managed per-tab */}
-                <div className="flex-1 overflow-hidden flex flex-col min-h-0">
-                  <ProjectDetail
-                    project={selectedProject}
-                    onBack={() => setSelectedProject(null)}
-                    isEditing={isEditing}
-                    onSaveContent={(c) => {
-                      const p = [...projects];
-                      const i = p.findIndex(pp => pp.id === selectedProject.id);
-                      if (i !== -1) { p[i].content = c; setProjects(p); setSelectedProject({ ...selectedProject, content: c }); }
-                    }}
-                  />
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
