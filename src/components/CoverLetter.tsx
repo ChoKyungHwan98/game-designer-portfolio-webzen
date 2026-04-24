@@ -97,8 +97,60 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     whileInView={{ opacity: 1, y: 0 }} 
                     viewport={{ once: true }} 
                     transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="max-w-[780px] text-[#1C1C1C] leading-[1.9] text-[16.5px] md:text-[18px] font-medium tracking-[-0.01em] [&_p]:mb-5 md:[&_p]:mb-7 [&_p]:break-keep [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.22)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm"
+                    className={`max-w-[780px] text-[#1C1C1C] leading-[1.9] text-[16.5px] md:text-[18px] font-medium tracking-[-0.01em] [&_p]:mb-5 md:[&_p]:mb-7 [&_p]:break-keep [&_strong]:text-[#0047BB] [&_strong]:font-extrabold [&_strong]:bg-[linear-gradient(to_top,rgba(0,71,187,0.22)_50%,transparent_50%)] [&_strong]:px-[3px] [&_strong]:rounded-sm ${idx === 0 ? 'q1-narrative-card' : ''}`}
                   >
+                    {idx === 0 && (
+                      <style dangerouslySetInnerHTML={{__html: `
+                        /* 1. Focus Reading Mode */
+                        .q1-narrative-card {
+                          transition: color 0.4s ease;
+                        }
+                        .q1-narrative-card:has(strong:hover) p,
+                        .q1-narrative-card:has(strong:hover) blockquote,
+                        .q1-narrative-card:has(strong:hover) li,
+                        .q1-narrative-card:has(strong:hover) em {
+                          color: rgba(28, 28, 28, 0.2) !important;
+                          transition: color 0.4s ease;
+                        }
+                        
+                        /* Keep strongs fully visible and sharp */
+                        .q1-narrative-card:has(strong:hover) strong {
+                          color: #0047BB !important;
+                          text-shadow: 0 0 1px rgba(0,71,187,0.1);
+                        }
+                        
+                        /* 3. Micro Breadcrumbs */
+                        .q1-narrative-card strong {
+                          position: relative;
+                          transition: color 0.2s ease;
+                          cursor: crosshair;
+                        }
+                        .q1-narrative-card strong::before {
+                          content: '';
+                          display: inline-block;
+                          width: 4.5px;
+                          height: 4.5px;
+                          background-color: #0047BB;
+                          border-radius: 50%;
+                          margin-right: 6px;
+                          margin-left: 2px;
+                          vertical-align: middle;
+                          transform: translateY(-1.5px);
+                          box-shadow: 0 0 0 2.5px rgba(0, 71, 187, 0.1);
+                          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                        }
+                        
+                        /* Hover interactions */
+                        .q1-narrative-card strong:hover {
+                          color: #002A7A !important;
+                        }
+                        .q1-narrative-card strong:hover::before {
+                          background-color: #002A7A;
+                          box-shadow: 0 0 0 4px rgba(0, 71, 187, 0.25);
+                          transform: scale(1.3) translateY(-1.5px);
+                        }
+                      `}} />
+                    )}
                     {/* Hook */}
                     {isEditing && <div className="text-xs text-blue-500 font-bold mb-1">도입부 (Hook)</div>}
                     <EditableText value={intro.hook} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].hook = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
