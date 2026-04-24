@@ -146,7 +146,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                   initial={{ strokeDasharray: "0, 2000" }}
                   animate={{ strokeDasharray: "2000, 0" }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                  points={polygonPoints} fill="rgba(185, 28, 28, 0.15)" stroke="#0047BB" strokeWidth="2.5"
+                  points={polygonPoints} fill="rgba(0, 71, 187, 0.15)" stroke="#0047BB" strokeWidth="2.5"
                 />
 
                 {CHART_DATA.map((d, i) => {
@@ -220,7 +220,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
             게임 상세 플레이 이력 {activeGenre && <span className="text-[#0047BB] before:content-['|'] before:text-zinc-300 before:mr-3 before:font-light">{activeGenre} 검색 결과</span>}
           </h2>
           {activeGenre && (
-            <button onClick={() => setActiveGenre(null)} className="text-sm font-bold text-zinc-400 hover:text-red-500 flex items-center gap-1 transition-colors"><Filter className="w-4 h-4" /> 필터 해제</button>
+            <button onClick={() => setActiveGenre(null)} className="text-sm font-bold text-zinc-400 hover:text-[#0047BB] flex items-center gap-1 transition-colors"><Filter className="w-4 h-4" /> 필터 해제</button>
           )}
         </div>
 
@@ -258,7 +258,7 @@ export const GameHistoryView = ({ onBack }: GameHistoryViewProps) => {
                         {game.category === 'Pc' || game.category === 'PC' || game.category === 'Console' ? 'PC/CONSOLE' : 'MOBILE'}
                       </span>
                     </div>
-                    <h4 className="font-bold text-white text-base md:text-lg leading-tight mb-1 group-hover:text-red-400 transition-colors drop-shadow-sm line-clamp-2">{game.title}</h4>
+                    <h4 className="font-bold text-white text-base md:text-lg leading-tight mb-1 group-hover:text-blue-300 transition-colors drop-shadow-sm line-clamp-2">{game.title}</h4>
                   </div>
                   <div className="flex items-center justify-between mt-auto pt-2">
                     <span className="text-[10px] font-bold text-white/60 truncate max-w-[60%]">{game.company}</span>
