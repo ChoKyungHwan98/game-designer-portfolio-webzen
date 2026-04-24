@@ -113,6 +113,22 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                       </div>
                     )}
 
+                    {/* Steps Flow */}
+                    {intro.steps && intro.steps.length > 0 && (
+                      <div className="my-8 md:my-10 flex flex-wrap items-center gap-2 md:gap-3">
+                        {intro.steps.map((step, i) => (
+                          <React.Fragment key={i}>
+                            <span className="inline-flex items-center px-4 py-2 bg-[#0047BB]/6 text-[#0047BB] font-bold text-[13px] md:text-[14px] rounded-xl border border-[#0047BB]/15 tracking-tight">
+                              {step}
+                            </span>
+                            {i < intro.steps!.length - 1 && (
+                              <span className="text-[#0047BB]/40 font-black text-lg select-none">→</span>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Highlights */}
                     {(intro.highlights || isEditing) && (
                       <div className="my-10 md:my-12">

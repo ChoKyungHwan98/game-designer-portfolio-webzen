@@ -85,6 +85,7 @@ export interface ResumeData {
     hook: string;
     body: string;
     pullQuote?: string;
+    steps?: string[];
     highlights?: { bold: string; em: string }[];
     closing?: string;
   }[];
