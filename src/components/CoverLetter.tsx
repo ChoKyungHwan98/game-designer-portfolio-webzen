@@ -78,11 +78,6 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                     transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                     className="mb-6 md:mb-8"
                   >
-                    {intro.question && (
-                      <p className="text-[12px] md:text-[13px] font-bold text-zinc-400 tracking-wide mb-4 break-keep leading-relaxed">
-                        {intro.question}
-                      </p>
-                    )}
                     <h3 className="text-[30px] md:text-[40px] lg:text-[44px] xl:text-[46px] font-display font-black text-[#1A1A1A] leading-[1.3] tracking-tighter break-keep [&_p]:m-0 [&_p]:leading-[1.3] [&_strong]:text-[#B91C1C] [&_strong]:font-black text-opacity-90">
                       <EditableText value={intro.logline} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].logline = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={true} />
                     </h3>
