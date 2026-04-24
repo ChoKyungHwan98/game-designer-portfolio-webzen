@@ -84,7 +84,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('triggerPdfDownload'))}
                 disabled={isGeneratingPdf}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white shadow-sm border border-black/5 hover:border-[#B91C1C]/30 hover:shadow text-zinc-600 hover:text-[#B91C1C] text-[13px] font-bold transition-all disabled:opacity-50 group"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white shadow-sm border border-black/5 hover:border-[#0047BB]/30 hover:shadow text-zinc-600 hover:text-[#0047BB] text-[13px] font-bold transition-all disabled:opacity-50 group"
               >
                 <svg className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
@@ -99,7 +99,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
             {isSubView && onBack ? (
               <button
                 onClick={onBack}
-                className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-black/6 text-zinc-600 hover:text-[#B91C1C] font-bold text-sm transition-all duration-200 group"
+                className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-black/6 text-zinc-600 hover:text-[#0047BB] font-bold text-sm transition-all duration-200 group"
               >
                 <motion.span
                   className="flex items-center"
@@ -113,15 +113,15 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
             ) : (
               /* Home: 로고 */
               <div className="flex items-center gap-3 cursor-pointer group" onClick={(e) => handleLinkClick(e, 'hero-top')}>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-[#B91C1C] to-[#003080] text-white flex items-center justify-center shadow-lg shadow-[#B91C1C]/25 transition-all group-hover:scale-105 group-hover:shadow-[#B91C1C]/40 group-hover:shadow-xl">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-linear-to-br from-[#0047BB] to-[#003080] text-white flex items-center justify-center shadow-lg shadow-[#0047BB]/25 transition-all group-hover:scale-105 group-hover:shadow-[#0047BB]/40 group-hover:shadow-xl">
                   <Home className="w-5 h-5 md:w-6 md:h-6 transition-transform group-hover:-translate-y-0.5" strokeWidth={2} />
                 </div>
                 <div className="flex flex-col justify-center">
-                  <span className="font-display font-bold tracking-tight text-[16px] md:text-[18px] text-[#2C2C2C] group-hover:text-[#B91C1C] transition-colors leading-none">조경환</span>
-                  <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-400 mt-1.5 leading-none hidden sm:block group-hover:text-[#B91C1C]/60 transition-colors">게임 기획자 지망생</span>
+                  <span className="font-display font-bold tracking-tight text-[16px] md:text-[18px] text-[#2C2C2C] group-hover:text-[#0047BB] transition-colors leading-none">조경환</span>
+                  <span className="text-[10px] md:text-[11px] font-mono tracking-widest uppercase text-zinc-400 mt-1.5 leading-none hidden sm:block group-hover:text-[#0047BB]/60 transition-colors">게임 기획자 지망생</span>
                 </div>
                 {isEditing && (
-                  <span className="ml-2 px-2 py-1 bg-[#B91C1C]/10 border border-[#B91C1C]/30 rounded text-[10px] text-[#B91C1C] font-bold uppercase tracking-wider">
+                  <span className="ml-2 px-2 py-1 bg-[#0047BB]/10 border border-[#0047BB]/30 rounded text-[10px] text-[#0047BB] font-bold uppercase tracking-wider">
                     Edit
                   </span>
                 )}
@@ -150,9 +150,9 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                     key={id}
                     href={`#${id}`}
                     onClick={(e) => handleLinkClick(e, id)}
-                    className={`relative px-5 py-3 rounded-full text-[15px] font-bold transition-all flex items-center gap-2.5 ${activeSection === id ? 'text-[#B91C1C] bg-[#B91C1C]/5' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-zinc-100'}`}
+                    className={`relative px-5 py-3 rounded-full text-[15px] font-bold transition-all flex items-center gap-2.5 ${activeSection === id ? 'text-[#0047BB] bg-[#0047BB]/5' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-zinc-100'}`}
                   >
-                    <span className={`text-[12px] font-mono uppercase tracking-widest transition-colors duration-300 ${activeSection === id ? 'text-[#B91C1C]/70' : 'text-zinc-400'}`}>{num}</span>
+                    <span className={`text-[12px] font-mono uppercase tracking-widest transition-colors duration-300 ${activeSection === id ? 'text-[#0047BB]/70' : 'text-zinc-400'}`}>{num}</span>
                     <span className="tracking-wide">{label}</span>
                   </a>
                 ))}
@@ -170,7 +170,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                 { key: 'game-history', label: '게이밍DNA', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
               ].map(item => (
                 <button key={item.key} onClick={() => { setView(item.key as any); window.scrollTo(0, 0); }}
-                  className={`w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${currentView === item.key || (currentView === 'cover-letter' && item.key === 'resume') ? 'bg-white text-[#B91C1C] shadow-md pointer-events-none' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm'}`}>
+                  className={`w-[125px] py-2.5 rounded-full text-[14px] font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${currentView === item.key || (currentView === 'cover-letter' && item.key === 'resume') ? 'bg-white text-[#0047BB] shadow-md pointer-events-none' : 'text-zinc-500 hover:text-[#2C2C2C] hover:bg-white hover:shadow-sm'}`}>
                   {item.icon}
                   <span>{item.label}</span>
                 </button>
@@ -184,7 +184,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                 className="w-11 h-11 rounded-full transition-all flex items-center justify-center hover:bg-zinc-100 text-zinc-500 hover:text-[#2C2C2C]"
                 title="Admin Mode"
               >
-                <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#B91C1C]' : 'opacity-80'}`} />
+                <Lock className={`w-[18px] h-[18px] ${isEditing ? 'text-[#0047BB]' : 'opacity-80'}`} />
               </button>
             </div>
 
@@ -213,7 +213,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                   { key: 'game-history', label: '게이밍DNA 보기', icon: React.createElement(Gamepad2, { className: "w-4 h-4" }) },
                 ].map(item => (
                   <button key={item.key} onClick={() => { setView(item.key as any); setIsMenuOpen(false); window.scrollTo(0, 0); }}
-                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${currentView === item.key ? 'bg-white text-[#B91C1C] shadow-sm' : 'text-zinc-600 hover:bg-[#B91C1C] hover:text-white'}`}>
+                    className={`text-left font-bold text-[14px] flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${currentView === item.key ? 'bg-white text-[#0047BB] shadow-sm' : 'text-zinc-600 hover:bg-[#0047BB] hover:text-white'}`}>
                     {item.icon} {item.label}
                   </button>
                 ))}
@@ -229,7 +229,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
                   ].map(({ id, label, num }) => (
                     <a key={id} href={`#${id}`} onClick={(e) => handleLinkClick(e, id)}
                       className="group relative font-bold flex items-center gap-4 py-3 px-4 rounded-xl text-[#2C2C2C] hover:bg-zinc-50 transition-colors">
-                      <span className="text-xs font-mono opacity-40 text-zinc-500 group-hover:text-[#B91C1C] transition-colors">{num}</span>
+                      <span className="text-xs font-mono opacity-40 text-zinc-500 group-hover:text-[#0047BB] transition-colors">{num}</span>
                       <span className="text-base tracking-wide">{label}</span>
                     </a>
                   ))}

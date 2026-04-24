@@ -21,7 +21,7 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(0,71,187,0.04)_1px,transparent_1px)] bg-size-[40px_40px]" />
     
     {/* Top accent line */}
-    <div className="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-[#B91C1C]/30 to-transparent" />
+    <div className="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-[#0047BB]/30 to-transparent" />
 
     <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16 mt-12">
       
@@ -37,7 +37,7 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-[#B91C1C] text-[11px] font-black tracking-[0.25em] uppercase mb-6 block"
+          className="text-[#0047BB] text-[11px] font-black tracking-[0.25em] uppercase mb-6 block"
         >
           Game Designer Portfolio
         </motion.span>
@@ -59,14 +59,14 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
           <motion.button
             whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
             onClick={onResumeClick}
-            className="px-10 py-5 bg-[#B91C1C] text-white font-bold flex items-center justify-center gap-3 hover:bg-[#991B1B] transition-all duration-500 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-lg shadow-[#B91C1C]/20 hover:shadow-xl"
+            className="px-10 py-5 bg-[#0047BB] text-white font-bold flex items-center justify-center gap-3 hover:bg-[#003A9E] transition-all duration-500 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-lg shadow-[#0047BB]/20 hover:shadow-xl"
           >
             이력서 보기 <ChevronRight className="w-4 h-4" />
           </motion.button>
           <motion.button
             whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}
             onClick={onPortfolioClick}
-            className="px-10 py-5 bg-white border border-zinc-200 text-zinc-600 font-bold hover:border-[#B91C1C]/30 hover:text-[#1A2332] hover:bg-[#B91C1C]/5 transition-all duration-500 flex items-center justify-center gap-3 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-sm hover:shadow-md"
+            className="px-10 py-5 bg-white border border-zinc-200 text-zinc-600 font-bold hover:border-[#0047BB]/30 hover:text-[#1A2332] hover:bg-[#0047BB]/5 transition-all duration-500 flex items-center justify-center gap-3 text-sm tracking-widest w-full sm:w-auto rounded-full uppercase shadow-sm hover:shadow-md"
           >
             포트폴리오 보기 <ArrowUpRight className="w-4 h-4" />
           </motion.button>
@@ -88,7 +88,7 @@ export const Hero = ({ onPortfolioClick, onResumeClick, isEditing, content, setC
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
       <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Scroll to explore</span>
       <div className="w-px h-16 bg-zinc-200 relative overflow-hidden">
-        <motion.div animate={{ y: [-64, 64] }} transition={{ repeat: Infinity, duration: 2, ease: 'linear' as const }} className="absolute top-0 left-0 w-full h-1/2 bg-[#B91C1C]" />
+        <motion.div animate={{ y: [-64, 64] }} transition={{ repeat: Infinity, duration: 2, ease: 'linear' as const }} className="absolute top-0 left-0 w-full h-1/2 bg-[#0047BB]" />
       </div>
     </motion.div>
   </section>

@@ -38,7 +38,7 @@ export const EditableText = ({
     return <span className={className}>{value}</span>;
   }
 
-  const baseClasses = "bg-[#1a1a1a] border-[#2a2a2a] text-[#e8e4dc] focus:border-[#B91C1C]";
+  const baseClasses = "bg-[#1a1a1a] border-[#2a2a2a] text-[#e8e4dc] focus:border-[#0047BB]";
 
   return multiline || markdown ? (
     <textarea

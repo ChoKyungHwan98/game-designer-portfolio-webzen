@@ -148,7 +148,7 @@ function App() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex bg-zinc-100/80 backdrop-blur-md p-1 rounded-full border border-black/5 shadow-inner">
           {(['resume', 'cover-letter'] as const).map((tab) => (
             <button key={tab} onClick={() => handleSetResumeTab(tab)}
-              className={`relative px-6 py-1.5 rounded-full text-[13px] font-bold transition-all tracking-tight flex items-center justify-center w-[100px] ${resumeTab === tab ? 'text-[#B91C1C]' : 'text-zinc-500 hover:text-[#1A1A1A]'}`}>
+              className={`relative px-6 py-1.5 rounded-full text-[13px] font-bold transition-all tracking-tight flex items-center justify-center w-[100px] ${resumeTab === tab ? 'text-[#0047BB]' : 'text-zinc-500 hover:text-[#1A1A1A]'}`}>
               {resumeTab === tab && (
                 <motion.div layoutId="resumeTabBadge" className="absolute inset-0 bg-white rounded-full shadow-sm border border-black/5" transition={{ type: 'spring', bounce: 0.2, duration: 0.5 }} />
               )}
@@ -167,7 +167,7 @@ function App() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FDFDFB]">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#B91C1C]/20 border-t-[#B91C1C] rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-[#0047BB]/20 border-t-[#0047BB] rounded-full animate-spin"></div>
           <p className="text-zinc-500 font-medium font-mono text-sm tracking-widest uppercase">데이터를 불러오는 중...</p>
         </div>
       </div>
@@ -176,7 +176,7 @@ function App() {
 
   return (
     <>
-    <div className="min-h-screen font-sans selection:bg-[#B91C1C]/20 text-[#2C2C2C] bg-transparent">
+    <div className="min-h-screen font-sans selection:bg-[#0047BB]/20 text-[#2C2C2C] bg-transparent">
       <BackgroundEffects />
       <Navbar
         setView={changeView}

@@ -130,10 +130,10 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
       {/* Zoom Indicator */}
       {zoom > 1 && (
         <div className="absolute top-6 right-6 z-50 bg-black/80 px-4 py-2 rounded-xl text-white text-xs font-black flex items-center gap-3 border border-white/10 shadow-2xl backdrop-blur-md">
-          <Search className="w-4 h-4 text-[#B91C1C]" />
+          <Search className="w-4 h-4 text-[#0047BB]" />
           <span className="tracking-widest">{Math.round(zoom * 100)}%</span>
           <div className="w-px h-3 bg-white/20 mx-1" />
-          <button onClick={() => setZoom(1)} className="hover:text-[#B91C1C] transition-colors uppercase text-[10px] tracking-tighter">Reset</button>
+          <button onClick={() => setZoom(1)} className="hover:text-[#0047BB] transition-colors uppercase text-[10px] tracking-tighter">Reset</button>
         </div>
       )}
 
@@ -165,7 +165,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
               <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-2xl border border-white/30 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.2)]">
                 <MousePointer2 className="w-10 h-10 text-white rotate-[-20deg] drop-shadow-lg" />
               </div>
-              <span className="text-white font-black text-xs tracking-[0.4em] uppercase drop-shadow-2xl bg-[#B91C1C]/80 px-6 py-2 rounded-full border border-white/20">Swipe to Navigate</span>
+              <span className="text-white font-black text-xs tracking-[0.4em] uppercase drop-shadow-2xl bg-[#0047BB]/80 px-6 py-2 rounded-full border border-white/20">Swipe to Navigate</span>
             </motion.div>
           </motion.div>
         )}
@@ -180,7 +180,7 @@ export const EBookGallery = ({ images, currentIndex, onPageChange }: EBookGaller
             <ChevronLeft className="w-7 h-7" />
           </button>
           <button onClick={() => paginate(1)} disabled={!hasNext}
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 pointer-events-auto ${hasNext ? 'bg-[#B91C1C] text-white border border-[#B91C1C]/20 hover:scale-110 active:scale-95 cursor-pointer shadow-[#B91C1C]/30' : 'opacity-0 pointer-events-none'}`}
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 pointer-events-auto ${hasNext ? 'bg-[#0047BB] text-white border border-[#0047BB]/20 hover:scale-110 active:scale-95 cursor-pointer shadow-[#0047BB]/30' : 'opacity-0 pointer-events-none'}`}
           >
             <ChevronRight className="w-7 h-7" />
           </button>
