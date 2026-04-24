@@ -71,10 +71,10 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                   className="bg-white rounded-3xl border border-zinc-100 shadow-[0_8px_40px_-12px_rgba(0,71,187,0.08)] px-8 md:px-10 lg:px-12 pt-10 md:pt-14 pb-12 md:pb-16 mt-2"
                 >
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }} 
+                    whileInView={{ opacity: 1, y: 0 }} 
+                    viewport={{ once: true }} 
                     transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                     className="mb-6 md:mb-8"
                   >
@@ -110,26 +110,6 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                         <blockquote className="border-l-[3px] border-[#0047BB]/30 bg-[#F8F9FF]/50 py-5 md:py-6 px-6 md:px-8 font-bold text-[24px] md:text-[27px] leading-[1.6] text-[#333F48] rounded-r-xl tracking-tight">
                           <EditableText value={intro.pullQuote || ""} onSave={(v) => { const n = [...(data.selfIntroductions || [])]; n[idx].pullQuote = v; setData({...data, selfIntroductions: n}); }} isEditing={isEditing} markdown={false} />
                         </blockquote>
-                      </div>
-                    )}
-
-                    {/* Steps Flow */}
-                    {intro.steps && intro.steps.length > 0 && (
-                      <div className="my-8 md:my-10 flex items-center gap-2 md:gap-3">
-                        {intro.steps.map((step, i) => {
-                          const hasDesc = !!step.desc;
-                          return (
-                            <React.Fragment key={i}>
-                              <div className={`flex-1 min-w-0 flex flex-col px-4 md:px-5 py-5 md:py-6 bg-[#0047BB]/5 border border-[#0047BB]/15 rounded-2xl ${!hasDesc && 'items-center'}`}>
-                                <span className="text-[#0047BB] font-black text-[15px] md:text-[18px] block mb-2 tracking-tight break-keep">{step.title}</span>
-                                {step.desc && <span className="text-zinc-500 text-[13px] md:text-[14px] leading-normal mt-1 break-keep">{step.desc}</span>}
-                              </div>
-                              {i < intro.steps!.length - 1 && (
-                                <span className="text-[#0047BB]/60 font-black text-xl select-none shrink-0">→</span>
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
                       </div>
                     )}
 
