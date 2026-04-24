@@ -120,9 +120,9 @@ export const CoverLetter = ({ setView, isEditing, data, setData }: CoverLetterPr
                           const hasDesc = !!step.desc;
                           return (
                             <React.Fragment key={i}>
-                              <div className={`flex flex-col px-5 md:px-6 py-4 md:py-5 bg-[#0047BB]/5 border border-[#0047BB]/15 rounded-xl ${hasDesc ? 'flex-1 min-w-[140px] max-w-[220px]' : 'items-center'}`}>
-                                <span className="text-[#0047BB] font-bold text-[14px] md:text-[15px] tracking-tight break-keep">{step.title}</span>
-                                {step.desc && <span className="text-zinc-500 text-[12px] md:text-[13px] leading-relaxed mt-2 break-keep">{step.desc}</span>}
+                              <div className={`flex flex-col px-4 md:px-5 py-5 md:py-6 bg-[#0047BB]/5 border border-[#0047BB]/15 rounded-2xl ${hasDesc ? 'flex-1 min-w-[140px] max-w-[220px]' : 'items-center'}`}>
+                                <span className="text-[#0047BB] font-black text-[15px] md:text-[18px] block mb-2 tracking-tight break-keep">{step.title}</span>
+                                {step.desc && <span className="text-zinc-500 text-[13px] md:text-[14px] leading-normal mt-2 break-keep">{step.desc}</span>}
                               </div>
                               {i < intro.steps!.length - 1 && (
                                 <span className={`text-[#0047BB]/40 font-black text-xl select-none shrink-0 ${hasDesc ? 'mt-4' : 'self-center'}`}>→</span>
