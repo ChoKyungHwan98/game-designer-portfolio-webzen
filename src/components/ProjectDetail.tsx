@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Play, FileText, Tag, Calendar, X, LayoutGrid, HelpCircle, ExternalLink, Sparkles, Calculator, MousePointer2, ChevronRight, ArrowLeft, ArrowRight, RotateCw, Lock, MoreVertical, Minus, Square } from 'lucide-react';
 import type { Project } from '../types';
 import { EBookGallery } from './EBookGallery';
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 
 interface ProjectDetailProps {
   project: Project;
@@ -426,103 +428,84 @@ def calculate_balance(params):
             <motion.div key="tab-overview" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex-1 flex flex-col min-h-0 overflow-y-auto bg-[#FAFAF9] custom-scrollbar"
             >
-              {/* Full-bleed Hero */}
-              <div className="relative h-[340px] shrink-0 overflow-hidden">
-                <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute top-6 left-8 flex flex-wrap gap-2">
-                  {project.roles.map(role => (
-                    <span key={role} className="px-3 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-[10px] font-black uppercase tracking-widest">{role}</span>
-                  ))}
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="px-2.5 py-1 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full text-white text-[10px] font-semibold">#{tag}</span>
+              {/* Contained Hero */}
+              <div className="max-w-5xl mx-auto w-full px-6 md:px-8 pt-8 md:pt-10">
+                <div className="relative h-[300px] md:h-[400px] w-full rounded-[2rem] shrink-0 overflow-hidden shadow-2xl border border-zinc-200/50">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
+                  <div className="absolute top-6 left-8 flex flex-wrap gap-2">
+                    {project.roles.map(role => (
+                      <span key={role} className="px-3 py-1.5 bg-black/30 backdrop-blur-md border border-white/10 rounded-full text-white text-[10px] font-black uppercase tracking-widest">{role}</span>
                     ))}
                   </div>
-                  <h1 className="text-4xl font-black text-white tracking-tight leading-tight drop-shadow-lg">{project.title}</h1>
-                </div>
-              </div>
-
-              {/* Content Grid */}
-              <div className="max-w-5xl mx-auto w-full px-8 py-10">
-                <div className="grid grid-cols-3 gap-10">
-                  {/* Main Content 2/3 */}
-                  <div className="col-span-2">
-                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-100">
-                      <div className="w-1 h-5 bg-[#0047BB] rounded-full" />
-                      <span className="text-xs font-black text-zinc-400 uppercase tracking-widest">기획 의도 및 핵심 내용</span>
+                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map(tag => (
+                        <span key={tag} className="px-2.5 py-1 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full text-white text-[10px] font-semibold">#{tag}</span>
+                      ))}
                     </div>
-                    <div className="text-zinc-600 leading-[1.9] text-[15px] whitespace-pre-wrap font-medium">{project.content}</div>
-                  </div>
-
-                  {/* Sidebar 1/3 */}
-                  <div className="space-y-4">
-                    <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm overflow-hidden">
-                      <div className="px-5 py-3.5 border-b border-zinc-100">
-                        <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Project Info</span>
-                      </div>
-                      <div className="p-5 space-y-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                            <Tag className="w-4 h-4 text-[#0047BB]" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider mb-1.5">Roles</p>
-                            <div className="flex flex-wrap gap-1.5">
-                              {project.roles.map(role => (
-                                <span key={role} className="px-2 py-1 bg-zinc-100 text-zinc-700 text-[11px] font-bold rounded-lg border border-zinc-200">{role}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="h-px bg-zinc-100" />
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-                            <Calendar className="w-4 h-4 text-emerald-600" />
-                          </div>
-                          <div>
-                            <p className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">Status</p>
-                            <p className="text-sm font-bold text-zinc-800 mt-0.5">{project.status}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {project.externalUrl && (
-                      <a href={project.externalUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-4 bg-[#0047BB] rounded-2xl text-white hover:bg-[#003799] transition-colors group"
-                      >
-                        <ExternalLink className="w-4 h-4 shrink-0" />
-                        <span className="text-sm font-bold flex-1">Live Demo</span>
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </a>
-                    )}
-
-                    {visibleTabs.filter(t => t.id !== 'overview').length > 0 && (
-                      <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm overflow-hidden">
-                        <div className="px-5 py-3.5 border-b border-zinc-100">
-                          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">빠른 탐색</span>
-                        </div>
-                        <div className="p-2">
-                          {visibleTabs.filter(t => t.id !== 'overview').map(tab => (
-                            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-zinc-50 transition-colors text-left group"
-                            >
-                              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${tab.color}14` }}>
-                                <span style={{ color: tab.color }} className="flex">{tab.icon}</span>
-                              </div>
-                              <span className="text-sm font-semibold text-zinc-700 flex-1">{tab.label}</span>
-                              <ChevronRight className="w-3.5 h-3.5 text-zinc-300 group-hover:text-zinc-500 group-hover:translate-x-0.5 transition-all" />
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+                    <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight drop-shadow-2xl">{project.title}</h1>
                   </div>
                 </div>
               </div>
+
+              {/* Premium Meta Bar */}
+              <div className="bg-white border-b border-zinc-200 sticky top-0 z-30 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
+                <div className="max-w-4xl mx-auto px-8 py-5 flex flex-wrap items-center justify-between gap-6">
+                  <div className="flex items-center gap-8 md:gap-12">
+                    <div>
+                      <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] mb-1">Roles</p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.roles.map((role, idx) => (
+                          <div key={role} className="flex items-center gap-2">
+                            <span className="text-[13px] font-black text-[#1A1A1A]">{role}</span>
+                            {idx < project.roles.length - 1 && <span className="w-1 h-1 rounded-full bg-zinc-300" />}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="w-px h-8 bg-zinc-200" />
+                    <div>
+                      <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em] mb-1">Status</p>
+                      <p className="text-[13px] font-black text-[#0047BB]">{project.status}</p>
+                    </div>
+                  </div>
+                  {project.externalUrl && (
+                    <a href={project.externalUrl} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-6 py-2.5 bg-[#1A1A1A] text-white rounded-full hover:bg-[#0047BB] hover:scale-105 active:scale-95 transition-all group shadow-lg shadow-black/10"
+                    >
+                      <span className="text-xs font-black uppercase tracking-wider">Live Demo</span>
+                      <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Editorial Content */}
+              <article className="max-w-3xl mx-auto w-full px-8 py-16 md:py-24">
+                <div className="flex items-center gap-4 mb-16">
+                  <div className="w-12 h-1 bg-[#0047BB] rounded-full shadow-[0_0_10px_rgba(0,71,187,0.4)]" />
+                  <span className="text-sm font-black text-[#0047BB] uppercase tracking-[0.3em]">기획 의도 및 핵심 내용</span>
+                </div>
+                
+                <div className="text-zinc-800 leading-[2.2] text-[16px] font-medium project-markdown">
+                  <style dangerouslySetInnerHTML={{__html: `
+                    .project-markdown h1 { font-size: 38px; font-weight: 900; color: #1A1A1A; margin-top: 4rem; margin-bottom: 2rem; letter-spacing: -0.03em; line-height: 1.2; }
+                    .project-markdown h2 { font-size: 26px; font-weight: 900; color: #1A1A1A; margin-top: 4rem; margin-bottom: 1.5rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
+                    .project-markdown h2::before { content: ''; display: inline-block; width: 6px; height: 24px; background: #0047BB; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,71,187,0.3); }
+                    .project-markdown h3 { font-size: 20px; font-weight: 800; color: #333; margin-top: 3rem; margin-bottom: 1rem; }
+                    .project-markdown p { margin-bottom: 2rem; word-break: keep-all; color: #4A4A4A; font-size: 17px; }
+                    .project-markdown ul { list-style-type: none; padding-left: 0; margin-top: 1rem; margin-bottom: 2.5rem; background: #ffffff; border: 1px solid #E4E4E7; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+                    .project-markdown li { position: relative; padding-left: 1.75rem; margin-bottom: 1rem; color: #4A4A4A; line-height: 1.8; }
+                    .project-markdown li:last-child { margin-bottom: 0; }
+                    .project-markdown li::before { content: ''; position: absolute; left: 0.25rem; top: 0.7em; width: 6px; height: 6px; background-color: #0047BB; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,71,187,0.1); }
+                    .project-markdown strong { font-weight: 900; color: #1A1A1A; background: linear-gradient(to top, rgba(0,71,187,0.1) 40%, transparent 40%); padding: 0 2px; }
+                  `}} />
+                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+                    {project.content}
+                  </ReactMarkdown>
+                </div>
+              </article>
             </motion.div>
           )}
         </AnimatePresence>

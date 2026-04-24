@@ -83,7 +83,7 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
 
   return (
     <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-      className="pt-28 pb-12 md:pb-20 px-6 md:px-12 max-w-[1300px] mx-auto w-full min-h-screen flex flex-col relative">
+      className="pt-28 pb-12 md:pb-20 px-4 md:px-8 max-w-[1250px] mx-auto w-full min-h-screen flex flex-col relative">
 
       <AnimatePresence mode="wait">
         {activeTab === 'resume' ? (
@@ -97,8 +97,8 @@ export const Resume = ({ setView, onBack, isEditing, data, setData, activeTab, i
           >
             <ResumeHeader data={data} setData={setData} isEditing={isEditing} isGeneratingPdf={isGeneratingPdf} />
 
-            <div className="grid lg:grid-cols-12 gap-0">
-              <aside className="lg:col-span-4 p-8 lg:p-10 border-r border-zinc-100 bg-[#FCFCFC]">
+            <div className="grid lg:grid-cols-12 gap-0 border-t border-black/5">
+              <aside className="lg:col-span-4 p-8 lg:p-10 bg-[#FCFCFC] border-r border-zinc-100">
                 <ResumeEducation data={data} setData={setData} isEditing={isEditing} />
               </aside>
 

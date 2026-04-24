@@ -12,7 +12,7 @@ interface ResumeHeaderProps {
 
 export const ResumeHeader = ({ data, setData, isEditing, isGeneratingPdf }: ResumeHeaderProps) => {
   return (
-    <header className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 lg:p-12 bg-[#FAFAFA] border-b border-zinc-100">
+    <header className="flex flex-col md:flex-row items-center md:items-start gap-8 p-8 lg:p-10 bg-[#FAFAFA] border-b border-zinc-100">
       {/* Portrait Frame */}
       <div className="relative shrink-0">
         <div className="w-48 lg:w-52 rounded-sm overflow-hidden border border-black/10 shadow-xl bg-white">
@@ -25,7 +25,7 @@ export const ResumeHeader = ({ data, setData, isEditing, isGeneratingPdf }: Resu
       </div>
 
       {/* Identity & Summary */}
-      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left pt-2">
+      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left pt-3">
         <h1 className="text-4xl lg:text-[56px] font-display font-bold text-[#1A1A1A] tracking-tighter leading-tight mb-2">
           <EditableText value={data.name} onSave={(v) => setData({...data, name: v})} isEditing={isEditing} />
         </h1>
@@ -33,7 +33,7 @@ export const ResumeHeader = ({ data, setData, isEditing, isGeneratingPdf }: Resu
           <EditableText value={data.role} onSave={(v) => setData({...data, role: v})} isEditing={isEditing} />
         </p>
         
-        <div className="max-w-2xl text-[16px] lg:text-[17px] text-[#2C2C2C] leading-[1.75] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-black [&_strong]:text-[17px] lg:[&_strong]:text-[18px] [&_strong]:bg-[#0047BB]/5 [&_strong]:px-1.5 [&_strong]:py-0.5 [&_strong]:rounded-md break-keep">
+        <div className="w-full text-left text-[16px] lg:text-[17px] text-[#2C2C2C] leading-[1.75] font-medium [&_strong]:text-[#0047BB] [&_strong]:font-black [&_strong]:text-[17px] lg:[&_strong]:text-[18px] [&_strong]:bg-[#0047BB]/5 [&_strong]:px-1.5 [&_strong]:py-0.5 [&_strong]:rounded-md break-keep [&>p]:m-0 [&>p]:mb-2 last:[&>p]:mb-0">
           <EditableText value={data.summary} onSave={(v) => setData({...data, summary: v})} isEditing={isEditing} markdown={true} />
         </div>
 
