@@ -79,7 +79,7 @@ export const RESUME_DATA: ResumeData = {
   ],
   experience: [
     {
-      title: "도로시아 (스팀펑크 판타지 방치형 RPG)",
+      title: "도로시아 (방치형 핵앤슬래시 RPG)",
       period: "2026.02 - 2026.04",
       description: "팀장 | 전투 및 경제 밸런스 기획, 방치 시스템 설계",
       teamSize: "기획 6명 / 프로그래밍 4명",
@@ -90,7 +90,7 @@ export const RESUME_DATA: ResumeData = {
       ]
     },
     {
-      title: "Digreed (2D 탑뷰 로그라이트)",
+      title: "Digreed (로그라이트 RPG)",
       period: "2025.12 - 2026.01",
       description: "팀장 | 게임 전체 룰 및 시스템 기획",
       teamSize: "기획 5명 / 프로그래밍 4명",
@@ -99,7 +99,7 @@ export const RESUME_DATA: ResumeData = {
       ]
     },
     {
-      title: "침묵의 저택 (메이플월드 호러게임)",
+      title: "침묵의 저택 (횡스크롤 호러)",
       period: "2025.11",
       description: "팀장 | 게임 전체 룰 및 시스템 기획",
       teamSize: "기획 4명",
