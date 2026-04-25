@@ -75,7 +75,7 @@ export const Navbar = ({ setView, currentView, onNavClick, isEditing, setIsEditi
 
   return (
     <>
-      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center px-4 sm:px-6 transition-all duration-500 pointer-events-none print:hidden ${navContainerClass}`}>
+      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-center px-4 sm:px-6 pointer-events-none print:hidden ${navContainerClass}`}>
         <nav className={`relative pointer-events-auto w-[98%] max-w-[1440px] rounded-full transition-all duration-500 flex items-center justify-between px-6 lg:px-8 py-3 ${navBgClass}`}>
           
           {/* Floating PDF (Admin Only, Resume Only) */}
